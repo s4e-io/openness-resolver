@@ -34,7 +34,7 @@ bash scripts/build.sh
 ./bin/openness-resolver version
 ```
 
-Regression tests use fixtures under `testdata/evidence/` and `testdata/normalized/` (committed sample vendor rules for CI). Full feeds stay gitignored under `data/`.
+Regression tests use small fixtures under `testdata/` and `cmd/openness-resolver/testdata/`; the end-to-end tests build their rules from them with `rules import`. Full feeds stay gitignored under `data/`; never commit them.
 
 ## Pull requests
 
@@ -47,9 +47,9 @@ Regression tests use fixtures under `testdata/evidence/` and `testdata/normalize
 
 ## Coding principles
 
-1. Keep decisions **deterministic** — no LLM in the decision path.
-2. Keep vendor **raw status** on every rule — never discard source wording.
-3. Keep **binary-specific** fixed versions — never merge sibling binaries incorrectly.
+1. Keep decisions **deterministic**: no LLM in the decision path.
+2. Keep vendor **raw status** on every rule; never discard source wording.
+3. Keep **binary-specific** fixed versions; never merge sibling binaries incorrectly.
 4. Preserve explainability: every finding should have traceable `rule`, `comparison`, and `reasons`.
 5. Version comparators (dpkg, apk, pep440) must have corpus or unit tests.
 

@@ -20,7 +20,7 @@ Never commit:
 - API keys or vendor feed credentials
 - Machine-specific sync state that exposes internal infrastructure
 
-Any local lab scripts must read credentials from environment variables only — never argv, and never commit secrets or real-host `.openness` / `.nessus` files.
+Any local lab scripts must read credentials from environment variables only, never argv, and never commit secrets or real-host `.openness` / `.nessus` files.
 
 ## Scope
 
@@ -32,7 +32,7 @@ In scope:
 
 Out of scope:
 
-- Upstream vendor feed errors (Ubuntu OVAL, Alpine secdb, OSV) — report to the vendor when appropriate
+- Upstream vendor feed errors (Ubuntu OVAL, Alpine secdb, OSV), report to the vendor when appropriate
 - Collection issues in [openness-collector](https://github.com/s4e-io/openness-collector) (report there instead)
 
 ## Project

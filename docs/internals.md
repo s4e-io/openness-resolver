@@ -92,7 +92,7 @@ bash scripts/build.sh            # or: go build -o bin/openness-resolver ./cmd/o
 
 **Use it** on a `.openness` file from the collector:
 
-# Resolve a collector .openness file (rules: feed sync, or testdata/normalized for unit demos)
+# Resolve a collector .openness file (rules: feed sync)
 ./bin/openness-resolver resolve \
   --input path/to/host.openness \
   --output findings.json \
@@ -722,7 +722,7 @@ docs/                      PROMPTS.md (contributor AI context)
 
 What CI proves without real-host evidence:
 
-- **Unit / synthetic integration** (`go test ./...`): version comparators, rule matching, remediation grouping, hint sanitization, `highest_list_*` field aliasing: via `internal/testfixtures` and small JSON fixtures under `testdata/normalized/`.
+- **Unit / synthetic integration** (`go test ./...`): version comparators, rule matching, remediation grouping, hint sanitization, `highest_list_*` field aliasing: via `internal/testfixtures` and small JSON fixtures under `testdata/`.
 - **Optional local regression** (`-run AfterUpdate` / large lab captures): skipped when `testdata/evidence/*.openness` is absent (not shipped).
 
 ```bash

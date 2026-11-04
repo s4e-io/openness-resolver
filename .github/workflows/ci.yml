@@ -60,11 +60,6 @@ jobs:
           go-version-file: go.mod
           cache: true
 
-      - name: Regression fixture present
-        run: |
-          set -euo pipefail
-          test -s testdata/normalized/ubuntu/jammy/rules.json
-
       - name: Test
         run: go test ./...
 

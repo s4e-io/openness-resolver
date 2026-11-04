@@ -14,7 +14,7 @@ title: "[bug] "
 **Version** (`openness version`)
 
 
-**Evidence info** (collector version, schema — no full production files please)
+**Evidence info** (collector version, schema, no full production files please)
 
 
 **Expected vs actual** (optional)

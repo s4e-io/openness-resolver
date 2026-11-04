@@ -5,7 +5,7 @@
 **Sibling:** [openness-collector](https://github.com/s4e-io/openness-collector)
 
 We build this project with AI coding assistants (Cursor, Claude, Copilot, etc.).  
-This file helps **you** and **the AI** get context fast — so you can discuss ideas and ship useful PRs.
+This file helps **you** and **the AI** get context fast, so you can discuss ideas and ship useful PRs.
 
 ---
 
@@ -31,10 +31,10 @@ License: Apache License 2.0 (open source, developed and maintained by S4E). Org:
 
 ## Rules when using AI here
 
-1. **Runtime must stay non-AI** — no LLM in resolve/decision paths.
-2. **You own the diff** — read every line; run `go test ./...`.
-3. **Deterministic only** — every finding needs traceable rule + comparison + reasons.
-4. **Never commit full vendor feeds** — use `data/` locally; CI uses `testdata/normalized/` fixtures.
+1. **Runtime must stay non-AI**, no LLM in resolve/decision paths.
+2. **You own the diff**, read every line; run `go test ./...`.
+3. **Deterministic only**, every finding needs traceable rule + comparison + reasons.
+4. **Never commit full vendor feeds**, use `data/` locally; CI uses small fixtures under `testdata/`.
 5. **Say you used AI** in the PR if it helped (optional but welcome).
 
 ---
@@ -62,7 +62,7 @@ Evidence: a local `.openness` path you collected (do not commit real-host captur
 Steps:
 1. Trace rule lookup and version comparison for this package
 2. Add a regression test
-3. Fix with minimal diff — preserve vendor raw_status
+3. Fix with minimal diff, preserve vendor raw_status
 4. Run go test ./internal/resolver/...
 
 Do not commit data/normalized/ or production evidence.
@@ -74,7 +74,7 @@ Do not commit data/normalized/ or production evidence.
 I want to change: [describe]
 
 Constraints:
-- Deterministic — no LLM
+- Deterministic, no LLM
 - Binary-specific fixed versions must not bleed across sibling binaries
 - Keep vendor raw_status on every rule
 - Add tests; update README if pipeline step changes
@@ -90,7 +90,7 @@ After changing regression test or ubuntu jammy rules logic:
 1. Run openness feed sync --vendor ubuntu locally (data/ is gitignored)
 2. Run python3 scripts/extract_regression_rules_fixture.py
 3. Run go test ./internal/resolver/ -run TestAfterUpdate
-4. Explain what changed in testdata/normalized/
+4. Explain what changed in testdata/
 ```
 
 ### Review before PR
@@ -116,7 +116,7 @@ Is it consistent with README invariants (section 16)?
 Would it belong in collector instead?
 What fixtures or feed sources would we need?
 
-Discussion only — no code changes.
+Discussion only, no code changes.
 ```
 
 ---
@@ -124,7 +124,7 @@ Discussion only — no code changes.
 ## Where to talk to humans
 
 - **Bug or feature:** [GitHub Issues](https://github.com/s4e-io/openness-resolver/issues)
-- **Security:** [SECURITY.md](../SECURITY.md) — no public issues for vulns
+- **Security:** [SECURITY.md](../SECURITY.md), no public issues for vulns
 - **Evidence collection:** [openness-collector](https://github.com/s4e-io/openness-collector)
 
 ---
@@ -138,7 +138,7 @@ Discussion only — no code changes.
 | Rules store | `internal/rules/` |
 | Feed sync | `internal/feed/` |
 | Version compare | `internal/version/dpkg`, `apk`, `pep440` |
-| CI regression fixture | `testdata/normalized/`, `testdata/evidence/` |
+| CI regression fixture | `testdata/`, `cmd/openness-resolver/testdata/` |
 | Tests | `go test ./...` |
 
 ---
@@ -146,4 +146,4 @@ Discussion only — no code changes.
 ## Related
 
 - [CONTRIBUTING.md](../CONTRIBUTING.md)
-- [openness-collector docs/PROMPTS.md](https://github.com/s4e-io/openness-collector/blob/main/docs/PROMPTS.md) — collector-specific prompts
+- [openness-collector docs/PROMPTS.md](https://github.com/s4e-io/openness-collector/blob/main/docs/PROMPTS.md), collector-specific prompts

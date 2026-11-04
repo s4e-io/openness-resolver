@@ -7,6 +7,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-11-04
+
 ### Changed
 
 - The tool is named `openness-resolver` everywhere: `cmd/openness` moved to `cmd/openness-resolver` (`go install github.com/s4e-io/openness-resolver/cmd/openness-resolver@latest`), `scripts/build.sh` writes `bin/openness-resolver`, and the usage text, hints and docs say `openness-resolver`. Release asset names are unchanged.
@@ -15,6 +17,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - README rewritten for users (install, quick start, every command and flag, data sources with licenses); the design material moved to `docs/internals.md` unchanged.
 
 ### Added
+
+- `rule_coverage.sources[]` in the output: per loaded rule directory the source, publisher URL, sha256 of the file the rules were built from, `downloaded_at`, `source_updated_at` and parser, so rules built from an old download are visible even when coverage is complete.
 
 - `feed sync --dry-run` and `feed validate --dry-run` print the sources that would be downloaded and download nothing.
 - Golden end-to-end CLI tests on Linux and Windows, table-driven tests of every flag, publisher-only URL tests, a README drift guard, and a nightly workflow (`nightly.yml`) that syncs from the publishers with no secrets, validates every enabled source, writes a per-source step summary and tracks failures in a `nightly` issue.
