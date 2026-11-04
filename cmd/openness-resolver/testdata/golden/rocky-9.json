@@ -1,0 +1,587 @@
+{
+  "exit_code": 0,
+  "findings": [
+    {
+      "advisory_ids": [
+        "RLSA-2024:3339"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-rocky9",
+      "binary_package": "bind-libs",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "32:9.16.23-15.el9_4.1",
+        "installed": "32:9.16.23-15.el9",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2023-50387",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "rocky",
+      "evidence_ids": [
+        "ev-packages-2"
+      ],
+      "finding_id": "finding-6639c7419734068a",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "32:9.16.23-15.el9_4.1",
+      "installed_version": "32:9.16.23-15.el9",
+      "reasons": [
+        "installed 32:9.16.23-15.el9 < fixed 32:9.16.23-15.el9_4.1 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "9",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "32:9.16.23-15.el9_4.1",
+        "raw_status": "fixed (Rocky Linux:9)",
+        "release": "9",
+        "rule_id": "rocky:9:RLSA-2024:3339:CVE-2023-50387:src:bind",
+        "source": "rocky",
+        "source_snapshot": "local:rocky-all.zip",
+        "source_url": "https://example.invalid/RLSA-2024:3339",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "rocky:9:RLSA-2024:3339:CVE-2023-50387:src:bind"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "bind",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "urgency": "important",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "RLSA-2024:2100"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-rocky9",
+      "binary_package": "demo",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "1.0-1.el9",
+        "installed": "1.0~rc1-1.el9",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-9001",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "rocky",
+      "evidence_ids": [
+        "ev-packages-4"
+      ],
+      "finding_id": "finding-81588393bee29142",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "1.0-1.el9",
+      "installed_version": "1.0~rc1-1.el9",
+      "reasons": [
+        "installed 1.0~rc1-1.el9 < fixed 1.0-1.el9 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "9",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "1.0-1.el9",
+        "raw_status": "fixed (Rocky Linux:9)",
+        "release": "9",
+        "rule_id": "rocky:9:RLSA-2024:2100:CVE-2024-9001:src:demo",
+        "source": "rocky",
+        "source_snapshot": "local:rocky-all.zip",
+        "source_url": "https://example.invalid/RLSA-2024:2100",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "rocky:9:RLSA-2024:2100:CVE-2024-9001:src:demo"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "demo",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "urgency": "low",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "RLSA-2024:2900"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-rocky9",
+      "binary_package": "kernel-core",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "0:5.14.0-427.13.1.el9_4",
+        "installed": "5.14.0-427.13.1.el9_4",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-1086",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "rocky",
+      "evidence_ids": [
+        "ev-packages-5"
+      ],
+      "finding_id": "finding-3c06f0056bc13ee8",
+      "finding_type": "cve",
+      "fixed_version": "0:5.14.0-427.13.1.el9_4",
+      "installed_version": "5.14.0-427.13.1.el9_4",
+      "reasons": [
+        "installed 5.14.0-427.13.1.el9_4 >= fixed 0:5.14.0-427.13.1.el9_4"
+      ],
+      "release": "9",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "0:5.14.0-427.13.1.el9_4",
+        "raw_status": "fixed (Rocky Linux:9)",
+        "release": "9",
+        "rule_id": "rocky:9:RLSA-2024:2900:CVE-2024-1086:src:kernel",
+        "source": "rocky",
+        "source_snapshot": "local:rocky-all.zip",
+        "source_url": "https://example.invalid/RLSA-2024:2900",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "rocky:9:RLSA-2024:2900:CVE-2024-1086:src:kernel"
+      ],
+      "scope": "host",
+      "source_package": "kernel",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "urgency": "important",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "RLSA-2023:0946"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-rocky9",
+      "binary_package": "openssl",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "1:3.0.1-47.el9_1",
+        "installed": "1:3.0.7-24.el9",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2023-0286",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "rocky",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-77dea6d5b7d31c59",
+      "finding_type": "cve",
+      "fixed_version": "1:3.0.1-47.el9_1",
+      "installed_version": "1:3.0.7-24.el9",
+      "reasons": [
+        "installed 1:3.0.7-24.el9 >= fixed 1:3.0.1-47.el9_1"
+      ],
+      "release": "9",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "1:3.0.1-47.el9_1",
+        "raw_status": "fixed (Rocky Linux:9)",
+        "release": "9",
+        "rule_id": "rocky:9:RLSA-2023:0946:CVE-2023-0286:src:openssl",
+        "source": "rocky",
+        "source_snapshot": "local:rocky-all.zip",
+        "source_url": "https://example.invalid/RLSA-2023:0946",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "rocky:9:RLSA-2023:0946:CVE-2023-0286:src:openssl"
+      ],
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "urgency": "important",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "RLSA-2024:3501"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-rocky9",
+      "binary_package": "openssl",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "1:3.0.7-27.el9",
+        "installed": "1:3.0.7-24.el9",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-0727",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "rocky",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-e832268970e8854f",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "1:3.0.7-27.el9",
+      "installed_version": "1:3.0.7-24.el9",
+      "reasons": [
+        "installed 1:3.0.7-24.el9 < fixed 1:3.0.7-27.el9 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "9",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "1:3.0.7-27.el9",
+        "raw_status": "fixed (Rocky Linux:9)",
+        "release": "9",
+        "rule_id": "rocky:9:RLSA-2024:3501:CVE-2024-0727:src:openssl",
+        "source": "rocky",
+        "source_snapshot": "local:rocky-all.zip",
+        "source_url": "https://example.invalid/RLSA-2024:3501",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "rocky:9:RLSA-2024:3501:CVE-2024-0727:src:openssl"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "urgency": "moderate",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "RLSA-2023:0946"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-rocky9",
+      "binary_package": "openssl-libs",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "1:3.0.1-47.el9_1",
+        "installed": "1:3.0.7-24.el9",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2023-0286",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "rocky",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-e718aa69cf964318",
+      "finding_type": "cve",
+      "fixed_version": "1:3.0.1-47.el9_1",
+      "installed_version": "1:3.0.7-24.el9",
+      "reasons": [
+        "installed 1:3.0.7-24.el9 >= fixed 1:3.0.1-47.el9_1"
+      ],
+      "release": "9",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "1:3.0.1-47.el9_1",
+        "raw_status": "fixed (Rocky Linux:9)",
+        "release": "9",
+        "rule_id": "rocky:9:RLSA-2023:0946:CVE-2023-0286:src:openssl",
+        "source": "rocky",
+        "source_snapshot": "local:rocky-all.zip",
+        "source_url": "https://example.invalid/RLSA-2023:0946",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "rocky:9:RLSA-2023:0946:CVE-2023-0286:src:openssl"
+      ],
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "urgency": "important",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "RLSA-2024:3501"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-rocky9",
+      "binary_package": "openssl-libs",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "1:3.0.7-27.el9",
+        "installed": "1:3.0.7-24.el9",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-0727",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "rocky",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-e42102b279a4d8e7",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "1:3.0.7-27.el9",
+      "installed_version": "1:3.0.7-24.el9",
+      "reasons": [
+        "installed 1:3.0.7-24.el9 < fixed 1:3.0.7-27.el9 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "9",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "1:3.0.7-27.el9",
+        "raw_status": "fixed (Rocky Linux:9)",
+        "release": "9",
+        "rule_id": "rocky:9:RLSA-2024:3501:CVE-2024-0727:src:openssl",
+        "source": "rocky",
+        "source_snapshot": "local:rocky-all.zip",
+        "source_url": "https://example.invalid/RLSA-2024:3501",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "rocky:9:RLSA-2024:3501:CVE-2024-0727:src:openssl"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "urgency": "moderate",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "RLSA-2024:2000"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-rocky9",
+      "binary_package": "tar",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "2:1.34-6.el9_4.1",
+        "installed": "2:1.34-6.el9_1",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2022-48303",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "rocky",
+      "evidence_ids": [
+        "ev-packages-3"
+      ],
+      "finding_id": "finding-1401a740d7d84f89",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "2:1.34-6.el9_4.1",
+      "installed_version": "2:1.34-6.el9_1",
+      "reasons": [
+        "installed 2:1.34-6.el9_1 < fixed 2:1.34-6.el9_4.1 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "9",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "2:1.34-6.el9_4.1",
+        "raw_status": "fixed (Rocky Linux:9)",
+        "release": "9",
+        "rule_id": "rocky:9:RLSA-2024:2000:CVE-2022-48303:src:tar",
+        "source": "rocky",
+        "source_snapshot": "local:rocky-all.zip",
+        "source_url": "https://example.invalid/RLSA-2024:2000",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "rocky:9:RLSA-2024:2000:CVE-2022-48303:src:tar"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "tar",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "urgency": "moderate",
+      "vendor_status": "released"
+    }
+  ],
+  "notes": [
+    "1 installed kernel package(s) do not match the running kernel 5.14.0-427.13.1.el9_4.x86_64 and were not evaluated (old kernels on disk are not the running attack surface)"
+  ],
+  "platform_support": "supported",
+  "platform_tested": true,
+  "remediation_groups": [
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [
+        "RLSA-2024:3501"
+      ],
+      "availability": "unknown",
+      "closes": {
+        "count": 2,
+        "cve_ids": [
+          "CVE-2024-0727"
+        ],
+        "finding_ids": [
+          "finding-e42102b279a4d8e7",
+          "finding-e832268970e8854f"
+        ]
+      },
+      "command_hint": "dnf upgrade openssl openssl-libs",
+      "coverage_note": null,
+      "group_id": "group-0bdc12f18bbb680c",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "openssl",
+      "targets": [
+        {
+          "architecture": "x86_64",
+          "installed_version": "1:3.0.7-24.el9",
+          "kind": "binary",
+          "name": "openssl",
+          "target_version": "1:3.0.7-27.el9"
+        },
+        {
+          "architecture": "x86_64",
+          "installed_version": "1:3.0.7-24.el9",
+          "kind": "binary",
+          "name": "openssl-libs",
+          "target_version": "1:3.0.7-27.el9"
+        }
+      ]
+    },
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [
+        "RLSA-2024:3339"
+      ],
+      "availability": "unknown",
+      "closes": {
+        "count": 1,
+        "cve_ids": [
+          "CVE-2023-50387"
+        ],
+        "finding_ids": [
+          "finding-6639c7419734068a"
+        ]
+      },
+      "command_hint": "dnf upgrade bind-libs",
+      "coverage_note": null,
+      "group_id": "group-1b2fafe86a2292f7",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "bind",
+      "targets": [
+        {
+          "architecture": "x86_64",
+          "installed_version": "32:9.16.23-15.el9",
+          "kind": "binary",
+          "name": "bind-libs",
+          "target_version": "32:9.16.23-15.el9_4.1"
+        }
+      ]
+    },
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [
+        "RLSA-2024:2100"
+      ],
+      "availability": "unknown",
+      "closes": {
+        "count": 1,
+        "cve_ids": [
+          "CVE-2024-9001"
+        ],
+        "finding_ids": [
+          "finding-81588393bee29142"
+        ]
+      },
+      "command_hint": "dnf upgrade demo",
+      "coverage_note": null,
+      "group_id": "group-d30a42ac0225eda5",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "demo",
+      "targets": [
+        {
+          "architecture": "x86_64",
+          "installed_version": "1.0~rc1-1.el9",
+          "kind": "binary",
+          "name": "demo",
+          "target_version": "1.0-1.el9"
+        }
+      ]
+    },
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [
+        "RLSA-2024:2000"
+      ],
+      "availability": "unknown",
+      "closes": {
+        "count": 1,
+        "cve_ids": [
+          "CVE-2022-48303"
+        ],
+        "finding_ids": [
+          "finding-1401a740d7d84f89"
+        ]
+      },
+      "command_hint": "dnf upgrade tar",
+      "coverage_note": null,
+      "group_id": "group-06dde379f572336c",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "tar",
+      "targets": [
+        {
+          "architecture": "x86_64",
+          "installed_version": "2:1.34-6.el9_1",
+          "kind": "binary",
+          "name": "tar",
+          "target_version": "2:1.34-6.el9_4.1"
+        }
+      ]
+    }
+  ],
+  "rule_coverage": {
+    "asset_release": "rocky/9",
+    "loaded_releases": [
+      "rocky/9"
+    ],
+    "rules_for_asset": 6,
+    "sources": [
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "osv-distro/1.0.0",
+        "release": "rocky/9",
+        "sha256": "064cd583ec467ff5b7cfb969e1345494ec44837e6a7d56f571894ee8050a031e",
+        "source": "osv-rocky",
+        "url": "https://osv-vulnerabilities.storage.googleapis.com/Rocky%20Linux/all.zip"
+      }
+    ],
+    "state": "covered"
+  },
+  "stderr": "",
+  "support_reason": null
+}

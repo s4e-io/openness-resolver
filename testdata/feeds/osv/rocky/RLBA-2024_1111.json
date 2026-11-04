@@ -1,0 +1,35 @@
+{
+ "schema_version": "1.7.3",
+ "id": "RLBA-2024:1111",
+ "published": "2024-06-01T00:00:00Z",
+ "modified": "2024-06-01T00:00:00Z",
+ "upstream": [],
+ "summary": "glibc bug fix update",
+ "affected": [
+  {
+   "package": {
+    "name": "glibc",
+    "ecosystem": "Rocky Linux:9"
+   },
+   "ranges": [
+    {
+     "type": "ECOSYSTEM",
+     "events": [
+      {
+       "introduced": "0"
+      },
+      {
+       "fixed": "2.34-100.el9_4.2"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "references": [
+  {
+   "type": "ADVISORY",
+   "url": "https://example.invalid/RLBA-2024:1111"
+  }
+ ]
+}

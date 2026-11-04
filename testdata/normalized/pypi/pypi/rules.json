@@ -1,0 +1,46 @@
+[
+ {
+  "rule_id": "osv:pypi:psutil:CVE-2019-18874:GHSA-qfc5-mcwq-26q8",
+  "ecosystem": "pypi",
+  "vendor": "osv",
+  "distribution": "pypi",
+  "release": "",
+  "architecture": "",
+  "package_name": "psutil",
+  "source_package": "psutil",
+  "status": "released",
+  "raw_status": "GHSA-qfc5-mcwq-26q8",
+  "fixed_version": "5.6.6",
+  "comparator": "pep440",
+  "cve_id": "CVE-2019-18874",
+  "advisory_ids": [
+   "GHSA-qfc5-mcwq-26q8"
+  ],
+  "source_priority": 4,
+  "source_snapshot_id": "pypi-1786371256",
+  "raw_object_id": "pypi-1786371256",
+  "source_url": "https://api.osv.dev/v1/query package=psutil"
+ },
+ {
+  "rule_id": "osv:pypi:psutil:CVE-2019-18874:PYSEC-2019-41",
+  "ecosystem": "pypi",
+  "vendor": "osv",
+  "distribution": "pypi",
+  "release": "",
+  "architecture": "",
+  "package_name": "psutil",
+  "source_package": "psutil",
+  "status": "released",
+  "raw_status": "PYSEC-2019-41",
+  "fixed_version": "5.6.6",
+  "comparator": "pep440",
+  "cve_id": "CVE-2019-18874",
+  "advisory_ids": [
+   "PYSEC-2019-41"
+  ],
+  "source_priority": 4,
+  "source_snapshot_id": "pypi-1786371256",
+  "raw_object_id": "pypi-1786371256",
+  "source_url": "https://api.osv.dev/v1/query package=psutil"
+ }
+]

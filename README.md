@@ -1,0 +1,507 @@
+# openness-resolver
+
+`openness-resolver` turns a host snapshot into an explainable list of vulnerabilities.
+It reads an `.openness` evidence file (packages, kernel, containers, Python packages and
+Windows build of one host, produced by the [Openness collector](https://github.com/s4e-io/openness))
+and the security advisories that the distribution and software vendors publish, and it
+decides, for every installed package and CVE, whether the host is vulnerable, fixed or not
+affected, and why.
+
+- **Works offline and on its own.** `feed sync` downloads the advisories straight from the
+  publishers (Canonical, Debian, Red Hat, Rocky, AlmaLinux, SUSE, Alpine, Amazon, Microsoft,
+  OSV). No OpenNess or S4E account, API key or service is needed. `resolve` never touches
+  the network.
+- **Deterministic.** Vendor rules, native version comparison (dpkg, rpm, apk, PEP 440,
+  Windows builds) and explicit logic. No AI or machine learning at runtime.
+- **Explainable.** Every finding carries the vendor rule, the version comparison, the
+  evidence ids and the reasons; `explain` prints them.
+- **Platforms.** Ubuntu, Debian, RHEL, Rocky Linux, AlmaLinux, openSUSE Leap, Amazon Linux,
+  Alpine (hosts and container images), Windows (OS build via MSRC, installed applications)
+  and PyPI packages.
+
+License: [Apache License 2.0](LICENSE). Version: [`VERSION`](VERSION), changes in
+[CHANGELOG.md](CHANGELOG.md).
+
+## Contents
+
+- [Install](#install)
+- [Quick start](#quick-start)
+- [Reading the output](#reading-the-output)
+- [Usage](#usage)
+  - [feed sync](#feed-sync), [feed list](#feed-list), [feed validate](#feed-validate)
+  - [rules import](#rules-import), [rules stats](#rules-stats), [rules format](#rules-format)
+  - [resolve](#resolve), [explain](#explain), [compare-version](#compare-version)
+  - [compare-nessus](#compare-nessus), [mapper probes](#mapper-probes), [version](#version)
+  - [Environment variables](#environment-variables), [Exit codes](#exit-codes)
+- [Data sources](#data-sources)
+- [Keeping data current](#keeping-data-current)
+- [Testing](#testing)
+- [Documentation](#documentation)
+- [Contributing, security and license](#contributing-security-and-license)
+
+## Install
+
+**Release binary** (Linux, macOS, Windows; no Go needed). Every
+[release](https://github.com/s4e-io/openness-resolver/releases) has
+`openness-resolver_<version>_<os>_<arch>` binaries and a `SHA256SUMS` file:
+
+```bash
+gh release download -R s4e-io/openness-resolver -p 'openness-resolver_*_linux_amd64' -p SHA256SUMS
+sha256sum -c --ignore-missing SHA256SUMS
+install -m 0755 openness-resolver_*_linux_amd64 /usr/local/bin/openness-resolver
+openness-resolver version
+```
+
+On Windows, download `openness-resolver_<version>_windows_amd64.exe` and rename it to
+`openness-resolver.exe`.
+
+**With Go** (1.25 or newer):
+
+```bash
+go install github.com/s4e-io/openness-resolver/cmd/openness-resolver@latest
+openness-resolver version
+```
+
+**From a checkout:**
+
+```bash
+go build -o bin/openness-resolver ./cmd/openness-resolver
+# or the release-style build with version information:
+bash scripts/build.sh            # writes bin/openness-resolver and dist/
+```
+
+## Quick start
+
+You need an `.openness` evidence file of the host, written by the collector
+(`openness collect --output host.openness` on that host). Then, on any machine:
+
+```bash
+# 1. Download the advisories this host needs, straight from the publishers.
+openness-resolver feed sync --for host.openness --data-dir data
+
+# 2. Resolve. Offline: reads only host.openness and data/.
+openness-resolver resolve --input host.openness --data-dir data --output findings.json
+
+# 3. Read the result.
+openness-resolver resolve --input host.openness --data-dir data --states vulnerable
+openness-resolver explain --finding-id <finding_id from findings.json> --findings findings.json
+```
+
+`feed sync --for` reads the host release (and the release of every container image in the
+evidence) from the file and downloads exactly those sources: for example
+`ubuntu-oval-usn-jammy` for Ubuntu 22.04, `debian-security-tracker` for Debian, the last 24
+MSRC months for Windows, and the OSV records of the PyPI packages the file lists. Add
+`--dry-run` to see what it would download without downloading.
+
+To try it without a host, use the synthetic evidence files in this repository:
+
+```bash
+openness-resolver feed sync --for testdata/evidence/synthetic/alpine-3.20.openness --data-dir data
+openness-resolver resolve --input testdata/evidence/synthetic/alpine-3.20.openness --data-dir data
+```
+
+## Reading the output
+
+`resolve` prints a summary and writes `findings.json`
+(contract: [docs/findings-contract.md](docs/findings-contract.md)). The fields you need first:
+
+| Field | Meaning |
+|---|---|
+| `findings[]` | One decision per scope (host, container, Python environment), package and CVE. |
+| `findings[].state` | `vulnerable`, `vulnerable_runtime` (vulnerable and its process runs), `fixed`, `not_applicable` (vendor says not affected), `potentially_vulnerable` (no vendor fix data, or a guessed application), `unknown`, `conflicting_evidence`. |
+| `findings[].installed_version`, `fixed_version` | The comparison behind the decision; `comparison` holds the expression and comparator. |
+| `findings[].rule` | The vendor rule: source, URL, feed snapshot, raw vendor status. |
+| `findings[].reasons[]` | Why, in words. |
+| `remediation_groups[]` | Upgrade cards: packages to upgrade, target versions, the CVEs each card closes, a `command_hint` (for example `dnf upgrade openssl openssl-libs`). |
+| `rule_coverage` | Which rules were loaded for this asset (`asset_release`, `rules_for_asset`, `sources[]` with URL, SHA-256 and download time) and whether they cover it (`state`: `covered`, `missing`, `not_applicable`). |
+| `unknowns[]`, `notes[]` | What was seen but not judged. An empty `findings[]` with a non-empty `unknowns[]` is not a clean host. |
+
+When rules for the asset release are missing, `resolve` still writes the findings but exits
+with code 1: missing rules are never reported as a clean host.
+
+## Usage
+
+```
+openness-resolver <command> [flags]
+```
+
+Flags take one dash or two (`-data-dir` and `--data-dir` are the same). Boolean flags are
+set with `--flag` or `--flag=true|false`. `openness-resolver <command> -h` lists the flags of
+a command. A relative path is relative to the working directory.
+
+### feed sync
+
+Download advisory sources from their publishers, keep each download as an immutable
+snapshot under `<data-dir>/raw/`, parse it and publish normalized rules under
+`<data-dir>/normalized/`. Select sources with `--for`, `--source`, `--vendor` or `--all`
+(they combine). A source that fails is reported and the others continue; the exit code is 1
+when one failed.
+
+```bash
+openness-resolver feed sync --for host.openness --data-dir data
+openness-resolver feed sync --vendor microsoft --months 6
+openness-resolver feed sync --source ubuntu-oval-usn-noble --dry-run
+```
+
+#### Input
+
+| Flag | Description | Example |
+|---|---|---|
+| `--for <file>` | Sync the sources the asset in this `.openness` file needs: its host release, the release of every container image in it, and the OSV records of its PyPI packages. | `--for host.openness` |
+| `--source <id>` | Sync one source: a registry id (see `feed list`) or a release id built from the patterns in [Data sources](#data-sources). An unknown id is an error. | `--source alpine-secdb-v3.20` |
+| `--vendor <name>` | Sync every enabled source of one vendor: `almalinux`, `alpine`, `amazon`, `debian`, `microsoft`, `opensuse`, `rhel`, `rocky`, `ubuntu`. Any other value is an error. | `--vendor debian` |
+| `--all` | Sync every enabled registry source (all vendors, every supported release). Default `false`. | `--all` |
+
+#### Data and sync
+
+| Flag | Description | Example |
+|---|---|---|
+| `--data-dir <dir>` | Data directory for raw snapshots and normalized rules. Default `data`. | `--data-dir /var/lib/openness` |
+| `--months <n>` | MSRC: number of monthly CVRF documents, newest first, for `--vendor microsoft` and Windows evidence. Must be at least 1. Default `24`. A month not published yet (HTTP 404) is skipped. | `--months 6` |
+| `--pypi-only` | With `--for`: only query the PyPI packages of the evidence and download no advisory source (for example when the distribution rules came from `rules import`). Default `false`. | `--for host.openness --pypi-only` |
+| `--osv-url <url>` | OSV query endpoint for PyPI packages: the public API or a mirror with the same request and answer. Default: `OPENNESS_OSV_URL`, else `https://api.osv.dev/v1/query`. | `--osv-url https://osv.example.org/v1/query` |
+
+#### Debug
+
+| Flag | Description | Example |
+|---|---|---|
+| `--dry-run` | Print the sources that would be downloaded (`source <id> <url>`, one per line) and download nothing. Default `false`. | `--for host.openness --dry-run` |
+
+### feed list
+
+Print the source registry (id, ecosystem, vendor, priority, enabled) and the raw snapshots
+found in the data directory. Release-derived sources (Ubuntu codenames, Alpine branches,
+MSRC months) are not all listed; their id patterns are in [Data sources](#data-sources).
+
+```bash
+openness-resolver feed list --data-dir data
+```
+
+#### Data and sync
+
+| Flag | Description | Example |
+|---|---|---|
+| `--data-dir <dir>` | Data directory whose snapshots are listed. Default `data`. | `--data-dir data` |
+
+### feed validate
+
+Download the selected sources and parse them without publishing rules: a check that the
+publishers and the parsers still agree. Without a selection flag it validates every enabled
+registry source.
+
+```bash
+openness-resolver feed validate --vendor rocky
+openness-resolver feed validate --dry-run
+```
+
+#### Input
+
+| Flag | Description | Example |
+|---|---|---|
+| `--for <file>` | Validate the advisory sources this evidence file needs (PyPI is not queried). | `--for host.openness` |
+| `--source <id>` | Validate one source (registry or release id). | `--source osv-rhel` |
+| `--vendor <name>` | Validate every enabled source of one vendor (same values as `feed sync`). | `--vendor alpine` |
+| `--all` | Validate every enabled source. Default `false`; no selection flag means the same. | `--all` |
+
+#### Data and sync
+
+| Flag | Description | Example |
+|---|---|---|
+| `--data-dir <dir>` | Data directory for the raw snapshots. Default `data`. | `--data-dir data` |
+| `--months <n>` | MSRC months to validate with `--vendor microsoft` or Windows evidence. Must be at least 1. Default `24`. | `--months 2` |
+
+#### Debug
+
+| Flag | Description | Example |
+|---|---|---|
+| `--dry-run` | Print the sources that would be downloaded and download nothing. Default `false`. | `--dry-run` |
+
+### rules import
+
+Normalize a raw feed file you already have (from a mirror, an air-gapped transfer or a
+manual download) into the rule store, exactly as `feed sync` would. Every format imports:
+Ubuntu OVAL (`.xml` or `.xml.bz2`), Alpine secdb (`main.json`, `community.json`; a file
+whose name starts with `community` goes to the `-community` source and keeps the other
+document's rules), Debian tracker JSON, vendor OSV `all.zip` or one OSV JSON document,
+Amazon `updateinfo.xml` or `.xml.gz`, and one MSRC CVRF month JSON.
+
+```bash
+openness-resolver rules import --source ubuntu-oval-usn-jammy --file com.ubuntu.jammy.usn.oval.xml.bz2 \
+  --source-url https://security-metadata.canonical.com/oval/com.ubuntu.jammy.usn.oval.xml.bz2 \
+  --fetched-at 2026-11-03T11:40:00Z --data-dir data
+```
+
+#### Input
+
+| Flag | Description | Example |
+|---|---|---|
+| `--source <id>` | Required. Source of the file: a registry id, a release id, or a data mirror id (`debian-tracker`, `osv-redhat`, `amazon-al2`, `amazon-al2023`, `msrc-<YYYY-Mon>`). An unknown id is an error. | `--source osv-rocky` |
+| `--file <path>` | Required. The raw feed file, as the publisher serves it. | `--file all.zip` |
+
+#### Data and sync
+
+| Flag | Description | Example |
+|---|---|---|
+| `--data-dir <dir>` | Data directory for normalized rules. Default `data`. | `--data-dir data` |
+| `--source-url <url>` | Where the file was published, recorded in the rule metadata and shown by `explain`. Default: the source's publisher URL. | `--source-url https://mirror.example.org/jammy.xml.bz2` |
+| `--fetched-at <time>` | RFC 3339 time the file was fetched from its publisher, recorded in the metadata. Default: now. A value that is not RFC 3339 is an error. | `--fetched-at 2026-11-03T11:40:00Z` |
+
+### rules stats
+
+Print statistics over the normalized rule store as JSON.
+
+```bash
+openness-resolver rules stats --data-dir data
+```
+
+#### Data and sync
+
+| Flag | Description | Example |
+|---|---|---|
+| `--data-dir <dir>` | Data directory to read. Default `data`. | `--data-dir data` |
+
+### rules format
+
+Print, as JSON, which processed rules this build reads: `format`, an `id` that changes with
+the rule layout or any parser version, and the parser versions. A mirror that ships
+processed rules can serve the same rules to every build with the same id. No flags.
+
+```bash
+openness-resolver rules format
+```
+
+### resolve
+
+Evaluate one `.openness` evidence file against the rule store and write the findings.
+Offline: it reads only the evidence, the data directory and the application mapper.
+
+```bash
+openness-resolver resolve --input host.openness --data-dir data --output findings.json
+openness-resolver resolve --input host.openness --states vulnerable,vulnerable_runtime
+```
+
+#### Input
+
+| Flag | Description | Example |
+|---|---|---|
+| `--input <file>` | Required. The `.openness` evidence file. | `--input host.openness` |
+| `--preflight` | Strict evidence check before resolving: `schema_version` and `asset.asset_id` must be present. Default `false`. | `--preflight` |
+
+#### Data and sync
+
+| Flag | Description | Example |
+|---|---|---|
+| `--data-dir <dir>` | Data directory with normalized rules. Only the rule files the asset needs are loaded. Default `data`. | `--data-dir data` |
+| `--mapper <file>` | Application mapper for third-party Windows applications (format `openness-app-mapper/1`: catalog plus NVD data, JSON or gzip). Default: the mapper built into the binary. | `--mapper mapper.json.gz` |
+
+#### Output
+
+| Flag | Description | Example |
+|---|---|---|
+| `--output <file>` | Findings JSON file to write; missing directories are created. Default `findings.json`. | `--output out/host.json` |
+| `--states <list>` | Comma-separated finding states to list after the summary (finding id, state, CVE, package, versions). A state no finding has lists nothing. Default: no listing. | `--states vulnerable,fixed` |
+
+#### Matching
+
+| Flag | Description | Example |
+|---|---|---|
+| `--app-unverified` | Also use application catalog entries no person has reviewed. Default `false`. | `--app-unverified` |
+| `--app-guess` | Guess the NVD product of Windows applications the catalog does not know; such findings are `potentially_vulnerable`. Default `true`. | `--app-guess=false` |
+
+### explain
+
+Print the full explanation of one finding: evidence, vendor rule, feed snapshot,
+comparison, runtime state, reasons, missing evidence and superseded rules.
+
+```bash
+openness-resolver explain --finding-id finding-0666efb0c5c81804 --findings findings.json
+```
+
+#### Input
+
+| Flag | Description | Example |
+|---|---|---|
+| `--finding-id <id>` | Required. The `finding_id` to explain. | `--finding-id finding-0666efb0c5c81804` |
+| `--findings <file>` | Findings JSON written by `resolve`. Default `findings.json`. | `--findings out/host.json` |
+
+### compare-version
+
+Compare two versions with an ecosystem's native rules and print which is newer.
+
+```bash
+openness-resolver compare-version --ecosystem dpkg --installed 1:8.9p1-3ubuntu0.1 --fixed 1:8.9p1-3ubuntu0.10
+```
+
+#### Input
+
+| Flag | Description | Example |
+|---|---|---|
+| `--ecosystem <name>` | Required. `dpkg` (Debian, Ubuntu), `rpm` (RHEL family, SUSE, Amazon), `apk` (Alpine), `pep440` (Python), `winbuild` (Windows `build.ubr`). Any other value is an error. | `--ecosystem rpm` |
+| `--installed <version>` | Required. Installed version. The dpkg, rpm, apk and winbuild comparators reject a version they cannot parse. | `--installed 1:3.0.7-24.el9` |
+| `--fixed <version>` | Required. Fixed version. | `--fixed 1:3.0.7-27.el9` |
+
+### compare-nessus
+
+Diff resolver findings against a credentialed Nessus scan of the same host
+(`.nessus`, NessusClientData_v2). Bring your own report.
+
+```bash
+openness-resolver compare-nessus --nessus scan.nessus --findings findings.json --json diff.json
+```
+
+#### Input
+
+| Flag | Description | Example |
+|---|---|---|
+| `--nessus <file>` | Required. The `.nessus` report. | `--nessus scan.nessus` |
+| `--findings <file>` | Resolver findings JSON. Default `build/findings.json`. | `--findings findings.json` |
+| `--host <name>` | Host name or IP in the report; optional when the report has one host. A host not in the report is an error. | `--host 192.0.2.10` |
+
+#### Matching
+
+| Flag | Description | Example |
+|---|---|---|
+| `--local-only` | Compare only CVEs backed by a credentialed local security check. Default `true`. | `--local-only=false` |
+
+#### Output
+
+| Flag | Description | Example |
+|---|---|---|
+| `--json <file>` | Also write the full diff as JSON. Default: not written. | `--json diff.json` |
+| `--show <n>` | How many CVE ids to list per divergence bucket. Default `15`. | `--show 50` |
+
+### mapper probes
+
+Print, as a JSON array, the files the application mapper wants the collector to check
+(collector `collect --file-probes`), so application matches can be confirmed by file
+signature or version.
+
+```bash
+openness-resolver mapper probes > probes.json
+```
+
+#### Data and sync
+
+| Flag | Description | Example |
+|---|---|---|
+| `--mapper <file>` | Application mapper file. Default: the built-in one. | `--mapper mapper.json.gz` |
+
+### version
+
+Print the version, commit and build date
+(`openness-resolver <version> commit=<sha> built=<date>`). No flags.
+
+```bash
+openness-resolver version
+```
+
+### Environment variables
+
+Both are optional; the resolver reads no other variable of its own.
+
+| Variable | Description | Example |
+|---|---|---|
+| `OPENNESS_OSV_URL` | Default for `feed sync --osv-url`: an OSV query endpoint mirror. `--osv-url` wins. | `OPENNESS_OSV_URL=https://osv.example.org/v1/query` |
+| `OPENNESS_OSV_HEADERS` | Extra HTTP headers for the OSV queries, one `Name: value` per line, kept off the command line. Malformed lines are skipped. | `OPENNESS_OSV_HEADERS='X-Api-Key: ...'` |
+
+The standard `HTTPS_PROXY`, `HTTP_PROXY` and `NO_PROXY` variables apply to every download.
+
+### Exit codes
+
+| Code | Meaning |
+|---|---|
+| `0` | Success. For `resolve`: the rules covered the asset. |
+| `1` | An error (`error: ...` on stderr), a failed source in `feed sync`, or `resolve` without rule coverage for the asset (the findings are still written). |
+| `2` | Usage error: unknown command or flag, or a flag value that does not parse (for example `--months two`). |
+
+## Data sources
+
+The sources `feed sync` downloads and `rules import` reads. Every URL is the publisher's;
+nothing goes through an OpenNess or S4E service. `<codename>`, `<branch>` and `<YYYY-Mon>`
+come from the asset (`--for`) or from `--source`.
+
+| Vendor | Source id | Publisher URL | Format | Releases | Publisher updates | Data license or terms |
+|---|---|---|---|---|---|---|
+| Canonical (Ubuntu) | `ubuntu-oval-usn-<codename>` | `https://security-metadata.canonical.com/oval/com.ubuntu.<codename>.usn.oval.xml.bz2` | OVAL XML (bz2), per USN | Supported: focal (20.04), jammy (22.04), noble (24.04); any codename the publisher serves via `--for` | Several times a day, after each USN | No license in the file; Canonical publishes the same notices under CC BY-SA 4.0 in [ubuntu-security-notices](https://github.com/canonical/ubuntu-security-notices); [Ubuntu legal](https://ubuntu.com/legal) |
+| Debian | `debian-security-tracker` | `https://security-tracker.debian.org/tracker/data/json` | JSON, every release in one document | bookworm (12), trixie (13) | Continuously, many times a day | No license stated; [Debian Security Tracker](https://security-tracker.debian.org/tracker/) |
+| Red Hat | `osv-rhel` | `https://osv-vulnerabilities.storage.googleapis.com/Red%20Hat/all.zip` | OSV JSON (zip), RHSA | RHEL 8, 9 | Daily or more often (OSV export) | [CC BY 4.0](https://access.redhat.com/security/data) (Red Hat security data) |
+| Rocky Linux (RESF) | `osv-rocky` | `https://osv-vulnerabilities.storage.googleapis.com/Rocky%20Linux/all.zip` | OSV JSON (zip), RLSA | Rocky 8, 9 | Daily or more often (OSV export) | BSD, per [OSV.dev data sources](https://google.github.io/osv.dev/data/) |
+| AlmaLinux | `osv-almalinux` | `https://osv-vulnerabilities.storage.googleapis.com/AlmaLinux/all.zip` | OSV JSON (zip), ALSA | AlmaLinux 8, 9 | Daily or more often (OSV export) | MIT, [AlmaLinux osv-database](https://github.com/AlmaLinux/osv-database) |
+| SUSE (openSUSE) | `osv-opensuse` | `https://osv-vulnerabilities.storage.googleapis.com/openSUSE/all.zip` | OSV JSON (zip), openSUSE-SU and SUSE-SU | Leap 15.5, 15.6, 16.0 | Daily or more often (OSV export) | [CC BY 4.0](https://www.suse.com/support/security/csaf/) (SUSE security data) |
+| Alpine | `alpine-secdb-<branch>`, `alpine-secdb-<branch>-community` | `https://secdb.alpinelinux.org/<branch>/main.json`, `https://secdb.alpinelinux.org/<branch>/community.json` | secdb JSON | v3.14 to v3.22 (hosts and container images); any branch via `--for` | When packages get security fixes | No license stated by the publisher; [OSV.dev](https://google.github.io/osv.dev/data/) lists Alpine SecDB as CC BY-SA 4.0 |
+| Amazon | `amazon-updateinfo-2`, `amazon-updateinfo-2023` | `https://cdn.amazonlinux.com/2/core/latest/x86_64/mirror.list`, `https://cdn.amazonlinux.com/al2023/core/mirrors/latest/x86_64/mirror.list`, then the repository's `updateinfo.xml.gz` | yum updateinfo XML (ALAS) | Amazon Linux 2, 2023 | With each ALAS advisory | [AWS Site Terms](https://aws.amazon.com/terms/) |
+| Microsoft | `msrc-cvrf-<YYYY-Mon>` | `https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/<YYYY-Mon>` | CVRF JSON, one document per month | Windows 10, 11, Server 2008 to 2025; the last `--months` (default 24) | Monthly (Patch Tuesday), plus revisions | [Microsoft Terms of Use](https://www.microsoft.com/en-us/legal/terms-of-use) |
+| OSV (PyPI) | `osv-pypi` | `https://api.osv.dev/v1/query` (or `--osv-url`) | OSV JSON, one query per package | PyPI packages named in the evidence | Continuously | Per record; the PyPA advisory database and GitHub advisories are CC BY 4.0 ([OSV.dev data sources](https://google.github.io/osv.dev/data/)) |
+| NVD (built in, not synced) | none | Bundled in the binary (`internal/appvuln/data`) | JSON (gzip) | Third-party Windows applications (`resolve --mapper`) | With each release of this tool | NVD data. This product uses data from the NVD API but is not endorsed or certified by the NVD. |
+
+The registry also lists `ubuntu-oval-usn-focal`, `ubuntu-oval-usn-noble` and
+`ubuntu-oval-cve-jammy` as disabled entries; `--for` and `--source` derive the right Ubuntu
+source from the codename. Ubuntu ESM rules (`esm-infra`, `esm-apps`) come from the same OVAL
+documents.
+
+## Keeping data current
+
+`resolve` never downloads. Re-run `feed sync` as often as you want fresh data, for example
+daily from cron:
+
+```bash
+0 5 * * * openness-resolver feed sync --for /srv/evidence/host.openness --data-dir /var/lib/openness
+```
+
+A file that did not change is not downloaded again (ETag); a changed one becomes a new
+snapshot under `<data-dir>/raw/<vendor>/`. Disk: one Ubuntu release's normalized rules are
+about 150 MB, Debian about 700 MB, each RPM family 200 to 600 MB. Delete old snapshot
+directories when you no longer need them for `explain`.
+
+## Testing
+
+```bash
+go test ./...                                                   # unit, integration and offline CLI tests
+go test ./cmd/openness-resolver -run TestGolden -update         # rewrite golden files after a reviewed change
+OPENNESS_NIGHTLY=1 go test ./cmd/openness-resolver -run TestNightly -v -timeout 60m   # real sync, needs network
+```
+
+- **Golden end-to-end tests** (`cmd/openness-resolver/e2e_test.go`): build the binary, run
+  `rules import` on small committed feed fixtures (`testdata/feeds`), `resolve` on synthetic
+  evidence (`testdata/evidence/synthetic`: Ubuntu 22.04 with a PyPI package, Debian 11, 12
+  and 13, RHEL 9, Rocky 9, AlmaLinux 8, openSUSE Leap 15.6, Alpine 3.20, Windows Server 2022)
+  and compare the exit code, stderr, findings, remediation groups and `rule_coverage` with
+  `cmd/openness-resolver/testdata/golden`. CI runs them on Linux and on Windows with the
+  same golden files.
+- **Flag tests** (`cli_flags_test.go`): every command with every flag: valid values,
+  defaults and invalid values.
+- **Independence tests** (`independence_test.go`): every URL in the code is a publisher's,
+  and `OPENNESS_OSV_URL` and `OPENNESS_OSV_HEADERS` are optional.
+- **Doc drift guard** (`readme_test.go`): fails when a command or flag is missing from this
+  README.
+- **Nightly** (`.github/workflows/nightly.yml`, 02:00 UTC and on demand, Linux and Windows,
+  no secrets): `feed sync --for` plus `resolve` for Ubuntu 22.04 and 24.04, Debian 12,
+  Rocky 9, Amazon Linux 2023, Alpine 3.20, openSUSE Leap 15.6 and Windows Server 2022
+  (exit code 0, coverage `covered`, rules loaded for the release), and `feed validate` of
+  every enabled source. Each job writes rules, download size and time per source to its
+  step summary; a failed scheduled run opens or updates an issue labelled `nightly`, the
+  next passing run closes it.
+
+## Documentation
+
+- [docs/internals.md](docs/internals.md): pipeline, parsers, decision engine, finding fields,
+  invariants, project layout and release process.
+- [docs/findings-contract.md](docs/findings-contract.md): the `findings.json` contract.
+- [testdata/evidence/README.md](testdata/evidence/README.md): the synthetic evidence fixtures.
+
+## Contributing, security and license
+
+Contributions are welcome: [CONTRIBUTING.md](CONTRIBUTING.md),
+[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Report vulnerabilities privately as described in
+[SECURITY.md](SECURITY.md).
+
+Copyright 2026 S4E (Security For Everyone). Licensed under the
+[Apache License, Version 2.0](LICENSE); third-party notices in [NOTICE](NOTICE). Advisory
+data that `feed sync` downloads stays under its publisher's license or terms (see
+[Data sources](#data-sources)).
+
+This product uses data from the NVD API but is not endorsed or certified by the NVD.
+
+Openness is free to run on your own machines. The same collector and resolver power the
+Inside depth of [S4E](https://s4e.io), which adds scheduling, history, multi-host views and
+remediation tracking.

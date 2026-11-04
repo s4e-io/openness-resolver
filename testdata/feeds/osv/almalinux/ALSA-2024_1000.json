@@ -1,0 +1,37 @@
+{
+ "schema_version": "1.7.3",
+ "id": "ALSA-2024:1000",
+ "published": "2024-06-01T00:00:00Z",
+ "modified": "2024-06-01T00:00:00Z",
+ "upstream": [
+  "CVE-2024-27983"
+ ],
+ "summary": "Important: nodejs:18 security update",
+ "affected": [
+  {
+   "package": {
+    "name": "nodejs",
+    "ecosystem": "AlmaLinux:8"
+   },
+   "ranges": [
+    {
+     "type": "ECOSYSTEM",
+     "events": [
+      {
+       "introduced": "0"
+      },
+      {
+       "fixed": "1:18.20.2-1.module_el8.9.0+3780+4c9d3d1f"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "references": [
+  {
+   "type": "ADVISORY",
+   "url": "https://example.invalid/ALSA-2024:1000"
+  }
+ ]
+}

@@ -1,0 +1,412 @@
+{
+  "exit_code": 1,
+  "findings": [
+    {
+      "advisory_ids": [
+        "USN-7000-1"
+      ],
+      "architecture": "amd64",
+      "asset_id": "asset-ubuntu2204",
+      "binary_package": "libjs-jquery-ui",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "1.13.1+dfsg-1ubuntu0.1~esm1",
+        "installed": "1.13.1+dfsg-1",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2022-31160",
+      "detection_method": "ubuntu_source_package_fixed_version",
+      "distribution": "ubuntu",
+      "evidence_ids": [
+        "ev-packages-2"
+      ],
+      "finding_id": "finding-acf2956bb82c8a85",
+      "finding_type": "cve",
+      "fix_availability": "requires_esm",
+      "fixed_version": "1.13.1+dfsg-1ubuntu0.1~esm1",
+      "installed_version": "1.13.1+dfsg-1",
+      "reasons": [
+        "fix is published in the esm-apps pocket (Ubuntu Pro required)",
+        "installed 1.13.1+dfsg-1 < fixed 1.13.1+dfsg-1ubuntu0.1~esm1 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable",
+        "no evidence of Ubuntu Pro/ESM entitlement on this asset; the fix is not installable without it"
+      ],
+      "release": "jammy",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "1.13.1+dfsg-1ubuntu0.1~esm1",
+        "raw_status": "is affected and has been fixed (note: '1.13.1+dfsg-1ubuntu0.1~esm1')",
+        "release": "jammy",
+        "rule_id": "ubuntu:jammy:USN-7000-1:CVE-2022-31160:jqueryui:libjs-jquery-ui",
+        "source": "ubuntu",
+        "source_snapshot": "local:com.ubuntu.jammy.usn.oval.xml",
+        "source_url": "https://security-metadata.canonical.com/oval/com.ubuntu.jammy.usn.oval.xml.bz2",
+        "support_tier": "esm-apps",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "ubuntu:jammy:USN-7000-1:CVE-2022-31160:jqueryui:libjs-jquery-ui"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "jqueryui",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "urgency": "medium",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "USN-6723-1"
+      ],
+      "architecture": "amd64",
+      "asset_id": "asset-ubuntu2204",
+      "binary_package": "libssl3",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "0:3.0.2-0ubuntu1.15",
+        "installed": "3.0.2-0ubuntu1",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-0727",
+      "detection_method": "ubuntu_source_package_fixed_version",
+      "distribution": "ubuntu",
+      "evidence_ids": [
+        "ev-packages-4"
+      ],
+      "finding_id": "finding-11d250be2a186f38",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "0:3.0.2-0ubuntu1.15",
+      "installed_version": "3.0.2-0ubuntu1",
+      "reasons": [
+        "installed 3.0.2-0ubuntu1 < fixed 0:3.0.2-0ubuntu1.15 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "jammy",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "0:3.0.2-0ubuntu1.15",
+        "raw_status": "is affected and has been fixed (note: '3.0.2-0ubuntu1.15')",
+        "release": "jammy",
+        "rule_id": "ubuntu:jammy:USN-6723-1:CVE-2024-0727:openssl:libssl3",
+        "source": "ubuntu",
+        "source_snapshot": "local:com.ubuntu.jammy.usn.oval.xml",
+        "source_url": "https://security-metadata.canonical.com/oval/com.ubuntu.jammy.usn.oval.xml.bz2",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "ubuntu:jammy:USN-6723-1:CVE-2024-0727:openssl:libssl3"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "urgency": "low",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "USN-6859-1"
+      ],
+      "architecture": "amd64",
+      "asset_id": "asset-ubuntu2204",
+      "binary_package": "openssh-client",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "1:8.9p1-3ubuntu0.10",
+        "installed": "1:8.9p1-3ubuntu0.1",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-6387",
+      "detection_method": "ubuntu_source_package_fixed_version",
+      "distribution": "ubuntu",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-0666efb0c5c81804",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "1:8.9p1-3ubuntu0.10",
+      "installed_version": "1:8.9p1-3ubuntu0.1",
+      "reasons": [
+        "installed 1:8.9p1-3ubuntu0.1 < fixed 1:8.9p1-3ubuntu0.10 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "jammy",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "1:8.9p1-3ubuntu0.10",
+        "raw_status": "is affected and has been fixed (note: '1:8.9p1-3ubuntu0.10')",
+        "release": "jammy",
+        "rule_id": "ubuntu:jammy:USN-6859-1:CVE-2024-6387:openssh:openssh-client",
+        "source": "ubuntu",
+        "source_snapshot": "local:com.ubuntu.jammy.usn.oval.xml",
+        "source_url": "https://security-metadata.canonical.com/oval/com.ubuntu.jammy.usn.oval.xml.bz2",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "ubuntu:jammy:USN-6859-1:CVE-2024-6387:openssh:openssh-client"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssh",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "urgency": "high",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "USN-6859-1"
+      ],
+      "architecture": "amd64",
+      "asset_id": "asset-ubuntu2204",
+      "binary_package": "openssh-server",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "1:8.9p1-3ubuntu0.10",
+        "installed": "1:8.9p1-3ubuntu0.10",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-6387",
+      "detection_method": "ubuntu_source_package_fixed_version",
+      "distribution": "ubuntu",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-b65d601b6cd2b48e",
+      "finding_type": "cve",
+      "fixed_version": "1:8.9p1-3ubuntu0.10",
+      "installed_version": "1:8.9p1-3ubuntu0.10",
+      "reasons": [
+        "installed 1:8.9p1-3ubuntu0.10 >= fixed 1:8.9p1-3ubuntu0.10"
+      ],
+      "release": "jammy",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "1:8.9p1-3ubuntu0.10",
+        "raw_status": "is affected and has been fixed (note: '1:8.9p1-3ubuntu0.10')",
+        "release": "jammy",
+        "rule_id": "ubuntu:jammy:USN-6859-1:CVE-2024-6387:openssh:openssh-server",
+        "source": "ubuntu",
+        "source_snapshot": "local:com.ubuntu.jammy.usn.oval.xml",
+        "source_url": "https://security-metadata.canonical.com/oval/com.ubuntu.jammy.usn.oval.xml.bz2",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "ubuntu:jammy:USN-6859-1:CVE-2024-6387:openssh:openssh-server"
+      ],
+      "scope": "host",
+      "source_package": "openssh",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "urgency": "high",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "USN-6723-1"
+      ],
+      "architecture": "amd64",
+      "asset_id": "asset-ubuntu2204",
+      "binary_package": "openssl",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "0:3.0.2-0ubuntu1.15",
+        "installed": "3.0.2-0ubuntu1",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-0727",
+      "detection_method": "ubuntu_source_package_fixed_version",
+      "distribution": "ubuntu",
+      "evidence_ids": [
+        "ev-packages-3"
+      ],
+      "finding_id": "finding-93ac3f7a20cf11ae",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "0:3.0.2-0ubuntu1.15",
+      "installed_version": "3.0.2-0ubuntu1",
+      "reasons": [
+        "installed 3.0.2-0ubuntu1 < fixed 0:3.0.2-0ubuntu1.15 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "jammy",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "0:3.0.2-0ubuntu1.15",
+        "raw_status": "is affected and has been fixed (note: '3.0.2-0ubuntu1.15')",
+        "release": "jammy",
+        "rule_id": "ubuntu:jammy:USN-6723-1:CVE-2024-0727:openssl:openssl",
+        "source": "ubuntu",
+        "source_snapshot": "local:com.ubuntu.jammy.usn.oval.xml",
+        "source_url": "https://security-metadata.canonical.com/oval/com.ubuntu.jammy.usn.oval.xml.bz2",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "ubuntu:jammy:USN-6723-1:CVE-2024-0727:openssl:openssl"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "urgency": "low",
+      "vendor_status": "released"
+    }
+  ],
+  "notes": [
+    "running kernel 5.15.0-1100-azure has no matching installed kernel package; kernel advisories cannot be evaluated deterministically",
+    "kernel advisories skipped: running kernel 5.15.0-1100-azure could not be mapped to a vendor kernel package"
+  ],
+  "platform_support": "supported",
+  "platform_tested": true,
+  "remediation_groups": [
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [
+        "USN-6723-1"
+      ],
+      "availability": "unknown",
+      "closes": {
+        "count": 2,
+        "cve_ids": [
+          "CVE-2024-0727"
+        ],
+        "finding_ids": [
+          "finding-11d250be2a186f38",
+          "finding-93ac3f7a20cf11ae"
+        ]
+      },
+      "command_hint": "apt-get install --only-upgrade libssl3 openssl",
+      "coverage_note": null,
+      "group_id": "group-d857e4a727338b0f",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "openssl",
+      "targets": [
+        {
+          "architecture": "amd64",
+          "installed_version": "3.0.2-0ubuntu1",
+          "kind": "binary",
+          "name": "libssl3",
+          "target_version": "0:3.0.2-0ubuntu1.15"
+        },
+        {
+          "architecture": "amd64",
+          "installed_version": "3.0.2-0ubuntu1",
+          "kind": "binary",
+          "name": "openssl",
+          "target_version": "0:3.0.2-0ubuntu1.15"
+        }
+      ]
+    },
+    {
+      "action": "requires_entitlement",
+      "advisory_ids": [
+        "USN-7000-1"
+      ],
+      "availability": "unknown",
+      "closes": {
+        "count": 1,
+        "cve_ids": [
+          "CVE-2022-31160"
+        ],
+        "finding_ids": [
+          "finding-acf2956bb82c8a85"
+        ]
+      },
+      "command_hint": "apt-get install --only-upgrade libjs-jquery-ui # requires Ubuntu Pro",
+      "coverage_note": null,
+      "group_id": "group-84cae53a3a261924",
+      "requires_entitlement": "ubuntu_pro",
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "jqueryui",
+      "targets": [
+        {
+          "architecture": "amd64",
+          "installed_version": "1.13.1+dfsg-1",
+          "kind": "binary",
+          "name": "libjs-jquery-ui",
+          "target_version": "1.13.1+dfsg-1ubuntu0.1~esm1"
+        }
+      ]
+    },
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [
+        "USN-6859-1"
+      ],
+      "availability": "unknown",
+      "closes": {
+        "count": 1,
+        "cve_ids": [
+          "CVE-2024-6387"
+        ],
+        "finding_ids": [
+          "finding-0666efb0c5c81804"
+        ]
+      },
+      "command_hint": "apt-get install --only-upgrade openssh-client",
+      "coverage_note": null,
+      "group_id": "group-b5a4b376bdc32a78",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "openssh",
+      "targets": [
+        {
+          "architecture": "amd64",
+          "installed_version": "1:8.9p1-3ubuntu0.1",
+          "kind": "binary",
+          "name": "openssh-client",
+          "target_version": "1:8.9p1-3ubuntu0.10"
+        }
+      ]
+    }
+  ],
+  "rule_coverage": {
+    "asset_release": "ubuntu/jammy",
+    "gaps": [
+      {
+        "kind": "missing_rules",
+        "release": "pypi"
+      }
+    ],
+    "loaded_releases": [
+      "ubuntu/jammy"
+    ],
+    "reason": "finding counts are not an all-clear: no rules loaded for pypi",
+    "rules_for_asset": 7,
+    "sources": [
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "ubuntu-oval/1.1.0",
+        "release": "ubuntu/jammy",
+        "sha256": "13a702d2b3f884fe7276b5ef47fee4204b99df0c8e5657ca84de9d8e861f7b99",
+        "source": "ubuntu-oval-usn-jammy",
+        "url": "https://security-metadata.canonical.com/oval/com.ubuntu.jammy.usn.oval.xml.bz2"
+      }
+    ],
+    "state": "missing"
+  },
+  "stderr": "error: finding counts are not an all-clear: no rules loaded for pypi (run `openness-resolver feed sync --for <evidence>`)\n",
+  "support_reason": null
+}

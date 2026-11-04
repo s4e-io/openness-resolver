@@ -1,0 +1,37 @@
+{
+ "schema_version": "1.7.3",
+ "id": "openSUSE-SU-2024:0100-1",
+ "published": "2024-06-01T00:00:00Z",
+ "modified": "2024-06-01T00:00:00Z",
+ "upstream": [
+  "CVE-2024-9100"
+ ],
+ "summary": "Security update for demo-range",
+ "affected": [
+  {
+   "package": {
+    "name": "demo-range",
+    "ecosystem": "openSUSE:Leap 15.6"
+   },
+   "ranges": [
+    {
+     "type": "ECOSYSTEM",
+     "events": [
+      {
+       "introduced": "2.0-150600.1.1"
+      },
+      {
+       "fixed": "2.5-150600.1.1"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "references": [
+  {
+   "type": "ADVISORY",
+   "url": "https://example.invalid/openSUSE-SU-2024:0100-1"
+  }
+ ]
+}

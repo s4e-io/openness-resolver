@@ -1,0 +1,252 @@
+{
+  "exit_code": 0,
+  "findings": [
+    {
+      "advisory_ids": [
+        "ALSA-2024:1001"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-alma8",
+      "binary_package": "nodejs",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "1:20.12.2-2.module_el8.9.0+3800+a9b4c66d",
+        "installed": "1:20.11.1-1.module_el8.9.0+3775+d8460d29",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-27983",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "almalinux",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-0ec474617f40b73d",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "1:20.12.2-2.module_el8.9.0+3800+a9b4c66d",
+      "installed_version": "1:20.11.1-1.module_el8.9.0+3775+d8460d29",
+      "reasons": [
+        "installed 1:20.11.1-1.module_el8.9.0+3775+d8460d29 < fixed 1:20.12.2-2.module_el8.9.0+3800+a9b4c66d (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "8",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "1:20.12.2-2.module_el8.9.0+3800+a9b4c66d",
+        "raw_status": "fixed (AlmaLinux:8)",
+        "release": "8",
+        "rule_id": "almalinux:8:ALSA-2024:1001:CVE-2024-27983:nodejs",
+        "source": "almalinux",
+        "source_snapshot": "local:almalinux-all.zip",
+        "source_url": "https://example.invalid/ALSA-2024:1001",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "almalinux:8:ALSA-2024:1001:CVE-2024-27983:nodejs"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "nodejs",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "urgency": "important",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "ALSA-2024:0001"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-alma8",
+      "binary_package": "openssl-libs",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "1:1.1.1k-12.el8_9",
+        "installed": "1:1.1.1k-9.el8_7",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-5535",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "almalinux",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-d4f5e4d1578cbb52",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "1:1.1.1k-12.el8_9",
+      "installed_version": "1:1.1.1k-9.el8_7",
+      "reasons": [
+        "installed 1:1.1.1k-9.el8_7 < fixed 1:1.1.1k-12.el8_9 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "8",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "1:1.1.1k-12.el8_9",
+        "raw_status": "fixed (AlmaLinux:8)",
+        "release": "8",
+        "rule_id": "almalinux:8:ALSA-2024:0001:CVE-2024-5535:openssl-libs",
+        "source": "almalinux",
+        "source_snapshot": "local:almalinux-all.zip",
+        "source_url": "https://example.invalid/ALSA-2024:0001",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "almalinux:8:ALSA-2024:0001:CVE-2024-5535:openssl-libs"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "urgency": "moderate",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "ALSA-2024:1002"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-alma8",
+      "binary_package": "python3-libs",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "3.6.8-56.el8_9.3",
+        "installed": "3.6.8-58.el8_9",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2023-40217",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "almalinux",
+      "evidence_ids": [
+        "ev-packages-2"
+      ],
+      "finding_id": "finding-f09385759d1ac87a",
+      "finding_type": "cve",
+      "fixed_version": "3.6.8-56.el8_9.3",
+      "installed_version": "3.6.8-58.el8_9",
+      "reasons": [
+        "installed 3.6.8-58.el8_9 >= fixed 3.6.8-56.el8_9.3"
+      ],
+      "release": "8",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "3.6.8-56.el8_9.3",
+        "raw_status": "fixed (AlmaLinux:8)",
+        "release": "8",
+        "rule_id": "almalinux:8:ALSA-2024:1002:CVE-2023-40217:python3-libs",
+        "source": "almalinux",
+        "source_snapshot": "local:almalinux-all.zip",
+        "source_url": "https://example.invalid/ALSA-2024:1002",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "almalinux:8:ALSA-2024:1002:CVE-2023-40217:python3-libs"
+      ],
+      "scope": "host",
+      "source_package": "python3",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "urgency": "moderate",
+      "vendor_status": "released"
+    }
+  ],
+  "notes": [],
+  "platform_support": "supported",
+  "platform_tested": true,
+  "remediation_groups": [
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [
+        "ALSA-2024:1001"
+      ],
+      "availability": "unknown",
+      "closes": {
+        "count": 1,
+        "cve_ids": [
+          "CVE-2024-27983"
+        ],
+        "finding_ids": [
+          "finding-0ec474617f40b73d"
+        ]
+      },
+      "command_hint": "dnf upgrade nodejs",
+      "coverage_note": null,
+      "group_id": "group-6f3bbbb94e2fe3e7",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "nodejs",
+      "targets": [
+        {
+          "architecture": "x86_64",
+          "installed_version": "1:20.11.1-1.module_el8.9.0+3775+d8460d29",
+          "kind": "binary",
+          "name": "nodejs",
+          "target_version": "1:20.12.2-2.module_el8.9.0+3800+a9b4c66d"
+        }
+      ]
+    },
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [
+        "ALSA-2024:0001"
+      ],
+      "availability": "unknown",
+      "closes": {
+        "count": 1,
+        "cve_ids": [
+          "CVE-2024-5535"
+        ],
+        "finding_ids": [
+          "finding-d4f5e4d1578cbb52"
+        ]
+      },
+      "command_hint": "dnf upgrade openssl-libs",
+      "coverage_note": null,
+      "group_id": "group-44018bf313092603",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "openssl",
+      "targets": [
+        {
+          "architecture": "x86_64",
+          "installed_version": "1:1.1.1k-9.el8_7",
+          "kind": "binary",
+          "name": "openssl-libs",
+          "target_version": "1:1.1.1k-12.el8_9"
+        }
+      ]
+    }
+  ],
+  "rule_coverage": {
+    "asset_release": "almalinux/8",
+    "loaded_releases": [
+      "almalinux/8"
+    ],
+    "rules_for_asset": 5,
+    "sources": [
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "osv-distro/1.0.0",
+        "release": "almalinux/8",
+        "sha256": "927743bc3f0d2699d6cbebaa6f4560396be0390c25c2dbcaeaf1d9c0f5d84e72",
+        "source": "osv-almalinux",
+        "url": "https://osv-vulnerabilities.storage.googleapis.com/AlmaLinux/all.zip"
+      }
+    ],
+    "state": "covered"
+  },
+  "stderr": "",
+  "support_reason": null
+}

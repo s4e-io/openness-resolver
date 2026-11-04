@@ -1,0 +1,125 @@
+name: nightly
+
+# The resolver against the real publishers, with no secrets and no OpenNess or
+# S4E service: for one evidence fixture per supported family, `feed sync --for`
+# then `resolve`, asserting exit code 0, rule_coverage.state == covered and
+# rules loaded for the fixture's release (cmd/openness-resolver/network_test.go).
+# `feed validate` downloads and parses every enabled source, so a publisher
+# format change shows up the next morning. Each job writes a per-source table
+# (rules, download size, time) to its step summary.
+#
+# A failed scheduled run opens (or comments on) an issue labelled "nightly";
+# the next passing scheduled run closes it.
+#
+# pull_request runs only for a change to this file, so the PR that changes it
+# runs it once; workflow_dispatch works from the default branch.
+
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - .github/workflows/nightly.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nightly-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    name: sync ${{ matrix.fixture }} (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        fixture:
+          - ubuntu-22.04-jammy
+          - ubuntu-24.04-noble
+          - debian-12-bookworm
+          - rocky-9
+          - amazon-linux-2023
+          - alpine-3.20
+          - opensuse-leap-15.6
+          - windows-server-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Build
+        run: go build ./cmd/openness-resolver
+
+      - name: feed sync --for, resolve, assert
+        shell: bash
+        env:
+          OPENNESS_NIGHTLY: "1"
+        run: go test ./cmd/openness-resolver -run "TestNightlySync/^${{ matrix.fixture }}\$" -v -count=1 -timeout 25m
+
+  validate:
+    name: feed validate (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: feed validate (every enabled source)
+        shell: bash
+        env:
+          OPENNESS_NIGHTLY: "1"
+        run: go test ./cmd/openness-resolver -run "TestNightlyFeedValidate" -v -count=1 -timeout 25m
+
+  report:
+    name: report
+    needs: [sync, validate]
+    if: always() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    steps:
+      - name: Open, update or close the nightly issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RESULT_SYNC: ${{ needs.sync.result }}
+          RESULT_VALIDATE: ${{ needs.validate.result }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          today="$(date -u +%Y-%m-%d)"
+          open="$(gh issue list --label nightly --state open --json number --jq '.[0].number // empty')"
+          if [[ "$RESULT_SYNC" == "success" && "$RESULT_VALIDATE" == "success" ]]; then
+            if [[ -n "$open" ]]; then
+              gh issue close "$open" --comment "nightly ${today} passed: ${RUN_URL}"
+            fi
+            exit 0
+          fi
+          body="nightly ${today} failed (sync: ${RESULT_SYNC}, feed validate: ${RESULT_VALIDATE}). Run: ${RUN_URL}"
+          if [[ -n "$open" ]]; then
+            gh issue comment "$open" --body "$body"
+          else
+            gh label create nightly --color B60205 --description "nightly network run" 2>/dev/null || true
+            gh issue create --title "nightly: ${today} failed" --label nightly --body "$body"
+          fi

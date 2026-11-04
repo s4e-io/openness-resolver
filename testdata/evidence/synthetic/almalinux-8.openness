@@ -1,0 +1,162 @@
+{
+ "schema_version": "1.5.0",
+ "collector": {
+  "name": "openness-collector",
+  "version": "synthetic"
+ },
+ "collection": {
+  "collection_id": "synthetic-alma8",
+  "status": "complete",
+  "privilege_level": "root"
+ },
+ "asset": {
+  "asset_id": "asset-alma8",
+  "hostname": "alma8",
+  "platform": "linux",
+  "architecture": "x86_64"
+ },
+ "operating_system": {
+  "distribution_id": "almalinux",
+  "distribution_name": "AlmaLinux",
+  "distribution_version": "8.9 (Midnight Oncilla)",
+  "version_id": "8.9",
+  "version_codename": "",
+  "pretty_name": "AlmaLinux 8.9 (Midnight Oncilla)",
+  "architecture": "x86_64",
+  "kernel_version": "4.18.0-513.5.1.el8_9.x86_64"
+ },
+ "kernel": {
+  "running_kernel": "4.18.0-513.5.1.el8_9.x86_64",
+  "reboot_required": false
+ },
+ "packages": [
+  {
+   "evidence_id": "ev-packages-0",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:openssl-libs:x86_64:1:1.1.1k-9.el8_7",
+    "entity_type": "package",
+    "name": "openssl-libs",
+    "epoch": "1",
+    "version": "1.1.1k",
+    "release": "9.el8_7",
+    "raw_version_string": "1:1.1.1k-9.el8_7",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "openssl",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:openssl",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-1",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:nodejs:x86_64:1:20.11.1-1.module_el8.9.0+3775+d8460d29",
+    "entity_type": "package",
+    "name": "nodejs",
+    "epoch": "1",
+    "version": "20.11.1",
+    "release": "1.module_el8.9.0+3775+d8460d29",
+    "raw_version_string": "1:20.11.1-1.module_el8.9.0+3775+d8460d29",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "nodejs",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:nodejs",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-2",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:python3-libs:x86_64:3.6.8-58.el8_9",
+    "entity_type": "package",
+    "name": "python3-libs",
+    "epoch": null,
+    "version": "3.6.8",
+    "release": "58.el8_9",
+    "raw_version_string": "3.6.8-58.el8_9",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "python3",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:python3",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-3",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:bzip2-libs:x86_64:1.0.6-26.el8",
+    "entity_type": "package",
+    "name": "bzip2-libs",
+    "epoch": null,
+    "version": "1.0.6",
+    "release": "26.el8",
+    "raw_version_string": "1.0.6-26.el8",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "bzip2",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:bzip2",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  }
+ ]
+}

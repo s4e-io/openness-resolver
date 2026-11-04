@@ -1,0 +1,37 @@
+{
+ "schema_version": "1.7.3",
+ "id": "ALSA-2024:1002",
+ "published": "2024-06-01T00:00:00Z",
+ "modified": "2024-06-01T00:00:00Z",
+ "upstream": [
+  "CVE-2023-40217"
+ ],
+ "summary": "Moderate: python3 security update",
+ "affected": [
+  {
+   "package": {
+    "name": "python3-libs",
+    "ecosystem": "AlmaLinux:8"
+   },
+   "ranges": [
+    {
+     "type": "ECOSYSTEM",
+     "events": [
+      {
+       "introduced": "0"
+      },
+      {
+       "fixed": "3.6.8-56.el8_9.3"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "references": [
+  {
+   "type": "ADVISORY",
+   "url": "https://example.invalid/ALSA-2024:1002"
+  }
+ ]
+}

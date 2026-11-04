@@ -1,0 +1,636 @@
+{
+  "exit_code": 0,
+  "findings": [
+    {
+      "architecture": "x86_64",
+      "asset_id": "asset-alpine320",
+      "binary_package": "busybox",
+      "confidence": "high",
+      "cve_id": "CVE-2022-30065",
+      "detection_method": "alpine_branch_package_fixed_version",
+      "distribution": "alpine",
+      "evidence_ids": [
+        "ev-packages-2"
+      ],
+      "finding_id": "finding-3af83e16db42cac4",
+      "finding_type": "cve",
+      "installed_version": "1.36.1-r28",
+      "reasons": [
+        "vendor status: not_affected"
+      ],
+      "release": "v3.20",
+      "rule": {
+        "comparator": "apk",
+        "raw_status": "0",
+        "release": "v3.20",
+        "rule_id": "alpine:v3.20:main:CVE-2022-30065:busybox:0",
+        "source": "alpine",
+        "source_snapshot": "local:main.json",
+        "source_url": "https://secdb.alpinelinux.org/v3.20/main.json",
+        "vendor_status": "not_affected"
+      },
+      "rule_ids": [
+        "alpine:v3.20:main:CVE-2022-30065:busybox:0"
+      ],
+      "scope": "host",
+      "source_package": "busybox",
+      "source_package_confidence": "direct",
+      "state": "not_applicable",
+      "vendor_status": "not_affected"
+    },
+    {
+      "architecture": "x86_64",
+      "asset_id": "asset-alpine320",
+      "binary_package": "busybox",
+      "comparison": {
+        "comparator": "apk",
+        "expression": "installed < fixed",
+        "fixed": "1.36.1-r29",
+        "installed": "1.36.1-r28",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2023-42363",
+      "detection_method": "alpine_branch_package_fixed_version",
+      "distribution": "alpine",
+      "evidence_ids": [
+        "ev-packages-2"
+      ],
+      "finding_id": "finding-bec026dab76f2b22",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "1.36.1-r29",
+      "installed_version": "1.36.1-r28",
+      "reasons": [
+        "installed 1.36.1-r28 < fixed 1.36.1-r29 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "v3.20",
+      "rule": {
+        "comparator": "apk",
+        "fixed_version": "1.36.1-r29",
+        "raw_status": "1.36.1-r29",
+        "release": "v3.20",
+        "rule_id": "alpine:v3.20:main:CVE-2023-42363:busybox:1.36.1-r29",
+        "source": "alpine",
+        "source_snapshot": "local:main.json",
+        "source_url": "https://secdb.alpinelinux.org/v3.20/main.json",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "alpine:v3.20:main:CVE-2023-42363:busybox:1.36.1-r29"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "busybox",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "x86_64",
+      "asset_id": "asset-alpine320",
+      "binary_package": "busybox",
+      "comparison": {
+        "comparator": "apk",
+        "expression": "installed < fixed",
+        "fixed": "1.36.1-r29",
+        "installed": "1.36.1-r28",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2023-42364",
+      "detection_method": "alpine_branch_package_fixed_version",
+      "distribution": "alpine",
+      "evidence_ids": [
+        "ev-packages-2"
+      ],
+      "finding_id": "finding-3082934e6066d022",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "1.36.1-r29",
+      "installed_version": "1.36.1-r28",
+      "reasons": [
+        "installed 1.36.1-r28 < fixed 1.36.1-r29 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "v3.20",
+      "rule": {
+        "comparator": "apk",
+        "fixed_version": "1.36.1-r29",
+        "raw_status": "1.36.1-r29",
+        "release": "v3.20",
+        "rule_id": "alpine:v3.20:main:CVE-2023-42364:busybox:1.36.1-r29",
+        "source": "alpine",
+        "source_snapshot": "local:main.json",
+        "source_url": "https://secdb.alpinelinux.org/v3.20/main.json",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "alpine:v3.20:main:CVE-2023-42364:busybox:1.36.1-r29"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "busybox",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "x86_64",
+      "asset_id": "asset-alpine320",
+      "binary_package": "libcrypto3",
+      "confidence": "high",
+      "cve_id": "CVE-2022-1343",
+      "detection_method": "alpine_branch_package_fixed_version",
+      "distribution": "alpine",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-c35d6e63f4a35535",
+      "finding_type": "cve",
+      "installed_version": "3.3.0-r0",
+      "reasons": [
+        "vendor status: not_affected"
+      ],
+      "release": "v3.20",
+      "rule": {
+        "comparator": "apk",
+        "raw_status": "0",
+        "release": "v3.20",
+        "rule_id": "alpine:v3.20:main:CVE-2022-1343:openssl:0",
+        "source": "alpine",
+        "source_snapshot": "local:main.json",
+        "source_url": "https://secdb.alpinelinux.org/v3.20/main.json",
+        "vendor_status": "not_affected"
+      },
+      "rule_ids": [
+        "alpine:v3.20:main:CVE-2022-1343:openssl:0"
+      ],
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "not_applicable",
+      "vendor_status": "not_affected"
+    },
+    {
+      "architecture": "x86_64",
+      "asset_id": "asset-alpine320",
+      "binary_package": "libcrypto3",
+      "comparison": {
+        "comparator": "apk",
+        "expression": "installed < fixed",
+        "fixed": "3.3.0-r2",
+        "installed": "3.3.0-r0",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-4603",
+      "detection_method": "alpine_branch_package_fixed_version",
+      "distribution": "alpine",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-fdc924e83633ffc4",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "3.3.0-r2",
+      "installed_version": "3.3.0-r0",
+      "reasons": [
+        "installed 3.3.0-r0 < fixed 3.3.0-r2 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "v3.20",
+      "rule": {
+        "comparator": "apk",
+        "fixed_version": "3.3.0-r2",
+        "raw_status": "3.3.0-r2",
+        "release": "v3.20",
+        "rule_id": "alpine:v3.20:main:CVE-2024-4603:openssl:3.3.0-r2",
+        "source": "alpine",
+        "source_snapshot": "local:main.json",
+        "source_url": "https://secdb.alpinelinux.org/v3.20/main.json",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "alpine:v3.20:main:CVE-2024-4603:openssl:3.3.0-r2"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "x86_64",
+      "asset_id": "asset-alpine320",
+      "binary_package": "libcrypto3",
+      "comparison": {
+        "comparator": "apk",
+        "expression": "installed < fixed",
+        "fixed": "3.3.1-r1",
+        "installed": "3.3.0-r0",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-5535",
+      "detection_method": "alpine_branch_package_fixed_version",
+      "distribution": "alpine",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-c55ce8a0c2c88fc8",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "3.3.1-r1",
+      "installed_version": "3.3.0-r0",
+      "reasons": [
+        "installed 3.3.0-r0 < fixed 3.3.1-r1 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "v3.20",
+      "rule": {
+        "comparator": "apk",
+        "fixed_version": "3.3.1-r1",
+        "raw_status": "3.3.1-r1",
+        "release": "v3.20",
+        "rule_id": "alpine:v3.20:main:CVE-2024-5535:openssl:3.3.1-r1",
+        "source": "alpine",
+        "source_snapshot": "local:main.json",
+        "source_url": "https://secdb.alpinelinux.org/v3.20/main.json",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "alpine:v3.20:main:CVE-2024-5535:openssl:3.3.1-r1"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "x86_64",
+      "asset_id": "asset-alpine320",
+      "binary_package": "libssl3",
+      "confidence": "high",
+      "cve_id": "CVE-2022-1343",
+      "detection_method": "alpine_branch_package_fixed_version",
+      "distribution": "alpine",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-8f13fe32f7fe17b5",
+      "finding_type": "cve",
+      "installed_version": "3.3.0-r0",
+      "reasons": [
+        "vendor status: not_affected"
+      ],
+      "release": "v3.20",
+      "rule": {
+        "comparator": "apk",
+        "raw_status": "0",
+        "release": "v3.20",
+        "rule_id": "alpine:v3.20:main:CVE-2022-1343:openssl:0",
+        "source": "alpine",
+        "source_snapshot": "local:main.json",
+        "source_url": "https://secdb.alpinelinux.org/v3.20/main.json",
+        "vendor_status": "not_affected"
+      },
+      "rule_ids": [
+        "alpine:v3.20:main:CVE-2022-1343:openssl:0"
+      ],
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "not_applicable",
+      "vendor_status": "not_affected"
+    },
+    {
+      "architecture": "x86_64",
+      "asset_id": "asset-alpine320",
+      "binary_package": "libssl3",
+      "comparison": {
+        "comparator": "apk",
+        "expression": "installed < fixed",
+        "fixed": "3.3.0-r2",
+        "installed": "3.3.0-r0",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-4603",
+      "detection_method": "alpine_branch_package_fixed_version",
+      "distribution": "alpine",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-7ee8c620d4528e98",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "3.3.0-r2",
+      "installed_version": "3.3.0-r0",
+      "reasons": [
+        "installed 3.3.0-r0 < fixed 3.3.0-r2 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "v3.20",
+      "rule": {
+        "comparator": "apk",
+        "fixed_version": "3.3.0-r2",
+        "raw_status": "3.3.0-r2",
+        "release": "v3.20",
+        "rule_id": "alpine:v3.20:main:CVE-2024-4603:openssl:3.3.0-r2",
+        "source": "alpine",
+        "source_snapshot": "local:main.json",
+        "source_url": "https://secdb.alpinelinux.org/v3.20/main.json",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "alpine:v3.20:main:CVE-2024-4603:openssl:3.3.0-r2"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "x86_64",
+      "asset_id": "asset-alpine320",
+      "binary_package": "libssl3",
+      "comparison": {
+        "comparator": "apk",
+        "expression": "installed < fixed",
+        "fixed": "3.3.1-r1",
+        "installed": "3.3.0-r0",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-5535",
+      "detection_method": "alpine_branch_package_fixed_version",
+      "distribution": "alpine",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-9cafbf4eda09e4c3",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "3.3.1-r1",
+      "installed_version": "3.3.0-r0",
+      "reasons": [
+        "installed 3.3.0-r0 < fixed 3.3.1-r1 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "v3.20",
+      "rule": {
+        "comparator": "apk",
+        "fixed_version": "3.3.1-r1",
+        "raw_status": "3.3.1-r1",
+        "release": "v3.20",
+        "rule_id": "alpine:v3.20:main:CVE-2024-5535:openssl:3.3.1-r1",
+        "source": "alpine",
+        "source_snapshot": "local:main.json",
+        "source_url": "https://secdb.alpinelinux.org/v3.20/main.json",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "alpine:v3.20:main:CVE-2024-5535:openssl:3.3.1-r1"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "x86_64",
+      "asset_id": "asset-alpine320",
+      "binary_package": "musl",
+      "comparison": {
+        "comparator": "apk",
+        "expression": "installed < fixed",
+        "fixed": "1.2.5-r1",
+        "installed": "1.2.5-r0",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2025-26519",
+      "detection_method": "alpine_branch_package_fixed_version",
+      "distribution": "alpine",
+      "evidence_ids": [
+        "ev-packages-3"
+      ],
+      "finding_id": "finding-afde7416bb697bda",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "1.2.5-r1",
+      "installed_version": "1.2.5-r0",
+      "reasons": [
+        "installed 1.2.5-r0 < fixed 1.2.5-r1 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "v3.20",
+      "rule": {
+        "comparator": "apk",
+        "fixed_version": "1.2.5-r1",
+        "raw_status": "1.2.5-r1",
+        "release": "v3.20",
+        "rule_id": "alpine:v3.20:community:CVE-2025-26519:musl:1.2.5-r1",
+        "source": "alpine",
+        "source_snapshot": "local:community.json",
+        "source_url": "https://secdb.alpinelinux.org/v3.20/community.json",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "alpine:v3.20:community:CVE-2025-26519:musl:1.2.5-r1"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "musl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "x86_64",
+      "asset_id": "asset-alpine320",
+      "binary_package": "zlib",
+      "comparison": {
+        "comparator": "apk",
+        "expression": "installed < fixed",
+        "fixed": "1.2.12-r2",
+        "installed": "1.3.1-r1",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2022-37434",
+      "detection_method": "alpine_branch_package_fixed_version",
+      "distribution": "alpine",
+      "evidence_ids": [
+        "ev-packages-4"
+      ],
+      "finding_id": "finding-c441865415e0038c",
+      "finding_type": "cve",
+      "fixed_version": "1.2.12-r2",
+      "installed_version": "1.3.1-r1",
+      "reasons": [
+        "installed 1.3.1-r1 >= fixed 1.2.12-r2"
+      ],
+      "release": "v3.20",
+      "rule": {
+        "comparator": "apk",
+        "fixed_version": "1.2.12-r2",
+        "raw_status": "1.2.12-r2",
+        "release": "v3.20",
+        "rule_id": "alpine:v3.20:main:CVE-2022-37434:zlib:1.2.12-r2",
+        "source": "alpine",
+        "source_snapshot": "local:main.json",
+        "source_url": "https://secdb.alpinelinux.org/v3.20/main.json",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "alpine:v3.20:main:CVE-2022-37434:zlib:1.2.12-r2"
+      ],
+      "scope": "host",
+      "source_package": "zlib",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "vendor_status": "released"
+    }
+  ],
+  "notes": [],
+  "platform_support": "supported",
+  "platform_tested": true,
+  "remediation_groups": [
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [],
+      "availability": "unknown",
+      "closes": {
+        "count": 4,
+        "cve_ids": [
+          "CVE-2024-4603",
+          "CVE-2024-5535"
+        ],
+        "finding_ids": [
+          "finding-7ee8c620d4528e98",
+          "finding-9cafbf4eda09e4c3",
+          "finding-c55ce8a0c2c88fc8",
+          "finding-fdc924e83633ffc4"
+        ]
+      },
+      "command_hint": "apk upgrade libcrypto3 libssl3",
+      "coverage_note": null,
+      "group_id": "group-ee55e86749b26b00",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "openssl",
+      "targets": [
+        {
+          "architecture": "x86_64",
+          "installed_version": "3.3.0-r0",
+          "kind": "binary",
+          "name": "libcrypto3",
+          "target_version": "3.3.1-r1"
+        },
+        {
+          "architecture": "x86_64",
+          "installed_version": "3.3.0-r0",
+          "kind": "binary",
+          "name": "libssl3",
+          "target_version": "3.3.1-r1"
+        }
+      ]
+    },
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [],
+      "availability": "unknown",
+      "closes": {
+        "count": 2,
+        "cve_ids": [
+          "CVE-2023-42363",
+          "CVE-2023-42364"
+        ],
+        "finding_ids": [
+          "finding-3082934e6066d022",
+          "finding-bec026dab76f2b22"
+        ]
+      },
+      "command_hint": "apk upgrade busybox",
+      "coverage_note": null,
+      "group_id": "group-7df2702dbfcfe3bf",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "busybox",
+      "targets": [
+        {
+          "architecture": "x86_64",
+          "installed_version": "1.36.1-r28",
+          "kind": "binary",
+          "name": "busybox",
+          "target_version": "1.36.1-r29"
+        }
+      ]
+    },
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [],
+      "availability": "unknown",
+      "closes": {
+        "count": 1,
+        "cve_ids": [
+          "CVE-2025-26519"
+        ],
+        "finding_ids": [
+          "finding-afde7416bb697bda"
+        ]
+      },
+      "command_hint": "apk upgrade musl",
+      "coverage_note": null,
+      "group_id": "group-582fc98ce3492201",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "musl",
+      "targets": [
+        {
+          "architecture": "x86_64",
+          "installed_version": "1.2.5-r0",
+          "kind": "binary",
+          "name": "musl",
+          "target_version": "1.2.5-r1"
+        }
+      ]
+    }
+  ],
+  "rule_coverage": {
+    "asset_release": "alpine/v3.20",
+    "loaded_releases": [
+      "alpine/v3.20"
+    ],
+    "rules_for_asset": 8,
+    "sources": [
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "alpine-secdb/1.0.0",
+        "release": "alpine/v3.20",
+        "sha256": "b08be42d96420acf8b25fbf23abc89445ff6c96add7bcb052e196b1092b533a1",
+        "source": "alpine-secdb-v3.20-community",
+        "url": "https://secdb.alpinelinux.org/v3.20/community.json"
+      }
+    ],
+    "state": "covered"
+  },
+  "stderr": "",
+  "support_reason": null
+}

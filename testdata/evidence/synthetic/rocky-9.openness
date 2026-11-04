@@ -1,0 +1,290 @@
+{
+ "schema_version": "1.5.0",
+ "collector": {
+  "name": "openness-collector",
+  "version": "synthetic"
+ },
+ "collection": {
+  "collection_id": "synthetic-rocky9",
+  "status": "complete",
+  "privilege_level": "root"
+ },
+ "asset": {
+  "asset_id": "asset-rocky9",
+  "hostname": "rocky9",
+  "platform": "linux",
+  "architecture": "x86_64"
+ },
+ "operating_system": {
+  "distribution_id": "rocky",
+  "distribution_name": "Rocky Linux",
+  "distribution_version": "9.4 (Blue Onyx)",
+  "version_id": "9.4",
+  "version_codename": "",
+  "pretty_name": "Rocky Linux 9.4 (Blue Onyx)",
+  "architecture": "x86_64",
+  "kernel_version": "5.14.0-427.13.1.el9_4.x86_64"
+ },
+ "kernel": {
+  "running_kernel": "5.14.0-427.13.1.el9_4.x86_64",
+  "reboot_required": false
+ },
+ "packages": [
+  {
+   "evidence_id": "ev-packages-0",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:openssl-libs:x86_64:1:3.0.7-24.el9",
+    "entity_type": "package",
+    "name": "openssl-libs",
+    "epoch": "1",
+    "version": "3.0.7",
+    "release": "24.el9",
+    "raw_version_string": "1:3.0.7-24.el9",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "openssl",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:openssl",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-1",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:openssl:x86_64:1:3.0.7-24.el9",
+    "entity_type": "package",
+    "name": "openssl",
+    "epoch": "1",
+    "version": "3.0.7",
+    "release": "24.el9",
+    "raw_version_string": "1:3.0.7-24.el9",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "openssl",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:openssl",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-2",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:bind-libs:x86_64:32:9.16.23-15.el9",
+    "entity_type": "package",
+    "name": "bind-libs",
+    "epoch": "32",
+    "version": "9.16.23",
+    "release": "15.el9",
+    "raw_version_string": "32:9.16.23-15.el9",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "bind",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:bind",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-3",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:tar:x86_64:2:1.34-6.el9_1",
+    "entity_type": "package",
+    "name": "tar",
+    "epoch": "2",
+    "version": "1.34",
+    "release": "6.el9_1",
+    "raw_version_string": "2:1.34-6.el9_1",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "tar",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:tar",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-4",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:demo:x86_64:1.0~rc1-1.el9",
+    "entity_type": "package",
+    "name": "demo",
+    "epoch": null,
+    "version": "1.0~rc1",
+    "release": "1.el9",
+    "raw_version_string": "1.0~rc1-1.el9",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "demo",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:demo",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-5",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:kernel-core:x86_64:5.14.0-427.13.1.el9_4",
+    "entity_type": "package",
+    "name": "kernel-core",
+    "epoch": null,
+    "version": "5.14.0",
+    "release": "427.13.1.el9_4",
+    "raw_version_string": "5.14.0-427.13.1.el9_4",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "kernel",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:kernel",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-6",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:kernel-core:x86_64:5.14.0-362.8.1.el9_3",
+    "entity_type": "package",
+    "name": "kernel-core",
+    "epoch": null,
+    "version": "5.14.0",
+    "release": "362.8.1.el9_3",
+    "raw_version_string": "5.14.0-362.8.1.el9_3",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "kernel",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:kernel",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-7",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:glibc:x86_64:2.34-100.el9_4.2",
+    "entity_type": "package",
+    "name": "glibc",
+    "epoch": null,
+    "version": "2.34",
+    "release": "100.el9_4.2",
+    "raw_version_string": "2.34-100.el9_4.2",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "glibc",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:glibc",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  }
+ ]
+}

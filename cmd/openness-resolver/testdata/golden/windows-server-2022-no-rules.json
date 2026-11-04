@@ -1,0 +1,26 @@
+{
+  "exit_code": 1,
+  "findings": [],
+  "notes": [
+    "no MSRC rules for windows_server_2022 on build 20348.1000"
+  ],
+  "platform_support": "supported",
+  "platform_tested": true,
+  "remediation_groups": [],
+  "rule_coverage": {
+    "asset_release": "windows/windows_server_2022",
+    "gaps": [
+      {
+        "kind": "missing_rules",
+        "release": "windows/windows_server_2022"
+      }
+    ],
+    "loaded_releases": null,
+    "reason": "finding counts are not an all-clear: no rules loaded for windows/windows_server_2022",
+    "rules_for_asset": 0,
+    "sources": [],
+    "state": "missing"
+  },
+  "stderr": "warning: rule store is empty; run `openness-resolver feed sync --for <evidence.openness>` first\nerror: finding counts are not an all-clear: no rules loaded for windows/windows_server_2022 (run `openness-resolver feed sync --for <evidence>`)\n",
+  "support_reason": null
+}

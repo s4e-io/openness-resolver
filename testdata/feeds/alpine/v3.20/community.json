@@ -1,0 +1,10 @@
+{
+  "distroversion": "v3.20",
+  "reponame": "community",
+  "urlprefix": "https://dl-cdn.alpinelinux.org/alpine",
+  "packages": [
+    {"pkg": {"name": "musl", "secfixes": {
+      "1.2.5-r1": ["CVE-2025-26519"]
+    }}}
+  ]
+}

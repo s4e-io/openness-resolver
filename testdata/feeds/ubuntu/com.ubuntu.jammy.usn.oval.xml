@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oval_definitions xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5" xmlns:linux-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+  <definitions>
+    <definition id="oval:com.ubuntu.jammy:def:100" class="inventory" version="1">
+      <metadata><title>Check that Ubuntu 22.04 LTS (jammy) is installed.</title></metadata>
+    </definition>
+    <definition id="oval:com.ubuntu.jammy:def:685910000000" class="patch" version="1">
+      <metadata>
+        <title>USN-6859-1 -- OpenSSH vulnerability</title>
+        <reference source="USN" ref_id="USN-6859-1" ref_url="https://ubuntu.com/security/notices/USN-6859-1" />
+        <reference source="CVE" ref_id="CVE-2024-6387" ref_url="https://www.cve.org/CVERecord?id=CVE-2024-6387" />
+        <description>regreSSHion</description>
+        <advisory from="security@ubuntu.com">
+          <severity>High</severity>
+          <issued date="2024-07-01T10:00:00Z" />
+          <cve href="https://ubuntu.com/security/CVE-2024-6387" priority="high" usns="6859-1">CVE-2024-6387</cve>
+        </advisory>
+      </metadata>
+      <criteria>
+        <extend_definition applicability_check="true" definition_ref="oval:com.ubuntu.jammy:def:100" comment="Ubuntu 22.04 LTS (jammy) is installed" />
+        <criterion test_ref="oval:com.ubuntu.jammy:tst:685910000000" comment="openssh source package in jammy, is affected and has been fixed (note: '1:8.9p1-3ubuntu0.10')." />
+      </criteria>
+    </definition>
+    <definition id="oval:com.ubuntu.jammy:def:700000000000" class="patch" version="1">
+      <metadata>
+        <title>USN-7000-1 -- ESM thing</title>
+        <reference source="USN" ref_id="USN-7000-1" ref_url="https://ubuntu.com/security/notices/USN-7000-1" />
+        <advisory from="security@ubuntu.com">
+          <severity>Medium</severity>
+          <cve href="https://ubuntu.com/security/CVE-2022-31160" priority="medium">CVE-2022-31160</cve>
+        </advisory>
+      </metadata>
+      <criteria>
+        <criterion test_ref="oval:com.ubuntu.jammy:tst:700000000000" comment="jqueryui source package in esm-apps/jammy, is affected and has been fixed (note: '1.13.1+dfsg-1ubuntu0.1~esm1')." />
+        <criterion test_ref="oval:com.ubuntu.jammy:tst:999" comment="'linux-azure' kernel in jammy was vulnerable but has been fixed (note: '5.15.0-1111.120')." />
+        <criterion test_ref="oval:com.ubuntu.jammy:tst:998" comment="something entirely unexpected" />
+      </criteria>
+    </definition>
+    <definition id="oval:com.ubuntu.jammy:def:672300000000" class="patch" version="1">
+      <metadata>
+        <title>USN-6723-1 -- OpenSSL vulnerabilities</title>
+        <reference source="USN" ref_id="USN-6723-1" ref_url="https://ubuntu.com/security/notices/USN-6723-1" />
+        <reference source="CVE" ref_id="CVE-2024-0727" ref_url="https://www.cve.org/CVERecord?id=CVE-2024-0727" />
+        <advisory from="security@ubuntu.com">
+          <severity>Low</severity>
+          <issued date="2024-04-01T10:00:00Z" />
+          <cve href="https://ubuntu.com/security/CVE-2024-0727" priority="low" usns="6723-1">CVE-2024-0727</cve>
+        </advisory>
+      </metadata>
+      <criteria>
+        <extend_definition applicability_check="true" definition_ref="oval:com.ubuntu.jammy:def:100" comment="Ubuntu 22.04 LTS (jammy) is installed" />
+        <criterion test_ref="oval:com.ubuntu.jammy:tst:672300000000" comment="openssl source package in jammy, is affected and has been fixed (note: '3.0.2-0ubuntu1.15')." />
+      </criteria>
+    </definition>
+  </definitions>
+  <tests>
+    <linux-def:dpkginfo_test id="oval:com.ubuntu.jammy:tst:685910000000" version="1" check="at least one" comment="Does the 'openssh' package exist?">
+      <linux-def:object object_ref="oval:com.ubuntu.jammy:obj:685910000000" />
+      <linux-def:state state_ref="oval:com.ubuntu.jammy:ste:685910000000" />
+    </linux-def:dpkginfo_test>
+    <linux-def:dpkginfo_test id="oval:com.ubuntu.jammy:tst:700000000000" version="1" check="at least one" comment="Does the 'jqueryui' package exist?">
+      <linux-def:object object_ref="oval:com.ubuntu.jammy:obj:700000000000" />
+      <linux-def:state state_ref="oval:com.ubuntu.jammy:ste:700000000000" />
+    </linux-def:dpkginfo_test>
+    <linux-def:dpkginfo_test id="oval:com.ubuntu.jammy:tst:672300000000" version="1" check="at least one" comment="Does the 'openssl' package exist?">
+      <linux-def:object object_ref="oval:com.ubuntu.jammy:obj:672300000000" />
+      <linux-def:state state_ref="oval:com.ubuntu.jammy:ste:672300000000" />
+    </linux-def:dpkginfo_test>
+  </tests>
+  <objects>
+    <linux-def:dpkginfo_object id="oval:com.ubuntu.jammy:obj:685910000000" version="1" comment="The 'openssh' package binaries">
+      <linux-def:name var_ref="oval:com.ubuntu.jammy:var:685910000000" var_check="at least one" />
+    </linux-def:dpkginfo_object>
+    <linux-def:dpkginfo_object id="oval:com.ubuntu.jammy:obj:700000000000" version="1" comment="The 'jqueryui' package binaries">
+      <linux-def:name var_ref="oval:com.ubuntu.jammy:var:700000000000" var_check="at least one" />
+    </linux-def:dpkginfo_object>
+    <linux-def:dpkginfo_object id="oval:com.ubuntu.jammy:obj:672300000000" version="1" comment="The 'openssl' package binaries">
+      <linux-def:name var_ref="oval:com.ubuntu.jammy:var:672300000000" var_check="at least one" />
+    </linux-def:dpkginfo_object>
+  </objects>
+  <states>
+    <linux-def:dpkginfo_state id="oval:com.ubuntu.jammy:ste:685910000000" version="1" comment="less than">
+      <linux-def:evr datatype="debian_evr_string" operation="less than">1:8.9p1-3ubuntu0.10</linux-def:evr>
+    </linux-def:dpkginfo_state>
+    <linux-def:dpkginfo_state id="oval:com.ubuntu.jammy:ste:700000000000" version="1" comment="less than">
+      <linux-def:evr datatype="debian_evr_string" operation="less than">1.13.1+dfsg-1ubuntu0.1~esm1</linux-def:evr>
+    </linux-def:dpkginfo_state>
+    <linux-def:dpkginfo_state id="oval:com.ubuntu.jammy:ste:672300000000" version="1" comment="less than">
+      <linux-def:evr datatype="debian_evr_string" operation="less than">0:3.0.2-0ubuntu1.15</linux-def:evr>
+    </linux-def:dpkginfo_state>
+  </states>
+  <variables>
+    <constant_variable id="oval:com.ubuntu.jammy:var:685910000000" version="1" datatype="string" comment="binaries">
+      <value>openssh-client</value>
+      <value>openssh-server</value>
+    </constant_variable>
+    <constant_variable id="oval:com.ubuntu.jammy:var:700000000000" version="1" datatype="string" comment="binaries">
+      <value>libjs-jquery-ui</value>
+    </constant_variable>
+    <constant_variable id="oval:com.ubuntu.jammy:var:672300000000" version="1" datatype="string" comment="binaries">
+      <value>libssl-dev</value>
+      <value>libssl3</value>
+      <value>openssl</value>
+    </constant_variable>
+  </variables>
+</oval_definitions>

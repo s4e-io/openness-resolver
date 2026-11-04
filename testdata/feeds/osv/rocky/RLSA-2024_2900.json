@@ -1,0 +1,37 @@
+{
+ "schema_version": "1.7.3",
+ "id": "RLSA-2024:2900",
+ "published": "2024-06-01T00:00:00Z",
+ "modified": "2024-06-01T00:00:00Z",
+ "upstream": [
+  "CVE-2024-1086"
+ ],
+ "summary": "Important: kernel security update",
+ "affected": [
+  {
+   "package": {
+    "name": "kernel",
+    "ecosystem": "Rocky Linux:9"
+   },
+   "ranges": [
+    {
+     "type": "ECOSYSTEM",
+     "events": [
+      {
+       "introduced": "0"
+      },
+      {
+       "fixed": "0:5.14.0-427.13.1.el9_4"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "references": [
+  {
+   "type": "ADVISORY",
+   "url": "https://example.invalid/RLSA-2024:2900"
+  }
+ ]
+}

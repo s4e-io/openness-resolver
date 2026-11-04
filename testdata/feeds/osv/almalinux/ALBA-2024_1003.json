@@ -1,0 +1,35 @@
+{
+ "schema_version": "1.7.3",
+ "id": "ALBA-2024:1003",
+ "published": "2024-06-01T00:00:00Z",
+ "modified": "2024-06-01T00:00:00Z",
+ "upstream": [],
+ "summary": "bzip2 bug fix update",
+ "affected": [
+  {
+   "package": {
+    "name": "bzip2-libs",
+    "ecosystem": "AlmaLinux:8"
+   },
+   "ranges": [
+    {
+     "type": "ECOSYSTEM",
+     "events": [
+      {
+       "introduced": "0"
+      },
+      {
+       "fixed": "1.0.6-27.el8_9"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "references": [
+  {
+   "type": "ADVISORY",
+   "url": "https://example.invalid/ALBA-2024:1003"
+  }
+ ]
+}

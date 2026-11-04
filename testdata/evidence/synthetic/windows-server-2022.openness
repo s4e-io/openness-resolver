@@ -1,0 +1,31 @@
+{
+ "schema_version": "1.5.0",
+ "collector": {
+  "name": "openness-collector",
+  "version": "synthetic"
+ },
+ "collection": {
+  "collection_id": "synthetic-win2022",
+  "status": "complete",
+  "privilege_level": "admin"
+ },
+ "asset": {
+  "asset_id": "asset-win2022",
+  "hostname": "WIN2022",
+  "platform": "windows",
+  "architecture": "amd64"
+ },
+ "operating_system": {
+  "distribution_id": "windows",
+  "distribution_name": "Windows",
+  "product_name": "Microsoft Windows Server 2022 Datacenter",
+  "display_version": "21H2",
+  "version_id": "21H2",
+  "build_number": "20348",
+  "ubr": "1000",
+  "os_build": "20348.1000",
+  "product_type": 3,
+  "installation_type": "Server",
+  "architecture": "amd64"
+ }
+}

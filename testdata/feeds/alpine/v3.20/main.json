@@ -1,0 +1,19 @@
+{
+  "distroversion": "v3.20",
+  "reponame": "main",
+  "urlprefix": "https://dl-cdn.alpinelinux.org/alpine",
+  "packages": [
+    {"pkg": {"name": "openssl", "secfixes": {
+      "3.3.0-r2": ["CVE-2024-4603"],
+      "3.3.1-r1": ["CVE-2024-5535"],
+      "0": ["CVE-2022-1343"]
+    }}},
+    {"pkg": {"name": "busybox", "secfixes": {
+      "1.36.1-r29": ["CVE-2023-42363", "CVE-2023-42364"],
+      "0": ["CVE-2022-30065"]
+    }}},
+    {"pkg": {"name": "zlib", "secfixes": {
+      "1.2.12-r2": ["CVE-2022-37434"]
+    }}}
+  ]
+}

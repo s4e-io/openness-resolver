@@ -1,0 +1,63 @@
+# Build artifacts
+/dist/
+/bin/
+*.exe
+
+# Local evidence / smoke outputs (may contain host secrets)
+/output/
+/out/
+/tmp/
+/build/
+*.openness
+*.openness.gz
+!testdata/**/*.openness
+
+# Vendor feed snapshots and normalized rules (run: openness feed sync --all)
+/data/raw/
+/data/normalized/
+/data/state/
+
+# Nessus / validation artifacts
+*.nessus
+*.nessus.gz
+
+# Lab / overnight agent board (not for public consumers)
+/overnight/
+/packs/
+/schema/
+
+# Local credentials
+.env
+.env.*
+*.pem
+*.key
+
+# Local agent instructions
+.claude
+.claude/
+
+# Logs and reports
+*.log
+*.log.*
+coverage.out
+coverage.html
+*.coverprofile
+*.prof
+*.test
+/reports/
+**/reports/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Go
+/vendor/
+
+# Python
+__pycache__/
+*.pyc

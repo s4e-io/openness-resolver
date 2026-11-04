@@ -1,0 +1,166 @@
+{
+  "exit_code": 0,
+  "findings": [
+    {
+      "advisory_ids": [
+        "RHSA-2024:3666"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-rhel9",
+      "binary_package": "curl-minimal",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "7.76.1-29.el9_4",
+        "installed": "7.76.1-29.el9_4",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-2398",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "rhel",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-27ef23af9b174836",
+      "finding_type": "cve",
+      "fixed_version": "7.76.1-29.el9_4",
+      "installed_version": "7.76.1-29.el9_4",
+      "reasons": [
+        "installed 7.76.1-29.el9_4 >= fixed 7.76.1-29.el9_4"
+      ],
+      "release": "9",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "7.76.1-29.el9_4",
+        "raw_status": "fixed (Red Hat:enterprise_linux:9::baseos)",
+        "release": "9",
+        "rule_id": "rhel:9:RHSA-2024:3666:CVE-2024-2398:curl-minimal",
+        "source": "rhel",
+        "source_snapshot": "local:rhel-all.zip",
+        "source_url": "https://example.invalid/RHSA-2024:3666",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "rhel:9:RHSA-2024:3666:CVE-2024-2398:curl-minimal"
+      ],
+      "scope": "host",
+      "source_package": "curl",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "urgency": "important",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "RHSA-2024:3501"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-rhel9",
+      "binary_package": "openssl-libs",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "1:3.0.7-27.el9",
+        "installed": "1:3.0.7-24.el9",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-0727",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "rhel",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-47c1c9ce53925f67",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "1:3.0.7-27.el9",
+      "installed_version": "1:3.0.7-24.el9",
+      "reasons": [
+        "installed 1:3.0.7-24.el9 < fixed 1:3.0.7-27.el9 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "9",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "1:3.0.7-27.el9",
+        "raw_status": "fixed (Red Hat:enterprise_linux:9::baseos)",
+        "release": "9",
+        "rule_id": "rhel:9:RHSA-2024:3501:CVE-2024-0727:openssl-libs",
+        "source": "rhel",
+        "source_snapshot": "local:rhel-all.zip",
+        "source_url": "https://example.invalid/RHSA-2024:3501",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "rhel:9:RHSA-2024:3501:CVE-2024-0727:openssl-libs"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "urgency": "moderate",
+      "vendor_status": "released"
+    }
+  ],
+  "notes": [],
+  "platform_support": "supported",
+  "platform_tested": false,
+  "remediation_groups": [
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [
+        "RHSA-2024:3501"
+      ],
+      "availability": "unknown",
+      "closes": {
+        "count": 1,
+        "cve_ids": [
+          "CVE-2024-0727"
+        ],
+        "finding_ids": [
+          "finding-47c1c9ce53925f67"
+        ]
+      },
+      "command_hint": "dnf upgrade openssl-libs",
+      "coverage_note": null,
+      "group_id": "group-1946ed743a258285",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "openssl",
+      "targets": [
+        {
+          "architecture": "x86_64",
+          "installed_version": "1:3.0.7-24.el9",
+          "kind": "binary",
+          "name": "openssl-libs",
+          "target_version": "1:3.0.7-27.el9"
+        }
+      ]
+    }
+  ],
+  "rule_coverage": {
+    "asset_release": "rhel/9",
+    "loaded_releases": [
+      "rhel/9"
+    ],
+    "rules_for_asset": 3,
+    "sources": [
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "osv-distro/1.0.0",
+        "release": "rhel/9",
+        "sha256": "a91dd80937ed27865a1b8d22b46c86a7f2599f77303785ca056970f05575f706",
+        "source": "osv-rhel",
+        "url": "https://osv-vulnerabilities.storage.googleapis.com/Red%20Hat/all.zip"
+      }
+    ],
+    "state": "covered"
+  },
+  "stderr": "",
+  "support_reason": null
+}

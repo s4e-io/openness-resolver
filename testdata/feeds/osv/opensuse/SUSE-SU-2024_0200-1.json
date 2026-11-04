@@ -1,0 +1,38 @@
+{
+ "schema_version": "1.7.3",
+ "id": "SUSE-SU-2024:0200-1",
+ "published": "2024-06-01T00:00:00Z",
+ "modified": "2024-06-01T00:00:00Z",
+ "upstream": [
+  "CVE-2024-9200"
+ ],
+ "summary": "Security update for withdrawn thing",
+ "affected": [
+  {
+   "package": {
+    "name": "libopenssl3",
+    "ecosystem": "openSUSE:Leap 15.6"
+   },
+   "ranges": [
+    {
+     "type": "ECOSYSTEM",
+     "events": [
+      {
+       "introduced": "0"
+      },
+      {
+       "fixed": "9.9.9-1.1"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "references": [
+  {
+   "type": "ADVISORY",
+   "url": "https://example.invalid/SUSE-SU-2024:0200-1"
+  }
+ ],
+ "withdrawn": "2024-07-01T00:00:00Z"
+}

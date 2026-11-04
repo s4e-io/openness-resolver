@@ -1,0 +1,159 @@
+{
+ "schema_version": "1.5.0",
+ "collector": {
+  "name": "openness-collector",
+  "version": "synthetic"
+ },
+ "collection": {
+  "collection_id": "synthetic-ubuntu2404",
+  "status": "complete",
+  "privilege_level": "root"
+ },
+ "asset": {
+  "asset_id": "asset-ubuntu2404",
+  "hostname": "noble",
+  "platform": "linux",
+  "architecture": "x86_64"
+ },
+ "operating_system": {
+  "distribution_id": "ubuntu",
+  "distribution_name": "Ubuntu",
+  "distribution_version": "24.04 LTS (Noble Numbat)",
+  "version_id": "24.04",
+  "version_codename": "noble",
+  "pretty_name": "Ubuntu 24.04 LTS",
+  "architecture": "x86_64",
+  "kernel_version": "6.8.0-31-generic"
+ },
+ "kernel": {
+  "running_kernel": "6.8.0-31-generic",
+  "reboot_required": false
+ },
+ "packages": [
+  {
+   "evidence_id": "ev-packages-0",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:openssh-client:amd64:1:9.6p1-3ubuntu13",
+    "entity_type": "package",
+    "name": "openssh-client",
+    "raw_version_string": "1:9.6p1-3ubuntu13",
+    "architecture": "amd64",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "source_package": "openssh",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source",
+      "target_entity_id": "srcpkg:dpkg:openssh"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-1",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:openssl:amd64:3.0.13-0ubuntu3",
+    "entity_type": "package",
+    "name": "openssl",
+    "raw_version_string": "3.0.13-0ubuntu3",
+    "architecture": "amd64",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "source_package": "openssl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source",
+      "target_entity_id": "srcpkg:dpkg:openssl"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-2",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:libssl3t64:amd64:3.0.13-0ubuntu3",
+    "entity_type": "package",
+    "name": "libssl3t64",
+    "raw_version_string": "3.0.13-0ubuntu3",
+    "architecture": "amd64",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "source_package": "openssl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source",
+      "target_entity_id": "srcpkg:dpkg:openssl"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-3",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:curl:amd64:8.5.0-2ubuntu10",
+    "entity_type": "package",
+    "name": "curl",
+    "raw_version_string": "8.5.0-2ubuntu10",
+    "architecture": "amd64",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "source_package": "curl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source",
+      "target_entity_id": "srcpkg:dpkg:curl"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-4",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:bash:amd64:5.2.21-2ubuntu4",
+    "entity_type": "package",
+    "name": "bash",
+    "raw_version_string": "5.2.21-2ubuntu4",
+    "architecture": "amd64",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "source_package": "bash",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source",
+      "target_entity_id": "srcpkg:dpkg:bash"
+     }
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,67 @@
+openness-resolver
+Copyright 2026 S4E (Security For Everyone), https://s4e.io
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+Openness is developed and maintained by S4E (Security For Everyone).
+
+This distribution includes third-party software. Licenses below are summaries;
+full texts are available at the linked URLs and in module source trees.
+
+------------------------------------------------------------------------------
+Go standard library and toolchain
+Copyright (c) 2009 The Go Authors. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+   * Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+   * Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following disclaimer
+in the documentation and/or other materials provided with the
+distribution.
+   * Neither the name of Google LLC nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Source: https://golang.org/LICENSE
+
+------------------------------------------------------------------------------
+This module currently declares no third-party Go module dependencies in go.mod
+beyond the Go toolchain. If dependencies are added, append their full license
+texts below.
+
+------------------------------------------------------------------------------
+Vulnerability data
+
+This product uses data from the NVD API but is not endorsed or certified by the
+NVD. The built-in application data (internal/appvuln/data) is derived from the
+National Vulnerability Database (https://nvd.nist.gov), a public work of the
+U.S. government.
+
+The vulnerability data that `feed sync` downloads at run time stays under each
+publisher's own terms; it is not part of this distribution. See the Data sources
+section of README.md.
+
+Test fixtures contain short excerpts of published vendor data, used to test the
+parsers:
+- Canonical Ubuntu OVAL / USN data (testdata/normalized/ubuntu): Canonical Ltd.,
+  https://security-metadata.canonical.com/oval/ ; Ubuntu security notices are
+  published under CC BY-SA 4.0 (https://github.com/canonical/ubuntu-security-notices).
+- Microsoft Security Update Guide CVRF documents (internal/resolver/testdata/msrc):
+  Microsoft Corporation, https://msrc.microsoft.com/update-guide , Microsoft Terms of Use.
+- OSV records (testdata/raw/osv): https://osv.dev ; GitHub Security Advisories and
+  the PyPA advisory database, CC BY 4.0.

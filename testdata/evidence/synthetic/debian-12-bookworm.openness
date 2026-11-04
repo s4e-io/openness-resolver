@@ -1,0 +1,277 @@
+{
+ "schema_version": "1.5.0",
+ "collector": {
+  "name": "openness-collector",
+  "version": "synthetic"
+ },
+ "collection": {
+  "collection_id": "synthetic-debian12",
+  "status": "complete",
+  "privilege_level": "root"
+ },
+ "asset": {
+  "asset_id": "asset-debian12",
+  "hostname": "debian12",
+  "platform": "linux",
+  "architecture": "x86_64"
+ },
+ "operating_system": {
+  "distribution_id": "debian",
+  "distribution_name": "Debian GNU/Linux",
+  "distribution_version": "12 (bookworm)",
+  "version_id": "12",
+  "version_codename": "bookworm",
+  "pretty_name": "Debian GNU/Linux 12 (bookworm)",
+  "architecture": "x86_64",
+  "kernel_version": "6.1.0-18-amd64"
+ },
+ "kernel": {
+  "running_kernel": "6.1.0-18-amd64",
+  "reboot_required": false
+ },
+ "packages": [
+  {
+   "evidence_id": "ev-packages-0",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:libssl3:amd64:3.0.11-1~deb12u2",
+    "entity_type": "package",
+    "name": "libssl3",
+    "architecture": "amd64",
+    "raw_version_string": "3.0.11-1~deb12u2",
+    "version": "3.0.11-1~deb12u2",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "package_database_path": "/var/lib/dpkg/status",
+    "source_package": "openssl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:dpkg:openssl",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-1",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:openssl:amd64:3.0.11-1~deb12u2",
+    "entity_type": "package",
+    "name": "openssl",
+    "architecture": "amd64",
+    "raw_version_string": "3.0.11-1~deb12u2",
+    "version": "3.0.11-1~deb12u2",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "package_database_path": "/var/lib/dpkg/status",
+    "source_package": "openssl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:dpkg:openssl",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-2",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:zlib1g:amd64:1:1.2.13.dfsg-1",
+    "entity_type": "package",
+    "name": "zlib1g",
+    "architecture": "amd64",
+    "raw_version_string": "1:1.2.13.dfsg-1",
+    "version": "1:1.2.13.dfsg-1",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "package_database_path": "/var/lib/dpkg/status",
+    "source_package": "zlib",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:dpkg:zlib",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-3",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:libcurl4:amd64:7.88.1-10+deb12u5",
+    "entity_type": "package",
+    "name": "libcurl4",
+    "architecture": "amd64",
+    "raw_version_string": "7.88.1-10+deb12u5",
+    "version": "7.88.1-10+deb12u5",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "package_database_path": "/var/lib/dpkg/status",
+    "source_package": "curl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:dpkg:curl",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-4",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:bash:amd64:5.2.15-2+b2",
+    "entity_type": "package",
+    "name": "bash",
+    "architecture": "amd64",
+    "raw_version_string": "5.2.15-2+b2",
+    "version": "5.2.15-2+b2",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "package_database_path": "/var/lib/dpkg/status",
+    "source_package": "bash",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:dpkg:bash",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-5",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:libc6:amd64:2.36-9+deb12u4",
+    "entity_type": "package",
+    "name": "libc6",
+    "architecture": "amd64",
+    "raw_version_string": "2.36-9+deb12u4",
+    "version": "2.36-9+deb12u4",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "package_database_path": "/var/lib/dpkg/status",
+    "source_package": "glibc",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:dpkg:glibc",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-6",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:linux-image-6.1.0-18-amd64:amd64:6.1.76-1",
+    "entity_type": "package",
+    "name": "linux-image-6.1.0-18-amd64",
+    "architecture": "amd64",
+    "raw_version_string": "6.1.76-1",
+    "version": "6.1.76-1",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "package_database_path": "/var/lib/dpkg/status",
+    "source_package": "linux",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:dpkg:linux",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-7",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:linux-image-6.1.0-17-amd64:amd64:6.1.69-1",
+    "entity_type": "package",
+    "name": "linux-image-6.1.0-17-amd64",
+    "architecture": "amd64",
+    "raw_version_string": "6.1.69-1",
+    "version": "6.1.69-1",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "package_database_path": "/var/lib/dpkg/status",
+    "source_package": "linux",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:dpkg:linux",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-8",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:linux-image-amd64:amd64:6.1.76-1",
+    "entity_type": "package",
+    "name": "linux-image-amd64",
+    "architecture": "amd64",
+    "raw_version_string": "6.1.76-1",
+    "version": "6.1.76-1",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "package_database_path": "/var/lib/dpkg/status",
+    "source_package": "linux-signed-amd64",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:dpkg:linux-signed-amd64",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source"
+     }
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,8 @@
+# Check out text files with LF on every OS (Windows runners default to
+# core.autocrlf=true). The golden tests compare fixture checksums and output
+# byte for byte, so testdata must be identical on Linux and Windows.
+* text=auto eol=lf
+*.gz binary
+*.bz2 binary
+*.zip binary
+*.exe binary

@@ -1,0 +1,88 @@
+{
+ "schema_version": "1.5.0",
+ "collector": {
+  "name": "openness-collector",
+  "version": "synthetic"
+ },
+ "collection": {
+  "collection_id": "synthetic-debian13",
+  "status": "complete",
+  "privilege_level": "root"
+ },
+ "asset": {
+  "asset_id": "asset-debian13",
+  "hostname": "debian13",
+  "platform": "linux",
+  "architecture": "x86_64"
+ },
+ "operating_system": {
+  "distribution_id": "debian",
+  "distribution_name": "Debian GNU/Linux",
+  "distribution_version": "13 (trixie)",
+  "version_id": "13",
+  "version_codename": "trixie",
+  "pretty_name": "Debian GNU/Linux 13 (trixie)",
+  "architecture": "x86_64",
+  "kernel_version": "6.12.38+deb13-amd64"
+ },
+ "kernel": {
+  "running_kernel": "6.12.38+deb13-amd64",
+  "reboot_required": false
+ },
+ "packages": [
+  {
+   "evidence_id": "ev-packages-0",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:libssl3t64:amd64:3.5.1-1",
+    "entity_type": "package",
+    "name": "libssl3t64",
+    "architecture": "amd64",
+    "raw_version_string": "3.5.1-1",
+    "version": "3.5.1-1",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "package_database_path": "/var/lib/dpkg/status",
+    "source_package": "openssl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:dpkg:openssl",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-1",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:zlib1g:amd64:1:1.3.dfsg+really1.3.1-1",
+    "entity_type": "package",
+    "name": "zlib1g",
+    "architecture": "amd64",
+    "raw_version_string": "1:1.3.dfsg+really1.3.1-1",
+    "version": "1:1.3.dfsg+really1.3.1-1",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "package_database_path": "/var/lib/dpkg/status",
+    "source_package": "zlib",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:dpkg:zlib",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source"
+     }
+    ]
+   }
+  }
+ ]
+}

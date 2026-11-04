@@ -1,0 +1,194 @@
+{
+ "schema_version": "1.5.0",
+ "collector": {
+  "name": "openness-collector",
+  "version": "synthetic"
+ },
+ "collection": {
+  "collection_id": "synthetic-leap156",
+  "status": "complete",
+  "privilege_level": "root"
+ },
+ "asset": {
+  "asset_id": "asset-leap156",
+  "hostname": "leap156",
+  "platform": "linux",
+  "architecture": "x86_64"
+ },
+ "operating_system": {
+  "distribution_id": "opensuse-leap",
+  "distribution_name": "openSUSE Leap",
+  "distribution_version": "15.6",
+  "version_id": "15.6",
+  "version_codename": "",
+  "pretty_name": "openSUSE Leap 15.6",
+  "architecture": "x86_64",
+  "kernel_version": "6.4.0-150600.23.25-default"
+ },
+ "kernel": {
+  "running_kernel": "6.4.0-150600.23.25-default",
+  "reboot_required": false
+ },
+ "packages": [
+  {
+   "evidence_id": "ev-packages-0",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:libopenssl3:x86_64:3.1.4-150600.5.7.1",
+    "entity_type": "package",
+    "name": "libopenssl3",
+    "epoch": null,
+    "version": "3.1.4",
+    "release": "150600.5.7.1",
+    "raw_version_string": "3.1.4-150600.5.7.1",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "openssl-3",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:openssl-3",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-1",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:openssl-3:x86_64:3.1.4-150600.5.15.1",
+    "entity_type": "package",
+    "name": "openssl-3",
+    "epoch": null,
+    "version": "3.1.4",
+    "release": "150600.5.15.1",
+    "raw_version_string": "3.1.4-150600.5.15.1",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "openssl-3",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:openssl-3",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-2",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:demo-range:x86_64:1.9-150600.1.1",
+    "entity_type": "package",
+    "name": "demo-range",
+    "epoch": null,
+    "version": "1.9",
+    "release": "150600.1.1",
+    "raw_version_string": "1.9-150600.1.1",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "demo-range",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:demo-range",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-3",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:libglib-2_0-0:x86_64:2.78.3-150600.4.1",
+    "entity_type": "package",
+    "name": "libglib-2_0-0",
+    "epoch": null,
+    "version": "2.78.3",
+    "release": "150600.4.1",
+    "raw_version_string": "2.78.3-150600.4.1",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "glib2",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:glib2",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-4",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:gio-branding-upstream:noarch:1.0-150600.4.3.1",
+    "entity_type": "package",
+    "name": "gio-branding-upstream",
+    "epoch": null,
+    "version": "1.0",
+    "release": "150600.4.3.1",
+    "raw_version_string": "1.0-150600.4.3.1",
+    "architecture": "noarch",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "glib2",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:glib2",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  }
+ ]
+}

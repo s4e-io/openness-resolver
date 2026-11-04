@@ -1,0 +1,134 @@
+{
+ "schema_version": "1.5.0",
+ "collector": {
+  "name": "openness-collector",
+  "version": "synthetic"
+ },
+ "collection": {
+  "collection_id": "synthetic-al2023",
+  "status": "complete",
+  "privilege_level": "root"
+ },
+ "asset": {
+  "asset_id": "asset-al2023",
+  "hostname": "al2023",
+  "platform": "linux",
+  "architecture": "x86_64"
+ },
+ "operating_system": {
+  "distribution_id": "amzn",
+  "distribution_name": "Amazon Linux",
+  "distribution_version": "2023",
+  "version_id": "2023",
+  "version_codename": "",
+  "pretty_name": "Amazon Linux 2023",
+  "architecture": "x86_64",
+  "kernel_version": "6.1.25-37.47.amzn2023.x86_64"
+ },
+ "kernel": {
+  "running_kernel": "6.1.25-37.47.amzn2023.x86_64",
+  "reboot_required": false
+ },
+ "packages": [
+  {
+   "evidence_id": "ev-packages-0",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:openssl-libs:x86_64:1:3.0.8-1.amzn2023.0.1",
+    "entity_type": "package",
+    "name": "openssl-libs",
+    "raw_version_string": "1:3.0.8-1.amzn2023.0.1",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "source_package": "openssl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "rpm:Source",
+      "target_entity_id": "srcpkg:rpm:openssl"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-1",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:curl-minimal:x86_64:8.0.1-1.amzn2023",
+    "entity_type": "package",
+    "name": "curl-minimal",
+    "raw_version_string": "8.0.1-1.amzn2023",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "source_package": "curl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "rpm:Source",
+      "target_entity_id": "srcpkg:rpm:curl"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-2",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:glibc:x86_64:2.34-52.amzn2023.0.2",
+    "entity_type": "package",
+    "name": "glibc",
+    "raw_version_string": "2.34-52.amzn2023.0.2",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "source_package": "glibc",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "rpm:Source",
+      "target_entity_id": "srcpkg:rpm:glibc"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-3",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:bash:x86_64:5.2.15-1.amzn2023.0.2",
+    "entity_type": "package",
+    "name": "bash",
+    "raw_version_string": "5.2.15-1.amzn2023.0.2",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "source_package": "bash",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "rpm:Source",
+      "target_entity_id": "srcpkg:rpm:bash"
+     }
+    ]
+   }
+  }
+ ]
+}

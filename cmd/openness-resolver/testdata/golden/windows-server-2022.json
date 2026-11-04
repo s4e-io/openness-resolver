@@ -1,0 +1,529 @@
+{
+  "exit_code": 0,
+  "findings": [
+    {
+      "advisory_ids": [
+        "KB5019081"
+      ],
+      "architecture": "amd64",
+      "asset_id": "asset-win2022",
+      "binary_package": "windows",
+      "comparison": {
+        "comparator": "winbuild",
+        "expression": "installed < fixed",
+        "fixed": "20348.1249",
+        "installed": "20348.1000",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2023-21712",
+      "detection_method": "msrc_fixed_build_ubr",
+      "distribution": "windows",
+      "evidence_ids": [
+        ""
+      ],
+      "finding_id": "finding-ea0df16069d8a423",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "20348.1249",
+      "installed_version": "20348.1000",
+      "reasons": [
+        "installed 20348.1000 < fixed 20348.1249 (vendor status released)"
+      ],
+      "release": "windows_server_2022",
+      "rule": {
+        "comparator": "winbuild",
+        "fixed_version": "20348.1249",
+        "raw_status": "Security Update",
+        "release": "windows_server_2022",
+        "rule_id": "msrc:CVE-2023-21712:11923:KB5019081",
+        "source": "microsoft",
+        "source_snapshot": "local:2023-Jan.json",
+        "source_url": "https://catalog.update.microsoft.com/v7/site/Search.aspx?q=KB5019081",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "msrc:CVE-2023-21712:11923:KB5019081"
+      ],
+      "runtime_state": "running",
+      "scope": "host",
+      "source_package": "windows_server_2022",
+      "state": "vulnerable",
+      "urgency": "critical",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "KB5022291"
+      ],
+      "architecture": "amd64",
+      "asset_id": "asset-win2022",
+      "binary_package": "windows",
+      "comparison": {
+        "comparator": "winbuild",
+        "expression": "installed < fixed",
+        "fixed": "20348.1487",
+        "installed": "20348.1000",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2023-21774",
+      "detection_method": "msrc_fixed_build_ubr",
+      "distribution": "windows",
+      "evidence_ids": [
+        ""
+      ],
+      "finding_id": "finding-569abe761be9d59f",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "20348.1487",
+      "installed_version": "20348.1000",
+      "reasons": [
+        "installed 20348.1000 < fixed 20348.1487 (vendor status released)"
+      ],
+      "release": "windows_server_2022",
+      "rule": {
+        "comparator": "winbuild",
+        "fixed_version": "20348.1487",
+        "raw_status": "Security Update",
+        "release": "windows_server_2022",
+        "rule_id": "msrc:CVE-2023-21774:11923:KB5022291",
+        "source": "microsoft",
+        "source_snapshot": "local:2023-Jan.json",
+        "source_url": "https://catalog.update.microsoft.com/v7/site/Search.aspx?q=KB5022291",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "msrc:CVE-2023-21774:11923:KB5022291"
+      ],
+      "runtime_state": "running",
+      "scope": "host",
+      "source_package": "windows_server_2022",
+      "state": "vulnerable",
+      "urgency": "important",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "KB5022291"
+      ],
+      "architecture": "amd64",
+      "asset_id": "asset-win2022",
+      "binary_package": "windows",
+      "comparison": {
+        "comparator": "winbuild",
+        "expression": "installed < fixed",
+        "fixed": "20348.1487",
+        "installed": "20348.1000",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2023-21776",
+      "detection_method": "msrc_fixed_build_ubr",
+      "distribution": "windows",
+      "evidence_ids": [
+        ""
+      ],
+      "finding_id": "finding-9858bed6c6bad8e6",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "20348.1487",
+      "installed_version": "20348.1000",
+      "reasons": [
+        "installed 20348.1000 < fixed 20348.1487 (vendor status released)"
+      ],
+      "release": "windows_server_2022",
+      "rule": {
+        "comparator": "winbuild",
+        "fixed_version": "20348.1487",
+        "raw_status": "Security Update",
+        "release": "windows_server_2022",
+        "rule_id": "msrc:CVE-2023-21776:11923:KB5022291",
+        "source": "microsoft",
+        "source_snapshot": "local:2023-Jan.json",
+        "source_url": "https://catalog.update.microsoft.com/v7/site/Search.aspx?q=KB5022291",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "msrc:CVE-2023-21776:11923:KB5022291"
+      ],
+      "runtime_state": "running",
+      "scope": "host",
+      "source_package": "windows_server_2022",
+      "state": "vulnerable",
+      "urgency": "important",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "KB5126655"
+      ],
+      "architecture": "amd64",
+      "asset_id": "asset-win2022",
+      "binary_package": "windows",
+      "comparison": {
+        "comparator": "winbuild",
+        "expression": "installed < fixed",
+        "fixed": "20348.5761",
+        "installed": "20348.1000",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2026-97843",
+      "detection_method": "msrc_fixed_build_ubr",
+      "distribution": "windows",
+      "evidence_ids": [
+        ""
+      ],
+      "finding_id": "finding-8882584ec1a612a4",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "20348.5761",
+      "installed_version": "20348.1000",
+      "reasons": [
+        "installed 20348.1000 < fixed 20348.5761 (vendor status released)"
+      ],
+      "release": "windows_server_2022",
+      "rule": {
+        "comparator": "winbuild",
+        "fixed_version": "20348.5761",
+        "raw_status": "Security Update",
+        "release": "windows_server_2022",
+        "rule_id": "msrc:CVE-2026-97843:11923:KB5126655",
+        "source": "microsoft",
+        "source_snapshot": "local:2026-Oct.json",
+        "source_url": "https://catalog.update.microsoft.com/v7/site/Search.aspx?q=KB5126655",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "msrc:CVE-2026-97843:11923:KB5126655"
+      ],
+      "runtime_state": "running",
+      "scope": "host",
+      "source_package": "windows_server_2022",
+      "state": "vulnerable",
+      "urgency": "important",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "KB5126655"
+      ],
+      "architecture": "amd64",
+      "asset_id": "asset-win2022",
+      "binary_package": "windows",
+      "comparison": {
+        "comparator": "winbuild",
+        "expression": "installed < fixed",
+        "fixed": "20348.5761",
+        "installed": "20348.1000",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2026-97844",
+      "detection_method": "msrc_fixed_build_ubr",
+      "distribution": "windows",
+      "evidence_ids": [
+        ""
+      ],
+      "finding_id": "finding-5b140f1e5d4aee12",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "20348.5761",
+      "installed_version": "20348.1000",
+      "reasons": [
+        "installed 20348.1000 < fixed 20348.5761 (vendor status released)"
+      ],
+      "release": "windows_server_2022",
+      "rule": {
+        "comparator": "winbuild",
+        "fixed_version": "20348.5761",
+        "raw_status": "Security Update",
+        "release": "windows_server_2022",
+        "rule_id": "msrc:CVE-2026-97844:11923:KB5126655",
+        "source": "microsoft",
+        "source_snapshot": "local:2026-Oct.json",
+        "source_url": "https://catalog.update.microsoft.com/v7/site/Search.aspx?q=KB5126655",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "msrc:CVE-2026-97844:11923:KB5126655"
+      ],
+      "runtime_state": "running",
+      "scope": "host",
+      "source_package": "windows_server_2022",
+      "state": "vulnerable",
+      "urgency": "important",
+      "vendor_status": "released"
+    }
+  ],
+  "notes": [
+    "windows build 20348.1000 is not a hotpatch build; 2 hotpatch rules set aside"
+  ],
+  "platform_support": "supported",
+  "platform_tested": true,
+  "remediation_groups": [
+    {
+      "action": "install_update",
+      "advisory_ids": [
+        "KB5126655"
+      ],
+      "availability": "unknown",
+      "closes": {
+        "count": 5,
+        "cve_ids": [
+          "CVE-2023-21712",
+          "CVE-2023-21774",
+          "CVE-2023-21776",
+          "CVE-2026-97843",
+          "CVE-2026-97844"
+        ],
+        "finding_ids": [
+          "finding-569abe761be9d59f",
+          "finding-5b140f1e5d4aee12",
+          "finding-8882584ec1a612a4",
+          "finding-9858bed6c6bad8e6",
+          "finding-ea0df16069d8a423"
+        ]
+      },
+      "command_hint": "",
+      "coverage_note": null,
+      "group_id": "group-b7805a16c199a1e8",
+      "notes": [
+        "cumulative update: installing KB5126655 (build 20348.5761) or any later cumulative update closes all 5 findings"
+      ],
+      "requires_entitlement": null,
+      "requires_reboot": true,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "windows_server_2022",
+      "targets": [
+        {
+          "architecture": "amd64",
+          "installed_version": "20348.1000",
+          "kind": "os_build",
+          "name": "windows",
+          "target_version": "20348.5761"
+        }
+      ]
+    }
+  ],
+  "rule_coverage": {
+    "asset_release": "windows/windows_server_2022",
+    "loaded_releases": [
+      "windows/windows_10_1507",
+      "windows/windows_10_1607",
+      "windows/windows_10_1809",
+      "windows/windows_10_20h2",
+      "windows/windows_10_21h1",
+      "windows/windows_10_21h2",
+      "windows/windows_10_22h2",
+      "windows/windows_11_21h2",
+      "windows/windows_11_22h2",
+      "windows/windows_11_23h2",
+      "windows/windows_11_24h2",
+      "windows/windows_11_25h2",
+      "windows/windows_11_26h1",
+      "windows/windows_7",
+      "windows/windows_8.1",
+      "windows/windows_server_2008_r2",
+      "windows/windows_server_2008_sp2",
+      "windows/windows_server_2012",
+      "windows/windows_server_2012_r2",
+      "windows/windows_server_2016",
+      "windows/windows_server_2019",
+      "windows/windows_server_2022",
+      "windows/windows_server_2025"
+    ],
+    "rules_for_asset": 12,
+    "sources": [
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_10_1507",
+        "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
+        "source": "msrc-cvrf-2023-Jan",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_10_1607",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_10_1809",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_10_20h2",
+        "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
+        "source": "msrc-cvrf-2023-Jan",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_10_21h1",
+        "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
+        "source": "msrc-cvrf-2023-Jan",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_10_21h2",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_10_22h2",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_11_21h2",
+        "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
+        "source": "msrc-cvrf-2023-Jan",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_11_22h2",
+        "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
+        "source": "msrc-cvrf-2023-Jan",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_11_23h2",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_11_24h2",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_11_25h2",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_11_26h1",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_7",
+        "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
+        "source": "msrc-cvrf-2023-Jan",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_8.1",
+        "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
+        "source": "msrc-cvrf-2023-Jan",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_server_2008_r2",
+        "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
+        "source": "msrc-cvrf-2023-Jan",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_server_2008_sp2",
+        "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
+        "source": "msrc-cvrf-2023-Jan",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_server_2012",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_server_2012_r2",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_server_2016",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_server_2019",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_server_2022",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "msrc-cvrf/1.0.0",
+        "release": "microsoft/windows_server_2025",
+        "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
+        "source": "msrc-cvrf-2026-Oct",
+        "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      }
+    ],
+    "state": "covered"
+  },
+  "stderr": "",
+  "support_reason": null
+}

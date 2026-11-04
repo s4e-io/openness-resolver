@@ -1,0 +1,624 @@
+{
+  "exit_code": 0,
+  "findings": [
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian12",
+      "binary_package": "bash",
+      "confidence": "high",
+      "cve_id": "CVE-2022-3715",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-4"
+      ],
+      "finding_id": "finding-08b663ce725d08f7",
+      "finding_type": "cve",
+      "installed_version": "5.2.15-2+b2",
+      "reasons": [
+        "vendor status unknown: undetermined (urgency: not yet assigned)"
+      ],
+      "release": "bookworm",
+      "rule": {
+        "comparator": "dpkg",
+        "raw_status": "undetermined (urgency: not yet assigned)",
+        "release": "bookworm",
+        "rule_id": "debian:bookworm:CVE-2022-3715:bash",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2022-3715",
+        "vendor_status": "unknown"
+      },
+      "rule_ids": [
+        "debian:bookworm:CVE-2022-3715:bash"
+      ],
+      "scope": "host",
+      "source_package": "bash",
+      "source_package_confidence": "direct",
+      "state": "unknown",
+      "vendor_status": "unknown"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian12",
+      "binary_package": "libc6",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "2.36-9+deb12u3",
+        "installed": "2.36-9+deb12u4",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2023-4911",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-5"
+      ],
+      "finding_id": "finding-2f120e0b147b553d",
+      "finding_type": "cve",
+      "fixed_version": "2.36-9+deb12u3",
+      "installed_version": "2.36-9+deb12u4",
+      "reasons": [
+        "installed 2.36-9+deb12u4 >= fixed 2.36-9+deb12u3"
+      ],
+      "release": "bookworm",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "2.36-9+deb12u3",
+        "raw_status": "resolved (urgency: not yet assigned)",
+        "release": "bookworm",
+        "rule_id": "debian:bookworm:CVE-2023-4911:glibc",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2023-4911",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "debian:bookworm:CVE-2023-4911:glibc"
+      ],
+      "scope": "host",
+      "source_package": "glibc",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian12",
+      "binary_package": "libcurl4",
+      "confidence": "high",
+      "cve_id": "CVE-2024-2398",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-3"
+      ],
+      "finding_id": "finding-6060a56c977790d1",
+      "finding_type": "cve",
+      "fix_availability": "deferred",
+      "installed_version": "7.88.1-10+deb12u5",
+      "reasons": [
+        "vendor status: deferred",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "bookworm",
+      "rule": {
+        "comparator": "dpkg",
+        "raw_status": "open (urgency: not yet assigned)",
+        "release": "bookworm",
+        "rule_id": "debian:bookworm:CVE-2024-2398:curl",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2024-2398",
+        "vendor_status": "deferred"
+      },
+      "rule_ids": [
+        "debian:bookworm:CVE-2024-2398:curl"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "curl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "deferred"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian12",
+      "binary_package": "libssl3",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "3.0.8-1",
+        "installed": "3.0.11-1~deb12u2",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2023-0286",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-7dd8bd63e96161d4",
+      "finding_type": "cve",
+      "fixed_version": "3.0.8-1",
+      "installed_version": "3.0.11-1~deb12u2",
+      "reasons": [
+        "installed 3.0.11-1~deb12u2 >= fixed 3.0.8-1"
+      ],
+      "release": "bookworm",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "3.0.8-1",
+        "raw_status": "resolved (urgency: not yet assigned)",
+        "release": "bookworm",
+        "rule_id": "debian:bookworm:CVE-2023-0286:openssl",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2023-0286",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "debian:bookworm:CVE-2023-0286:openssl"
+      ],
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian12",
+      "binary_package": "libssl3",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "3.0.13-1~deb12u1",
+        "installed": "3.0.11-1~deb12u2",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-0727",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-b066eddeb2c817dd",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "3.0.13-1~deb12u1",
+      "installed_version": "3.0.11-1~deb12u2",
+      "reasons": [
+        "installed 3.0.11-1~deb12u2 < fixed 3.0.13-1~deb12u1 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "bookworm",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "3.0.13-1~deb12u1",
+        "raw_status": "resolved (urgency: not yet assigned)",
+        "release": "bookworm",
+        "rule_id": "debian:bookworm:CVE-2024-0727:openssl",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2024-0727",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "debian:bookworm:CVE-2024-0727:openssl"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian12",
+      "binary_package": "libssl3",
+      "confidence": "high",
+      "cve_id": "CVE-2025-27587",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-684d01b1c0cb51c2",
+      "finding_type": "cve",
+      "installed_version": "3.0.11-1~deb12u2",
+      "reasons": [
+        "vendor status: not_affected"
+      ],
+      "release": "bookworm",
+      "rule": {
+        "comparator": "dpkg",
+        "raw_status": "resolved (urgency: not yet assigned)",
+        "release": "bookworm",
+        "rule_id": "debian:bookworm:CVE-2025-27587:openssl",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2025-27587",
+        "vendor_status": "not_affected"
+      },
+      "rule_ids": [
+        "debian:bookworm:CVE-2025-27587:openssl"
+      ],
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "not_applicable",
+      "vendor_status": "not_affected"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian12",
+      "binary_package": "libssl3",
+      "confidence": "high",
+      "cve_id": "CVE-2025-9230",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-c3c8d1ddc51e9b72",
+      "finding_type": "cve",
+      "fix_availability": "unavailable",
+      "installed_version": "3.0.11-1~deb12u2",
+      "reasons": [
+        "vendor status: needed (affected, fix not yet available)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "bookworm",
+      "rule": {
+        "comparator": "dpkg",
+        "raw_status": "open (urgency: not yet assigned)",
+        "release": "bookworm",
+        "rule_id": "debian:bookworm:CVE-2025-9230:openssl",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2025-9230",
+        "vendor_status": "needed"
+      },
+      "rule_ids": [
+        "debian:bookworm:CVE-2025-9230:openssl"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "needed"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian12",
+      "binary_package": "linux-image-6.1.0-18-amd64",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "6.1.76-1",
+        "installed": "6.1.76-1",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-1086",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-6"
+      ],
+      "finding_id": "finding-8bdc547a92bd0daf",
+      "finding_type": "cve",
+      "fixed_version": "6.1.76-1",
+      "installed_version": "6.1.76-1",
+      "reasons": [
+        "installed 6.1.76-1 >= fixed 6.1.76-1"
+      ],
+      "release": "bookworm",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "6.1.76-1",
+        "raw_status": "resolved (urgency: not yet assigned)",
+        "release": "bookworm",
+        "rule_id": "debian:bookworm:CVE-2024-1086:linux",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2024-1086",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "debian:bookworm:CVE-2024-1086:linux"
+      ],
+      "scope": "host",
+      "source_package": "linux",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian12",
+      "binary_package": "openssl",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "3.0.8-1",
+        "installed": "3.0.11-1~deb12u2",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2023-0286",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-f1ab279f80fa647f",
+      "finding_type": "cve",
+      "fixed_version": "3.0.8-1",
+      "installed_version": "3.0.11-1~deb12u2",
+      "reasons": [
+        "installed 3.0.11-1~deb12u2 >= fixed 3.0.8-1"
+      ],
+      "release": "bookworm",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "3.0.8-1",
+        "raw_status": "resolved (urgency: not yet assigned)",
+        "release": "bookworm",
+        "rule_id": "debian:bookworm:CVE-2023-0286:openssl",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2023-0286",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "debian:bookworm:CVE-2023-0286:openssl"
+      ],
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian12",
+      "binary_package": "openssl",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "3.0.13-1~deb12u1",
+        "installed": "3.0.11-1~deb12u2",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-0727",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-4af1fc20777ffabe",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "3.0.13-1~deb12u1",
+      "installed_version": "3.0.11-1~deb12u2",
+      "reasons": [
+        "installed 3.0.11-1~deb12u2 < fixed 3.0.13-1~deb12u1 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "bookworm",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "3.0.13-1~deb12u1",
+        "raw_status": "resolved (urgency: not yet assigned)",
+        "release": "bookworm",
+        "rule_id": "debian:bookworm:CVE-2024-0727:openssl",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2024-0727",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "debian:bookworm:CVE-2024-0727:openssl"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian12",
+      "binary_package": "openssl",
+      "confidence": "high",
+      "cve_id": "CVE-2025-27587",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-accd7e6fd808130c",
+      "finding_type": "cve",
+      "installed_version": "3.0.11-1~deb12u2",
+      "reasons": [
+        "vendor status: not_affected"
+      ],
+      "release": "bookworm",
+      "rule": {
+        "comparator": "dpkg",
+        "raw_status": "resolved (urgency: not yet assigned)",
+        "release": "bookworm",
+        "rule_id": "debian:bookworm:CVE-2025-27587:openssl",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2025-27587",
+        "vendor_status": "not_affected"
+      },
+      "rule_ids": [
+        "debian:bookworm:CVE-2025-27587:openssl"
+      ],
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "not_applicable",
+      "vendor_status": "not_affected"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian12",
+      "binary_package": "openssl",
+      "confidence": "high",
+      "cve_id": "CVE-2025-9230",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-ec341c993bc5d553",
+      "finding_type": "cve",
+      "fix_availability": "unavailable",
+      "installed_version": "3.0.11-1~deb12u2",
+      "reasons": [
+        "vendor status: needed (affected, fix not yet available)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "bookworm",
+      "rule": {
+        "comparator": "dpkg",
+        "raw_status": "open (urgency: not yet assigned)",
+        "release": "bookworm",
+        "rule_id": "debian:bookworm:CVE-2025-9230:openssl",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2025-9230",
+        "vendor_status": "needed"
+      },
+      "rule_ids": [
+        "debian:bookworm:CVE-2025-9230:openssl"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "needed"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian12",
+      "binary_package": "zlib1g",
+      "confidence": "high",
+      "cve_id": "CVE-2023-45853",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-2"
+      ],
+      "finding_id": "finding-840b00c2cfa3cfa4",
+      "finding_type": "cve",
+      "installed_version": "1:1.2.13.dfsg-1",
+      "reasons": [
+        "vendor status: ignored (open (urgency: unimportant))",
+        "package is installed but no matching process was observed running; state remains potentially_vulnerable"
+      ],
+      "release": "bookworm",
+      "rule": {
+        "comparator": "dpkg",
+        "raw_status": "open (urgency: unimportant)",
+        "release": "bookworm",
+        "rule_id": "debian:bookworm:CVE-2023-45853:zlib",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2023-45853",
+        "vendor_status": "ignored"
+      },
+      "rule_ids": [
+        "debian:bookworm:CVE-2023-45853:zlib"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "zlib",
+      "source_package_confidence": "direct",
+      "state": "potentially_vulnerable",
+      "urgency": "unimportant",
+      "vendor_status": "ignored"
+    }
+  ],
+  "notes": [
+    "1 installed kernel package(s) do not match the running kernel 6.1.0-18-amd64 and were not evaluated (old kernels on disk are not the running attack surface)"
+  ],
+  "platform_support": "supported",
+  "platform_tested": true,
+  "remediation_groups": [
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [],
+      "availability": "unknown",
+      "closes": {
+        "count": 2,
+        "cve_ids": [
+          "CVE-2024-0727"
+        ],
+        "finding_ids": [
+          "finding-4af1fc20777ffabe",
+          "finding-b066eddeb2c817dd"
+        ]
+      },
+      "command_hint": "apt-get install --only-upgrade libssl3 openssl",
+      "coverage_note": null,
+      "group_id": "group-32bcb9a8967ef883",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "openssl",
+      "targets": [
+        {
+          "architecture": "amd64",
+          "installed_version": "3.0.11-1~deb12u2",
+          "kind": "binary",
+          "name": "libssl3",
+          "target_version": "3.0.13-1~deb12u1"
+        },
+        {
+          "architecture": "amd64",
+          "installed_version": "3.0.11-1~deb12u2",
+          "kind": "binary",
+          "name": "openssl",
+          "target_version": "3.0.13-1~deb12u1"
+        }
+      ]
+    }
+  ],
+  "rule_coverage": {
+    "asset_release": "debian/bookworm",
+    "loaded_releases": [
+      "debian/bookworm"
+    ],
+    "rules_for_asset": 9,
+    "sources": [
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "debian-tracker/1.0.0",
+        "release": "debian/bookworm",
+        "sha256": "9e4f394bf46fe34e8ef4ae06823cb0686e501b03fadf0019d55ee14d6e8896ba",
+        "source": "debian-security-tracker",
+        "url": "https://security-tracker.debian.org/tracker/data/json"
+      }
+    ],
+    "state": "covered"
+  },
+  "stderr": "",
+  "support_reason": null
+}

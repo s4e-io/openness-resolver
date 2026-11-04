@@ -1,0 +1,159 @@
+{
+ "schema_version": "1.5.0",
+ "collector": {
+  "name": "openness-collector",
+  "version": "synthetic"
+ },
+ "collection": {
+  "collection_id": "synthetic-alpine320",
+  "status": "complete",
+  "privilege_level": "root"
+ },
+ "asset": {
+  "asset_id": "asset-alpine320",
+  "hostname": "alpine320",
+  "platform": "linux",
+  "architecture": "x86_64"
+ },
+ "operating_system": {
+  "distribution_id": "alpine",
+  "distribution_name": "Alpine Linux",
+  "distribution_version": "3.20.3",
+  "version_id": "3.20.3",
+  "version_codename": "",
+  "pretty_name": "Alpine Linux v3.20",
+  "architecture": "x86_64",
+  "kernel_version": "6.6.0-0-lts"
+ },
+ "kernel": {
+  "running_kernel": "6.6.0-0-lts",
+  "reboot_required": false
+ },
+ "packages": [
+  {
+   "evidence_id": "ev-packages-0",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:apk:libcrypto3:x86_64:3.3.0-r0",
+    "entity_type": "package",
+    "name": "libcrypto3",
+    "raw_version_string": "3.3.0-r0",
+    "architecture": "x86_64",
+    "package_manager": "apk",
+    "package_status": "installed",
+    "source_package": "openssl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "apk:Source",
+      "target_entity_id": "srcpkg:apk:openssl"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-1",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:apk:libssl3:x86_64:3.3.0-r0",
+    "entity_type": "package",
+    "name": "libssl3",
+    "raw_version_string": "3.3.0-r0",
+    "architecture": "x86_64",
+    "package_manager": "apk",
+    "package_status": "installed",
+    "source_package": "openssl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "apk:Source",
+      "target_entity_id": "srcpkg:apk:openssl"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-2",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:apk:busybox:x86_64:1.36.1-r28",
+    "entity_type": "package",
+    "name": "busybox",
+    "raw_version_string": "1.36.1-r28",
+    "architecture": "x86_64",
+    "package_manager": "apk",
+    "package_status": "installed",
+    "source_package": "busybox",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "apk:Source",
+      "target_entity_id": "srcpkg:apk:busybox"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-3",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:apk:musl:x86_64:1.2.5-r0",
+    "entity_type": "package",
+    "name": "musl",
+    "raw_version_string": "1.2.5-r0",
+    "architecture": "x86_64",
+    "package_manager": "apk",
+    "package_status": "installed",
+    "source_package": "musl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "apk:Source",
+      "target_entity_id": "srcpkg:apk:musl"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-4",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:apk:zlib:x86_64:1.3.1-r1",
+    "entity_type": "package",
+    "name": "zlib",
+    "raw_version_string": "1.3.1-r1",
+    "architecture": "x86_64",
+    "package_manager": "apk",
+    "package_status": "installed",
+    "source_package": "zlib",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "apk:Source",
+      "target_entity_id": "srcpkg:apk:zlib"
+     }
+    ]
+   }
+  }
+ ]
+}

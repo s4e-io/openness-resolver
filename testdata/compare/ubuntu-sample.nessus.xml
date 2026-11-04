@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<NessusClientData_v2>
+  <Report name="scan">
+    <ReportHost name="192.0.2.10">
+      <HostProperties>
+        <tag name="operating-system">Linux Kernel 6.8 on Ubuntu 22.04</tag>
+      </HostProperties>
+      <ReportItem pluginID="1001" pluginName="USN-7278-1: OpenSSL" pluginFamily="Ubuntu Local Security Checks" severity="2" port="0">
+        <risk_factor>Medium</risk_factor>
+        <cve>CVE-2024-13176</cve>
+        <cve>CVE-2024-2511</cve>
+      </ReportItem>
+      <ReportItem pluginID="1002" pluginName="USN-6859-1: OpenSSH" pluginFamily="Ubuntu Local Security Checks" severity="4" port="0">
+        <risk_factor>Critical</risk_factor>
+        <cve>CVE-2024-6387</cve>
+      </ReportItem>
+      <ReportItem pluginID="1003" pluginName="cups busybox thing" pluginFamily="Ubuntu Local Security Checks" severity="3" port="0">
+        <risk_factor>High</risk_factor>
+        <cve>CVE-2099-0001</cve>
+      </ReportItem>
+      <ReportItem pluginID="2000" pluginName="Remote banner" pluginFamily="General" severity="1" port="631">
+        <risk_factor>Low</risk_factor>
+        <cve>CVE-2099-9999</cve>
+      </ReportItem>
+    </ReportHost>
+  </Report>
+</NessusClientData_v2>

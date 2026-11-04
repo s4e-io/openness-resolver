@@ -1,0 +1,282 @@
+{
+  "exit_code": 0,
+  "findings": [
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian13",
+      "binary_package": "libssl3t64",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "3.0.8-1",
+        "installed": "3.5.1-1",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2023-0286",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-525ad2c1b2d81f9b",
+      "finding_type": "cve",
+      "fixed_version": "3.0.8-1",
+      "installed_version": "3.5.1-1",
+      "reasons": [
+        "installed 3.5.1-1 >= fixed 3.0.8-1"
+      ],
+      "release": "trixie",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "3.0.8-1",
+        "raw_status": "resolved (urgency: not yet assigned)",
+        "release": "trixie",
+        "rule_id": "debian:trixie:CVE-2023-0286:openssl",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2023-0286",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "debian:trixie:CVE-2023-0286:openssl"
+      ],
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian13",
+      "binary_package": "libssl3t64",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "3.1.5-1",
+        "installed": "3.5.1-1",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-0727",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-20fb7031dac5d1c5",
+      "finding_type": "cve",
+      "fixed_version": "3.1.5-1",
+      "installed_version": "3.5.1-1",
+      "reasons": [
+        "installed 3.5.1-1 >= fixed 3.1.5-1"
+      ],
+      "release": "trixie",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "3.1.5-1",
+        "raw_status": "resolved (urgency: not yet assigned)",
+        "release": "trixie",
+        "rule_id": "debian:trixie:CVE-2024-0727:openssl",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2024-0727",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "debian:trixie:CVE-2024-0727:openssl"
+      ],
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian13",
+      "binary_package": "libssl3t64",
+      "confidence": "high",
+      "cve_id": "CVE-2025-27587",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-d77c589cdb7c9c6d",
+      "finding_type": "cve",
+      "installed_version": "3.5.1-1",
+      "reasons": [
+        "vendor status: ignored (open (urgency: unimportant))",
+        "package is installed but no matching process was observed running; state remains potentially_vulnerable"
+      ],
+      "release": "trixie",
+      "rule": {
+        "comparator": "dpkg",
+        "raw_status": "open (urgency: unimportant)",
+        "release": "trixie",
+        "rule_id": "debian:trixie:CVE-2025-27587:openssl",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2025-27587",
+        "vendor_status": "ignored"
+      },
+      "rule_ids": [
+        "debian:trixie:CVE-2025-27587:openssl"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "potentially_vulnerable",
+      "urgency": "unimportant",
+      "vendor_status": "ignored"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian13",
+      "binary_package": "libssl3t64",
+      "comparison": {
+        "comparator": "dpkg",
+        "expression": "installed < fixed",
+        "fixed": "3.5.4-1~deb13u1",
+        "installed": "3.5.1-1",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2025-9230",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-97a01512da79687b",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "3.5.4-1~deb13u1",
+      "installed_version": "3.5.1-1",
+      "reasons": [
+        "installed 3.5.1-1 < fixed 3.5.4-1~deb13u1 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "trixie",
+      "rule": {
+        "comparator": "dpkg",
+        "fixed_version": "3.5.4-1~deb13u1",
+        "raw_status": "resolved (urgency: not yet assigned)",
+        "release": "trixie",
+        "rule_id": "debian:trixie:CVE-2025-9230:openssl",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2025-9230",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "debian:trixie:CVE-2025-9230:openssl"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "released"
+    },
+    {
+      "architecture": "amd64",
+      "asset_id": "asset-debian13",
+      "binary_package": "zlib1g",
+      "confidence": "high",
+      "cve_id": "CVE-2023-45853",
+      "detection_method": "debian_source_package_fixed_version",
+      "distribution": "debian",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-fd0e934350762b73",
+      "finding_type": "cve",
+      "installed_version": "1:1.3.dfsg+really1.3.1-1",
+      "reasons": [
+        "vendor status: ignored (open (urgency: unimportant))",
+        "package is installed but no matching process was observed running; state remains potentially_vulnerable"
+      ],
+      "release": "trixie",
+      "rule": {
+        "comparator": "dpkg",
+        "raw_status": "open (urgency: unimportant)",
+        "release": "trixie",
+        "rule_id": "debian:trixie:CVE-2023-45853:zlib",
+        "source": "debian",
+        "source_snapshot": "local:tracker-sample.json",
+        "source_url": "https://security-tracker.debian.org/tracker/CVE-2023-45853",
+        "vendor_status": "ignored"
+      },
+      "rule_ids": [
+        "debian:trixie:CVE-2023-45853:zlib"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "zlib",
+      "source_package_confidence": "direct",
+      "state": "potentially_vulnerable",
+      "urgency": "unimportant",
+      "vendor_status": "ignored"
+    }
+  ],
+  "notes": [],
+  "platform_support": "supported",
+  "platform_tested": false,
+  "remediation_groups": [
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [],
+      "availability": "unknown",
+      "closes": {
+        "count": 1,
+        "cve_ids": [
+          "CVE-2025-9230"
+        ],
+        "finding_ids": [
+          "finding-97a01512da79687b"
+        ]
+      },
+      "command_hint": "apt-get install --only-upgrade libssl3t64",
+      "coverage_note": null,
+      "group_id": "group-73714b9114d672f9",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "openssl",
+      "targets": [
+        {
+          "architecture": "amd64",
+          "installed_version": "3.5.1-1",
+          "kind": "binary",
+          "name": "libssl3t64",
+          "target_version": "3.5.4-1~deb13u1"
+        }
+      ]
+    }
+  ],
+  "rule_coverage": {
+    "asset_release": "debian/trixie",
+    "loaded_releases": [
+      "debian/trixie"
+    ],
+    "rules_for_asset": 6,
+    "sources": [
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "debian-tracker/1.0.0",
+        "release": "debian/trixie",
+        "sha256": "9e4f394bf46fe34e8ef4ae06823cb0686e501b03fadf0019d55ee14d6e8896ba",
+        "source": "debian-security-tracker",
+        "url": "https://security-tracker.debian.org/tracker/data/json"
+      }
+    ],
+    "state": "covered"
+  },
+  "stderr": "",
+  "support_reason": null
+}

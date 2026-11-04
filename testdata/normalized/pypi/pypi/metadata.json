@@ -1,0 +1,10 @@
+{
+ "source_name": "osv-pypi",
+ "source_url": "https://api.osv.dev/v1/query package=wcwidth",
+ "downloaded_at": "2026-08-10T14:14:16.203677Z",
+ "sha256": "",
+ "size_bytes": 0,
+ "parser_version": "1.0.0",
+ "raw_object_id": "pypi-1786371256",
+ "snapshot_dir": ""
+}

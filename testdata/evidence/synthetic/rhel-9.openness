@@ -1,0 +1,130 @@
+{
+ "schema_version": "1.5.0",
+ "collector": {
+  "name": "openness-collector",
+  "version": "synthetic"
+ },
+ "collection": {
+  "collection_id": "synthetic-rhel9",
+  "status": "complete",
+  "privilege_level": "root"
+ },
+ "asset": {
+  "asset_id": "asset-rhel9",
+  "hostname": "rhel9",
+  "platform": "linux",
+  "architecture": "x86_64"
+ },
+ "operating_system": {
+  "distribution_id": "rhel",
+  "distribution_name": "Red Hat Enterprise Linux",
+  "distribution_version": "9.4 (Plow)",
+  "version_id": "9.4",
+  "version_codename": "",
+  "pretty_name": "Red Hat Enterprise Linux 9.4 (Plow)",
+  "architecture": "x86_64",
+  "kernel_version": "5.14.0-427.13.1.el9_4.x86_64"
+ },
+ "kernel": {
+  "running_kernel": "5.14.0-427.13.1.el9_4.x86_64",
+  "reboot_required": false
+ },
+ "packages": [
+  {
+   "evidence_id": "ev-packages-0",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:openssl-libs:x86_64:1:3.0.7-24.el9",
+    "entity_type": "package",
+    "name": "openssl-libs",
+    "epoch": "1",
+    "version": "3.0.7",
+    "release": "24.el9",
+    "raw_version_string": "1:3.0.7-24.el9",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "openssl",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:openssl",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-1",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:curl-minimal:x86_64:7.76.1-29.el9_4",
+    "entity_type": "package",
+    "name": "curl-minimal",
+    "epoch": null,
+    "version": "7.76.1",
+    "release": "29.el9_4",
+    "raw_version_string": "7.76.1-29.el9_4",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "curl",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:curl",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-2",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:rpm:glibc:x86_64:2.34-100.el9_4.2",
+    "entity_type": "package",
+    "name": "glibc",
+    "epoch": null,
+    "version": "2.34",
+    "release": "100.el9_4.2",
+    "raw_version_string": "2.34-100.el9_4.2",
+    "architecture": "x86_64",
+    "package_manager": "rpm",
+    "package_status": "installed",
+    "vendor": null,
+    "install_time": null,
+    "source_package": "glibc",
+    "source_version": null,
+    "package_database_path": "/var/lib/rpm",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:rpm:glibc",
+      "confidence": "direct",
+      "evidence_source": "rpm:SOURCERPM"
+     }
+    ]
+   }
+  }
+ ]
+}

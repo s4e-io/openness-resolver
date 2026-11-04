@@ -1,0 +1,205 @@
+{
+ "schema_version": "1.5.0",
+ "collector": {
+  "name": "openness-collector",
+  "version": "synthetic"
+ },
+ "collection": {
+  "collection_id": "synthetic-ubuntu2204",
+  "status": "complete",
+  "privilege_level": "root"
+ },
+ "asset": {
+  "asset_id": "asset-ubuntu2204",
+  "hostname": "jammy",
+  "platform": "linux",
+  "architecture": "x86_64"
+ },
+ "operating_system": {
+  "distribution_id": "ubuntu",
+  "distribution_name": "Ubuntu",
+  "distribution_version": "22.04.4 LTS (Jammy Jellyfish)",
+  "version_id": "22.04",
+  "version_codename": "jammy",
+  "pretty_name": "Ubuntu 22.04.4 LTS",
+  "architecture": "x86_64",
+  "kernel_version": "5.15.0-1100-azure"
+ },
+ "kernel": {
+  "running_kernel": "5.15.0-1100-azure",
+  "reboot_required": false
+ },
+ "packages": [
+  {
+   "evidence_id": "ev-packages-0",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:openssh-client:amd64:1:8.9p1-3ubuntu0.1",
+    "entity_type": "package",
+    "name": "openssh-client",
+    "raw_version_string": "1:8.9p1-3ubuntu0.1",
+    "architecture": "amd64",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "source_package": "openssh",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source",
+      "target_entity_id": "srcpkg:dpkg:openssh"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-1",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:openssh-server:amd64:1:8.9p1-3ubuntu0.10",
+    "entity_type": "package",
+    "name": "openssh-server",
+    "raw_version_string": "1:8.9p1-3ubuntu0.10",
+    "architecture": "amd64",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "source_package": "openssh",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source",
+      "target_entity_id": "srcpkg:dpkg:openssh"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-2",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:libjs-jquery-ui:amd64:1.13.1+dfsg-1",
+    "entity_type": "package",
+    "name": "libjs-jquery-ui",
+    "raw_version_string": "1.13.1+dfsg-1",
+    "architecture": "amd64",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "source_package": "jqueryui",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source",
+      "target_entity_id": "srcpkg:dpkg:jqueryui"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-3",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:openssl:amd64:3.0.2-0ubuntu1",
+    "entity_type": "package",
+    "name": "openssl",
+    "raw_version_string": "3.0.2-0ubuntu1",
+    "architecture": "amd64",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "source_package": "openssl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source",
+      "target_entity_id": "srcpkg:dpkg:openssl"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-4",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:libssl3:amd64:3.0.2-0ubuntu1",
+    "entity_type": "package",
+    "name": "libssl3",
+    "raw_version_string": "3.0.2-0ubuntu1",
+    "architecture": "amd64",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "source_package": "openssl",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source",
+      "target_entity_id": "srcpkg:dpkg:openssl"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "ev-packages-5",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:bash:amd64:5.1-6ubuntu1",
+    "entity_type": "package",
+    "name": "bash",
+    "raw_version_string": "5.1-6ubuntu1",
+    "architecture": "amd64",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "source_package": "bash",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source",
+      "target_entity_id": "srcpkg:dpkg:bash"
+     }
+    ]
+   }
+  }
+ ],
+ "language_deps": [
+  {
+   "evidence_id": "ev-language_deps-0",
+   "source": "native",
+   "source_module": "language_deps",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "py-dist:psutil:venv",
+    "entity_type": "python_distribution",
+    "scope": "host",
+    "environment_id": "python:env:/opt/app/venv",
+    "name_normalized": "psutil",
+    "name_raw": "psutil",
+    "version": "5.6.0",
+    "raw_version_string": "5.6.0",
+    "resolver_ecosystem": "pypi",
+    "runtime_load_status": "installed_not_proven_loaded"
+   }
+  }
+ ]
+}

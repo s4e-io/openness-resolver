@@ -1,0 +1,37 @@
+{
+ "schema_version": "1.7.3",
+ "id": "RLSA-2024:3339",
+ "published": "2024-06-01T00:00:00Z",
+ "modified": "2024-06-01T00:00:00Z",
+ "upstream": [
+  "CVE-2023-50387"
+ ],
+ "summary": "Important: bind security update",
+ "affected": [
+  {
+   "package": {
+    "name": "bind",
+    "ecosystem": "Rocky Linux:9"
+   },
+   "ranges": [
+    {
+     "type": "ECOSYSTEM",
+     "events": [
+      {
+       "introduced": "0"
+      },
+      {
+       "fixed": "32:9.16.23-15.el9_4.1"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "references": [
+  {
+   "type": "ADVISORY",
+   "url": "https://example.invalid/RLSA-2024:3339"
+  }
+ ]
+}

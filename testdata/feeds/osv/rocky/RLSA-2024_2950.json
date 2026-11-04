@@ -1,0 +1,37 @@
+{
+ "schema_version": "1.7.3",
+ "id": "RLSA-2024:2950",
+ "published": "2024-06-01T00:00:00Z",
+ "modified": "2024-06-01T00:00:00Z",
+ "upstream": [
+  "CVE-2024-2961"
+ ],
+ "summary": "Important: glibc security update",
+ "affected": [
+  {
+   "package": {
+    "name": "glibc",
+    "ecosystem": "Rocky Linux:10"
+   },
+   "ranges": [
+    {
+     "type": "ECOSYSTEM",
+     "events": [
+      {
+       "introduced": "0"
+      },
+      {
+       "fixed": "2.39-10.el10"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "references": [
+  {
+   "type": "ADVISORY",
+   "url": "https://example.invalid/RLSA-2024:2950"
+  }
+ ]
+}

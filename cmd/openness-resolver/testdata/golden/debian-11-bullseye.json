@@ -1,0 +1,19 @@
+{
+  "exit_code": 0,
+  "findings": [],
+  "notes": [
+    "host platform not resolved: Debian 11 (bullseye) is past Debian LTS; the Debian Security Tracker no longer publishes bullseye data (ELTS is not covered)"
+  ],
+  "platform_support": "not_supported",
+  "platform_tested": false,
+  "remediation_groups": [],
+  "rule_coverage": {
+    "asset_release": "",
+    "loaded_releases": null,
+    "rules_for_asset": 0,
+    "sources": [],
+    "state": "not_applicable"
+  },
+  "stderr": "warning: rule store is empty; run `openness-resolver feed sync --for <evidence.openness>` first\n",
+  "support_reason": "Debian 11 (bullseye) is past Debian LTS; the Debian Security Tracker no longer publishes bullseye data (ELTS is not covered)"
+}

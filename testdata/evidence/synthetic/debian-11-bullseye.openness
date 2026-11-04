@@ -1,0 +1,61 @@
+{
+ "schema_version": "1.5.0",
+ "collector": {
+  "name": "openness-collector",
+  "version": "synthetic"
+ },
+ "collection": {
+  "collection_id": "synthetic-debian11",
+  "status": "complete",
+  "privilege_level": "root"
+ },
+ "asset": {
+  "asset_id": "asset-debian11",
+  "hostname": "debian11",
+  "platform": "linux",
+  "architecture": "x86_64"
+ },
+ "operating_system": {
+  "distribution_id": "debian",
+  "distribution_name": "Debian GNU/Linux",
+  "distribution_version": "11 (bullseye)",
+  "version_id": "11",
+  "version_codename": "bullseye",
+  "pretty_name": "Debian GNU/Linux 11 (bullseye)",
+  "architecture": "x86_64",
+  "kernel_version": "5.10.0-28-amd64"
+ },
+ "kernel": {
+  "running_kernel": "5.10.0-28-amd64",
+  "reboot_required": false
+ },
+ "packages": [
+  {
+   "evidence_id": "ev-packages-0",
+   "source": "native",
+   "source_module": "packages",
+   "observed_at": "2026-10-30T10:00:00Z",
+   "collection_status": "observed",
+   "value": {
+    "entity_id": "pkg:dpkg:libc6:amd64:2.31-13+deb11u5",
+    "entity_type": "package",
+    "name": "libc6",
+    "architecture": "amd64",
+    "raw_version_string": "2.31-13+deb11u5",
+    "version": "2.31-13+deb11u5",
+    "package_manager": "dpkg",
+    "package_status": "install ok installed",
+    "package_database_path": "/var/lib/dpkg/status",
+    "source_package": "glibc",
+    "relationships": [
+     {
+      "type": "package_built_from_source_package",
+      "target_entity_id": "srcpkg:dpkg:glibc",
+      "confidence": "direct",
+      "evidence_source": "dpkg:Source"
+     }
+    ]
+   }
+  }
+ ]
+}

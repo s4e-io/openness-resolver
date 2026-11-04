@@ -1,0 +1,37 @@
+{
+ "schema_version": "1.7.3",
+ "id": "RLSA-2024:0001",
+ "published": "2024-06-01T00:00:00Z",
+ "modified": "2024-06-01T00:00:00Z",
+ "upstream": [
+  "CVE-2024-5535"
+ ],
+ "summary": "Moderate: openssl security update",
+ "affected": [
+  {
+   "package": {
+    "name": "openssl",
+    "ecosystem": "Rocky Linux:8"
+   },
+   "ranges": [
+    {
+     "type": "ECOSYSTEM",
+     "events": [
+      {
+       "introduced": "0"
+      },
+      {
+       "fixed": "1:1.1.1k-12.el8_9"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "references": [
+  {
+   "type": "ADVISORY",
+   "url": "https://example.invalid/RLSA-2024:0001"
+  }
+ ]
+}

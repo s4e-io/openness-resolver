@@ -1,0 +1,46 @@
+{
+ "schema_version": "1.7.3",
+ "id": "SUSE-SU-2024:2300-1",
+ "published": "2024-06-01T00:00:00Z",
+ "modified": "2024-06-01T00:00:00Z",
+ "upstream": [
+  "CVE-2024-34397"
+ ],
+ "summary": "Security update for glib2",
+ "affected": [
+  {
+   "package": {
+    "name": "glib2",
+    "ecosystem": "openSUSE:Leap 15.6"
+   },
+   "ranges": [
+    {
+     "type": "ECOSYSTEM",
+     "events": [
+      {
+       "introduced": "0"
+      },
+      {
+       "fixed": "2.78.6-150600.4.3.1"
+      }
+     ]
+    }
+   ],
+   "ecosystem_specific": {
+    "binaries": [
+     {
+      "libglib-2_0-0": "2.78.6-150600.4.3.1",
+      "glib2-tools": "2.78.6-150600.4.3.1",
+      "gio-branding-upstream": "1.0-150600.4.3.1"
+     }
+    ]
+   }
+  }
+ ],
+ "references": [
+  {
+   "type": "ADVISORY",
+   "url": "https://example.invalid/SUSE-SU-2024:2300-1"
+  }
+ ]
+}

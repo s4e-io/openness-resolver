@@ -1,0 +1,9756 @@
+[
+ {
+  "id": "7zip.7zip",
+  "name": "7-Zip",
+  "match": {
+   "name": "^7-Zip\\b",
+   "not_name": "\\bZS\\b"
+  },
+  "version": {
+   "parts": 2
+  },
+  "cpe": [
+   "7-zip:7-zip"
+  ],
+  "update": "winget upgrade --id 7zip.7zip",
+  "verified": true
+ },
+ {
+  "id": "Adobe.Acrobat.Reader.64-bit",
+  "name": "Adobe Acrobat Reader",
+  "match": {
+   "name": "^Adobe Acrobat( Reader)?( DC)?( \\(64-bit\\))?$|^Adobe Acrobat Reader",
+   "publisher": "Adobe"
+  },
+  "version": {},
+  "cpe": [
+   "adobe:acrobat_reader_dc",
+   "adobe:acrobat_dc"
+  ],
+  "update": "winget upgrade --id Adobe.Acrobat.Reader.64-bit",
+  "verified": true
+ },
+ {
+  "id": "AnyDeskSoftwareGmbH.AnyDesk",
+  "name": "AnyDesk",
+  "match": {
+   "name": "^AnyDesk$"
+  },
+  "version": {
+   "from": "display_version",
+   "regex": "^(?:ad )?([0-9.]+)"
+  },
+  "cpe": [
+   "anydesk:anydesk"
+  ],
+  "update": "winget upgrade --id AnyDeskSoftwareGmbH.AnyDesk",
+  "verified": true
+ },
+ {
+  "id": "Apache.Tomcat",
+  "name": "Apache Tomcat",
+  "match": {
+   "name": "^Apache Tomcat [0-9]"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "apache:tomcat"
+  ],
+  "verified": true
+ },
+ {
+  "id": "Apple.iTunes",
+  "name": "iTunes",
+  "match": {
+   "name": "^iTunes$",
+   "publisher": "Apple"
+  },
+  "version": {},
+  "cpe": [
+   "apple:itunes"
+  ],
+  "update": "winget upgrade --id Apple.iTunes",
+  "verified": true
+ },
+ {
+  "id": "Brave.Brave",
+  "name": "Brave",
+  "match": {
+   "name": "^Brave$"
+  },
+  "version": {},
+  "cpe": [
+   "brave:brave"
+  ],
+  "update": "winget upgrade --id Brave.Brave",
+  "verified": true
+ },
+ {
+  "id": "Citrix.Workspace",
+  "name": "Citrix Workspace",
+  "match": {
+   "name": "^Citrix Workspace",
+   "publisher": "Citrix"
+  },
+  "version": {},
+  "cpe": [
+   "citrix:workspace"
+  ],
+  "verified": true
+ },
+ {
+  "id": "Docker.DockerDesktop",
+  "name": "Docker Desktop",
+  "match": {
+   "name": "^Docker Desktop$"
+  },
+  "version": {},
+  "cpe": [
+   "docker:desktop"
+  ],
+  "update": "winget upgrade --id Docker.DockerDesktop",
+  "verified": true
+ },
+ {
+  "id": "DominikReichl.KeePass",
+  "name": "KeePass",
+  "match": {
+   "name": "^KeePass Password Safe"
+  },
+  "version": {},
+  "cpe": [
+   "keepass:keepass"
+  ],
+  "update": "winget upgrade --id DominikReichl.KeePass",
+  "verified": true
+ },
+ {
+  "id": "Foxit.FoxitReader",
+  "name": "Foxit PDF Reader",
+  "match": {
+   "name": "^Foxit (PDF )?Reader"
+  },
+  "version": {},
+  "cpe": [
+   "foxit:pdf_reader"
+  ],
+  "update": "winget upgrade --id Foxit.FoxitReader",
+  "verified": true
+ },
+ {
+  "id": "GIMP.GIMP",
+  "name": "GIMP",
+  "match": {
+   "name": "^GIMP [0-9]"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "gimp:gimp"
+  ],
+  "update": "winget upgrade --id GIMP.GIMP",
+  "verified": true
+ },
+ {
+  "id": "Git.Git",
+  "name": "Git for Windows",
+  "match": {
+   "name": "^Git$|^Git version",
+   "publisher": "Git Development Community|The Git"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "git-scm:git",
+   "git:git",
+   "git_for_windows_project:git_for_windows"
+  ],
+  "update": "winget upgrade --id Git.Git",
+  "verified": true
+ },
+ {
+  "id": "GoLang.Go",
+  "name": "Go",
+  "match": {
+   "name": "^Go Programming Language"
+  },
+  "version": {},
+  "cpe": [
+   "golang:go"
+  ],
+  "update": "winget upgrade --id GoLang.Go",
+  "verified": true
+ },
+ {
+  "id": "Google.Chrome",
+  "name": "Google Chrome",
+  "match": {
+   "name": "^Google Chrome$",
+   "publisher": "Google"
+  },
+  "version": {},
+  "cpe": [
+   "google:chrome"
+  ],
+  "update": "winget upgrade --id Google.Chrome",
+  "verified": true
+ },
+ {
+  "id": "Grafana.Grafana",
+  "name": "Grafana",
+  "match": {
+   "name": "^GrafanaOSS|^Grafana$"
+  },
+  "version": {},
+  "cpe": [
+   "grafana:grafana"
+  ],
+  "verified": true
+ },
+ {
+  "id": "ImageMagick.ImageMagick",
+  "name": "ImageMagick",
+  "match": {
+   "name": "^ImageMagick [0-9]"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "ImageMagick ([0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9]+)?)"
+  },
+  "cpe": [
+   "imagemagick:imagemagick"
+  ],
+  "update": "winget upgrade --id ImageMagick.ImageMagick",
+  "verified": true
+ },
+ {
+  "id": "MariaDB.Server",
+  "name": "MariaDB",
+  "match": {
+   "name": "^MariaDB [0-9]"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "mariadb:mariadb"
+  ],
+  "verified": true
+ },
+ {
+  "id": "Microsoft.Edge",
+  "name": "Microsoft Edge",
+  "match": {
+   "name": "^Microsoft Edge$",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:edge_chromium"
+  ],
+  "update": "Microsoft Edge updates itself; check edge://settings/help",
+  "verified": true
+ },
+ {
+  "id": "Microsoft.VisualStudioCode",
+  "name": "Visual Studio Code",
+  "match": {
+   "name": "^Microsoft Visual Studio Code\\b"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:visual_studio_code"
+  ],
+  "update": "winget upgrade --id Microsoft.VisualStudioCode",
+  "verified": true
+ },
+ {
+  "id": "MongoDB.Server",
+  "name": "MongoDB",
+  "match": {
+   "name": "^MongoDB [0-9]"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "mongodb:mongodb"
+  ],
+  "verified": true
+ },
+ {
+  "id": "Mozilla.Firefox",
+  "name": "Mozilla Firefox",
+  "match": {
+   "name": "^Mozilla Firefox\\b",
+   "publisher": "Mozilla",
+   "not_name": "\\bESR\\b"
+  },
+  "version": {},
+  "cpe": [
+   "mozilla:firefox"
+  ],
+  "update": "winget upgrade --id Mozilla.Firefox",
+  "verified": true
+ },
+ {
+  "id": "Mozilla.Firefox.ESR",
+  "name": "Mozilla Firefox ESR",
+  "match": {
+   "name": "^Mozilla Firefox.*\\bESR\\b",
+   "publisher": "Mozilla"
+  },
+  "version": {},
+  "cpe": [
+   "mozilla:firefox_esr",
+   "mozilla:firefox:esr",
+   "mozilla:firefox"
+  ],
+  "update": "winget upgrade --id Mozilla.Firefox.ESR",
+  "same_branch": true,
+  "verified": true
+ },
+ {
+  "id": "Mozilla.Thunderbird",
+  "name": "Mozilla Thunderbird",
+  "match": {
+   "name": "^Mozilla Thunderbird\\b",
+   "publisher": "Mozilla"
+  },
+  "version": {},
+  "cpe": [
+   "mozilla:thunderbird"
+  ],
+  "update": "winget upgrade --id Mozilla.Thunderbird",
+  "verified": true
+ },
+ {
+  "id": "Nmap.Npcap",
+  "name": "Npcap",
+  "match": {
+   "name": "^Npcap\\b"
+  },
+  "version": {},
+  "cpe": [
+   "nmap:npcap"
+  ],
+  "verified": true
+ },
+ {
+  "id": "Notepad++.Notepad++",
+  "name": "Notepad++",
+  "match": {
+   "name": "^Notepad\\+\\+"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "notepad-plus-plus:notepad\\+\\+"
+  ],
+  "update": "winget upgrade --id Notepad++.Notepad++",
+  "verified": true
+ },
+ {
+  "id": "OpenJS.NodeJS",
+  "name": "Node.js",
+  "match": {
+   "name": "^Node\\.js$"
+  },
+  "version": {},
+  "cpe": [
+   "nodejs:node.js"
+  ],
+  "update": "winget upgrade --id OpenJS.NodeJS.LTS",
+  "verified": true
+ },
+ {
+  "id": "OpenVPNTechnologies.OpenVPN",
+  "name": "OpenVPN",
+  "match": {
+   "name": "^OpenVPN [0-9]"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "OpenVPN ([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "openvpn:openvpn"
+  ],
+  "update": "winget upgrade --id OpenVPNTechnologies.OpenVPN",
+  "verified": true
+ },
+ {
+  "id": "Opera.Opera",
+  "name": "Opera",
+  "match": {
+   "name": "^Opera Stable"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "([0-9]+\\.[0-9.]+)"
+  },
+  "cpe": [
+   "opera:opera_browser"
+  ],
+  "update": "winget upgrade --id Opera.Opera",
+  "verified": true
+ },
+ {
+  "id": "Oracle.JDK",
+  "name": "Java SE Development Kit (Oracle)",
+  "match": {
+   "name": "^Java(\\(TM\\))? SE Development Kit (9|[1-9][0-9])\\b",
+   "publisher": "Oracle"
+  },
+  "version": {},
+  "cpe": [
+   "oracle:jdk",
+   "oracle:jre"
+  ],
+  "update": "winget upgrade --id Oracle.JDK.\u003cmajor\u003e",
+  "exact_up_to": true,
+  "verified": true
+ },
+ {
+  "id": "Oracle.JavaRuntimeEnvironment",
+  "name": "Java 8 and older (Oracle)",
+  "match": {
+   "name": "^Java(\\(TM\\))?( SE (Development Kit|Runtime Environment))? [1-8] Update [0-9]+",
+   "publisher": "Oracle"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "(?P\u003cmajor\u003e[1-8]) Update (?P\u003cupd\u003e[0-9]+)",
+   "format": "1.${major}.0.${upd}"
+  },
+  "cpe": [
+   "oracle:jre",
+   "oracle:jdk"
+  ],
+  "update": "winget upgrade --id Oracle.JavaRuntimeEnvironment",
+  "exact_up_to": true,
+  "verified": true
+ },
+ {
+  "id": "Oracle.MySQL",
+  "name": "MySQL Server",
+  "match": {
+   "name": "^MySQL Server [0-9]"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "oracle:mysql"
+  ],
+  "verified": true
+ },
+ {
+  "id": "Oracle.VirtualBox",
+  "name": "Oracle VirtualBox",
+  "match": {
+   "name": "VirtualBox [0-9]"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "oracle:vm_virtualbox"
+  ],
+  "update": "winget upgrade --id Oracle.VirtualBox",
+  "verified": true
+ },
+ {
+  "id": "PHP.PHP",
+  "name": "PHP",
+  "match": {
+   "name": "^PHP [0-9]"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "PHP ([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "php:php"
+  ],
+  "verified": true
+ },
+ {
+  "id": "PostgreSQL.PostgreSQL",
+  "name": "PostgreSQL",
+  "match": {
+   "name": "^PostgreSQL [0-9]+"
+  },
+  "version": {
+   "parts": 2
+  },
+  "cpe": [
+   "postgresql:postgresql"
+  ],
+  "verified": true
+ },
+ {
+  "id": "PuTTY.PuTTY",
+  "name": "PuTTY",
+  "match": {
+   "name": "^PuTTY release"
+  },
+  "version": {
+   "parts": 2
+  },
+  "cpe": [
+   "putty:putty"
+  ],
+  "update": "winget upgrade --id PuTTY.PuTTY",
+  "verified": true
+ },
+ {
+  "id": "Python.Python.3",
+  "name": "Python",
+  "match": {
+   "name": "^Python [0-9]+\\.[0-9]+\\.[0-9]+ \\((64|32)-bit\\)$"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "Python ([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "python:python"
+  ],
+  "update": "winget upgrade --id Python.Python.3.\u003cminor\u003e",
+  "verified": true
+ },
+ {
+  "id": "RARLab.WinRAR",
+  "name": "WinRAR",
+  "match": {
+   "name": "^WinRAR\\b"
+  },
+  "version": {
+   "parts": 2
+  },
+  "cpe": [
+   "rarlab:winrar"
+  ],
+  "update": "winget upgrade --id RARLab.WinRAR",
+  "verified": true
+ },
+ {
+  "id": "RubyInstallerTeam.Ruby",
+  "name": "Ruby",
+  "match": {
+   "name": "^Ruby [0-9]"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "Ruby ([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "ruby-lang:ruby"
+  ],
+  "verified": true
+ },
+ {
+  "id": "SlackTechnologies.Slack",
+  "name": "Slack",
+  "match": {
+   "name": "^Slack\\b"
+  },
+  "version": {},
+  "cpe": [
+   "slack:slack"
+  ],
+  "update": "winget upgrade --id SlackTechnologies.Slack",
+  "verified": true
+ },
+ {
+  "id": "TeamViewer.TeamViewer",
+  "name": "TeamViewer",
+  "match": {
+   "name": "^TeamViewer\\b"
+  },
+  "version": {},
+  "cpe": [
+   "teamviewer:teamviewer"
+  ],
+  "update": "winget upgrade --id TeamViewer.TeamViewer",
+  "verified": true
+ },
+ {
+  "id": "TheDocumentFoundation.LibreOffice",
+  "name": "LibreOffice",
+  "match": {
+   "name": "^LibreOffice [0-9]"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "libreoffice:libreoffice"
+  ],
+  "update": "winget upgrade --id TheDocumentFoundation.LibreOffice",
+  "verified": true
+ },
+ {
+  "id": "TimKosse.FileZilla.Client",
+  "name": "FileZilla Client",
+  "match": {
+   "name": "^FileZilla\\b",
+   "not_name": "Server"
+  },
+  "version": {},
+  "cpe": [
+   "filezilla-project:filezilla_client"
+  ],
+  "update": "winget upgrade --id TimKosse.FileZilla.Client",
+  "verified": true
+ },
+ {
+  "id": "VMware.Tools",
+  "name": "VMware Tools",
+  "match": {
+   "name": "^VMware Tools$"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "vmware:tools"
+  ],
+  "verified": true
+ },
+ {
+  "id": "VideoLAN.VLC",
+  "name": "VLC media player",
+  "match": {
+   "name": "^VLC media player"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "videolan:vlc_media_player"
+  ],
+  "update": "winget upgrade --id VideoLAN.VLC",
+  "verified": true
+ },
+ {
+  "id": "WinSCP.WinSCP",
+  "name": "WinSCP",
+  "match": {
+   "name": "^WinSCP\\b"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "winscp:winscp"
+  ],
+  "update": "winget upgrade --id WinSCP.WinSCP",
+  "verified": true
+ },
+ {
+  "id": "WiresharkFoundation.Wireshark",
+  "name": "Wireshark",
+  "match": {
+   "name": "^Wireshark\\b"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "wireshark:wireshark"
+  ],
+  "update": "winget upgrade --id WiresharkFoundation.Wireshark",
+  "verified": true
+ },
+ {
+  "id": "Zoom.Zoom",
+  "name": "Zoom Workplace",
+  "match": {
+   "name": "^Zoom( Workplace)?(\\s|$|\\()",
+   "not_name": "\\b(Plugin|Outlook)\\b"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "zoom:workplace_desktop",
+   "zoom:meetings"
+  ],
+  "update": "winget upgrade --id Zoom.Zoom",
+  "verified": true
+ },
+ {
+  "id": "2BrightSparks.SyncBackFree",
+  "name": "SyncBackFree",
+  "match": {
+   "name": "^SyncBackFree(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "2brightsparks:syncbackfree"
+  ],
+  "update": "winget upgrade --id 2BrightSparks.SyncBackFree",
+  "verified": false
+ },
+ {
+  "id": "3CX.MultilineTAPI",
+  "name": "3CX",
+  "match": {
+   "name": "^3CX(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "3cx:3cx"
+  ],
+  "update": "winget upgrade --id 3CX.MultilineTAPI",
+  "verified": false
+ },
+ {
+  "id": "9001.copyparty",
+  "name": "copyparty",
+  "match": {
+   "name": "^copyparty(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "9001:copyparty"
+  ],
+  "update": "winget upgrade --id 9001.copyparty",
+  "verified": false
+ },
+ {
+  "id": "ABB.RobotStudio",
+  "name": "RobotStudio",
+  "match": {
+   "name": "^RobotStudio(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "abb:robotstudio"
+  ],
+  "update": "winget upgrade --id ABB.RobotStudio",
+  "verified": false
+ },
+ {
+  "id": "AIMP.AIMP",
+  "name": "AIMP",
+  "match": {
+   "name": "^AIMP[0-9]?$|^AIMP [0-9]"
+  },
+  "version": {
+   "regex": "([0-9]+\\.[0-9]+)",
+   "parts": 2
+  },
+  "cpe": [
+   "aimp:aimp"
+  ],
+  "update": "winget upgrade --id AIMP.AIMP",
+  "verified": false
+ },
+ {
+  "id": "AList.AList",
+  "name": "Alist",
+  "match": {
+   "name": "^Alist(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "alistgo:alist"
+  ],
+  "update": "winget upgrade --id AList.AList",
+  "verified": false
+ },
+ {
+  "id": "AWP.AtlantisWordProcessor",
+  "name": "Atlantis Word Processor",
+  "match": {
+   "name": "^Atlantis Word Processor(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "atlantiswordprocessor:atlantis_word_processor"
+  ],
+  "update": "winget upgrade --id AWP.AtlantisWordProcessor",
+  "verified": false
+ },
+ {
+  "id": "ActivityWatch.ActivityWatch",
+  "name": "ActivityWatch",
+  "match": {
+   "name": "^ActivityWatch(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "activitywatch:activitywatch"
+  ],
+  "update": "winget upgrade --id ActivityWatch.ActivityWatch",
+  "verified": false
+ },
+ {
+  "id": "AdGuard.AdGuard",
+  "name": "AdGuard",
+  "match": {
+   "name": "^AdGuard(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "adguard:adguard"
+  ],
+  "update": "winget upgrade --id AdGuard.AdGuard",
+  "verified": false
+ },
+ {
+  "id": "AdGuard.AdGuardHome.Beta",
+  "name": "AdGuardHome",
+  "match": {
+   "name": "^AdGuardHome(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "adguard:adguardhome"
+  ],
+  "update": "winget upgrade --id AdGuard.AdGuardHome.Beta",
+  "verified": false
+ },
+ {
+  "id": "Adobe.Brackets",
+  "name": "Brackets",
+  "match": {
+   "name": "^Brackets(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "adobe:brackets"
+  ],
+  "update": "winget upgrade --id Adobe.Brackets",
+  "verified": false
+ },
+ {
+  "id": "AirDroid.AirDroid",
+  "name": "AirDroid",
+  "match": {
+   "name": "^AirDroid(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "airdroid:airdroid"
+  ],
+  "update": "winget upgrade --id AirDroid.AirDroid",
+  "verified": false
+ },
+ {
+  "id": "AllroundAutomations.PLSQLDeveloper",
+  "name": "PL/SQL Developer",
+  "match": {
+   "name": "^PL/SQL Developer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "allroundautomations:pl\\/sql_developer"
+  ],
+  "update": "winget upgrade --id AllroundAutomations.PLSQLDeveloper",
+  "verified": false
+ },
+ {
+  "id": "Almico.SpeedFan",
+  "name": "SpeedFan",
+  "match": {
+   "name": "^SpeedFan(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "almico:speedfan"
+  ],
+  "update": "winget upgrade --id Almico.SpeedFan",
+  "verified": false
+ },
+ {
+  "id": "Amazon.AWSCLI",
+  "name": "AWS Command Line Interface",
+  "match": {
+   "name": "^AWS Command Line Interface( v2)?$"
+  },
+  "version": {},
+  "cpe": [
+   "amazon:aws_command_line_interface"
+  ],
+  "update": "winget upgrade --id Amazon.AWSCLI",
+  "verified": false
+ },
+ {
+  "id": "Amazon.Music",
+  "name": "Amazon Music",
+  "match": {
+   "name": "^Amazon Music(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "amazon:amazon_music"
+  ],
+  "update": "winget upgrade --id Amazon.Music",
+  "verified": false
+ },
+ {
+  "id": "Amazon.SSMAgent",
+  "name": "Amazon SSM Agent",
+  "match": {
+   "name": "^Amazon SSM Agent(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "amazon:amazon_ssm_agent"
+  ],
+  "update": "winget upgrade --id Amazon.SSMAgent",
+  "verified": false
+ },
+ {
+  "id": "Anaconda.Anaconda3",
+  "name": "Anaconda3",
+  "match": {
+   "name": "^Anaconda3\\b"
+  },
+  "version": {
+   "regex": "^([0-9]{4}\\.[0-9]+)"
+  },
+  "cpe": [
+   "anaconda:anaconda3"
+  ],
+  "update": "winget upgrade --id Anaconda.Anaconda3",
+  "verified": false
+ },
+ {
+  "id": "Anaconda.Miniconda3",
+  "name": "Miniconda3",
+  "match": {
+   "name": "^Miniconda3\\b"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "Miniconda3 (?:py[0-9]+_)?([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "conda:miniconda3"
+  ],
+  "update": "winget upgrade --id Anaconda.Miniconda3",
+  "verified": false
+ },
+ {
+  "id": "Anchore.Quill",
+  "name": "Quill",
+  "match": {
+   "name": "^Quill(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "anchore:quill"
+  ],
+  "update": "winget upgrade --id Anchore.Quill",
+  "verified": false
+ },
+ {
+  "id": "Anchore.Syft",
+  "name": "Syft",
+  "match": {
+   "name": "^Syft(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "anchore:syft"
+  ],
+  "update": "winget upgrade --id Anchore.Syft",
+  "verified": false
+ },
+ {
+  "id": "AngusJohnson.ResourceHacker",
+  "name": "Resource Hacker",
+  "match": {
+   "name": "^Resource Hacker(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "angusj:resource_hacker"
+  ],
+  "update": "winget upgrade --id AngusJohnson.ResourceHacker",
+  "verified": false
+ },
+ {
+  "id": "Anthropic.ClaudeCode",
+  "name": "Claude Code",
+  "match": {
+   "name": "^Claude Code(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "anthropic:claude_code"
+  ],
+  "update": "winget upgrade --id Anthropic.ClaudeCode",
+  "verified": false
+ },
+ {
+  "id": "AnyTXT.AnyTXTSearcher",
+  "name": "AnyTXT Searcher",
+  "match": {
+   "name": "^AnyTXT Searcher(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "anytxt:anytxt_searcher"
+  ],
+  "update": "winget upgrade --id AnyTXT.AnyTXTSearcher",
+  "verified": false
+ },
+ {
+  "id": "Anysphere.Cursor",
+  "name": "Cursor",
+  "match": {
+   "name": "^Cursor(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "anysphere:cursor"
+  ],
+  "update": "winget upgrade --id Anysphere.Cursor",
+  "verified": false
+ },
+ {
+  "id": "Apache.NetBeans",
+  "name": "Apache NetBeans",
+  "match": {
+   "name": "^(Apache )?NetBeans IDE\\b"
+  },
+  "version": {},
+  "cpe": [
+   "apache:netbeans",
+   "oracle:netbeans"
+  ],
+  "update": "winget upgrade --id Apache.NetBeans",
+  "verified": false
+ },
+ {
+  "id": "Apache.OpenOffice",
+  "name": "Apache OpenOffice",
+  "match": {
+   "name": "^(Apache )?OpenOffice(\\.org)? [0-9]"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "OpenOffice(?:\\.org)? ([0-9]+\\.[0-9]+(?:\\.[0-9]+)?)"
+  },
+  "cpe": [
+   "apache:openoffice",
+   "apache:openoffice.org",
+   "openoffice:openoffice.org",
+   "openoffice:openoffice",
+   "sun:openoffice.org"
+  ],
+  "update": "winget upgrade --id Apache.OpenOffice",
+  "verified": false
+ },
+ {
+  "id": "Apple.Bonjour",
+  "name": "Bonjour",
+  "match": {
+   "name": "^Bonjour$",
+   "publisher": "Apple"
+  },
+  "version": {},
+  "cpe": [
+   "apple:bonjour"
+  ],
+  "update": "winget upgrade --id Apple.Bonjour",
+  "verified": false
+ },
+ {
+  "id": "Apple.QuickTime",
+  "name": "QuickTime",
+  "match": {
+   "name": "^QuickTime\\b",
+   "publisher": "Apple"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9])"
+  },
+  "cpe": [
+   "apple:quicktime"
+  ],
+  "update": "winget upgrade --id Apple.QuickTime",
+  "verified": false
+ },
+ {
+  "id": "Apple.Safari",
+  "name": "Safari",
+  "match": {
+   "name": "^Safari(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "apple:safari"
+  ],
+  "update": "winget upgrade --id Apple.Safari",
+  "verified": false
+ },
+ {
+  "id": "Apple.WindowsMigrationAssistant",
+  "name": "Windows Migration Assistant",
+  "match": {
+   "name": "^Windows Migration Assistant(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "apple:windows_migration_assistant"
+  ],
+  "update": "winget upgrade --id Apple.WindowsMigrationAssistant",
+  "verified": false
+ },
+ {
+  "id": "AquaSecurity.Trivy",
+  "name": "Trivy",
+  "match": {
+   "name": "^Trivy(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "aquasec:trivy"
+  ],
+  "update": "winget upgrade --id AquaSecurity.Trivy",
+  "verified": false
+ },
+ {
+  "id": "ArduinoSA.IDE.stable",
+  "name": "Arduino IDE",
+  "match": {
+   "name": "^Arduino IDE\\b|^Arduino$",
+   "publisher": "Arduino"
+  },
+  "version": {},
+  "cpe": [
+   "arduino:arduino_ide"
+  ],
+  "update": "winget upgrade --id ArduinoSA.IDE.stable",
+  "verified": false
+ },
+ {
+  "id": "ArmagetronAdvanced.ArmagetronAdvanced",
+  "name": "Armagetron Advanced",
+  "match": {
+   "name": "^Armagetron Advanced(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "armagetronad:armagetron_advanced"
+  ],
+  "update": "winget upgrade --id ArmagetronAdvanced.ArmagetronAdvanced",
+  "verified": false
+ },
+ {
+  "id": "ArrayFire.ArrayFire",
+  "name": "ArrayFire",
+  "match": {
+   "name": "^ArrayFire(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "arrayfire:arrayfire"
+  ],
+  "update": "winget upgrade --id ArrayFire.ArrayFire",
+  "verified": false
+ },
+ {
+  "id": "Artha.Artha",
+  "name": "Artha",
+  "match": {
+   "name": "^Artha(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "artha_project:artha"
+  ],
+  "update": "winget upgrade --id Artha.Artha",
+  "verified": false
+ },
+ {
+  "id": "Asus.ArmouryCrate",
+  "name": "ArmouryCrate",
+  "match": {
+   "name": "^ArmouryCrate(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "asus:armoury_crate"
+  ],
+  "update": "winget upgrade --id Asus.ArmouryCrate",
+  "verified": false
+ },
+ {
+  "id": "Atlassian.Bitbucket",
+  "name": "Bitbucket Server",
+  "match": {
+   "name": "^Bitbucket Server(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "atlassian:bitbucket_server"
+  ],
+  "update": "winget upgrade --id Atlassian.Bitbucket",
+  "verified": false
+ },
+ {
+  "id": "Atlassian.Sourcetree",
+  "name": "Sourcetree",
+  "match": {
+   "name": "^Sourcetree$",
+   "publisher": "Atlassian"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "atlassian:sourcetree"
+  ],
+  "update": "winget upgrade --id Atlassian.Sourcetree",
+  "verified": false
+ },
+ {
+  "id": "Atomi.ActivePresenter",
+  "name": "ActivePresenter",
+  "match": {
+   "name": "^ActivePresenter(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "atomisystems:activepresenter"
+  ],
+  "update": "winget upgrade --id Atomi.ActivePresenter",
+  "verified": false
+ },
+ {
+  "id": "Audacity.Audacity",
+  "name": "Audacity",
+  "match": {
+   "name": "^Audacity\\b"
+  },
+  "version": {},
+  "cpe": [
+   "audacityteam:audacity"
+  ],
+  "update": "winget upgrade --id Audacity.Audacity",
+  "verified": false
+ },
+ {
+  "id": "AutoHotkey.AutoHotkey",
+  "name": "AutoHotkey",
+  "match": {
+   "name": "^AutoHotkey(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "autohotkey:autohotkey"
+  ],
+  "update": "winget upgrade --id AutoHotkey.AutoHotkey",
+  "verified": false
+ },
+ {
+  "id": "Azul.IcedTea-Web",
+  "name": "IcedTea-Web",
+  "match": {
+   "name": "^IcedTea-Web(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "icedtea-web_project:icedtea-web"
+  ],
+  "update": "winget upgrade --id Azul.IcedTea-Web",
+  "verified": false
+ },
+ {
+  "id": "B3log.SiYuan",
+  "name": "SiYuan",
+  "match": {
+   "name": "^SiYuan(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "b3log:siyuan"
+  ],
+  "update": "winget upgrade --id B3log.SiYuan",
+  "verified": false
+ },
+ {
+  "id": "Bandisoft.BandiView",
+  "name": "BandiView",
+  "match": {
+   "name": "^BandiView(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "bandisoft:bandiview"
+  ],
+  "update": "winget upgrade --id Bandisoft.BandiView",
+  "verified": false
+ },
+ {
+  "id": "Bandisoft.Bandizip",
+  "name": "Bandizip",
+  "match": {
+   "name": "^Bandizip(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "bandisoft:bandizip"
+  ],
+  "update": "winget upgrade --id Bandisoft.Bandizip",
+  "verified": false
+ },
+ {
+  "id": "Bandisoft.Honeyview",
+  "name": "Honeyview",
+  "match": {
+   "name": "^Honeyview(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "bandisoft:honeyview"
+  ],
+  "update": "winget upgrade --id Bandisoft.Honeyview",
+  "verified": false
+ },
+ {
+  "id": "BillStewart.SyncthingWindowsSetup",
+  "name": "Syncthing",
+  "match": {
+   "name": "^Syncthing(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "syncthing:syncthing"
+  ],
+  "update": "winget upgrade --id BillStewart.SyncthingWindowsSetup",
+  "verified": false
+ },
+ {
+  "id": "BitcoinCoreProject.BitcoinCore",
+  "name": "Bitcoin Core",
+  "match": {
+   "name": "^Bitcoin Core(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "bitcoin:bitcoin_core"
+  ],
+  "update": "winget upgrade --id BitcoinCoreProject.BitcoinCore",
+  "verified": false
+ },
+ {
+  "id": "Bitwarden.Bitwarden",
+  "name": "Bitwarden",
+  "match": {
+   "name": "^Bitwarden(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "bitwarden:bitwarden"
+  ],
+  "update": "winget upgrade --id Bitwarden.Bitwarden",
+  "verified": false
+ },
+ {
+  "id": "BleachBit.BleachBit",
+  "name": "BleachBit",
+  "match": {
+   "name": "^BleachBit(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "bleachbit:bleachbit"
+  ],
+  "update": "winget upgrade --id BleachBit.BleachBit",
+  "verified": false
+ },
+ {
+  "id": "BlenderFoundation.Blender",
+  "name": "Blender",
+  "match": {
+   "name": "^Blender\\b",
+   "publisher": "Blender Foundation"
+  },
+  "version": {},
+  "cpe": [
+   "blender:blender"
+  ],
+  "update": "winget upgrade --id BlenderFoundation.Blender",
+  "verified": false
+ },
+ {
+  "id": "Blix.BlueMail",
+  "name": "BlueMail",
+  "match": {
+   "name": "^BlueMail(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "blixhq:bluemail"
+  ],
+  "update": "winget upgrade --id Blix.BlueMail",
+  "verified": false
+ },
+ {
+  "id": "BlueStack.BlueStacks",
+  "name": "BlueStacks",
+  "match": {
+   "name": "^BlueStacks(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "bluestacks:bluestacks"
+  ],
+  "update": "winget upgrade --id BlueStack.BlueStacks",
+  "verified": false
+ },
+ {
+  "id": "Bochs.Bochs",
+  "name": "Bochs",
+  "match": {
+   "name": "^Bochs(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "bochs_project:bochs"
+  ],
+  "update": "winget upgrade --id Bochs.Bochs",
+  "verified": false
+ },
+ {
+  "id": "BrowserStack.BrowserStackLocal",
+  "name": "BrowserStackLocal",
+  "match": {
+   "name": "^BrowserStackLocal(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "browserstack:browserstack-local"
+  ],
+  "update": "winget upgrade --id BrowserStack.BrowserStackLocal",
+  "verified": false
+ },
+ {
+  "id": "Bruno.Bruno",
+  "name": "Bruno",
+  "match": {
+   "name": "^Bruno(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "usebruno:bruno"
+  ],
+  "update": "winget upgrade --id Bruno.Bruno",
+  "verified": false
+ },
+ {
+  "id": "Buttercup.Buttercup",
+  "name": "Buttercup",
+  "match": {
+   "name": "^Buttercup(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "buttercup:buttercup"
+  ],
+  "update": "winget upgrade --id Buttercup.Buttercup",
+  "verified": false
+ },
+ {
+  "id": "ByteDance.Feishu",
+  "name": "Feishu",
+  "match": {
+   "name": "^Feishu(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "feishu:feishu"
+  ],
+  "update": "winget upgrade --id ByteDance.Feishu",
+  "verified": false
+ },
+ {
+  "id": "BytecodeAlliance.Wasmtime",
+  "name": "Wasmtime",
+  "match": {
+   "name": "^Wasmtime(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "bytecodealliance:wasmtime"
+  ],
+  "update": "winget upgrade --id BytecodeAlliance.Wasmtime",
+  "verified": false
+ },
+ {
+  "id": "CPUID.CPU-Z",
+  "name": "CPU-Z",
+  "match": {
+   "name": "^CPUID CPU-Z\\b"
+  },
+  "version": {},
+  "cpe": [
+   "cpuid:cpu-z"
+  ],
+  "update": "winget upgrade --id CPUID.CPU-Z",
+  "verified": false
+ },
+ {
+  "id": "CaddyServer.Caddy",
+  "name": "Caddy",
+  "match": {
+   "name": "^Caddy(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "caddyserver:caddy"
+  ],
+  "update": "winget upgrade --id CaddyServer.Caddy",
+  "verified": false
+ },
+ {
+  "id": "Cal.Cal",
+  "name": "Cal",
+  "match": {
+   "name": "^Cal(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "cal:cal.com"
+  ],
+  "update": "winget upgrade --id Cal.Cal",
+  "verified": false
+ },
+ {
+  "id": "Canonical.Juju",
+  "name": "Juju",
+  "match": {
+   "name": "^Juju(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "canonical:juju"
+  ],
+  "update": "winget upgrade --id Canonical.Juju",
+  "verified": false
+ },
+ {
+  "id": "Canonical.Multipass",
+  "name": "Multipass",
+  "match": {
+   "name": "^Multipass(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "canonical:multipass"
+  ],
+  "update": "winget upgrade --id Canonical.Multipass",
+  "verified": false
+ },
+ {
+  "id": "Canva.Affinity",
+  "name": "Affinity",
+  "match": {
+   "name": "^Affinity(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "canva:affinity"
+  ],
+  "update": "winget upgrade --id Canva.Affinity",
+  "verified": false
+ },
+ {
+  "id": "Caphyon.AdvancedInstaller",
+  "name": "Advanced Installer",
+  "match": {
+   "name": "^Advanced Installer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "caphyon:advanced_installer"
+  ],
+  "update": "winget upgrade --id Caphyon.AdvancedInstaller",
+  "verified": false
+ },
+ {
+  "id": "Captura.Captura",
+  "name": "Captura",
+  "match": {
+   "name": "^Captura(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "captura_project:captura"
+  ],
+  "update": "winget upgrade --id Captura.Captura",
+  "verified": false
+ },
+ {
+  "id": "Caret.Caret",
+  "name": "Caret",
+  "match": {
+   "name": "^Caret(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "caret:caret"
+  ],
+  "update": "winget upgrade --id Caret.Caret",
+  "verified": false
+ },
+ {
+  "id": "Carrier.BlockLoad",
+  "name": "Block Load",
+  "match": {
+   "name": "^Block Load(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "carrier:block_load"
+  ],
+  "update": "winget upgrade --id Carrier.BlockLoad",
+  "verified": false
+ },
+ {
+  "id": "CatoNetworks.CatoClient",
+  "name": "Cato Client",
+  "match": {
+   "name": "^Cato Client(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "catonetworks:cato_client"
+  ],
+  "update": "winget upgrade --id CatoNetworks.CatoClient",
+  "verified": false
+ },
+ {
+  "id": "Celsys.ClipStudioPaint",
+  "name": "CLIP STUDIO PAINT",
+  "match": {
+   "name": "^CLIP STUDIO PAINT(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "celsys:clip_studio_paint"
+  ],
+  "update": "winget upgrade --id Celsys.ClipStudioPaint",
+  "verified": false
+ },
+ {
+  "id": "CeruleanStudios.Trillian",
+  "name": "Trillian",
+  "match": {
+   "name": "^Trillian(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "cerulean_studios:trillian"
+  ],
+  "update": "winget upgrade --id CeruleanStudios.Trillian",
+  "verified": false
+ },
+ {
+  "id": "ChefSoftware.Inspec",
+  "name": "InSpec",
+  "match": {
+   "name": "^InSpec(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "chef:inspec"
+  ],
+  "update": "winget upgrade --id ChefSoftware.Inspec",
+  "verified": false
+ },
+ {
+  "id": "ChidiWilliams.Buzz",
+  "name": "Buzz",
+  "match": {
+   "name": "^Buzz(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "chidiwilliams:buzz"
+  ],
+  "update": "winget upgrade --id ChidiWilliams.Buzz",
+  "verified": false
+ },
+ {
+  "id": "Cilium.CiliumCLI",
+  "name": "Cilium CLI",
+  "match": {
+   "name": "^Cilium CLI(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "cilium:cilium-cli"
+  ],
+  "update": "winget upgrade --id Cilium.CiliumCLI",
+  "verified": false
+ },
+ {
+  "id": "Cisco.CiscoWebexMeetings",
+  "name": "Cisco Webex Meetings",
+  "match": {
+   "name": "^Cisco Webex Meetings( Desktop App)?$",
+   "publisher": "Cisco"
+  },
+  "version": {},
+  "cpe": [
+   "cisco:webex_meetings",
+   "cisco:webex_meetings_desktop"
+  ],
+  "update": "winget upgrade --id Cisco.CiscoWebexMeetings",
+  "verified": false
+ },
+ {
+  "id": "Cisco.UmbrellaRoamingClient",
+  "name": "Umbrella Roaming Client",
+  "match": {
+   "name": "^Umbrella Roaming Client(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "cisco:umbrella_roaming_client"
+  ],
+  "update": "winget upgrade --id Cisco.UmbrellaRoamingClient",
+  "verified": false
+ },
+ {
+  "id": "Cisco.Webex",
+  "name": "Webex App",
+  "match": {
+   "name": "^(Cisco )?Webex( Teams)?$",
+   "publisher": "Cisco"
+  },
+  "version": {},
+  "cpe": [
+   "cisco:webex_teams"
+  ],
+  "update": "winget upgrade --id Cisco.Webex",
+  "verified": false
+ },
+ {
+  "id": "Cisco.Webex.Bundle",
+  "name": "Webex",
+  "match": {
+   "name": "^Webex(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "cisco:webex"
+  ],
+  "update": "winget upgrade --id Cisco.Webex.Bundle",
+  "verified": false
+ },
+ {
+  "id": "ClawsMail.ClawsMail",
+  "name": "Claws Mail",
+  "match": {
+   "name": "^Claws Mail(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "claws-mail:claws-mail"
+  ],
+  "update": "winget upgrade --id ClawsMail.ClawsMail",
+  "verified": false
+ },
+ {
+  "id": "Clementine.Clementine",
+  "name": "Clementine",
+  "match": {
+   "name": "^Clementine(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "clementine-player:clementine"
+  ],
+  "update": "winget upgrade --id Clementine.Clementine",
+  "verified": false
+ },
+ {
+  "id": "Cline.ClineDesktop",
+  "name": "Cline",
+  "match": {
+   "name": "^Cline(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "cline:cline"
+  ],
+  "update": "winget upgrade --id Cline.ClineDesktop",
+  "verified": false
+ },
+ {
+  "id": "Cloudflare.Warp",
+  "name": "Cloudflare WARP",
+  "match": {
+   "name": "^Cloudflare (WARP|One Client)\\b",
+   "publisher": "Cloudflare"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "cloudflare:warp"
+  ],
+  "update": "winget upgrade --id Cloudflare.Warp",
+  "verified": false
+ },
+ {
+  "id": "Cloudflare.cloudflared",
+  "name": "cloudflared",
+  "match": {
+   "name": "^cloudflared(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "cloudflare:cloudflared"
+  ],
+  "update": "winget upgrade --id Cloudflare.cloudflared",
+  "verified": false
+ },
+ {
+  "id": "Cloudreve.Cloudreve",
+  "name": "Cloudreve",
+  "match": {
+   "name": "^Cloudreve(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "cloudreve:cloudreve"
+  ],
+  "update": "winget upgrade --id Cloudreve.Cloudreve",
+  "verified": false
+ },
+ {
+  "id": "CodeSector.DirectFolders",
+  "name": "Direct Folders",
+  "match": {
+   "name": "^Direct Folders(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "codesector:direct_folders"
+  ],
+  "update": "winget upgrade --id CodeSector.DirectFolders",
+  "verified": false
+ },
+ {
+  "id": "CodeSector.TeraCopy",
+  "name": "TeraCopy",
+  "match": {
+   "name": "^TeraCopy(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "codesector:teracopy"
+  ],
+  "update": "winget upgrade --id CodeSector.TeraCopy",
+  "verified": false
+ },
+ {
+  "id": "CodecGuide.K-LiteCodecPack.Basic",
+  "name": "K-Lite Codec Pack Basic",
+  "match": {
+   "name": "^K-Lite Codec Pack [0-9.]+ Basic"
+  },
+  "version": {},
+  "cpe": [
+   "codecguide:k-lite_codec_pack"
+  ],
+  "update": "winget upgrade --id CodecGuide.K-LiteCodecPack.Basic",
+  "verified": false
+ },
+ {
+  "id": "CodecGuide.K-LiteCodecPack.Full",
+  "name": "K-Lite Codec Pack",
+  "match": {
+   "name": "^K-Lite (Mega )?Codec Pack\\b"
+  },
+  "version": {},
+  "cpe": [
+   "codecguide:k-lite_codec_pack",
+   "k-lite:mega_codec_pack"
+  ],
+  "update": "winget upgrade --id CodecGuide.K-LiteCodecPack.Full",
+  "verified": false
+ },
+ {
+  "id": "Coder.Coder",
+  "name": "Coder",
+  "match": {
+   "name": "^Coder(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "coder:coder"
+  ],
+  "update": "winget upgrade --id Coder.Coder",
+  "verified": false
+ },
+ {
+  "id": "Comfy.ComfyUI-Desktop",
+  "name": "ComfyUI",
+  "match": {
+   "name": "^ComfyUI(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "comfy:comfyui"
+  ],
+  "update": "winget upgrade --id Comfy.ComfyUI-Desktop",
+  "verified": false
+ },
+ {
+  "id": "Compuphase.Termite",
+  "name": "Termite",
+  "match": {
+   "name": "^Termite(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "compuphase:termite"
+  ],
+  "update": "winget upgrade --id Compuphase.Termite",
+  "verified": false
+ },
+ {
+  "id": "Couchbase.ServerCommunity",
+  "name": "Couchbase Server Community Edition",
+  "match": {
+   "name": "^Couchbase Server Community Edition(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "couchbase:couchbase_server"
+  ],
+  "update": "winget upgrade --id Couchbase.ServerCommunity",
+  "verified": false
+ },
+ {
+  "id": "Cppcheck.Cppcheck",
+  "name": "Cppcheck",
+  "match": {
+   "name": "^Cppcheck\\b"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+(?:\\.[0-9]+)?)"
+  },
+  "cpe": [
+   "cppchecksolutions:cppcheck"
+  ],
+  "update": "winget upgrade --id Cppcheck.Cppcheck",
+  "verified": false
+ },
+ {
+  "id": "Cryptomator.Cryptomator",
+  "name": "Cryptomator",
+  "match": {
+   "name": "^Cryptomator(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "cryptomator:cryptomator"
+  ],
+  "update": "winget upgrade --id Cryptomator.Cryptomator",
+  "verified": false
+ },
+ {
+  "id": "CyberGhost.CyberGhost",
+  "name": "CyberGhost",
+  "match": {
+   "name": "^CyberGhost(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "cyberghostvpn:cyberghost"
+  ],
+  "update": "winget upgrade --id CyberGhost.CyberGhost",
+  "verified": false
+ },
+ {
+  "id": "Cygwin.Cygwin",
+  "name": "Cygwin",
+  "match": {
+   "name": "^Cygwin(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "cygwin:cygwin"
+  ],
+  "update": "winget upgrade --id Cygwin.Cygwin",
+  "verified": false
+ },
+ {
+  "id": "D-Link.TFTPServer",
+  "name": "TFTP Server",
+  "match": {
+   "name": "^TFTP Server(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "solarwinds:tftp_server"
+  ],
+  "update": "winget upgrade --id D-Link.TFTPServer",
+  "verified": false
+ },
+ {
+  "id": "DBeaver.DBeaver.Community",
+  "name": "DBeaver",
+  "match": {
+   "name": "^DBeaver\\b"
+  },
+  "version": {},
+  "cpe": [
+   "dbeaver:dbeaver"
+  ],
+  "update": "winget upgrade --id DBeaver.DBeaver.Community",
+  "verified": false
+ },
+ {
+  "id": "DDEVFoundation.DDEV",
+  "name": "DDEV",
+  "match": {
+   "name": "^DDEV(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ddev:ddev"
+  ],
+  "update": "winget upgrade --id DDEVFoundation.DDEV",
+  "verified": false
+ },
+ {
+  "id": "DH2iCompany.DxEnterprise",
+  "name": "DxEnterprise",
+  "match": {
+   "name": "^DxEnterprise(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "dh2i:dxenterprise"
+  ],
+  "update": "winget upgrade --id DH2iCompany.DxEnterprise",
+  "verified": false
+ },
+ {
+  "id": "DOSBox.DOSBox",
+  "name": "DOSBox",
+  "match": {
+   "name": "^DOSBox(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "dosbox:dosbox"
+  ],
+  "update": "winget upgrade --id DOSBox.DOSBox",
+  "verified": false
+ },
+ {
+  "id": "Datalust.Seq",
+  "name": "Seq",
+  "match": {
+   "name": "^Seq(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "datalust:seq"
+  ],
+  "update": "winget upgrade --id Datalust.Seq",
+  "verified": false
+ },
+ {
+  "id": "DayuanJiang.NextAIDrawio",
+  "name": "Next AI Draw.io",
+  "match": {
+   "name": "^Next AI Draw\\.io(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "dayuanjiang:next_ai_draw.io"
+  ],
+  "update": "winget upgrade --id DayuanJiang.NextAIDrawio",
+  "verified": false
+ },
+ {
+  "id": "Dell.CommandConfigure",
+  "name": "Dell Command | Configure",
+  "match": {
+   "name": "^Dell Command \\| Configure\\b",
+   "publisher": "Dell"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "dell:command\\|configure"
+  ],
+  "update": "winget upgrade --id Dell.CommandConfigure",
+  "verified": false
+ },
+ {
+  "id": "Dell.CommandUpdate",
+  "name": "Dell Command | Update",
+  "match": {
+   "name": "^Dell Command \\| Update\\b",
+   "publisher": "Dell"
+  },
+  "version": {},
+  "cpe": [
+   "dell:command_update",
+   "dell:command_\\|_update"
+  ],
+  "update": "winget upgrade --id Dell.CommandUpdate",
+  "verified": false
+ },
+ {
+  "id": "DenoLand.Deno",
+  "name": "Deno",
+  "match": {
+   "name": "^Deno(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "deno:deno"
+  ],
+  "update": "winget upgrade --id DenoLand.Deno",
+  "verified": false
+ },
+ {
+  "id": "Deskflow.Deskflow",
+  "name": "Deskflow",
+  "match": {
+   "name": "^Deskflow(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "deskflow:deskflow"
+  ],
+  "update": "winget upgrade --id Deskflow.Deskflow",
+  "verified": false
+ },
+ {
+  "id": "DevHub.DevHub",
+  "name": "DevHub",
+  "match": {
+   "name": "^DevHub(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "devhubapp:devhub"
+  ],
+  "update": "winget upgrade --id DevHub.DevHub",
+  "verified": false
+ },
+ {
+  "id": "DevToys-app.DevToys",
+  "name": "DevToys",
+  "match": {
+   "name": "^DevToys(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "devtoys:devtoys"
+  ],
+  "update": "winget upgrade --id DevToys-app.DevToys",
+  "verified": false
+ },
+ {
+  "id": "Devolutions.Gateway",
+  "name": "Devolutions Gateway",
+  "match": {
+   "name": "^Devolutions Gateway(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "devolutions:devolutions_gateway"
+  ],
+  "update": "winget upgrade --id Devolutions.Gateway",
+  "verified": false
+ },
+ {
+  "id": "Devolutions.PowerShellUniversal",
+  "name": "PowerShell Universal",
+  "match": {
+   "name": "^PowerShell Universal(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "devolutions:powershell_universal"
+  ],
+  "update": "winget upgrade --id Devolutions.PowerShellUniversal",
+  "verified": false
+ },
+ {
+  "id": "Devolutions.RemoteDesktopManager",
+  "name": "Remote Desktop Manager",
+  "match": {
+   "name": "^Remote Desktop Manager(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "devolutions:remote_desktop_manager"
+  ],
+  "update": "winget upgrade --id Devolutions.RemoteDesktopManager",
+  "verified": false
+ },
+ {
+  "id": "Devolutions.UniGetUI",
+  "name": "UniGetUI",
+  "match": {
+   "name": "^UniGetUI(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "devolutions:unigetui"
+  ],
+  "update": "winget upgrade --id Devolutions.UniGetUI",
+  "verified": false
+ },
+ {
+  "id": "Digiexam.Digiexam",
+  "name": "Digiexam",
+  "match": {
+   "name": "^Digiexam(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "digiexam:digiexam"
+  ],
+  "update": "winget upgrade --id Digiexam.Digiexam",
+  "verified": false
+ },
+ {
+  "id": "DimitriVanHeesch.Doxygen",
+  "name": "Doxygen",
+  "match": {
+   "name": "^doxygen\\b"
+  },
+  "version": {},
+  "cpe": [
+   "doxygen:doxygen"
+  ],
+  "update": "winget upgrade --id DimitriVanHeesch.Doxygen",
+  "verified": false
+ },
+ {
+  "id": "Discord.Discord",
+  "name": "Discord",
+  "match": {
+   "name": "^Discord$",
+   "publisher": "Discord"
+  },
+  "version": {},
+  "cpe": [
+   "discord:discord"
+  ],
+  "update": "winget upgrade --id Discord.Discord",
+  "verified": false
+ },
+ {
+  "id": "Doist.Todoist",
+  "name": "Todoist",
+  "match": {
+   "name": "^Todoist(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "doist:todoist"
+  ],
+  "update": "winget upgrade --id Doist.Todoist",
+  "verified": false
+ },
+ {
+  "id": "Dropbox.Dropbox",
+  "name": "Dropbox",
+  "match": {
+   "name": "^Dropbox$",
+   "publisher": "Dropbox"
+  },
+  "version": {},
+  "cpe": [
+   "dropbox:dropbox",
+   "dropbox:dropbox_desktop"
+  ],
+  "update": "winget upgrade --id Dropbox.Dropbox",
+  "verified": false
+ },
+ {
+  "id": "DuckDuckGo.DesktopBrowser",
+  "name": "DuckDuckGo",
+  "match": {
+   "name": "^DuckDuckGo(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "duckduckgo:duckduckgo"
+  ],
+  "update": "winget upgrade --id DuckDuckGo.DesktopBrowser",
+  "verified": false
+ },
+ {
+  "id": "EPSON.iProjection",
+  "name": "iProjection",
+  "match": {
+   "name": "^iProjection(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "epson:iprojection"
+  ],
+  "update": "winget upgrade --id EPSON.iProjection",
+  "verified": false
+ },
+ {
+  "id": "ETHZurich.SafeExamBrowser",
+  "name": "Safe Exam Browser",
+  "match": {
+   "name": "^Safe Exam Browser(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ethz:safe_exam_browser"
+  ],
+  "update": "winget upgrade --id ETHZurich.SafeExamBrowser",
+  "verified": false
+ },
+ {
+  "id": "EclipseAdoptium.Temurin",
+  "name": "Eclipse Temurin",
+  "match": {
+   "name": "^Eclipse Temurin J(DK|RE) with Hotspot (1[1-9]|[2-9][0-9])\\."
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "Hotspot ([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "oracle:openjdk"
+  ],
+  "update": "winget upgrade --id EclipseAdoptium.Temurin.\u003cmajor\u003e.JDK",
+  "verified": false
+ },
+ {
+  "id": "EdrawSoft.EdrawMax.CN",
+  "name": "EdrawMax",
+  "match": {
+   "name": "^EdrawMax(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "edrawsoft:edraw_max"
+  ],
+  "update": "winget upgrade --id EdrawSoft.EdrawMax.CN",
+  "verified": false
+ },
+ {
+  "id": "Eigent.Eigent",
+  "name": "Eigent",
+  "match": {
+   "name": "^Eigent(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "eigent:eigent"
+  ],
+  "update": "winget upgrade --id Eigent.Eigent",
+  "verified": false
+ },
+ {
+  "id": "Elastic.Filebeat",
+  "name": "Filebeat",
+  "match": {
+   "name": "^(Elastic |Beats )?Filebeat\\b"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "elastic:filebeat"
+  ],
+  "update": "winget upgrade --id Elastic.Filebeat",
+  "verified": false
+ },
+ {
+  "id": "Elastic.Metricbeat",
+  "name": "Metricbeat",
+  "match": {
+   "name": "^(Elastic |Beats )?Metricbeat\\b"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "elastic:metricbeat"
+  ],
+  "update": "winget upgrade --id Elastic.Metricbeat",
+  "verified": false
+ },
+ {
+  "id": "Elastic.Winlogbeat",
+  "name": "Winlogbeat",
+  "match": {
+   "name": "^(Elastic )?Winlogbeat\\b",
+   "publisher": "Elastic"
+  },
+  "version": {},
+  "cpe": [
+   "elastic:winlogbeat"
+  ],
+  "update": "winget upgrade --id Elastic.Winlogbeat",
+  "verified": false
+ },
+ {
+  "id": "ElectronicTeam.Flexihub",
+  "name": "FlexiHub",
+  "match": {
+   "name": "^FlexiHub(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "electronic:flexihub"
+  ],
+  "update": "winget upgrade --id ElectronicTeam.Flexihub",
+  "verified": false
+ },
+ {
+  "id": "Electrum.Electrum",
+  "name": "Electrum",
+  "match": {
+   "name": "^Electrum(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "electrum:electrum"
+  ],
+  "update": "winget upgrade --id Electrum.Electrum",
+  "verified": false
+ },
+ {
+  "id": "Element.Element",
+  "name": "Element",
+  "match": {
+   "name": "^Element(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "element:element"
+  ],
+  "update": "winget upgrade --id Element.Element",
+  "verified": false
+ },
+ {
+  "id": "Erlang.ErlangOTP",
+  "name": "Erlang/OTP",
+  "match": {
+   "name": "^Erlang OTP\\b"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "^Erlang OTP ([0-9]+(?:\\.[0-9]+)*)"
+  },
+  "cpe": [
+   "erlang:erlang\\/otp"
+  ],
+  "update": "winget upgrade --id Erlang.ErlangOTP",
+  "verified": false
+ },
+ {
+  "id": "Evernote.Evernote",
+  "name": "Evernote",
+  "match": {
+   "name": "^Evernote\\b",
+   "publisher": "Evernote",
+   "not_name": "Clipper|Backup"
+  },
+  "version": {},
+  "cpe": [
+   "evernote:evernote"
+  ],
+  "update": "winget upgrade --id Evernote.Evernote",
+  "verified": false
+ },
+ {
+  "id": "Exiv2.Exiv2",
+  "name": "Exiv2",
+  "match": {
+   "name": "^Exiv2(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "exiv2:exiv2"
+  ],
+  "update": "winget upgrade --id Exiv2.Exiv2",
+  "verified": false
+ },
+ {
+  "id": "ExpressVPN.ExpressVPN",
+  "name": "ExpressVPN",
+  "match": {
+   "name": "^ExpressVPN(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "expressvpn:expressvpn"
+  ],
+  "update": "winget upgrade --id ExpressVPN.ExpressVPN",
+  "verified": false
+ },
+ {
+  "id": "Famatech.AdvancedIPScanner",
+  "name": "Advanced IP Scanner",
+  "match": {
+   "name": "^Advanced IP Scanner\\b",
+   "publisher": "Famatech"
+  },
+  "version": {},
+  "cpe": [
+   "radmin:advanced_ip_scanner"
+  ],
+  "update": "winget upgrade --id Famatech.AdvancedIPScanner",
+  "verified": false
+ },
+ {
+  "id": "Ferdium.Ferdium",
+  "name": "Ferdium",
+  "match": {
+   "name": "^Ferdium(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ferdium:ferdium"
+  ],
+  "update": "winget upgrade --id Ferdium.Ferdium",
+  "verified": false
+ },
+ {
+  "id": "Flexense.DiskBoss",
+  "name": "DiskBoss",
+  "match": {
+   "name": "^DiskBoss(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "flexense:diskboss"
+  ],
+  "update": "winget upgrade --id Flexense.DiskBoss",
+  "verified": false
+ },
+ {
+  "id": "Flexense.DiskSavvy",
+  "name": "DiskSavvy",
+  "match": {
+   "name": "^DiskSavvy(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "flexense:disksavvy"
+  ],
+  "update": "winget upgrade --id Flexense.DiskSavvy",
+  "verified": false
+ },
+ {
+  "id": "Flexense.DiskSorter",
+  "name": "DiskSorter",
+  "match": {
+   "name": "^DiskSorter(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "flexense:disksorter"
+  ],
+  "update": "winget upgrade --id Flexense.DiskSorter",
+  "verified": false
+ },
+ {
+  "id": "Flexense.DupScout",
+  "name": "DupScout",
+  "match": {
+   "name": "^DupScout(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "flexense:dupscout"
+  ],
+  "update": "winget upgrade --id Flexense.DupScout",
+  "verified": false
+ },
+ {
+  "id": "Flexense.SyncBreeze",
+  "name": "SyncBreeze",
+  "match": {
+   "name": "^SyncBreeze(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "flexense:syncbreeze"
+  ],
+  "update": "winget upgrade --id Flexense.SyncBreeze",
+  "verified": false
+ },
+ {
+  "id": "Flexense.SysGauge",
+  "name": "SysGauge",
+  "match": {
+   "name": "^SysGauge(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "flexense:sysgauge"
+  ],
+  "update": "winget upgrade --id Flexense.SysGauge",
+  "verified": false
+ },
+ {
+  "id": "Flexense.VXSearch",
+  "name": "VX Search",
+  "match": {
+   "name": "^VX Search(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "flexense:vx_search"
+  ],
+  "update": "winget upgrade --id Flexense.VXSearch",
+  "verified": false
+ },
+ {
+  "id": "FlightGear.FlightGear",
+  "name": "FlightGear",
+  "match": {
+   "name": "^FlightGear(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "flightgear:flightgear"
+  ],
+  "update": "winget upgrade --id FlightGear.FlightGear",
+  "verified": false
+ },
+ {
+  "id": "FlockFZ.Flock",
+  "name": "Flock",
+  "match": {
+   "name": "^Flock(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "flock:flock"
+  ],
+  "update": "winget upgrade --id FlockFZ.Flock",
+  "verified": false
+ },
+ {
+  "id": "FontForge.FontForge",
+  "name": "FontForge",
+  "match": {
+   "name": "^FontForge(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "fontforge:fontforge"
+  ],
+  "update": "winget upgrade --id FontForge.FontForge",
+  "verified": false
+ },
+ {
+  "id": "Formagrid.Airtable",
+  "name": "Airtable",
+  "match": {
+   "name": "^Airtable(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "airtable:airtable"
+  ],
+  "update": "winget upgrade --id Formagrid.Airtable",
+  "verified": false
+ },
+ {
+  "id": "Fortinet.FortiClientVPN",
+  "name": "FortiClient VPN",
+  "match": {
+   "name": "^FortiClient VPN$",
+   "publisher": "Fortinet"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "fortinet:forticlient",
+   "fortinet:forticlient_virtual_private_network"
+  ],
+  "update": "winget upgrade --id Fortinet.FortiClientVPN",
+  "verified": false
+ },
+ {
+  "id": "Fossil.Fossil",
+  "name": "Fossil",
+  "match": {
+   "name": "^Fossil(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "fossil-scm:fossil"
+  ],
+  "update": "winget upgrade --id Fossil.Fossil",
+  "verified": false
+ },
+ {
+  "id": "FreeCiv.FreeCiv",
+  "name": "Freeciv",
+  "match": {
+   "name": "^Freeciv(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "freeciv:freeciv"
+  ],
+  "update": "winget upgrade --id FreeCiv.FreeCiv",
+  "verified": false
+ },
+ {
+  "id": "FreedomofthePressFoundation.Dangerzone",
+  "name": "Dangerzone",
+  "match": {
+   "name": "^Dangerzone(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "freedom:dangerzone"
+  ],
+  "update": "winget upgrade --id FreedomofthePressFoundation.Dangerzone",
+  "verified": false
+ },
+ {
+  "id": "Freeplane.Freeplane",
+  "name": "Freeplane",
+  "match": {
+   "name": "^Freeplane(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "freeplane:freeplane"
+  ],
+  "update": "winget upgrade --id Freeplane.Freeplane",
+  "verified": false
+ },
+ {
+  "id": "FxSound.FxSound",
+  "name": "FxSound",
+  "match": {
+   "name": "^FxSound(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "fxsound:fxsound"
+  ],
+  "update": "winget upgrade --id FxSound.FxSound",
+  "verified": false
+ },
+ {
+  "id": "GLPI-Project.GLPI-Agent",
+  "name": "GLPI Agent",
+  "match": {
+   "name": "^GLPI Agent\\b"
+  },
+  "version": {},
+  "cpe": [
+   "glpi-project:glpi_agent"
+  ],
+  "update": "winget upgrade --id GLPI-Project.GLPI-Agent",
+  "verified": false
+ },
+ {
+  "id": "GOMLab.GOMPlayer",
+  "name": "GOM Player",
+  "match": {
+   "name": "^GOM Player(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "gomlab:gom_player"
+  ],
+  "update": "winget upgrade --id GOMLab.GOMPlayer",
+  "verified": false
+ },
+ {
+  "id": "GPAC.GPAC",
+  "name": "GPAC",
+  "match": {
+   "name": "^GPAC(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "gpac:gpac"
+  ],
+  "update": "winget upgrade --id GPAC.GPAC",
+  "verified": false
+ },
+ {
+  "id": "Gajim.Gajim",
+  "name": "Gajim",
+  "match": {
+   "name": "^Gajim(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "gajim:gajim"
+  ],
+  "update": "winget upgrade --id Gajim.Gajim",
+  "verified": false
+ },
+ {
+  "id": "Ghisler.TotalCommander",
+  "name": "Total Commander",
+  "match": {
+   "name": "^Total Commander\\b"
+  },
+  "version": {
+   "parts": 2
+  },
+  "cpe": [
+   "ghisler:total_commander",
+   "christian_ghisler:total_commander",
+   "total_commander:total_commander"
+  ],
+  "update": "winget upgrade --id Ghisler.TotalCommander",
+  "verified": false
+ },
+ {
+  "id": "Giorgiotani.Peazip",
+  "name": "PeaZip",
+  "match": {
+   "name": "^PeaZip\\b"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "peazip:peazip",
+   "peazip_project:peazip",
+   "giorgio_tani:peazip"
+  ],
+  "update": "winget upgrade --id Giorgiotani.Peazip",
+  "verified": false
+ },
+ {
+  "id": "GitHub.GitLFS",
+  "name": "Git LFS",
+  "match": {
+   "name": "^Git LFS\\b"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "git_large_file_storage_project:git_large_file_storage"
+  ],
+  "update": "winget upgrade --id GitHub.GitLFS",
+  "verified": false
+ },
+ {
+  "id": "GitHub.cli",
+  "name": "GitHub CLI",
+  "match": {
+   "name": "^GitHub CLI$",
+   "publisher": "GitHub"
+  },
+  "version": {},
+  "cpe": [
+   "github:cli"
+  ],
+  "update": "winget upgrade --id GitHub.cli",
+  "verified": false
+ },
+ {
+  "id": "GitHub.hub",
+  "name": "hub",
+  "match": {
+   "name": "^hub(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "github:hub"
+  ],
+  "update": "winget upgrade --id GitHub.hub",
+  "verified": false
+ },
+ {
+  "id": "Gitlab.Runner",
+  "name": "GitLab Runner",
+  "match": {
+   "name": "^GitLab Runner(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "gitlab:gitlab_runner"
+  ],
+  "update": "winget upgrade --id Gitlab.Runner",
+  "verified": false
+ },
+ {
+  "id": "Glarysoft.GlaryUtilities",
+  "name": "Glary Utilities",
+  "match": {
+   "name": "^Glary Utilities(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "glarysoft:glary_utilities"
+  ],
+  "update": "winget upgrade --id Glarysoft.GlaryUtilities",
+  "verified": false
+ },
+ {
+  "id": "GlassWire.GlassWire.Lite",
+  "name": "GlassWire",
+  "match": {
+   "name": "^GlassWire(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "glasswire:glasswire"
+  ],
+  "update": "winget upgrade --id GlassWire.GlassWire.Lite",
+  "verified": false
+ },
+ {
+  "id": "GlavSoft.TightVNC",
+  "name": "TightVNC",
+  "match": {
+   "name": "^TightVNC\\b",
+   "publisher": "GlavSoft"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "tightvnc:tightvnc"
+  ],
+  "update": "winget upgrade --id GlavSoft.TightVNC",
+  "verified": false
+ },
+ {
+  "id": "GlenSawyer.MP3Gain",
+  "name": "MP3Gain",
+  "match": {
+   "name": "^MP3Gain(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "glensawyer:mp3gain"
+  ],
+  "update": "winget upgrade --id GlenSawyer.MP3Gain",
+  "verified": false
+ },
+ {
+  "id": "GnuPG.Gpg4win",
+  "name": "Gpg4win",
+  "match": {
+   "name": "^Gpg4win\\b"
+  },
+  "version": {},
+  "cpe": [
+   "gpg4win:gpg4win"
+  ],
+  "update": "winget upgrade --id GnuPG.Gpg4win",
+  "verified": false
+ },
+ {
+  "id": "GnuWin32.Patch",
+  "name": "Patch",
+  "match": {
+   "name": "^Patch(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "gnu:patch"
+  ],
+  "update": "winget upgrade --id GnuWin32.Patch",
+  "verified": false
+ },
+ {
+  "id": "GnuWin32.Tar",
+  "name": "Tar",
+  "match": {
+   "name": "^Tar(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "gnu:tar"
+  ],
+  "update": "winget upgrade --id GnuWin32.Tar",
+  "verified": false
+ },
+ {
+  "id": "GodotEngine.GodotEngine",
+  "name": "Godot Engine",
+  "match": {
+   "name": "^Godot Engine(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "godotengine:godot_engine"
+  ],
+  "update": "winget upgrade --id GodotEngine.GodotEngine",
+  "verified": false
+ },
+ {
+  "id": "GoldenDict.GoldenDict",
+  "name": "GoldenDict",
+  "match": {
+   "name": "^GoldenDict(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "goldendict:goldendict"
+  ],
+  "update": "winget upgrade --id GoldenDict.GoldenDict",
+  "verified": false
+ },
+ {
+  "id": "Google.Brotli",
+  "name": "Brotli",
+  "match": {
+   "name": "^Brotli(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "google:brotli"
+  ],
+  "update": "winget upgrade --id Google.Brotli",
+  "verified": false
+ },
+ {
+  "id": "Google.DartSDK",
+  "name": "Dart SDK",
+  "match": {
+   "name": "^Dart SDK\\b"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "dart:dart_software_development_kit"
+  ],
+  "update": "winget upgrade --id Google.DartSDK",
+  "verified": false
+ },
+ {
+  "id": "Google.EarthPro",
+  "name": "Google Earth Pro",
+  "match": {
+   "name": "^Google Earth( Pro)?$",
+   "publisher": "Google"
+  },
+  "version": {},
+  "cpe": [
+   "google:earth"
+  ],
+  "update": "winget upgrade --id Google.EarthPro",
+  "verified": false
+ },
+ {
+  "id": "Google.Perfetto",
+  "name": "Perfetto",
+  "match": {
+   "name": "^Perfetto(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "google:perfetto"
+  ],
+  "update": "winget upgrade --id Google.Perfetto",
+  "verified": false
+ },
+ {
+  "id": "Google.Picasa",
+  "name": "Picasa",
+  "match": {
+   "name": "^Picasa(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "google:picasa"
+  ],
+  "update": "winget upgrade --id Google.Picasa",
+  "verified": false
+ },
+ {
+  "id": "Google.PlatformTools",
+  "name": "Android SDK Platform-Tools",
+  "match": {
+   "name": "^Android SDK Platform-Tools(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "google:android_sdk_platform_tools"
+  ],
+  "update": "winget upgrade --id Google.PlatformTools",
+  "verified": false
+ },
+ {
+  "id": "Google.Protobuf",
+  "name": "protobuf",
+  "match": {
+   "name": "^protobuf(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "google:protobuf"
+  ],
+  "update": "winget upgrade --id Google.Protobuf",
+  "verified": false
+ },
+ {
+  "id": "Google.flatbuffers",
+  "name": "flatbuffers",
+  "match": {
+   "name": "^flatbuffers(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "google:flatbuffers"
+  ],
+  "update": "winget upgrade --id Google.flatbuffers",
+  "verified": false
+ },
+ {
+  "id": "GoshsLabs.Goshs",
+  "name": "goshs",
+  "match": {
+   "name": "^goshs(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "goshs:goshs"
+  ],
+  "update": "winget upgrade --id GoshsLabs.Goshs",
+  "verified": false
+ },
+ {
+  "id": "GrafanaLabs.Alloy",
+  "name": "Alloy",
+  "match": {
+   "name": "^Alloy(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "grafana:alloy"
+  ],
+  "update": "winget upgrade --id GrafanaLabs.Alloy",
+  "verified": false
+ },
+ {
+  "id": "Graphviz.Graphviz",
+  "name": "Graphviz",
+  "match": {
+   "name": "^Graphviz\\b"
+  },
+  "version": {},
+  "cpe": [
+   "graphviz:graphviz"
+  ],
+  "update": "winget upgrade --id Graphviz.Graphviz",
+  "verified": false
+ },
+ {
+  "id": "Greenshot.Greenshot",
+  "name": "Greenshot",
+  "match": {
+   "name": "^Greenshot\\b"
+  },
+  "version": {},
+  "cpe": [
+   "getgreenshot:greenshot"
+  ],
+  "update": "winget upgrade --id Greenshot.Greenshot",
+  "verified": false
+ },
+ {
+  "id": "Grunt.Grunt",
+  "name": "Grunt",
+  "match": {
+   "name": "^Grunt(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "gruntjs:grunt"
+  ],
+  "update": "winget upgrade --id Grunt.Grunt",
+  "verified": false
+ },
+ {
+  "id": "HARMAN.AdobeAIR",
+  "name": "Adobe AIR",
+  "match": {
+   "name": "^Adobe AIR$",
+   "publisher": "Adobe|HARMAN"
+  },
+  "version": {},
+  "cpe": [
+   "adobe:adobe_air",
+   "adobe:air",
+   "adobe:air_desktop_runtime"
+  ],
+  "update": "winget upgrade --id HARMAN.AdobeAIR",
+  "verified": false
+ },
+ {
+  "id": "HP.SupportAssistant",
+  "name": "HP Support Assistant",
+  "match": {
+   "name": "^HP Support Assistant\\b",
+   "publisher": "HP"
+  },
+  "version": {},
+  "cpe": [
+   "hp:support_assistant"
+  ],
+  "update": "winget upgrade --id HP.SupportAssistant",
+  "verified": false
+ },
+ {
+  "id": "HTTPie.HTTPie",
+  "name": "HTTPie",
+  "match": {
+   "name": "^HTTPie(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "httpie:httpie"
+  ],
+  "update": "winget upgrade --id HTTPie.HTTPie",
+  "verified": false
+ },
+ {
+  "id": "Hashicorp.Packer",
+  "name": "Packer",
+  "match": {
+   "name": "^(HashiCorp )?Packer$",
+   "publisher": "HashiCorp"
+  },
+  "version": {},
+  "cpe": [
+   "hashicorp:packer"
+  ],
+  "update": "winget upgrade --id Hashicorp.Packer",
+  "verified": false
+ },
+ {
+  "id": "Hashicorp.Terraform",
+  "name": "Terraform",
+  "match": {
+   "name": "^(HashiCorp )?Terraform$",
+   "publisher": "HashiCorp"
+  },
+  "version": {},
+  "cpe": [
+   "hashicorp:terraform"
+  ],
+  "update": "winget upgrade --id Hashicorp.Terraform",
+  "verified": false
+ },
+ {
+  "id": "Hashicorp.Vagrant",
+  "name": "Vagrant",
+  "match": {
+   "name": "^Vagrant(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "hashicorp:vagrant"
+  ],
+  "update": "winget upgrade --id Hashicorp.Vagrant",
+  "verified": false
+ },
+ {
+  "id": "HaxeFoundation.Haxe",
+  "name": "Haxe",
+  "match": {
+   "name": "^Haxe(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "haxe:haxe"
+  ],
+  "update": "winget upgrade --id HaxeFoundation.Haxe",
+  "verified": false
+ },
+ {
+  "id": "HeartbeatChat.Heartbeat",
+  "name": "Heartbeat",
+  "match": {
+   "name": "^Heartbeat(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "heartbeat:heartbeat"
+  ],
+  "update": "winget upgrade --id HeartbeatChat.Heartbeat",
+  "verified": false
+ },
+ {
+  "id": "Heaventools.PEexplorer",
+  "name": "PE Explorer",
+  "match": {
+   "name": "^PE Explorer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "heaventools:pe_explorer"
+  ],
+  "update": "winget upgrade --id Heaventools.PEexplorer",
+  "verified": false
+ },
+ {
+  "id": "HeidiSQL.HeidiSQL",
+  "name": "HeidiSQL",
+  "match": {
+   "name": "^HeidiSQL\\b"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "heidisql:heidisql"
+  ],
+  "update": "winget upgrade --id HeidiSQL.HeidiSQL",
+  "verified": false
+ },
+ {
+  "id": "Helm.Helm",
+  "name": "Helm",
+  "match": {
+   "name": "^Helm$",
+   "publisher": "^Helm"
+  },
+  "version": {},
+  "cpe": [
+   "helm:helm"
+  ],
+  "update": "winget upgrade --id Helm.Helm",
+  "verified": false
+ },
+ {
+  "id": "HenriWahl.Nagstamon",
+  "name": "Nagstamon",
+  "match": {
+   "name": "^Nagstamon(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "henri_wahl:nagstamon"
+  ],
+  "update": "winget upgrade --id HenriWahl.Nagstamon",
+  "verified": false
+ },
+ {
+  "id": "HexChat.HexChat",
+  "name": "HexChat",
+  "match": {
+   "name": "^HexChat(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "hexchat_project:hexchat"
+  ],
+  "update": "winget upgrade --id HexChat.HexChat",
+  "verified": false
+ },
+ {
+  "id": "Hibbiki.Chromium",
+  "name": "Chromium",
+  "match": {
+   "name": "^Chromium$"
+  },
+  "version": {},
+  "cpe": [
+   "chromium:chromium"
+  ],
+  "update": "winget upgrade --id Hibbiki.Chromium",
+  "verified": false
+ },
+ {
+  "id": "Huawei.AppGallery",
+  "name": "AppGallery",
+  "match": {
+   "name": "^AppGallery(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "huawei:appgallery"
+  ],
+  "update": "winget upgrade --id Huawei.AppGallery",
+  "verified": false
+ },
+ {
+  "id": "Huawei.HiSuite",
+  "name": "HiSuite",
+  "match": {
+   "name": "^HiSuite(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "huawei:hisuite"
+  ],
+  "update": "winget upgrade --id Huawei.HiSuite",
+  "verified": false
+ },
+ {
+  "id": "Hugin.Hugin",
+  "name": "Hugin",
+  "match": {
+   "name": "^Hugin(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "hugin_project:hugin"
+  ],
+  "update": "winget upgrade --id Hugin.Hugin",
+  "verified": false
+ },
+ {
+  "id": "Hugo.Hugo",
+  "name": "Hugo",
+  "match": {
+   "name": "^Hugo(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "gohugo:hugo"
+  ],
+  "update": "winget upgrade --id Hugo.Hugo",
+  "verified": false
+ },
+ {
+  "id": "HydraLauncher.Hydra",
+  "name": "Hydra",
+  "match": {
+   "name": "^Hydra(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "hydra_project:hydra"
+  ],
+  "update": "winget upgrade --id HydraLauncher.Hydra",
+  "verified": false
+ },
+ {
+  "id": "IDRIX.VeraCrypt",
+  "name": "VeraCrypt",
+  "match": {
+   "name": "^VeraCrypt(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "idrix:veracrypt"
+  ],
+  "update": "winget upgrade --id IDRIX.VeraCrypt",
+  "verified": false
+ },
+ {
+  "id": "IDrive.IDrive",
+  "name": "IDrive",
+  "match": {
+   "name": "^IDrive(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "idrive:idrive"
+  ],
+  "update": "winget upgrade --id IDrive.IDrive",
+  "verified": false
+ },
+ {
+  "id": "IObit.DriverBooster",
+  "name": "Driver Booster",
+  "match": {
+   "name": "^Driver Booster(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "iobit:driver_booster"
+  ],
+  "update": "winget upgrade --id IObit.DriverBooster",
+  "verified": false
+ },
+ {
+  "id": "IObit.IObitUnlocker",
+  "name": "IObit Unlocker",
+  "match": {
+   "name": "^IObit Unlocker(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "iobit:iobit_unlocker"
+  ],
+  "update": "winget upgrade --id IObit.IObitUnlocker",
+  "verified": false
+ },
+ {
+  "id": "IObit.SmartDefrag",
+  "name": "Smart Defrag",
+  "match": {
+   "name": "^Smart Defrag(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "iobit:smart_defrag"
+  ],
+  "update": "winget upgrade --id IObit.SmartDefrag",
+  "verified": false
+ },
+ {
+  "id": "IPVanish.IPVanish",
+  "name": "IPVanish",
+  "match": {
+   "name": "^IPVanish(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ipvanish:ipvanish"
+  ],
+  "update": "winget upgrade --id IPVanish.IPVanish",
+  "verified": false
+ },
+ {
+  "id": "IZArc.IZArc",
+  "name": "IZArc",
+  "match": {
+   "name": "^IZArc(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "izarc:izarc"
+  ],
+  "update": "winget upgrade --id IZArc.IZArc",
+  "verified": false
+ },
+ {
+  "id": "IcoFXSoftware.icofx",
+  "name": "IcoFX",
+  "match": {
+   "name": "^IcoFX(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "icofx:icofx"
+  ],
+  "update": "winget upgrade --id IcoFXSoftware.icofx",
+  "verified": false
+ },
+ {
+  "id": "IdeaMK.EPSViewer",
+  "name": "EPS Viewer",
+  "match": {
+   "name": "^EPS Viewer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ideamk:eps_viewer"
+  ],
+  "update": "winget upgrade --id IdeaMK.EPSViewer",
+  "verified": false
+ },
+ {
+  "id": "ImpulseAdventure.JPEGsnoop",
+  "name": "JPEGsnoop",
+  "match": {
+   "name": "^JPEGsnoop(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "impulseadventure:jpegsnoop"
+  ],
+  "update": "winget upgrade --id ImpulseAdventure.JPEGsnoop",
+  "verified": false
+ },
+ {
+  "id": "Inkdrop.Inkdrop",
+  "name": "Inkdrop",
+  "match": {
+   "name": "^Inkdrop(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "inkdrop:inkdrop"
+  ],
+  "update": "winget upgrade --id Inkdrop.Inkdrop",
+  "verified": false
+ },
+ {
+  "id": "Inkscape.Inkscape",
+  "name": "Inkscape",
+  "match": {
+   "name": "^Inkscape\\b"
+  },
+  "version": {},
+  "cpe": [
+   "inkscape:inkscape"
+  ],
+  "update": "winget upgrade --id Inkscape.Inkscape",
+  "verified": false
+ },
+ {
+  "id": "Insecure.Nmap",
+  "name": "Nmap",
+  "match": {
+   "name": "^Nmap\\b"
+  },
+  "version": {},
+  "cpe": [
+   "nmap:nmap"
+  ],
+  "update": "winget upgrade --id Insecure.Nmap",
+  "verified": false
+ },
+ {
+  "id": "IntegrIT.Hackolade",
+  "name": "Hackolade",
+  "match": {
+   "name": "^Hackolade(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "hackolade:hackolade"
+  ],
+  "update": "winget upgrade --id IntegrIT.Hackolade",
+  "verified": false
+ },
+ {
+  "id": "Intel.ACAT",
+  "name": "Assistive Context-Aware Toolkit",
+  "match": {
+   "name": "^Assistive Context-Aware Toolkit(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "intel:assistive_context-aware_toolkit"
+  ],
+  "update": "winget upgrade --id Intel.ACAT",
+  "verified": false
+ },
+ {
+  "id": "Intel.IntelDriverAndSupportAssistant",
+  "name": "Intel Driver \u0026 Support Assistant",
+  "match": {
+   "name": "^Intel(®|\\(R\\))? Driver (\u0026|and) Support Assistant",
+   "publisher": "Intel"
+  },
+  "version": {},
+  "cpe": [
+   "intel:driver_\\\u0026_support_assistant",
+   "intel:driver\\\u0026support_assistant"
+  ],
+  "update": "winget upgrade --id Intel.IntelDriverAndSupportAssistant",
+  "verified": false
+ },
+ {
+  "id": "Intel.OSPRay",
+  "name": "OSPRay",
+  "match": {
+   "name": "^OSPRay(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "intel:ospray"
+  ],
+  "update": "winget upgrade --id Intel.OSPRay",
+  "verified": false
+ },
+ {
+  "id": "IrfanSkiljan.IrfanView",
+  "name": "IrfanView",
+  "match": {
+   "name": "^IrfanView\\b",
+   "publisher": "Irfan",
+   "not_name": "Plug-?Ins"
+  },
+  "version": {
+   "parts": 2
+  },
+  "cpe": [
+   "irfanview:irfanview"
+  ],
+  "update": "winget upgrade --id IrfanSkiljan.IrfanView",
+  "verified": false
+ },
+ {
+  "id": "IrfanSkiljan.IrfanView.PlugIns",
+  "name": "IrfanView PlugIns",
+  "match": {
+   "name": "^IrfanView PlugIns\\b"
+  },
+  "version": {},
+  "cpe": [
+   "irfanview:irfanview_plugins"
+  ],
+  "update": "winget upgrade --id IrfanSkiljan.IrfanView.PlugIns",
+  "verified": false
+ },
+ {
+  "id": "IronmanSoftware.PowerShellUniversal",
+  "name": "PowerShell Universal",
+  "match": {
+   "name": "^PowerShell Universal(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ironmansoftware:powershell_universal"
+  ],
+  "update": "winget upgrade --id IronmanSoftware.PowerShellUniversal",
+  "verified": false
+ },
+ {
+  "id": "Istio.Istio",
+  "name": "Istio",
+  "match": {
+   "name": "^Istio(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "istio:istio"
+  ],
+  "update": "winget upgrade --id Istio.Istio",
+  "verified": false
+ },
+ {
+  "id": "Iterate.Cyberduck",
+  "name": "Cyberduck",
+  "match": {
+   "name": "^Cyberduck$"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "cyberduck:cyberduck"
+  ],
+  "update": "winget upgrade --id Iterate.Cyberduck",
+  "verified": false
+ },
+ {
+  "id": "JGraph.Draw",
+  "name": "draw.io",
+  "match": {
+   "name": "^draw\\.io\\b"
+  },
+  "version": {},
+  "cpe": [
+   "diagrams:drawio"
+  ],
+  "update": "winget upgrade --id JGraph.Draw",
+  "verified": false
+ },
+ {
+  "id": "JRSoftware.InnoSetup",
+  "name": "Inno Setup",
+  "match": {
+   "name": "^Inno Setup version [0-9]"
+  },
+  "version": {},
+  "cpe": [
+   "jrsoftware:inno_setup"
+  ],
+  "update": "winget upgrade --id JRSoftware.InnoSetup",
+  "verified": false
+ },
+ {
+  "id": "JabRef.JabRef",
+  "name": "JabRef",
+  "match": {
+   "name": "^JabRef(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "jabref:jabref"
+  ],
+  "update": "winget upgrade --id JabRef.JabRef",
+  "verified": false
+ },
+ {
+  "id": "Jackaudio.JACK2",
+  "name": "JACK2",
+  "match": {
+   "name": "^JACK2(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "jackaudio:jack2"
+  ],
+  "update": "winget upgrade --id Jackaudio.JACK2",
+  "verified": false
+ },
+ {
+  "id": "JanetLang.Janet",
+  "name": "Janet",
+  "match": {
+   "name": "^Janet(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "janet-lang:janet"
+  ],
+  "update": "winget upgrade --id JanetLang.Janet",
+  "verified": false
+ },
+ {
+  "id": "JetBrains.CLion",
+  "name": "CLion",
+  "match": {
+   "name": "^CLion(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "jetbrains:clion"
+  ],
+  "update": "winget upgrade --id JetBrains.CLion",
+  "verified": false
+ },
+ {
+  "id": "JetBrains.DataGrip",
+  "name": "DataGrip",
+  "match": {
+   "name": "^DataGrip(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "jetbrains:datagrip"
+  ],
+  "update": "winget upgrade --id JetBrains.DataGrip",
+  "verified": false
+ },
+ {
+  "id": "JetBrains.DataSpell",
+  "name": "DataSpell",
+  "match": {
+   "name": "^DataSpell(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "jetbrains:dataspell"
+  ],
+  "update": "winget upgrade --id JetBrains.DataSpell",
+  "verified": false
+ },
+ {
+  "id": "JetBrains.GoLand",
+  "name": "GoLand",
+  "match": {
+   "name": "^GoLand(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "jetbrains:goland"
+  ],
+  "update": "winget upgrade --id JetBrains.GoLand",
+  "verified": false
+ },
+ {
+  "id": "JetBrains.IntelliJIDEA.Community",
+  "name": "IntelliJ IDEA Community Edition",
+  "match": {
+   "name": "^IntelliJ IDEA Community Edition\\b",
+   "publisher": "JetBrains"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "([0-9]{4}\\.[0-9]+(?:\\.[0-9]+)?)"
+  },
+  "cpe": [
+   "jetbrains:intellij_idea"
+  ],
+  "update": "winget upgrade --id JetBrains.IntelliJIDEA.Community",
+  "verified": false
+ },
+ {
+  "id": "JetBrains.PhpStorm",
+  "name": "PhpStorm",
+  "match": {
+   "name": "^PhpStorm(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "jetbrains:phpstorm"
+  ],
+  "update": "winget upgrade --id JetBrains.PhpStorm",
+  "verified": false
+ },
+ {
+  "id": "JetBrains.PyCharm.Community",
+  "name": "PyCharm",
+  "match": {
+   "name": "^PyCharm\\b",
+   "publisher": "JetBrains"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "([0-9]{4}\\.[0-9]+(?:\\.[0-9]+)?)"
+  },
+  "cpe": [
+   "jetbrains:pycharm"
+  ],
+  "update": "winget upgrade --id JetBrains.PyCharm.Community",
+  "verified": false
+ },
+ {
+  "id": "JetBrains.RubyMine",
+  "name": "RubyMine",
+  "match": {
+   "name": "^RubyMine(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "jetbrains:rubymine"
+  ],
+  "update": "winget upgrade --id JetBrains.RubyMine",
+  "verified": false
+ },
+ {
+  "id": "JetBrains.RustRover",
+  "name": "RustRover",
+  "match": {
+   "name": "^RustRover(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "jetbrains:rustrover"
+  ],
+  "update": "winget upgrade --id JetBrains.RustRover",
+  "verified": false
+ },
+ {
+  "id": "JetBrains.WebStorm",
+  "name": "WebStorm",
+  "match": {
+   "name": "^WebStorm(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "jetbrains:webstorm"
+  ],
+  "update": "winget upgrade --id JetBrains.WebStorm",
+  "verified": false
+ },
+ {
+  "id": "JetBrains.dotPeek",
+  "name": "JetBrains dotPeek",
+  "match": {
+   "name": "^JetBrains dotPeek\\b"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "dotPeek ([0-9]+\\.[0-9]+(?:\\.[0-9]+)?)"
+  },
+  "cpe": [
+   "jetbrains:dotpeek"
+  ],
+  "update": "winget upgrade --id JetBrains.dotPeek",
+  "verified": false
+ },
+ {
+  "id": "JohnMacFarlane.Pandoc",
+  "name": "Pandoc",
+  "match": {
+   "name": "^Pandoc( [0-9.]+)?$"
+  },
+  "version": {},
+  "cpe": [
+   "pandoc:pandoc"
+  ],
+  "update": "winget upgrade --id JohnMacFarlane.Pandoc",
+  "verified": false
+ },
+ {
+  "id": "Julialang.Juliaup",
+  "name": "Julia",
+  "match": {
+   "name": "^Julia(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "julialang:julia"
+  ],
+  "update": "winget upgrade --id Julialang.Juliaup",
+  "verified": false
+ },
+ {
+  "id": "KDE.Amarok",
+  "name": "Amarok",
+  "match": {
+   "name": "^Amarok(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "kde:amarok"
+  ],
+  "update": "winget upgrade --id KDE.Amarok",
+  "verified": false
+ },
+ {
+  "id": "KDE.Ark.AppX",
+  "name": "Ark",
+  "match": {
+   "name": "^Ark(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "kde:ark"
+  ],
+  "update": "winget upgrade --id KDE.Ark.AppX",
+  "verified": false
+ },
+ {
+  "id": "KDE.KDEConnect",
+  "name": "KDE Connect",
+  "match": {
+   "name": "^KDE Connect(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "kde:kdeconnect"
+  ],
+  "update": "winget upgrade --id KDE.KDEConnect",
+  "verified": false
+ },
+ {
+  "id": "KDE.Kate",
+  "name": "Kate",
+  "match": {
+   "name": "^Kate(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "kde:kate"
+  ],
+  "update": "winget upgrade --id KDE.Kate",
+  "verified": false
+ },
+ {
+  "id": "KDE.Okular",
+  "name": "Okular",
+  "match": {
+   "name": "^Okular(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "kde:okular"
+  ],
+  "update": "winget upgrade --id KDE.Okular",
+  "verified": false
+ },
+ {
+  "id": "Kakao.KakaoTalk",
+  "name": "KakaoTalk",
+  "match": {
+   "name": "^KakaoTalk(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "kakaocorp:kakaotalk"
+  ],
+  "update": "winget upgrade --id Kakao.KakaoTalk",
+  "verified": false
+ },
+ {
+  "id": "KeePassXCTeam.KeePassXC",
+  "name": "KeePassXC",
+  "match": {
+   "name": "^KeePassXC$"
+  },
+  "version": {},
+  "cpe": [
+   "keepassxc:keepassxc"
+  ],
+  "update": "winget upgrade --id KeePassXCTeam.KeePassXC",
+  "verified": false
+ },
+ {
+  "id": "KeepSolid.VPNUnlimited",
+  "name": "VPN Unlimited",
+  "match": {
+   "name": "^VPN Unlimited(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "keepsolid:vpn_unlimited"
+  ],
+  "update": "winget upgrade --id KeepSolid.VPNUnlimited",
+  "verified": false
+ },
+ {
+  "id": "KeeperSecurity.KeeperDesktop",
+  "name": "Keeper Password Manager",
+  "match": {
+   "name": "^Keeper( Password Manager)?$",
+   "publisher": "Keeper"
+  },
+  "version": {},
+  "cpe": [
+   "keepersecurity:keeper"
+  ],
+  "update": "winget upgrade --id KeeperSecurity.KeeperDesktop",
+  "verified": false
+ },
+ {
+  "id": "Keybase.Keybase",
+  "name": "Keybase",
+  "match": {
+   "name": "^Keybase(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "keybase:keybase"
+  ],
+  "update": "winget upgrade --id Keybase.Keybase",
+  "verified": false
+ },
+ {
+  "id": "Khoj.Khoj",
+  "name": "Khoj",
+  "match": {
+   "name": "^Khoj(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "khoj:khoj"
+  ],
+  "update": "winget upgrade --id Khoj.Khoj",
+  "verified": false
+ },
+ {
+  "id": "KiloCode.Kilo",
+  "name": "Kilo",
+  "match": {
+   "name": "^Kilo(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "kilo_project:kilo"
+  ],
+  "update": "winget upgrade --id KiloCode.Kilo",
+  "verified": false
+ },
+ {
+  "id": "Kingsoft.WPSOffice",
+  "name": "WPS Office",
+  "match": {
+   "name": "^WPS Office\\b",
+   "publisher": "Kingsoft|WPS"
+  },
+  "version": {},
+  "cpe": [
+   "kingsoft:wps_office",
+   "wps:wps_office",
+   "ksosoft:wps_office",
+   "kingsoftstore:wps_office_free",
+   "kingsoftstore:kingsoft_wps_office"
+  ],
+  "update": "winget upgrade --id Kingsoft.WPSOffice",
+  "verified": false
+ },
+ {
+  "id": "Knime.AnalyticsPlatform.LTS",
+  "name": "KNIME Analytics Platform",
+  "match": {
+   "name": "^KNIME Analytics Platform(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "knime:knime_analytics_platform"
+  ],
+  "update": "winget upgrade --id Knime.AnalyticsPlatform.LTS",
+  "verified": false
+ },
+ {
+  "id": "Kubernetes.aws-iam-authenticator",
+  "name": "AWS IAM Authenticator",
+  "match": {
+   "name": "^AWS IAM Authenticator(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "kubernetes:aws-iam-authenticator"
+  ],
+  "update": "winget upgrade --id Kubernetes.aws-iam-authenticator",
+  "verified": false
+ },
+ {
+  "id": "Kubernetes.minikube",
+  "name": "minikube",
+  "match": {
+   "name": "^(Kubernetes )?minikube\\b"
+  },
+  "version": {},
+  "cpe": [
+   "kubernetes:minikube"
+  ],
+  "update": "winget upgrade --id Kubernetes.minikube",
+  "verified": false
+ },
+ {
+  "id": "LAME.LAME",
+  "name": "LAME",
+  "match": {
+   "name": "^LAME(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "lame_project:lame"
+  ],
+  "update": "winget upgrade --id LAME.LAME",
+  "verified": false
+ },
+ {
+  "id": "LLVM.LLVM",
+  "name": "LLVM",
+  "match": {
+   "name": "^LLVM$",
+   "publisher": "LLVM"
+  },
+  "version": {},
+  "cpe": [
+   "llvm:llvm"
+  ],
+  "update": "winget upgrade --id LLVM.LLVM",
+  "verified": false
+ },
+ {
+  "id": "Langflow.Langflow",
+  "name": "Langflow",
+  "match": {
+   "name": "^Langflow(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "langflow:langflow"
+  ],
+  "update": "winget upgrade --id Langflow.Langflow",
+  "verified": false
+ },
+ {
+  "id": "Lapce.Lapce",
+  "name": "Lapce",
+  "match": {
+   "name": "^Lapce(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "lapce:lapce"
+  ],
+  "update": "winget upgrade --id Lapce.Lapce",
+  "verified": false
+ },
+ {
+  "id": "LedgerHQ.LedgerLive",
+  "name": "Ledger Live",
+  "match": {
+   "name": "^Ledger Live(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ledger:ledger_live"
+  ],
+  "update": "winget upgrade --id LedgerHQ.LedgerLive",
+  "verified": false
+ },
+ {
+  "id": "Lenovo.SystemUpdate",
+  "name": "Lenovo System Update",
+  "match": {
+   "name": "^Lenovo System Update\\b|^ThinkVantage System Update\\b"
+  },
+  "version": {},
+  "cpe": [
+   "lenovo:system_update",
+   "lenovo:lenovo_system_update",
+   "lenovo:thinkvantage_system_update"
+  ],
+  "update": "winget upgrade --id Lenovo.SystemUpdate",
+  "verified": false
+ },
+ {
+  "id": "LibreCAD.LibreCAD",
+  "name": "LibreCAD",
+  "match": {
+   "name": "^LibreCAD(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "librecad:librecad"
+  ],
+  "update": "winget upgrade --id LibreCAD.LibreCAD",
+  "verified": false
+ },
+ {
+  "id": "Libretro.RetroArch",
+  "name": "RetroArch",
+  "match": {
+   "name": "^RetroArch(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "libretro:retroarch"
+  ],
+  "update": "winget upgrade --id Libretro.RetroArch",
+  "verified": false
+ },
+ {
+  "id": "LilyPond.LilyPond",
+  "name": "LilyPond",
+  "match": {
+   "name": "^LilyPond(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "lilypond:lilypond"
+  ],
+  "update": "winget upgrade --id LilyPond.LilyPond",
+  "verified": false
+ },
+ {
+  "id": "LinearOrbit.Linear",
+  "name": "Linear",
+  "match": {
+   "name": "^Linear(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "linear:linear"
+  ],
+  "update": "winget upgrade --id LinearOrbit.Linear",
+  "verified": false
+ },
+ {
+  "id": "LinuxContainers.Incus",
+  "name": "Incus",
+  "match": {
+   "name": "^Incus(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "linuxcontainers:incus"
+  ],
+  "update": "winget upgrade --id LinuxContainers.Incus",
+  "verified": false
+ },
+ {
+  "id": "Liquibase.Liquibase",
+  "name": "Liquibase",
+  "match": {
+   "name": "^Liquibase(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "liquibase:liquibase"
+  ],
+  "update": "winget upgrade --id Liquibase.Liquibase",
+  "verified": false
+ },
+ {
+  "id": "LiteXLTeam.LiteXL",
+  "name": "Lite XL",
+  "match": {
+   "name": "^Lite XL(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "lite-xl:lite_xl"
+  ],
+  "update": "winget upgrade --id LiteXLTeam.LiteXL",
+  "verified": false
+ },
+ {
+  "id": "Livebook.Livebook",
+  "name": "Livebook",
+  "match": {
+   "name": "^Livebook(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "livebook:livebook"
+  ],
+  "update": "winget upgrade --id Livebook.Livebook",
+  "verified": false
+ },
+ {
+  "id": "LizardByte.Sunshine",
+  "name": "Sunshine",
+  "match": {
+   "name": "^Sunshine(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "lizardbyte:sunshine"
+  ],
+  "update": "winget upgrade --id LizardByte.Sunshine",
+  "verified": false
+ },
+ {
+  "id": "LobeHub.LobeHub",
+  "name": "LobeHub",
+  "match": {
+   "name": "^LobeHub(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "lobehub:lobehub"
+  ],
+  "update": "winget upgrade --id LobeHub.LobeHub",
+  "verified": false
+ },
+ {
+  "id": "LocalSend.LocalSend",
+  "name": "LocalSend",
+  "match": {
+   "name": "^LocalSend(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "localsend:localsend"
+  ],
+  "update": "winget upgrade --id LocalSend.LocalSend",
+  "verified": false
+ },
+ {
+  "id": "Loom.Loom",
+  "name": "Loom",
+  "match": {
+   "name": "^Loom(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "loom:loom"
+  ],
+  "update": "winget upgrade --id Loom.Loom",
+  "verified": false
+ },
+ {
+  "id": "LukasBach.Yana",
+  "name": "Yana",
+  "match": {
+   "name": "^Yana(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "lukasbach:yana"
+  ],
+  "update": "winget upgrade --id LukasBach.Yana",
+  "verified": false
+ },
+ {
+  "id": "LutzRoeder.Netron",
+  "name": "Netron",
+  "match": {
+   "name": "^Netron(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "lutzroeder:netron"
+  ],
+  "update": "winget upgrade --id LutzRoeder.Netron",
+  "verified": false
+ },
+ {
+  "id": "LyonBros.Turtl",
+  "name": "Turtl",
+  "match": {
+   "name": "^Turtl(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "lyonbros:turtl"
+  ],
+  "update": "winget upgrade --id LyonBros.Turtl",
+  "verified": false
+ },
+ {
+  "id": "M2Team.NanaZip",
+  "name": "NanaZip",
+  "match": {
+   "name": "^NanaZip(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "m2team:nanazip"
+  ],
+  "update": "winget upgrade --id M2Team.NanaZip",
+  "verified": false
+ },
+ {
+  "id": "MSYS2.MSYS2",
+  "name": "MSYS2",
+  "match": {
+   "name": "^MSYS2\\b"
+  },
+  "version": {},
+  "cpe": [
+   "msys2:msys2"
+  ],
+  "update": "winget upgrade --id MSYS2.MSYS2",
+  "verified": false
+ },
+ {
+  "id": "Maltego.Maltego",
+  "name": "Maltego",
+  "match": {
+   "name": "^Maltego(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "maltego:maltego"
+  ],
+  "update": "winget upgrade --id Maltego.Maltego",
+  "verified": false
+ },
+ {
+  "id": "Malwarebytes.AdwCleaner",
+  "name": "AdwCleaner",
+  "match": {
+   "name": "^AdwCleaner(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "malwarebytes:adwcleaner"
+  ],
+  "update": "winget upgrade --id Malwarebytes.AdwCleaner",
+  "verified": false
+ },
+ {
+  "id": "Malwarebytes.Malwarebytes",
+  "name": "Malwarebytes",
+  "match": {
+   "name": "^Malwarebytes( Anti-Malware)?( version [0-9.]+)?$",
+   "publisher": "Malwarebytes"
+  },
+  "version": {},
+  "cpe": [
+   "malwarebytes:malwarebytes",
+   "malwarebytes:malwarebytes_anti-malware"
+  ],
+  "update": "winget upgrade --id Malwarebytes.Malwarebytes",
+  "verified": false
+ },
+ {
+  "id": "MarkText.MarkText",
+  "name": "MarkText",
+  "match": {
+   "name": "^MarkText(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "marktext:marktext"
+  ],
+  "update": "winget upgrade --id MarkText.MarkText",
+  "verified": false
+ },
+ {
+  "id": "Mattermost.Focalboard",
+  "name": "Focalboard",
+  "match": {
+   "name": "^Focalboard(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "mattermost:focalboard"
+  ],
+  "update": "winget upgrade --id Mattermost.Focalboard",
+  "verified": false
+ },
+ {
+  "id": "Mattermost.MattermostDesktop",
+  "name": "Mattermost",
+  "match": {
+   "name": "^Mattermost(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "mattermost:mattermost"
+  ],
+  "update": "winget upgrade --id Mattermost.MattermostDesktop",
+  "verified": false
+ },
+ {
+  "id": "Maximus5.ConEmu",
+  "name": "ConEmu",
+  "match": {
+   "name": "^ConEmu(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "maximus5:conemu"
+  ],
+  "update": "winget upgrade --id Maximus5.ConEmu",
+  "verified": false
+ },
+ {
+  "id": "Maxthon.Maxthon.4",
+  "name": "Maxthon Cloud Browser",
+  "match": {
+   "name": "^Maxthon Cloud Browser(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "maxthon:maxthon_cloud_browser"
+  ],
+  "update": "winget upgrade --id Maxthon.Maxthon.4",
+  "verified": false
+ },
+ {
+  "id": "MediaArea.MediaInfo.GUI",
+  "name": "MediaInfo",
+  "match": {
+   "name": "^MediaInfo(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "mediaarea:mediainfo"
+  ],
+  "update": "winget upgrade --id MediaArea.MediaInfo.GUI",
+  "verified": false
+ },
+ {
+  "id": "Meltytech.Shotcut",
+  "name": "Shotcut",
+  "match": {
+   "name": "^Shotcut$"
+  },
+  "version": {},
+  "cpe": [
+   "meltytech:shotcut"
+  ],
+  "update": "winget upgrade --id Meltytech.Shotcut",
+  "verified": false
+ },
+ {
+  "id": "Mercurial.Mercurial",
+  "name": "Mercurial",
+  "match": {
+   "name": "^Mercurial(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "mercurial:mercurial"
+  ],
+  "update": "winget upgrade --id Mercurial.Mercurial",
+  "verified": false
+ },
+ {
+  "id": "MetaCubeX.Mihomo",
+  "name": "Mihomo",
+  "match": {
+   "name": "^Mihomo(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "metacubex:mihomo"
+  ],
+  "update": "winget upgrade --id MetaCubeX.Mihomo",
+  "verified": false
+ },
+ {
+  "id": "MiKTeX.MiKTeX",
+  "name": "MiKTeX",
+  "match": {
+   "name": "^MiKTeX\\b"
+  },
+  "version": {},
+  "cpe": [
+   "miktex:miktex"
+  ],
+  "update": "winget upgrade --id MiKTeX.MiKTeX",
+  "verified": false
+ },
+ {
+  "id": "Mickem.NSClient",
+  "name": "NSClient++",
+  "match": {
+   "name": "^NSClient\\+\\+"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "nsclient:nsclient\\+\\+"
+  ],
+  "update": "winget upgrade --id Mickem.NSClient",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.AppInstaller",
+  "name": "App Installer",
+  "match": {
+   "name": "^App Installer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:app_installer"
+  ],
+  "update": "winget upgrade --id Microsoft.AppInstaller",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.Azure.ConnectedMachineAgent",
+  "name": "Azure Connected Machine Agent",
+  "match": {
+   "name": "^Azure Connected Machine Agent(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:azure_connected_machine_agent"
+  ],
+  "update": "winget upgrade --id Microsoft.Azure.ConnectedMachineAgent",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.Azure.DataStudio",
+  "name": "Azure Data Studio",
+  "match": {
+   "name": "^Azure Data Studio(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:azure_data_studio"
+  ],
+  "update": "winget upgrade --id Microsoft.Azure.DataStudio",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.Azure.StorageExplorer",
+  "name": "Microsoft Azure Storage Explorer",
+  "match": {
+   "name": "^Microsoft Azure Storage Explorer\\b"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:azure_storage_explorer"
+  ],
+  "update": "winget upgrade --id Microsoft.Azure.StorageExplorer",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.AzureCLI",
+  "name": "Microsoft Azure CLI",
+  "match": {
+   "name": "^Microsoft Azure CLI( \\(64-bit\\))?$",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:azure_command-line_interface"
+  ],
+  "update": "winget upgrade --id Microsoft.AzureCLI",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.AzureMonitorAgent",
+  "name": "Azure Monitor Agent",
+  "match": {
+   "name": "^Azure Monitor Agent(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:azure_monitor_agent"
+  ],
+  "update": "winget upgrade --id Microsoft.AzureMonitorAgent",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.DotNet.AspNetCore.6",
+  "name": "Microsoft ASP.NET Core Runtime",
+  "match": {
+   "name": "^Microsoft ASP\\.NET Core [0-9]+\\.[0-9]+\\.[0-9]+ - Shared Framework",
+   "publisher": "Microsoft"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "Core ([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "microsoft:asp.net_core"
+  ],
+  "update": "winget upgrade --id Microsoft.DotNet.AspNetCore.\u003cmajor\u003e",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.DotNet.DesktopRuntime",
+  "name": "Microsoft Windows Desktop Runtime",
+  "match": {
+   "name": "^Microsoft Windows Desktop Runtime - [0-9]",
+   "publisher": "Microsoft"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": " - ([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "microsoft:.net",
+   "microsoft:.net_core"
+  ],
+  "update": "winget upgrade --id Microsoft.DotNet.DesktopRuntime.\u003cmajor\u003e",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.DotNet.DesktopRuntime.5",
+  "name": "Microsoft Windows Desktop Runtime 5.0",
+  "match": {
+   "name": "^Microsoft Windows Desktop Runtime - 5\\.0\\.[0-9]+",
+   "publisher": "Microsoft"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "Desktop Runtime - ([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "microsoft:.net"
+  ],
+  "update": "winget upgrade --id Microsoft.DotNet.DesktopRuntime.5",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.DotNet.HostingBundle",
+  "name": "ASP.NET Core Hosting Bundle",
+  "match": {
+   "name": "^Microsoft \\.NET( Core)? [0-9]+\\.[0-9]+\\.[0-9]+ - Windows Server Hosting",
+   "publisher": "Microsoft"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "NET(?: Core)? ([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "microsoft:asp.net_core"
+  ],
+  "update": "winget upgrade --id Microsoft.DotNet.HostingBundle.\u003cmajor\u003e",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.DotNet.SDK.6",
+  "name": "Microsoft .NET SDK",
+  "match": {
+   "name": "^Microsoft \\.NET (Core )?SDK [0-9]+\\.[0-9]+\\.[0-9]+",
+   "publisher": "Microsoft"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "SDK ([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "microsoft:.net_sdk",
+   "microsoft:.net_core_sdk"
+  ],
+  "update": "winget upgrade --id Microsoft.DotNet.SDK.\u003cmajor\u003e",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.FSLogix",
+  "name": "Microsoft FSLogix Apps",
+  "match": {
+   "name": "^Microsoft FSLogix Apps",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:fslogix"
+  ],
+  "update": "winget upgrade --id Microsoft.FSLogix",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.Git",
+  "name": "Git",
+  "match": {
+   "name": "^Git(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "git_project:git"
+  ],
+  "update": "winget upgrade --id Microsoft.Git",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.LightGBM",
+  "name": "LightGBM",
+  "match": {
+   "name": "^LightGBM(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:lightgbm"
+  ],
+  "update": "winget upgrade --id Microsoft.LightGBM",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.NuGet",
+  "name": "NuGet",
+  "match": {
+   "name": "^NuGet(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:nuget"
+  ],
+  "update": "winget upgrade --id Microsoft.NuGet",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.OneDrive",
+  "name": "Microsoft OneDrive",
+  "match": {
+   "name": "^Microsoft OneDrive$",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:onedrive"
+  ],
+  "update": "winget upgrade --id Microsoft.OneDrive",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.OpenAPI.Kiota",
+  "name": "Kiota",
+  "match": {
+   "name": "^Kiota(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:kiota"
+  ],
+  "update": "winget upgrade --id Microsoft.OpenAPI.Kiota",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.OpenJDK.17",
+  "name": "Microsoft Build of OpenJDK 17",
+  "match": {
+   "name": "^Microsoft Build of OpenJDK with Hotspot 17\\b",
+   "publisher": "Microsoft"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "oracle:openjdk"
+  ],
+  "update": "winget upgrade --id Microsoft.OpenJDK.17",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.PowerAutomateDesktop",
+  "name": "Power Automate for desktop",
+  "match": {
+   "name": "^Power Automate for desktop(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:power_automate_for_desktop"
+  ],
+  "update": "winget upgrade --id Microsoft.PowerAutomateDesktop",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.PowerShell",
+  "name": "PowerShell 7",
+  "match": {
+   "name": "^PowerShell [0-9]+-(x64|x86|arm64)$",
+   "publisher": "Microsoft"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "microsoft:powershell",
+   "microsoft:powershell_core"
+  ],
+  "update": "winget upgrade --id Microsoft.PowerShell",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.PowerToys",
+  "name": "PowerToys",
+  "match": {
+   "name": "^PowerToys\\b",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:powertoys"
+  ],
+  "update": "winget upgrade --id Microsoft.PowerToys",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.RemoteDesktopClient",
+  "name": "Remote Desktop Client (MSRDC)",
+  "match": {
+   "name": "^Remote Desktop$",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:remote_desktop_client"
+  ],
+  "update": "winget upgrade --id Microsoft.RemoteDesktopClient",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.RemoteHelp",
+  "name": "Remote help",
+  "match": {
+   "name": "^Remote help(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:remote_help"
+  ],
+  "update": "winget upgrade --id Microsoft.RemoteHelp",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.SQLServerManagementStudio",
+  "name": "SQL Server Management Studio",
+  "match": {
+   "name": "^(Microsoft )?SQL Server Management Studio\\b",
+   "publisher": "Microsoft"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "Management Studio - ([0-9]+\\.[0-9.]+)"
+  },
+  "cpe": [
+   "microsoft:sql_server_management_studio"
+  ],
+  "update": "winget upgrade --id Microsoft.SQLServerManagementStudio",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.SymCryptUnitTest",
+  "name": "SymCrypt",
+  "match": {
+   "name": "^SymCrypt(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:symcrypt"
+  ],
+  "update": "winget upgrade --id Microsoft.SymCryptUnitTest",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.Sysinternals.RDCMan",
+  "name": "Remote Desktop Connection Manager",
+  "match": {
+   "name": "^Remote Desktop Connection Manager(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:remote_desktop_connection_manager"
+  ],
+  "update": "winget upgrade --id Microsoft.Sysinternals.RDCMan",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.Sysinternals.Sysmon",
+  "name": "Sysmon",
+  "match": {
+   "name": "^(Sysinternals )?Sysmon(64)?$",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:windows_sysmon"
+  ],
+  "update": "winget upgrade --id Microsoft.Sysinternals.Sysmon",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.VCRedist.2012.x64",
+  "name": "Microsoft Visual C++ 2012 Redistributable",
+  "match": {
+   "name": "^Microsoft Visual C\\+\\+ 2012 Redistributable",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:visual_c\\+\\+"
+  ],
+  "update": "winget upgrade --id Microsoft.VCRedist.2012.x64",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.VCRedist.2015+.x64",
+  "name": "Microsoft Visual C++ 2015-2022 Redistributable",
+  "match": {
+   "name": "^Microsoft Visual C\\+\\+ (20(15|17|19|22)(-20[0-9][0-9])?|v14) Redistributable",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:visual_c\\+\\+_redistributable"
+  ],
+  "update": "winget upgrade --id Microsoft.VCRedist.2015+.x64",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.VisualStudio.2017.BuildTools",
+  "name": "Visual Studio Build Tools 2017",
+  "match": {
+   "name": "^Visual Studio Build Tools 2017\\b",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:visual_studio_2017"
+  ],
+  "update": "winget upgrade --id Microsoft.VisualStudio.2017.BuildTools",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.VisualStudio.2017.Enterprise",
+  "name": "Visual Studio Enterprise 2017",
+  "match": {
+   "name": "^Visual Studio Enterprise 2017\\b",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:visual_studio_2017"
+  ],
+  "update": "winget upgrade --id Microsoft.VisualStudio.2017.Enterprise",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.VisualStudio.2019.BuildTools",
+  "name": "Visual Studio Build Tools 2019",
+  "match": {
+   "name": "^Visual Studio Build Tools 2019\\b",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:visual_studio_2019"
+  ],
+  "update": "winget upgrade --id Microsoft.VisualStudio.2019.BuildTools",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.VisualStudio.2019.Community",
+  "name": "Visual Studio Community 2019",
+  "match": {
+   "name": "^Visual Studio Community 2019$",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:visual_studio_2019"
+  ],
+  "update": "winget upgrade --id Microsoft.VisualStudio.2019.Community",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.VisualStudio.2019.Enterprise",
+  "name": "Visual Studio Enterprise 2019",
+  "match": {
+   "name": "^Visual Studio Enterprise 2019$",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:visual_studio_2019"
+  ],
+  "update": "winget upgrade --id Microsoft.VisualStudio.2019.Enterprise",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.VisualStudio.2022.BuildTools",
+  "name": "Visual Studio Build Tools 2022",
+  "match": {
+   "name": "^Visual Studio Build Tools 2022\\b",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:visual_studio_2022"
+  ],
+  "update": "winget upgrade --id Microsoft.VisualStudio.2022.BuildTools",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.VisualStudio.2022.Community",
+  "name": "Visual Studio Community 2022",
+  "match": {
+   "name": "^Visual Studio Community 2022$",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:visual_studio_2022"
+  ],
+  "update": "winget upgrade --id Microsoft.VisualStudio.2022.Community",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.VisualStudio.2022.Enterprise",
+  "name": "Visual Studio Enterprise 2022",
+  "match": {
+   "name": "^Visual Studio Enterprise 2022\\b",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:visual_studio_2022"
+  ],
+  "update": "winget upgrade --id Microsoft.VisualStudio.2022.Enterprise",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.VisualStudio.2022.Professional",
+  "name": "Visual Studio Professional 2022",
+  "match": {
+   "name": "^Visual Studio Professional 2022\\b",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:visual_studio_2022"
+  ],
+  "update": "winget upgrade --id Microsoft.VisualStudio.2022.Professional",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.WSL.PreRelease",
+  "name": "Windows Subsystem for Linux",
+  "match": {
+   "name": "^Windows Subsystem for Linux(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:windows_subsystem_for_linux"
+  ],
+  "update": "winget upgrade --id Microsoft.WSL.PreRelease",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.WebDeploy",
+  "name": "Microsoft Web Deploy",
+  "match": {
+   "name": "^Microsoft Web Deploy 4\\.0\\b",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:web_deploy_4.0"
+  ],
+  "update": "winget upgrade --id Microsoft.WebDeploy",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.WinDbg",
+  "name": "WinDbg",
+  "match": {
+   "name": "^WinDbg(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:windbg"
+  ],
+  "update": "winget upgrade --id Microsoft.WinDbg",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.WindowsApp",
+  "name": "Windows App",
+  "match": {
+   "name": "^Windows App(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:windows_app"
+  ],
+  "update": "winget upgrade --id Microsoft.WindowsApp",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.WindowsSDK.10.0.19041",
+  "name": "Windows Software Development Kit",
+  "match": {
+   "name": "^Windows Software Development Kit(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:windows_software_development_kit"
+  ],
+  "update": "winget upgrade --id Microsoft.WindowsSDK.10.0.19041",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.XMLNotepad",
+  "name": "XmlNotepad",
+  "match": {
+   "name": "^XmlNotepad(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:xml_notepad"
+  ],
+  "update": "winget upgrade --id Microsoft.XMLNotepad",
+  "verified": false
+ },
+ {
+  "id": "Microsoft.msodbcsql",
+  "name": "Microsoft ODBC Driver for SQL Server",
+  "match": {
+   "name": "^Microsoft ODBC Driver [0-9]+ for SQL Server",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:odbc_driver_for_sql_server"
+  ],
+  "update": "winget upgrade --id Microsoft.msodbcsql.\u003cmajor\u003e",
+  "verified": false
+ },
+ {
+  "id": "MilkyTracker.MilkyTracker",
+  "name": "MilkyTracker",
+  "match": {
+   "name": "^MilkyTracker(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "milkytracker_project:milkytracker"
+  ],
+  "update": "winget upgrade --id MilkyTracker.MilkyTracker",
+  "verified": false
+ },
+ {
+  "id": "Miller.Miller",
+  "name": "Miller",
+  "match": {
+   "name": "^Miller(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "johnkerl:miller"
+  ],
+  "update": "winget upgrade --id Miller.Miller",
+  "verified": false
+ },
+ {
+  "id": "MinBrowser.Min",
+  "name": "Min",
+  "match": {
+   "name": "^Min(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "minbrowser:min"
+  ],
+  "update": "winget upgrade --id MinBrowser.Min",
+  "verified": false
+ },
+ {
+  "id": "Mirantis.Lens",
+  "name": "Lens",
+  "match": {
+   "name": "^Lens(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "mirantis:lens"
+  ],
+  "update": "winget upgrade --id Mirantis.Lens",
+  "verified": false
+ },
+ {
+  "id": "Mobatek.MobaXterm",
+  "name": "MobaXterm",
+  "match": {
+   "name": "^MobaXterm\\b"
+  },
+  "version": {
+   "parts": 2
+  },
+  "cpe": [
+   "mobatek:mobaxterm"
+  ],
+  "update": "winget upgrade --id Mobatek.MobaXterm",
+  "verified": false
+ },
+ {
+  "id": "Mouseww.Prometheus",
+  "name": "Prometheus",
+  "match": {
+   "name": "^Prometheus(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "prometheus:prometheus"
+  ],
+  "update": "winget upgrade --id Mouseww.Prometheus",
+  "verified": false
+ },
+ {
+  "id": "Mozilla.GeckoDriver",
+  "name": "geckodriver",
+  "match": {
+   "name": "^geckodriver(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "mozilla:geckodriver"
+  ],
+  "update": "winget upgrade --id Mozilla.GeckoDriver",
+  "verified": false
+ },
+ {
+  "id": "Mozilla.SeaMonkey",
+  "name": "SeaMonkey",
+  "match": {
+   "name": "^SeaMonkey(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "mozilla:seamonkey"
+  ],
+  "update": "winget upgrade --id Mozilla.SeaMonkey",
+  "verified": false
+ },
+ {
+  "id": "MullvadVPN.MullvadVPN.beta",
+  "name": "Mullvad VPN",
+  "match": {
+   "name": "^Mullvad VPN(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "mullvad:mullvad_vpn"
+  ],
+  "update": "winget upgrade --id MullvadVPN.MullvadVPN.beta",
+  "verified": false
+ },
+ {
+  "id": "MultiMC.MultiMC",
+  "name": "MultiMC",
+  "match": {
+   "name": "^MultiMC(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "multimc:multimc"
+  ],
+  "update": "winget upgrade --id MultiMC.MultiMC",
+  "verified": false
+ },
+ {
+  "id": "Musescore.Musescore",
+  "name": "MuseScore",
+  "match": {
+   "name": "^MuseScore [0-9]",
+   "publisher": "MuseScore|Muse"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "musescore:musescore"
+  ],
+  "update": "winget upgrade --id Musescore.Musescore",
+  "verified": false
+ },
+ {
+  "id": "NASM.NASM",
+  "name": "NASM",
+  "match": {
+   "name": "^(NASM|Netwide Assembler)\\b"
+  },
+  "version": {},
+  "cpe": [
+   "nasm:netwide_assembler"
+  ],
+  "update": "winget upgrade --id NASM.NASM",
+  "verified": false
+ },
+ {
+  "id": "NLnetLabs.Unbound",
+  "name": "Unbound",
+  "match": {
+   "name": "^Unbound(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "nlnetlabs:unbound"
+  ],
+  "update": "winget upgrade --id NLnetLabs.Unbound",
+  "verified": false
+ },
+ {
+  "id": "NSIS.NSIS",
+  "name": "NSIS",
+  "match": {
+   "name": "^Nullsoft Install System\\b"
+  },
+  "version": {},
+  "cpe": [
+   "nullsoft:nullsoft_scriptable_install_system"
+  ],
+  "update": "winget upgrade --id NSIS.NSIS",
+  "verified": false
+ },
+ {
+  "id": "Nanoleaf.NanoleafDesktop",
+  "name": "Nanoleaf Desktop",
+  "match": {
+   "name": "^Nanoleaf Desktop(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "nanoleaf:nanoleaf_desktop"
+  ],
+  "update": "winget upgrade --id Nanoleaf.NanoleafDesktop",
+  "verified": false
+ },
+ {
+  "id": "Navidrome.Navidrome",
+  "name": "Navidrome",
+  "match": {
+   "name": "^Navidrome(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "navidrome:navidrome"
+  ],
+  "update": "winget upgrade --id Navidrome.Navidrome",
+  "verified": false
+ },
+ {
+  "id": "Neovim.Neovim",
+  "name": "Neovim",
+  "match": {
+   "name": "^Neovim$"
+  },
+  "version": {},
+  "cpe": [
+   "neovim:neovim"
+  ],
+  "update": "winget upgrade --id Neovim.Neovim",
+  "verified": false
+ },
+ {
+  "id": "NetSetMan.NetSetMan",
+  "name": "NetSetMan",
+  "match": {
+   "name": "^NetSetMan(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "netsetman:netsetman"
+  ],
+  "update": "winget upgrade --id NetSetMan.NetSetMan",
+  "verified": false
+ },
+ {
+  "id": "NetSurf.NetSurf",
+  "name": "NetSurf",
+  "match": {
+   "name": "^NetSurf(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "netsurf-browser:netsurf"
+  ],
+  "update": "winget upgrade --id NetSurf.NetSurf",
+  "verified": false
+ },
+ {
+  "id": "Netdata.Netdata",
+  "name": "Netdata",
+  "match": {
+   "name": "^Netdata(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "netdata:netdata"
+  ],
+  "update": "winget upgrade --id Netdata.Netdata",
+  "verified": false
+ },
+ {
+  "id": "Nethack.Nethack",
+  "name": "Nethack",
+  "match": {
+   "name": "^Nethack(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "nethack:nethack"
+  ],
+  "update": "winget upgrade --id Nethack.Nethack",
+  "verified": false
+ },
+ {
+  "id": "Netmaker.Netmaker",
+  "name": "Netmaker",
+  "match": {
+   "name": "^Netmaker(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "netmaker:netmaker"
+  ],
+  "update": "winget upgrade --id Netmaker.Netmaker",
+  "verified": false
+ },
+ {
+  "id": "Nextcloud.NextcloudDesktop",
+  "name": "Nextcloud Desktop",
+  "match": {
+   "name": "^Nextcloud$",
+   "publisher": "Nextcloud"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "nextcloud:desktop"
+  ],
+  "update": "winget upgrade --id Nextcloud.NextcloudDesktop",
+  "verified": false
+ },
+ {
+  "id": "NhekoReborn.Nheko",
+  "name": "Nheko",
+  "match": {
+   "name": "^Nheko(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "nheko-reborn:nheko"
+  ],
+  "update": "winget upgrade --id NhekoReborn.Nheko",
+  "verified": false
+ },
+ {
+  "id": "Nicotine+.Nicotine+",
+  "name": "Nicotine+",
+  "match": {
+   "name": "^Nicotine\\+(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "nicotine-plus:nicotine\\+"
+  ],
+  "update": "winget upgrade --id Nicotine+.Nicotine+",
+  "verified": false
+ },
+ {
+  "id": "Ninja-build.Ninja",
+  "name": "ninja",
+  "match": {
+   "name": "^ninja(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ninjaframework:ninja"
+  ],
+  "update": "winget upgrade --id Ninja-build.Ninja",
+  "verified": false
+ },
+ {
+  "id": "NitroSoftware.NitroPro",
+  "name": "Nitro PDF Pro",
+  "match": {
+   "name": "^Nitro PDF Pro(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "gonitro:nitro_pdf_pro"
+  ],
+  "update": "winget upgrade --id NitroSoftware.NitroPro",
+  "verified": false
+ },
+ {
+  "id": "NoMachine.NoMachine",
+  "name": "NoMachine",
+  "match": {
+   "name": "^NoMachine(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "nomachine:nomachine"
+  ],
+  "update": "winget upgrade --id NoMachine.NoMachine",
+  "verified": false
+ },
+ {
+  "id": "Notion.Notion",
+  "name": "Notion",
+  "match": {
+   "name": "^Notion [0-9]|^Notion$",
+   "publisher": "Notion"
+  },
+  "version": {},
+  "cpe": [
+   "notion:notion"
+  ],
+  "update": "winget upgrade --id Notion.Notion",
+  "verified": false
+ },
+ {
+  "id": "Nvidia.CUDA",
+  "name": "NVIDIA CUDA Toolkit",
+  "match": {
+   "name": "^NVIDIA CUDA Runtime [0-9]",
+   "publisher": "NVIDIA"
+  },
+  "version": {
+   "parts": 2
+  },
+  "cpe": [
+   "nvidia:cuda_toolkit"
+  ],
+  "update": "winget upgrade --id Nvidia.CUDA",
+  "verified": false
+ },
+ {
+  "id": "Nvidia.GeForceNow",
+  "name": "NVIDIA GeForce NOW",
+  "match": {
+   "name": "^NVIDIA GeForce NOW\\b"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "nvidia:geforce_now"
+  ],
+  "update": "winget upgrade --id Nvidia.GeForceNow",
+  "verified": false
+ },
+ {
+  "id": "OCaml.opam",
+  "name": "opam",
+  "match": {
+   "name": "^opam(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ocaml:opam"
+  ],
+  "update": "winget upgrade --id OCaml.opam",
+  "verified": false
+ },
+ {
+  "id": "OSGeo.GeoServer",
+  "name": "GeoServer",
+  "match": {
+   "name": "^GeoServer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "osgeo:geoserver"
+  ],
+  "update": "winget upgrade --id OSGeo.GeoServer",
+  "verified": false
+ },
+ {
+  "id": "Obsidian.Obsidian",
+  "name": "Obsidian",
+  "match": {
+   "name": "^Obsidian(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "obsidian:obsidian"
+  ],
+  "update": "winget upgrade --id Obsidian.Obsidian",
+  "verified": false
+ },
+ {
+  "id": "OctopusDeploy.Server",
+  "name": "Octopus Deploy Server",
+  "match": {
+   "name": "^Octopus Deploy Server\\b|^Octopus Server\\b",
+   "publisher": "Octopus"
+  },
+  "version": {},
+  "cpe": [
+   "octopus:octopus_server",
+   "octopus:octopus_deploy",
+   "octopus:server"
+  ],
+  "update": "winget upgrade --id OctopusDeploy.Server",
+  "verified": false
+ },
+ {
+  "id": "OctopusDeploy.Tentacle",
+  "name": "Octopus Tentacle",
+  "match": {
+   "name": "^Octopus Deploy Tentacle\\b"
+  },
+  "version": {},
+  "cpe": [
+   "octopus:tentacle"
+  ],
+  "update": "winget upgrade --id OctopusDeploy.Tentacle",
+  "verified": false
+ },
+ {
+  "id": "OliverBetz.ExifTool",
+  "name": "ExifTool",
+  "match": {
+   "name": "^ExifTool\\b"
+  },
+  "version": {},
+  "cpe": [
+   "exiftool_project:exiftool"
+  ],
+  "update": "winget upgrade --id OliverBetz.ExifTool",
+  "verified": false
+ },
+ {
+  "id": "Ollama.Ollama",
+  "name": "Ollama",
+  "match": {
+   "name": "^Ollama(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ollama:ollama"
+  ],
+  "update": "winget upgrade --id Ollama.Ollama",
+  "verified": false
+ },
+ {
+  "id": "OnionShare.OnionShare",
+  "name": "OnionShare",
+  "match": {
+   "name": "^OnionShare(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "onionshare:onionshare"
+  ],
+  "update": "winget upgrade --id OnionShare.OnionShare",
+  "verified": false
+ },
+ {
+  "id": "OpenAgentPlatform.Dive",
+  "name": "Dive",
+  "match": {
+   "name": "^Dive(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "openagentplatform:dive"
+  ],
+  "update": "winget upgrade --id OpenAgentPlatform.Dive",
+  "verified": false
+ },
+ {
+  "id": "OpenBao.OpenBao",
+  "name": "OpenBao",
+  "match": {
+   "name": "^OpenBao(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "openbao:openbao"
+  ],
+  "update": "winget upgrade --id OpenBao.OpenBao",
+  "verified": false
+ },
+ {
+  "id": "OpenMPT.OpenMPT",
+  "name": "OpenMPT",
+  "match": {
+   "name": "^OpenMPT(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "openmpt:openmpt"
+  ],
+  "update": "winget upgrade --id OpenMPT.OpenMPT",
+  "verified": false
+ },
+ {
+  "id": "OpenRefine.OpenRefine",
+  "name": "OpenRefine",
+  "match": {
+   "name": "^OpenRefine(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "openrefine:openrefine"
+  ],
+  "update": "winget upgrade --id OpenRefine.OpenRefine",
+  "verified": false
+ },
+ {
+  "id": "OpenSCAD.OpenSCAD",
+  "name": "OpenSCAD",
+  "match": {
+   "name": "^OpenSCAD(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "openscad:openscad"
+  ],
+  "update": "winget upgrade --id OpenSCAD.OpenSCAD",
+  "verified": false
+ },
+ {
+  "id": "OpenTTD.OpenTTD",
+  "name": "OpenTTD",
+  "match": {
+   "name": "^OpenTTD(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "openttd:openttd"
+  ],
+  "update": "winget upgrade --id OpenTTD.OpenTTD",
+  "verified": false
+ },
+ {
+  "id": "OpenVPNTechnologies.OpenVPNConnect",
+  "name": "OpenVPN Connect",
+  "match": {
+   "name": "^OpenVPN Connect\\b"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+(\\.[0-9]+)?)"
+  },
+  "cpe": [
+   "openvpn:connect"
+  ],
+  "update": "winget upgrade --id OpenVPNTechnologies.OpenVPNConnect",
+  "verified": false
+ },
+ {
+  "id": "OpenWebUI.OpenWebUI",
+  "name": "Open WebUI",
+  "match": {
+   "name": "^Open WebUI(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "openwebui:open_webui"
+  ],
+  "update": "winget upgrade --id OpenWebUI.OpenWebUI",
+  "verified": false
+ },
+ {
+  "id": "OpenWhisperSystems.Signal",
+  "name": "Signal Desktop",
+  "match": {
+   "name": "^Signal( [0-9][0-9.]*)?$"
+  },
+  "version": {},
+  "cpe": [
+   "signal:signal-desktop"
+  ],
+  "update": "winget upgrade --id OpenWhisperSystems.Signal",
+  "verified": false
+ },
+ {
+  "id": "OptiPNG.OptiPNG",
+  "name": "OptiPNG",
+  "match": {
+   "name": "^OptiPNG(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "optipng_project:optipng"
+  ],
+  "update": "winget upgrade --id OptiPNG.OptiPNG",
+  "verified": false
+ },
+ {
+  "id": "Oracle.MySQLShell",
+  "name": "MySQL Shell",
+  "match": {
+   "name": "^MySQL Shell(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "oracle:mysql_shell"
+  ],
+  "update": "winget upgrade --id Oracle.MySQLShell",
+  "verified": false
+ },
+ {
+  "id": "Oracle.SQLDeveloper",
+  "name": "SQL Developer",
+  "match": {
+   "name": "^SQL Developer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "oracle:sql_developer"
+  ],
+  "update": "winget upgrade --id Oracle.SQLDeveloper",
+  "verified": false
+ },
+ {
+  "id": "Oracle.SQLcl",
+  "name": "SQLcl",
+  "match": {
+   "name": "^SQLcl(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "oracle:sqlcl"
+  ],
+  "update": "winget upgrade --id Oracle.SQLcl",
+  "verified": false
+ },
+ {
+  "id": "Orwell.Dev-C++",
+  "name": "Dev-C++",
+  "match": {
+   "name": "^Dev-C\\+\\+(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "bloodshed:dev-c\\+\\+"
+  ],
+  "update": "winget upgrade --id Orwell.Dev-C++",
+  "verified": false
+ },
+ {
+  "id": "PaperCutSoftware.NG",
+  "name": "PaperCut NG",
+  "match": {
+   "name": "^PaperCut NG(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "papercut:papercut_ng"
+  ],
+  "update": "winget upgrade --id PaperCutSoftware.NG",
+  "verified": false
+ },
+ {
+  "id": "PassMark.OSForensics",
+  "name": "OSForensics",
+  "match": {
+   "name": "^OSForensics(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "passmark:osforensics"
+  ],
+  "update": "winget upgrade --id PassMark.OSForensics",
+  "verified": false
+ },
+ {
+  "id": "Philips.SmartControl",
+  "name": "Smart Control",
+  "match": {
+   "name": "^Smart Control(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "philips:smartcontrol"
+  ],
+  "update": "winget upgrade --id Philips.SmartControl",
+  "verified": false
+ },
+ {
+  "id": "Phoner.PhonerLite",
+  "name": "PhonerLite",
+  "match": {
+   "name": "^PhonerLite(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "phoner:phonerlite"
+  ],
+  "update": "winget upgrade --id Phoner.PhonerLite",
+  "verified": false
+ },
+ {
+  "id": "Pidgin.Pidgin",
+  "name": "Pidgin",
+  "match": {
+   "name": "^Pidgin(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "pidgin:pidgin"
+  ],
+  "update": "winget upgrade --id Pidgin.Pidgin",
+  "verified": false
+ },
+ {
+  "id": "Piriform.CCleaner",
+  "name": "CCleaner",
+  "match": {
+   "name": "^CCleaner$",
+   "publisher": "Piriform|Gen Digital|Avast"
+  },
+  "version": {},
+  "cpe": [
+   "piriform:ccleaner"
+  ],
+  "update": "winget upgrade --id Piriform.CCleaner",
+  "verified": false
+ },
+ {
+  "id": "PocketBase.PocketBase",
+  "name": "PocketBase",
+  "match": {
+   "name": "^PocketBase(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "pocketbase:pocketbase"
+  ],
+  "update": "winget upgrade --id PocketBase.PocketBase",
+  "verified": false
+ },
+ {
+  "id": "Poly.PlantronicsHub",
+  "name": "Plantronics Hub",
+  "match": {
+   "name": "^Plantronics Hub\\b|^Poly Plantronics Hub\\b"
+  },
+  "version": {},
+  "cpe": [
+   "plantronics:plantronics_hub",
+   "hp:poly_plantronics_hub"
+  ],
+  "update": "winget upgrade --id Poly.PlantronicsHub",
+  "verified": false
+ },
+ {
+  "id": "PolyMC.PolyMC",
+  "name": "PolyMC",
+  "match": {
+   "name": "^PolyMC(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "polymc:polymc"
+  ],
+  "update": "winget upgrade --id PolyMC.PolyMC",
+  "verified": false
+ },
+ {
+  "id": "PopcornTime.Popcorn-Time",
+  "name": "Popcorn-Time",
+  "match": {
+   "name": "^Popcorn-Time(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "popcorn_time_project:popcorn_time"
+  ],
+  "update": "winget upgrade --id PopcornTime.Popcorn-Time",
+  "verified": false
+ },
+ {
+  "id": "PortSwigger.BurpSuite.Community",
+  "name": "Burp Suite Community Edition",
+  "match": {
+   "name": "^Burp Suite Community Edition(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "portswigger:burp_suite"
+  ],
+  "update": "winget upgrade --id PortSwigger.BurpSuite.Community",
+  "verified": false
+ },
+ {
+  "id": "PostgreSQL.pgAdmin",
+  "name": "pgAdmin 4",
+  "match": {
+   "name": "^pgAdmin 4\\b"
+  },
+  "version": {},
+  "cpe": [
+   "pgadmin:pgadmin_4",
+   "pgadmin:pgadmin"
+  ],
+  "update": "winget upgrade --id PostgreSQL.pgAdmin",
+  "verified": false
+ },
+ {
+  "id": "Postman.Postman",
+  "name": "Postman",
+  "match": {
+   "name": "^Postman\\b",
+   "publisher": "Postman",
+   "not_name": "Agent|CLI|Canary|Enterprise"
+  },
+  "version": {},
+  "cpe": [
+   "postman:postman"
+  ],
+  "update": "winget upgrade --id Postman.Postman",
+  "verified": false
+ },
+ {
+  "id": "PrismLauncher.PrismLauncher",
+  "name": "Prism Launcher",
+  "match": {
+   "name": "^Prism Launcher(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "prismlauncher:prism_launcher"
+  ],
+  "update": "winget upgrade --id PrismLauncher.PrismLauncher",
+  "verified": false
+ },
+ {
+  "id": "Pritunl.PritunlClient",
+  "name": "Pritunl Client",
+  "match": {
+   "name": "^Pritunl Client(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "pritunl:pritunl-client"
+  ],
+  "update": "winget upgrade --id Pritunl.PritunlClient",
+  "verified": false
+ },
+ {
+  "id": "Privoxy.Privoxy",
+  "name": "Privoxy",
+  "match": {
+   "name": "^Privoxy(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "privoxy:privoxy"
+  ],
+  "update": "winget upgrade --id Privoxy.Privoxy",
+  "verified": false
+ },
+ {
+  "id": "ProcessingFoundation.Processing",
+  "name": "Processing",
+  "match": {
+   "name": "^Processing(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "processing:processing"
+  ],
+  "update": "winget upgrade --id ProcessingFoundation.Processing",
+  "verified": false
+ },
+ {
+  "id": "ProjectJupyter.JupyterLab",
+  "name": "JupyterLab",
+  "match": {
+   "name": "^JupyterLab(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "jupyter:jupyterlab"
+  ],
+  "update": "winget upgrade --id ProjectJupyter.JupyterLab",
+  "verified": false
+ },
+ {
+  "id": "Proxyman.Proxyman",
+  "name": "Proxyman",
+  "match": {
+   "name": "^Proxyman(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "proxyman:proxyman"
+  ],
+  "update": "winget upgrade --id Proxyman.Proxyman",
+  "verified": false
+ },
+ {
+  "id": "Prusa3D.PrusaSlicer",
+  "name": "PrusaSlicer",
+  "match": {
+   "name": "^PrusaSlicer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "prusa3d:prusaslicer"
+  ],
+  "update": "winget upgrade --id Prusa3D.PrusaSlicer",
+  "verified": false
+ },
+ {
+  "id": "Psi.Psi",
+  "name": "Psi",
+  "match": {
+   "name": "^Psi(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "psi-plus:psi\\+"
+  ],
+  "update": "winget upgrade --id Psi.Psi",
+  "verified": false
+ },
+ {
+  "id": "Puppet.puppet-agent",
+  "name": "Puppet Agent",
+  "match": {
+   "name": "^Puppet Agent\\b",
+   "publisher": "Puppet"
+  },
+  "version": {},
+  "cpe": [
+   "puppet:puppet_agent"
+  ],
+  "update": "winget upgrade --id Puppet.puppet-agent",
+  "verified": false
+ },
+ {
+  "id": "QPDF.QPDF",
+  "name": "QPDF",
+  "match": {
+   "name": "^qpdf\\b"
+  },
+  "version": {},
+  "cpe": [
+   "qpdf_project:qpdf"
+  ],
+  "update": "winget upgrade --id QPDF.QPDF",
+  "verified": false
+ },
+ {
+  "id": "Qoppa.PDFStudio",
+  "name": "PDF Studio",
+  "match": {
+   "name": "^PDF Studio(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "qoppa:pdf_studio"
+  ],
+  "update": "winget upgrade --id Qoppa.PDFStudio",
+  "verified": false
+ },
+ {
+  "id": "Quassel.QuasselIRC",
+  "name": "QuasselIRC",
+  "match": {
+   "name": "^QuasselIRC(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "quassel-irc:quassel_irc"
+  ],
+  "update": "winget upgrade --id Quassel.QuasselIRC",
+  "verified": false
+ },
+ {
+  "id": "Racket.Racket",
+  "name": "Racket",
+  "match": {
+   "name": "^Racket(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "racket-lang:racket"
+  ],
+  "update": "winget upgrade --id Racket.Racket",
+  "verified": false
+ },
+ {
+  "id": "Radius.Radius",
+  "name": "Radius",
+  "match": {
+   "name": "^Radius(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "radius_extension_project:radius"
+  ],
+  "update": "winget upgrade --id Radius.Radius",
+  "verified": false
+ },
+ {
+  "id": "Rakuten.Viber",
+  "name": "Viber",
+  "match": {
+   "name": "^Viber(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "rakuten:viber"
+  ],
+  "update": "winget upgrade --id Rakuten.Viber",
+  "verified": false
+ },
+ {
+  "id": "Rambox.Rambox.Community",
+  "name": "Rambox",
+  "match": {
+   "name": "^Rambox(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "rambox:rambox"
+  ],
+  "update": "winget upgrade --id Rambox.Rambox.Community",
+  "verified": false
+ },
+ {
+  "id": "Rclone.Rclone",
+  "name": "Rclone",
+  "match": {
+   "name": "^Rclone(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "rclone:rclone"
+  ],
+  "update": "winget upgrade --id Rclone.Rclone",
+  "verified": false
+ },
+ {
+  "id": "RealNetworks.RealPlayer",
+  "name": "RealPlayer",
+  "match": {
+   "name": "^RealPlayer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "realnetworks:realplayer"
+  ],
+  "update": "winget upgrade --id RealNetworks.RealPlayer",
+  "verified": false
+ },
+ {
+  "id": "RealVNC.VNCViewer",
+  "name": "RealVNC VNC Viewer",
+  "match": {
+   "name": "^(RealVNC )?VNC Viewer\\b",
+   "publisher": "RealVNC"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "realvnc:vnc_viewer",
+   "realvnc:realvnc_windows_client"
+  ],
+  "update": "winget upgrade --id RealVNC.VNCViewer",
+  "verified": false
+ },
+ {
+  "id": "Relic.Relic",
+  "name": "Relic",
+  "match": {
+   "name": "^Relic(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "relic_project:relic"
+  ],
+  "update": "winget upgrade --id Relic.Relic",
+  "verified": false
+ },
+ {
+  "id": "Ritlabs.TheBat",
+  "name": "The Bat!",
+  "match": {
+   "name": "^The Bat!(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ritlabs:the_bat"
+  ],
+  "update": "winget upgrade --id Ritlabs.TheBat",
+  "verified": false
+ },
+ {
+  "id": "Rizin.Rizin",
+  "name": "Rizin",
+  "match": {
+   "name": "^Rizin(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "rizin:rizin"
+  ],
+  "update": "winget upgrade --id Rizin.Rizin",
+  "verified": false
+ },
+ {
+  "id": "Rizonesoft.Notepad3",
+  "name": "Notepad3",
+  "match": {
+   "name": "^Notepad3(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "rizonesoft:notepad3"
+  ],
+  "update": "winget upgrade --id Rizonesoft.Notepad3",
+  "verified": false
+ },
+ {
+  "id": "Robware.RVTools",
+  "name": "RVTools",
+  "match": {
+   "name": "^RVTools(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "robware:rvtools"
+  ],
+  "update": "winget upgrade --id Robware.RVTools",
+  "verified": false
+ },
+ {
+  "id": "RocketChat.RocketChat",
+  "name": "Rocket.Chat",
+  "match": {
+   "name": "^Rocket\\.Chat(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "rocket.chat:rocket.chat"
+  ],
+  "update": "winget upgrade --id RocketChat.RocketChat",
+  "verified": false
+ },
+ {
+  "id": "RuneLite.RuneLite",
+  "name": "RuneLite",
+  "match": {
+   "name": "^RuneLite(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "runelite:runelite"
+  ],
+  "update": "winget upgrade --id RuneLite.RuneLite",
+  "verified": false
+ },
+ {
+  "id": "Rustlang.mdBook",
+  "name": "mdBook",
+  "match": {
+   "name": "^mdBook(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "rust-lang:mdbook"
+  ],
+  "update": "winget upgrade --id Rustlang.mdBook",
+  "verified": false
+ },
+ {
+  "id": "SABnzbdTeam.SABnzbd",
+  "name": "SABnzbd",
+  "match": {
+   "name": "^SABnzbd(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sabnzbd:sabnzbd"
+  ],
+  "update": "winget upgrade --id SABnzbdTeam.SABnzbd",
+  "verified": false
+ },
+ {
+  "id": "SFLinux.Jami",
+  "name": "Jami",
+  "match": {
+   "name": "^Jami(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "savoirfairelinux:jami"
+  ],
+  "update": "winget upgrade --id SFLinux.Jami",
+  "verified": false
+ },
+ {
+  "id": "SICK.FlexiSoftDesigner",
+  "name": "FlexiSoftDesigner",
+  "match": {
+   "name": "^FlexiSoftDesigner(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sick:flexi_soft_designer"
+  ],
+  "update": "winget upgrade --id SICK.FlexiSoftDesigner",
+  "verified": false
+ },
+ {
+  "id": "SQLite.SQLite",
+  "name": "SQLite",
+  "match": {
+   "name": "^SQLite$"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "sqlite:sqlite"
+  ],
+  "update": "winget upgrade --id SQLite.SQLite",
+  "verified": false
+ },
+ {
+  "id": "SUPERAntiSpyware.SUPERAntiSpyware",
+  "name": "SUPERAntiSpyware",
+  "match": {
+   "name": "^SUPERAntiSpyware(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "superantispyware:superantispyware"
+  ],
+  "update": "winget upgrade --id SUPERAntiSpyware.SUPERAntiSpyware",
+  "verified": false
+ },
+ {
+  "id": "SUSE.RancherDesktop",
+  "name": "Rancher Desktop",
+  "match": {
+   "name": "^Rancher Desktop(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "suse:rancher_desktop"
+  ],
+  "update": "winget upgrade --id SUSE.RancherDesktop",
+  "verified": false
+ },
+ {
+  "id": "SWI-Prolog.SWI-Prolog",
+  "name": "SWI-Prolog",
+  "match": {
+   "name": "^SWI-Prolog(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "swi-prolog:swi-prolog"
+  ],
+  "update": "winget upgrade --id SWI-Prolog.SWI-Prolog",
+  "verified": false
+ },
+ {
+  "id": "SWIG.SWIG",
+  "name": "SWIG",
+  "match": {
+   "name": "^SWIG(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "swig_project:swig"
+  ],
+  "update": "winget upgrade --id SWIG.SWIG",
+  "verified": false
+ },
+ {
+  "id": "SagerNet.sing-box",
+  "name": "sing-box",
+  "match": {
+   "name": "^sing-box(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sagernet:sing-box"
+  ],
+  "update": "winget upgrade --id SagerNet.sing-box",
+  "verified": false
+ },
+ {
+  "id": "SaltStack.SaltMinion",
+  "name": "Salt Minion",
+  "match": {
+   "name": "^Salt Minion\\b"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "saltstack:salt"
+  ],
+  "update": "winget upgrade --id SaltStack.SaltMinion",
+  "verified": false
+ },
+ {
+  "id": "Samsung.SmartSwitch",
+  "name": "Smart Switch",
+  "match": {
+   "name": "^Smart Switch(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "samsung:smart_switch"
+  ],
+  "update": "winget upgrade --id Samsung.SmartSwitch",
+  "verified": false
+ },
+ {
+  "id": "Sandboxie.Classic",
+  "name": "Sandboxie",
+  "match": {
+   "name": "^Sandboxie(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sandboxie-plus:sandboxie"
+  ],
+  "update": "winget upgrade --id Sandboxie.Classic",
+  "verified": false
+ },
+ {
+  "id": "Santesoft.SantePacsServer",
+  "name": "Sante PACS Server",
+  "match": {
+   "name": "^Sante PACS Server(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "santesoft:sante_pacs_server"
+  ],
+  "update": "winget upgrade --id Santesoft.SantePacsServer",
+  "verified": false
+ },
+ {
+  "id": "Scandum.WinTin++",
+  "name": "WinTin++",
+  "match": {
+   "name": "^WinTin\\+\\+(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tintin\\+\\+_project:wintin\\+\\+"
+  ],
+  "update": "winget upgrade --id Scandum.WinTin++",
+  "verified": false
+ },
+ {
+  "id": "SchildiChat.SchildiChat",
+  "name": "SchildiChat",
+  "match": {
+   "name": "^SchildiChat(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "schildi:schildichat"
+  ],
+  "update": "winget upgrade --id SchildiChat.SchildiChat",
+  "verified": false
+ },
+ {
+  "id": "Scilab.Scilab",
+  "name": "scilab",
+  "match": {
+   "name": "^scilab(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "scilab:scilab"
+  ],
+  "update": "winget upgrade --id Scilab.Scilab",
+  "verified": false
+ },
+ {
+  "id": "ScooterSoftware.BeyondCompare.5",
+  "name": "Beyond Compare",
+  "match": {
+   "name": "^Beyond Compare [0-9]"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "scootersoftware:beyond_compare"
+  ],
+  "update": "winget upgrade --id ScooterSoftware.BeyondCompare.\u003cmajor\u003e",
+  "verified": false
+ },
+ {
+  "id": "ScummVM.ScummVM",
+  "name": "ScummVM",
+  "match": {
+   "name": "^ScummVM(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "scummvm:scummvm"
+  ],
+  "update": "winget upgrade --id ScummVM.ScummVM",
+  "verified": false
+ },
+ {
+  "id": "Seafile.Seafile",
+  "name": "Seafile",
+  "match": {
+   "name": "^Seafile(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "seafile:seafile"
+  ],
+  "update": "winget upgrade --id Seafile.Seafile",
+  "verified": false
+ },
+ {
+  "id": "Shadow.Shadow",
+  "name": "Shadow",
+  "match": {
+   "name": "^Shadow(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "shadow_project:shadow"
+  ],
+  "update": "winget upgrade --id Shadow.Shadow",
+  "verified": false
+ },
+ {
+  "id": "ShiningLight.OpenSSL",
+  "name": "OpenSSL (Shining Light)",
+  "match": {
+   "name": "^OpenSSL [0-9]+\\.[0-9]+\\.[0-9]+[a-z]*\\b",
+   "publisher": "OpenSSL Win|Shining Light"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "OpenSSL ([0-9]+\\.[0-9]+\\.[0-9]+[a-z]*)"
+  },
+  "cpe": [
+   "openssl:openssl"
+  ],
+  "update": "winget upgrade --id ShiningLight.OpenSSL.Light",
+  "verified": false
+ },
+ {
+  "id": "ShiningLight.OpenSSL.Light",
+  "name": "OpenSSL (Shining Light)",
+  "match": {
+   "name": "^OpenSSL [0-9]+\\.[0-9]+\\.[0-9]+"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "OpenSSL ([0-9]+\\.[0-9]+\\.[0-9]+[a-z]?)"
+  },
+  "cpe": [
+   "openssl:openssl"
+  ],
+  "update": "winget upgrade --id ShiningLight.OpenSSL.Light",
+  "verified": false
+ },
+ {
+  "id": "SideQuestVR.SideQuestEasyInstaller",
+  "name": "SideQuest",
+  "match": {
+   "name": "^SideQuest(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sidequestvr:sidequest"
+  ],
+  "update": "winget upgrade --id SideQuestVR.SideQuestEasyInstaller",
+  "verified": false
+ },
+ {
+  "id": "Siemens.JT2Go",
+  "name": "JT2Go",
+  "match": {
+   "name": "^JT2Go(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "siemens:jt2go"
+  ],
+  "update": "winget upgrade --id Siemens.JT2Go",
+  "verified": false
+ },
+ {
+  "id": "Sigil-Ebook.Sigil",
+  "name": "Sigil",
+  "match": {
+   "name": "^Sigil(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sigil-ebook:sigil"
+  ],
+  "update": "winget upgrade --id Sigil-Ebook.Sigil",
+  "verified": false
+ },
+ {
+  "id": "Sigstore.Cosign",
+  "name": "cosign",
+  "match": {
+   "name": "^cosign(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sigstore:cosign"
+  ],
+  "update": "winget upgrade --id Sigstore.Cosign",
+  "verified": false
+ },
+ {
+  "id": "SimpleLedger.ElectronCashSLP",
+  "name": "Electron Cash SLP",
+  "match": {
+   "name": "^Electron Cash SLP(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "simpleledger:electron-cash-slp"
+  ],
+  "update": "winget upgrade --id SimpleLedger.ElectronCashSLP",
+  "verified": false
+ },
+ {
+  "id": "SimpleX.SimpleX-Chat",
+  "name": "SimpleX Chat",
+  "match": {
+   "name": "^SimpleX Chat(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "simplex:simplex_chat"
+  ],
+  "update": "winget upgrade --id SimpleX.SimpleX-Chat",
+  "verified": false
+ },
+ {
+  "id": "Sipeed.PicoClaw",
+  "name": "PicoClaw",
+  "match": {
+   "name": "^PicoClaw(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sipeed:picoclaw"
+  ],
+  "update": "winget upgrade --id Sipeed.PicoClaw",
+  "verified": false
+ },
+ {
+  "id": "Sky.SkyGo",
+  "name": "Sky Go",
+  "match": {
+   "name": "^Sky Go(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sky:sky_go"
+  ],
+  "update": "winget upgrade --id Sky.SkyGo",
+  "verified": false
+ },
+ {
+  "id": "SleuthKit.Autopsy",
+  "name": "Autopsy",
+  "match": {
+   "name": "^Autopsy(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sleuthkit:autopsy"
+  ],
+  "update": "winget upgrade --id SleuthKit.Autopsy",
+  "verified": false
+ },
+ {
+  "id": "SmartBear.ReadyAPI",
+  "name": "ReadyAPI",
+  "match": {
+   "name": "^ReadyAPI(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "smartbear:readyapi"
+  ],
+  "update": "winget upgrade --id SmartBear.ReadyAPI",
+  "verified": false
+ },
+ {
+  "id": "SmartBear.SoapUI",
+  "name": "SoapUI",
+  "match": {
+   "name": "^SoapUI\\b",
+   "not_name": "Pro|ReadyAPI"
+  },
+  "version": {},
+  "cpe": [
+   "smartbear:soapui",
+   "eviware:soapui"
+  ],
+  "update": "winget upgrade --id SmartBear.SoapUI",
+  "verified": false
+ },
+ {
+  "id": "Snowflake.SnowflakeCLI",
+  "name": "Snowflake CLI",
+  "match": {
+   "name": "^Snowflake CLI(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "snowflake:snowflake_cli"
+  ],
+  "update": "winget upgrade --id Snowflake.SnowflakeCLI",
+  "verified": false
+ },
+ {
+  "id": "SoftPerfect.NetWorx",
+  "name": "NetWorx",
+  "match": {
+   "name": "^NetWorx(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "softperfect:networx"
+  ],
+  "update": "winget upgrade --id SoftPerfect.NetWorx",
+  "verified": false
+ },
+ {
+  "id": "SoftwareFreedomConservancy.QEMU",
+  "name": "QEMU",
+  "match": {
+   "name": "^QEMU$"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "qemu:qemu"
+  ],
+  "update": "winget upgrade --id SoftwareFreedomConservancy.QEMU",
+  "verified": false
+ },
+ {
+  "id": "SonicWall.GlobalVPNClient",
+  "name": "Global VPN Client",
+  "match": {
+   "name": "^Global VPN Client(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sonicwall:global_vpn_client"
+  ],
+  "update": "winget upgrade --id SonicWall.GlobalVPNClient",
+  "verified": false
+ },
+ {
+  "id": "SonicWall.NetExtender",
+  "name": "SonicWall NetExtender",
+  "match": {
+   "name": "^SonicWall NetExtender\\b|^NetExtender\\b",
+   "publisher": "SonicWall"
+  },
+  "version": {},
+  "cpe": [
+   "sonicwall:netextender"
+  ],
+  "update": "winget upgrade --id SonicWall.NetExtender",
+  "verified": false
+ },
+ {
+  "id": "Sony.MusicCenter",
+  "name": "Music Center for PC",
+  "match": {
+   "name": "^Music Center for PC(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sony:music_center_for_pc"
+  ],
+  "update": "winget upgrade --id Sony.MusicCenter",
+  "verified": false
+ },
+ {
+  "id": "SouthRiverTechnologies.WebDrive",
+  "name": "WebDrive",
+  "match": {
+   "name": "^WebDrive(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "southrivertech:webdrive"
+  ],
+  "update": "winget upgrade --id SouthRiverTechnologies.WebDrive",
+  "verified": false
+ },
+ {
+  "id": "SparkLabs.Viscosity",
+  "name": "Viscosity",
+  "match": {
+   "name": "^Viscosity(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sparklabs:viscosity"
+  ],
+  "update": "winget upgrade --id SparkLabs.Viscosity",
+  "verified": false
+ },
+ {
+  "id": "Spotify.Spotify",
+  "name": "Spotify",
+  "match": {
+   "name": "^Spotify$",
+   "publisher": "Spotify"
+  },
+  "version": {},
+  "cpe": [
+   "spotify:spotify"
+  ],
+  "update": "winget upgrade --id Spotify.Spotify",
+  "verified": false
+ },
+ {
+  "id": "Starship.Starship",
+  "name": "starship",
+  "match": {
+   "name": "^starship(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "starship:starship"
+  ],
+  "update": "winget upgrade --id Starship.Starship",
+  "verified": false
+ },
+ {
+  "id": "StirlingTools.StirlingPDF",
+  "name": "Stirling-PDF",
+  "match": {
+   "name": "^Stirling-PDF(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "stirling:stirling_pdf"
+  ],
+  "update": "winget upgrade --id StirlingTools.StirlingPDF",
+  "verified": false
+ },
+ {
+  "id": "StrawberryPerl.StrawberryPerl",
+  "name": "Strawberry Perl",
+  "match": {
+   "name": "^Strawberry Perl\\b"
+  },
+  "version": {},
+  "cpe": [
+   "strawberryperl:strawberryperl",
+   "perl:perl"
+  ],
+  "update": "winget upgrade --id StrawberryPerl.StrawberryPerl",
+  "verified": false
+ },
+ {
+  "id": "Streamlink.Streamlink",
+  "name": "Streamlink",
+  "match": {
+   "name": "^Streamlink(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "streamlink:streamlink"
+  ],
+  "update": "winget upgrade --id Streamlink.Streamlink",
+  "verified": false
+ },
+ {
+  "id": "Stripe.StripeCli",
+  "name": "stripe",
+  "match": {
+   "name": "^stripe(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "stripe:stripe"
+  ],
+  "update": "winget upgrade --id Stripe.StripeCli",
+  "verified": false
+ },
+ {
+  "id": "SumatraPDF.SumatraPDF",
+  "name": "SumatraPDF",
+  "match": {
+   "name": "^SumatraPDF\\b"
+  },
+  "version": {},
+  "cpe": [
+   "sumatrapdfreader:sumatrapdf"
+  ],
+  "update": "winget upgrade --id SumatraPDF.SumatraPDF",
+  "verified": false
+ },
+ {
+  "id": "SurrealDB.SurrealDB",
+  "name": "SurrealDB",
+  "match": {
+   "name": "^SurrealDB(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "surrealdb:surrealdb"
+  ],
+  "update": "winget upgrade --id SurrealDB.SurrealDB",
+  "verified": false
+ },
+ {
+  "id": "SweetScape.010Editor",
+  "name": "010 Editor",
+  "match": {
+   "name": "^010 Editor(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sweetscape:010_editor"
+  ],
+  "update": "winget upgrade --id SweetScape.010Editor",
+  "verified": false
+ },
+ {
+  "id": "Symless.Synergy",
+  "name": "Synergy (64-bit)",
+  "match": {
+   "name": "^Synergy \\(64-bit\\)(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "symless:synergy"
+  ],
+  "update": "winget upgrade --id Symless.Synergy",
+  "verified": false
+ },
+ {
+  "id": "SyncROSoft.OxygenXMLAuthor",
+  "name": "Oxygen XML Author",
+  "match": {
+   "name": "^Oxygen XML Author(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sync:oxygen_xml_author"
+  ],
+  "update": "winget upgrade --id SyncROSoft.OxygenXMLAuthor",
+  "verified": false
+ },
+ {
+  "id": "SyncROSoft.OxygenXMLDeveloper",
+  "name": "Oxygen XML Developer",
+  "match": {
+   "name": "^Oxygen XML Developer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sync:oxygen_xml_developer"
+  ],
+  "update": "winget upgrade --id SyncROSoft.OxygenXMLDeveloper",
+  "verified": false
+ },
+ {
+  "id": "SyncROSoft.OxygenXMLEditor",
+  "name": "Oxygen XML Editor",
+  "match": {
+   "name": "^Oxygen XML Editor(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sync:oxygen_xml_editor"
+  ],
+  "update": "winget upgrade --id SyncROSoft.OxygenXMLEditor",
+  "verified": false
+ },
+ {
+  "id": "Synology.ActiveBackupForBusinessAgent",
+  "name": "Synology Active Backup for Business Agent",
+  "match": {
+   "name": "^(Synology )?Active Backup for Business Agent",
+   "publisher": "Synology"
+  },
+  "version": {},
+  "cpe": [
+   "synology:active_backup_for_business_agent"
+  ],
+  "update": "winget upgrade --id Synology.ActiveBackupForBusinessAgent",
+  "verified": false
+ },
+ {
+  "id": "Synology.ActiveProtectAgent",
+  "name": "ActiveProtect Agent",
+  "match": {
+   "name": "^ActiveProtect Agent(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "synology:activeprotect_agent"
+  ],
+  "update": "winget upgrade --id Synology.ActiveProtectAgent",
+  "verified": false
+ },
+ {
+  "id": "Synology.BeeDrive",
+  "name": "BeeDrive",
+  "match": {
+   "name": "^BeeDrive(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "synology:beedrive"
+  ],
+  "update": "winget upgrade --id Synology.BeeDrive",
+  "verified": false
+ },
+ {
+  "id": "Synology.DriveClient",
+  "name": "Synology Drive Client",
+  "match": {
+   "name": "^Synology Drive Client\\b"
+  },
+  "version": {},
+  "cpe": [
+   "synology:drive_client"
+  ],
+  "update": "winget upgrade --id Synology.DriveClient",
+  "verified": false
+ },
+ {
+  "id": "Synthesia.Synthesia",
+  "name": "Synthesia",
+  "match": {
+   "name": "^Synthesia(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "synthesiagame:synthesia"
+  ],
+  "update": "winget upgrade --id Synthesia.Synthesia",
+  "verified": false
+ },
+ {
+  "id": "TabbyML.Tabby",
+  "name": "Tabby",
+  "match": {
+   "name": "^Tabby(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tabby:tabby"
+  ],
+  "update": "winget upgrade --id TabbyML.Tabby",
+  "verified": false
+ },
+ {
+  "id": "Tableau.Desktop",
+  "name": "Tableau Desktop",
+  "match": {
+   "name": "^Tableau Desktop(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tableau:tableau_desktop"
+  ],
+  "update": "winget upgrade --id Tableau.Desktop",
+  "verified": false
+ },
+ {
+  "id": "Tableau.Reader",
+  "name": "Tableau Reader",
+  "match": {
+   "name": "^Tableau Reader(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tableau:tableau_reader"
+  ],
+  "update": "winget upgrade --id Tableau.Reader",
+  "verified": false
+ },
+ {
+  "id": "Tailscale.Tailscale",
+  "name": "Tailscale",
+  "match": {
+   "name": "^Tailscale$"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "tailscale:tailscale"
+  ],
+  "update": "winget upgrade --id Tailscale.Tailscale",
+  "verified": false
+ },
+ {
+  "id": "Tautulli.Tautulli",
+  "name": "Tautulli",
+  "match": {
+   "name": "^Tautulli(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tautulli:tautulli"
+  ],
+  "update": "winget upgrade --id Tautulli.Tautulli",
+  "verified": false
+ },
+ {
+  "id": "TeamReadarr.Readarr",
+  "name": "Readarr",
+  "match": {
+   "name": "^Readarr(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "readarr:readarr"
+  ],
+  "update": "winget upgrade --id TeamReadarr.Readarr",
+  "verified": false
+ },
+ {
+  "id": "TeamSonarr.Sonarr",
+  "name": "Sonarr",
+  "match": {
+   "name": "^Sonarr(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "sonarr:sonarr"
+  ],
+  "update": "winget upgrade --id TeamSonarr.Sonarr",
+  "verified": false
+ },
+ {
+  "id": "Telegram.TelegramDesktop",
+  "name": "Telegram Desktop",
+  "match": {
+   "name": "^Telegram Desktop\\b"
+  },
+  "version": {},
+  "cpe": [
+   "telegram:telegram_desktop",
+   "telegram_desktop:telegram_desktop"
+  ],
+  "update": "winget upgrade --id Telegram.TelegramDesktop",
+  "verified": false
+ },
+ {
+  "id": "Tenable.NessusAgent",
+  "name": "Nessus Agent",
+  "match": {
+   "name": "^Nessus Agent\\b",
+   "publisher": "Tenable"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "tenable:nessus_agent"
+  ],
+  "update": "winget upgrade --id Tenable.NessusAgent",
+  "verified": false
+ },
+ {
+  "id": "Tencent.Foxmail",
+  "name": "Foxmail",
+  "match": {
+   "name": "^Foxmail(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tencent:foxmail"
+  ],
+  "update": "winget upgrade --id Tencent.Foxmail",
+  "verified": false
+ },
+ {
+  "id": "Tencent.QQBrowser",
+  "name": "QQ浏览器",
+  "match": {
+   "name": "^QQ浏览器(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tencent:qq"
+  ],
+  "update": "winget upgrade --id Tencent.QQBrowser",
+  "verified": false
+ },
+ {
+  "id": "Tencent.TIM",
+  "name": "TIM",
+  "match": {
+   "name": "^TIM(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tencent:tim"
+  ],
+  "update": "winget upgrade --id Tencent.TIM",
+  "verified": false
+ },
+ {
+  "id": "Tencent.WeChat",
+  "name": "WeChat",
+  "match": {
+   "name": "^WeChat(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tencent:wechat"
+  ],
+  "update": "winget upgrade --id Tencent.WeChat",
+  "verified": false
+ },
+ {
+  "id": "TeraTermProject.teraterm",
+  "name": "Tera Term",
+  "match": {
+   "name": "^Tera Term(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tera_term_project:tera_term"
+  ],
+  "update": "winget upgrade --id TeraTermProject.teraterm",
+  "verified": false
+ },
+ {
+  "id": "Text.LiveChat",
+  "name": "LiveChat",
+  "match": {
+   "name": "^LiveChat(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "livechat:livechat"
+  ],
+  "update": "winget upgrade --id Text.LiveChat",
+  "verified": false
+ },
+ {
+  "id": "Tgstation.Server",
+  "name": "tgstation-server",
+  "match": {
+   "name": "^tgstation-server(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tgstation13:tgstation-server"
+  ],
+  "update": "winget upgrade --id Tgstation.Server",
+  "verified": false
+ },
+ {
+  "id": "Thales.SafeNetAuthenticationClient",
+  "name": "SafeNet Authentication Client",
+  "match": {
+   "name": "^SafeNet Authentication Client(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "thalesgroup:safenet_authentication_client"
+  ],
+  "update": "winget upgrade --id Thales.SafeNetAuthenticationClient",
+  "verified": false
+ },
+ {
+  "id": "ThinkInAIXYZ.DeepChat",
+  "name": "DeepChat",
+  "match": {
+   "name": "^DeepChat(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "thinkinai:deepchat"
+  ],
+  "update": "winget upgrade --id ThinkInAIXYZ.DeepChat",
+  "verified": false
+ },
+ {
+  "id": "TigerVNC.TigerVNC",
+  "name": "TigerVNC",
+  "match": {
+   "name": "^TigerVNC(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tigervnc:tigervnc"
+  ],
+  "update": "winget upgrade --id TigerVNC.TigerVNC",
+  "verified": false
+ },
+ {
+  "id": "ToEverything.AFFiNE",
+  "name": "AFFiNE",
+  "match": {
+   "name": "^AFFiNE(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "affine:affine"
+  ],
+  "update": "winget upgrade --id ToEverything.AFFiNE",
+  "verified": false
+ },
+ {
+  "id": "Tonec.InternetDownloadManager",
+  "name": "Internet Download Manager",
+  "match": {
+   "name": "^Internet Download Manager(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tonec:internet_download_manager"
+  ],
+  "update": "winget upgrade --id Tonec.InternetDownloadManager",
+  "verified": false
+ },
+ {
+  "id": "TorProject.TorBrowser",
+  "name": "Tor Browser",
+  "match": {
+   "name": "^Tor Browser\\b"
+  },
+  "version": {},
+  "cpe": [
+   "torproject:tor_browser"
+  ],
+  "update": "winget upgrade --id TorProject.TorBrowser",
+  "verified": false
+ },
+ {
+  "id": "TortoiseGit.TortoiseGit",
+  "name": "TortoiseGit",
+  "match": {
+   "name": "^TortoiseGit\\b"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "tortoisegit:tortoisegit"
+  ],
+  "update": "winget upgrade --id TortoiseGit.TortoiseGit",
+  "verified": false
+ },
+ {
+  "id": "TortoiseSVN.TortoiseSVN",
+  "name": "TortoiseSVN",
+  "match": {
+   "name": "^TortoiseSVN [0-9]"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "TortoiseSVN ([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "tortoisesvn:tortoisesvn",
+   "tigris:tortoisesvn"
+  ],
+  "update": "winget upgrade --id TortoiseSVN.TortoiseSVN",
+  "verified": false
+ },
+ {
+  "id": "TrackerSoftware.PDF-XChangeEditor",
+  "name": "PDF-XChange Editor",
+  "match": {
+   "name": "^PDF-XChange Editor\\b"
+  },
+  "version": {},
+  "cpe": [
+   "pdf-xchange:pdf-xchange_editor"
+  ],
+  "update": "winget upgrade --id TrackerSoftware.PDF-XChangeEditor",
+  "verified": false
+ },
+ {
+  "id": "TrackerSoftware.PDF-XChangeViewer",
+  "name": "PDF-XChange Viewer",
+  "match": {
+   "name": "^PDF-XChange Viewer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tracker-software:pdf-xchange_viewer"
+  ],
+  "update": "winget upgrade --id TrackerSoftware.PDF-XChangeViewer",
+  "verified": false
+ },
+ {
+  "id": "Transmission.Transmission",
+  "name": "Transmission",
+  "match": {
+   "name": "^Transmission(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "transmissionbt:transmission"
+  ],
+  "update": "winget upgrade --id Transmission.Transmission",
+  "verified": false
+ },
+ {
+  "id": "Trimble.SketchUpViewer",
+  "name": "SketchUp Viewer",
+  "match": {
+   "name": "^SketchUp Viewer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "trimble:sketchup_viewer"
+  ],
+  "update": "winget upgrade --id Trimble.SketchUpViewer",
+  "verified": false
+ },
+ {
+  "id": "TripleAGame.TripleA",
+  "name": "TripleA",
+  "match": {
+   "name": "^TripleA(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "triplea-game:triplea"
+  ],
+  "update": "winget upgrade --id TripleAGame.TripleA",
+  "verified": false
+ },
+ {
+  "id": "TrueConf.TrueConf",
+  "name": "TrueConf",
+  "match": {
+   "name": "^TrueConf(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "trueconf:trueconf"
+  ],
+  "update": "winget upgrade --id TrueConf.TrueConf",
+  "verified": false
+ },
+ {
+  "id": "UB-Mannheim.TesseractOCR",
+  "name": "Tesseract OCR",
+  "match": {
+   "name": "^Tesseract-OCR\\b"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "tesseract-ocr:tesseract_ocr"
+  ],
+  "update": "winget upgrade --id UB-Mannheim.TesseractOCR",
+  "verified": false
+ },
+ {
+  "id": "UPX.UPX",
+  "name": "UPX",
+  "match": {
+   "name": "^UPX(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "upx:upx"
+  ],
+  "update": "winget upgrade --id UPX.UPX",
+  "verified": false
+ },
+ {
+  "id": "Ubiquiti.UniFiOSServer",
+  "name": "UniFi OS Server",
+  "match": {
+   "name": "^UniFi OS Server(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ui:unifi_os_server"
+  ],
+  "update": "winget upgrade --id Ubiquiti.UniFiOSServer",
+  "verified": false
+ },
+ {
+  "id": "Ultimaker.Cura",
+  "name": "Ultimaker Cura",
+  "match": {
+   "name": "^Ultimaker Cura(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ultimaker:ultimaker_cura"
+  ],
+  "update": "winget upgrade --id Ultimaker.Cura",
+  "verified": false
+ },
+ {
+  "id": "UrBackup.UrBackup.Server",
+  "name": "UrBackup Server",
+  "match": {
+   "name": "^UrBackup Server(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "urbackup:urbackup_server"
+  ],
+  "update": "winget upgrade --id UrBackup.UrBackup.Server",
+  "verified": false
+ },
+ {
+  "id": "VRCX.VRCX",
+  "name": "VRCX",
+  "match": {
+   "name": "^VRCX(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "vrcx-team:vrcx"
+  ],
+  "update": "winget upgrade --id VRCX.VRCX",
+  "verified": false
+ },
+ {
+  "id": "Vector35.BinaryNinja",
+  "name": "Binary Ninja",
+  "match": {
+   "name": "^Binary Ninja(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "vector35:binary_ninja"
+  ],
+  "update": "winget upgrade --id Vector35.BinaryNinja",
+  "verified": false
+ },
+ {
+  "id": "Veeam.VeeamAgent",
+  "name": "Veeam Agent for Microsoft Windows",
+  "match": {
+   "name": "^Veeam Agent for Microsoft Windows$",
+   "publisher": "Veeam"
+  },
+  "version": {},
+  "cpe": [
+   "veeam:veeam_agent_for_windows"
+  ],
+  "update": "winget upgrade --id Veeam.VeeamAgent",
+  "verified": false
+ },
+ {
+  "id": "Vercel.Hyper",
+  "name": "Hyper",
+  "match": {
+   "name": "^Hyper(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "vercel:hyper"
+  ],
+  "update": "winget upgrade --id Vercel.Hyper",
+  "verified": false
+ },
+ {
+  "id": "VeyonSolutions.Veyon",
+  "name": "Veyon",
+  "match": {
+   "name": "^Veyon(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "veyon:veyon"
+  ],
+  "update": "winget upgrade --id VeyonSolutions.Veyon",
+  "verified": false
+ },
+ {
+  "id": "ViGEm.ViGEmBus",
+  "name": "ViGEm Bus Driver",
+  "match": {
+   "name": "^ViGEm Bus Driver(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "vigem:vigembus_driver"
+  ],
+  "update": "winget upgrade --id ViGEm.ViGEmBus",
+  "verified": false
+ },
+ {
+  "id": "VirusTotal.YARA",
+  "name": "YARA",
+  "match": {
+   "name": "^YARA(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "virustotal:yara"
+  ],
+  "update": "winget upgrade --id VirusTotal.YARA",
+  "verified": false
+ },
+ {
+  "id": "Wampserver.Wampserver",
+  "name": "Wampserver",
+  "match": {
+   "name": "^Wampserver(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "wampserver:wampserver"
+  ],
+  "update": "winget upgrade --id Wampserver.Wampserver",
+  "verified": false
+ },
+ {
+  "id": "Wasmer.Wasmer",
+  "name": "Wasmer",
+  "match": {
+   "name": "^Wasmer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "wasmer:wasmer"
+  ],
+  "update": "winget upgrade --id Wasmer.Wasmer",
+  "verified": false
+ },
+ {
+  "id": "WiXToolset.WiXToolset",
+  "name": "WiX Toolset",
+  "match": {
+   "name": "^WiX Toolset v[0-9.]+$"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "v([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "firegiant:wix_toolset"
+  ],
+  "update": "winget upgrade --id WiXToolset.WiXToolset",
+  "verified": false
+ },
+ {
+  "id": "Winamp.Winamp",
+  "name": "Winamp",
+  "match": {
+   "name": "^Winamp(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "winamp:winamp"
+  ],
+  "update": "winget upgrade --id Winamp.Winamp",
+  "verified": false
+ },
+ {
+  "id": "Windscribe.Windscribe",
+  "name": "Windscribe",
+  "match": {
+   "name": "^Windscribe(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "windscribe:windscribe"
+  ],
+  "update": "winget upgrade --id Windscribe.Windscribe",
+  "verified": false
+ },
+ {
+  "id": "WireGuard.WireGuard",
+  "name": "WireGuard",
+  "match": {
+   "name": "^WireGuard$"
+  },
+  "version": {},
+  "cpe": [
+   "wireguard:wireguard"
+  ],
+  "update": "winget upgrade --id WireGuard.WireGuard",
+  "verified": false
+ },
+ {
+  "id": "WiseCleaner.WiseCare365",
+  "name": "Wise Care 365",
+  "match": {
+   "name": "^Wise Care 365(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "wisecleaner:wise_care_365"
+  ],
+  "update": "winget upgrade --id WiseCleaner.WiseCare365",
+  "verified": false
+ },
+ {
+  "id": "WiseCleaner.WiseFolderHider",
+  "name": "Wise Folder Hider",
+  "match": {
+   "name": "^Wise Folder Hider(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "wisecleaner:wise_folder_hider"
+  ],
+  "update": "winget upgrade --id WiseCleaner.WiseFolderHider",
+  "verified": false
+ },
+ {
+  "id": "WiseCleaner.WiseForceDeleter",
+  "name": "Wise Force Deleter",
+  "match": {
+   "name": "^Wise Force Deleter(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "wisecleaner:wise_force_deleter"
+  ],
+  "update": "winget upgrade --id WiseCleaner.WiseForceDeleter",
+  "verified": false
+ },
+ {
+  "id": "Xiaomi.XiaomiCloud",
+  "name": "Xiaomi Cloud",
+  "match": {
+   "name": "^Xiaomi Cloud(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "mi:xiaomi_cloud"
+  ],
+  "update": "winget upgrade --id Xiaomi.XiaomiCloud",
+  "verified": false
+ },
+ {
+  "id": "XlightFTP.XlightFTP",
+  "name": "Xlight FTP Server",
+  "match": {
+   "name": "^Xlight FTP Server(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "xlightftpd:xlight_ftp_server"
+  ],
+  "update": "winget upgrade --id XlightFTP.XlightFTP",
+  "verified": false
+ },
+ {
+  "id": "Xmind.Xmind",
+  "name": "Xmind",
+  "match": {
+   "name": "^Xmind(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "xmind:xmind"
+  ],
+  "update": "winget upgrade --id Xmind.Xmind",
+  "verified": false
+ },
+ {
+  "id": "XnSoft.XnView.Classic",
+  "name": "XnView Classic",
+  "match": {
+   "name": "^XnView( Classic)?( [0-9.]+)?$"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "xnview:xnview",
+   "xnview:xnview_classic"
+  ],
+  "update": "winget upgrade --id XnSoft.XnView.Classic",
+  "verified": false
+ },
+ {
+  "id": "XnSoft.XnViewMP",
+  "name": "XnView MP",
+  "match": {
+   "name": "^XnView MP\\b"
+  },
+  "version": {},
+  "cpe": [
+   "xnview:xnview_mp"
+  ],
+  "update": "winget upgrade --id XnSoft.XnViewMP",
+  "verified": false
+ },
+ {
+  "id": "Yarn.Yarn",
+  "name": "Yarn",
+  "match": {
+   "name": "^Yarn$"
+  },
+  "version": {},
+  "cpe": [
+   "yarnpkg:yarn"
+  ],
+  "update": "winget upgrade --id Yarn.Yarn",
+  "verified": false
+ },
+ {
+  "id": "Yubico.YubiKeySmartCardMinidriver",
+  "name": "YubiKey Smart Card Minidriver",
+  "match": {
+   "name": "^YubiKey Smart Card Minidriver(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "yubico:yubikey_smart_card_minidriver"
+  ],
+  "update": "winget upgrade --id Yubico.YubiKeySmartCardMinidriver",
+  "verified": false
+ },
+ {
+  "id": "Zabbix.Agent.2",
+  "name": "Zabbix Agent 2",
+  "match": {
+   "name": "^Zabbix Agent 2\\b"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "zabbix:zabbix-agent2"
+  ],
+  "update": "winget upgrade --id Zabbix.Agent.2",
+  "verified": false
+ },
+ {
+  "id": "ZedIndustries.Zed",
+  "name": "Zed",
+  "match": {
+   "name": "^Zed(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "zed:zed"
+  ],
+  "update": "winget upgrade --id ZedIndustries.Zed",
+  "verified": false
+ },
+ {
+  "id": "ZenPrivacy.ZenDesktop",
+  "name": "Zen",
+  "match": {
+   "name": "^Zen(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "zen_project:zen"
+  ],
+  "update": "winget upgrade --id ZenPrivacy.ZenDesktop",
+  "verified": false
+ },
+ {
+  "id": "ZeroTier.ZeroTierOne",
+  "name": "ZeroTier One",
+  "match": {
+   "name": "^ZeroTier One\\b",
+   "publisher": "ZeroTier"
+  },
+  "version": {},
+  "cpe": [
+   "zerotier:zerotierone"
+  ],
+  "update": "winget upgrade --id ZeroTier.ZeroTierOne",
+  "verified": false
+ },
+ {
+  "id": "Zettlr.Zettlr",
+  "name": "Zettlr",
+  "match": {
+   "name": "^Zettlr(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "zettlr:zettlr"
+  ],
+  "update": "winget upgrade --id Zettlr.Zettlr",
+  "verified": false
+ },
+ {
+  "id": "Zoho.SalesIQ",
+  "name": "SalesIQ",
+  "match": {
+   "name": "^SalesIQ(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "zoho:salesiq"
+  ],
+  "update": "winget upgrade --id Zoho.SalesIQ",
+  "verified": false
+ },
+ {
+  "id": "Zoom.ZoomOutlookPlugin",
+  "name": "Zoom Plugin for Microsoft Outlook",
+  "match": {
+   "name": "^Zoom (Outlook Plugin|Plugin for Microsoft Outlook)",
+   "publisher": "Zoom"
+  },
+  "version": {},
+  "cpe": [
+   "zoom:zoom_plugin_for_microsoft_outlook"
+  ],
+  "update": "winget upgrade --id Zoom.ZoomOutlookPlugin",
+  "verified": false
+ },
+ {
+  "id": "Zulip.Zulip",
+  "name": "Zulip",
+  "match": {
+   "name": "^Zulip(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "zulip:zulip"
+  ],
+  "update": "winget upgrade --id Zulip.Zulip",
+  "verified": false
+ },
+ {
+  "id": "adobe.flashplayer",
+  "name": "Adobe Flash Player",
+  "match": {
+   "name": "^Adobe Flash Player [0-9]+ (NPAPI|PPAPI|ActiveX|Plugin)$",
+   "publisher": "Adobe"
+  },
+  "version": {},
+  "cpe": [
+   "adobe:flash_player",
+   "adobe:flash_player_desktop_runtime"
+  ],
+  "verified": false
+ },
+ {
+  "id": "adobe.shockwaveplayer",
+  "name": "Adobe Shockwave Player",
+  "match": {
+   "name": "^Adobe Shockwave Player\\b",
+   "publisher": "Adobe"
+  },
+  "version": {},
+  "cpe": [
+   "adobe:shockwave_player"
+  ],
+  "verified": false
+ },
+ {
+  "id": "angryziber.AngryIPScanner",
+  "name": "Angry IP Scanner",
+  "match": {
+   "name": "^Angry IP Scanner(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "angryip:angry_ip_scanner"
+  ],
+  "update": "winget upgrade --id angryziber.AngryIPScanner",
+  "verified": false
+ },
+ {
+  "id": "appmakes.Typora",
+  "name": "Typora",
+  "match": {
+   "name": "^Typora(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "typora:typora"
+  ],
+  "update": "winget upgrade --id appmakes.Typora",
+  "verified": false
+ },
+ {
+  "id": "ar51an.iPerf3",
+  "name": "iPerf3",
+  "match": {
+   "name": "^iPerf ?3\\b"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "es:iperf3"
+  ],
+  "update": "winget upgrade --id ar51an.iPerf3",
+  "verified": false
+ },
+ {
+  "id": "argoproj.argocd",
+  "name": "ArgoCD",
+  "match": {
+   "name": "^ArgoCD(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "argoproj:argo_cd"
+  ],
+  "update": "winget upgrade --id argoproj.argocd",
+  "verified": false
+ },
+ {
+  "id": "aria2.aria2",
+  "name": "aria2",
+  "match": {
+   "name": "^aria2(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "aria2_project:aria2"
+  ],
+  "update": "winget upgrade --id aria2.aria2",
+  "verified": false
+ },
+ {
+  "id": "artifex.ghostscript",
+  "name": "Ghostscript",
+  "match": {
+   "name": "^GPL Ghostscript\\b",
+   "publisher": "Artifex"
+  },
+  "version": {},
+  "cpe": [
+   "artifex:ghostscript",
+   "artifex:gpl_ghostscript"
+  ],
+  "verified": false
+ },
+ {
+  "id": "astral-sh.uv",
+  "name": "uv",
+  "match": {
+   "name": "^uv(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "astral:uv"
+  ],
+  "update": "winget upgrade --id astral-sh.uv",
+  "verified": false
+ },
+ {
+  "id": "avast.free_antivirus",
+  "name": "Avast Free Antivirus",
+  "match": {
+   "name": "^Avast Free Antivirus\\b",
+   "publisher": "Avast"
+  },
+  "version": {},
+  "cpe": [
+   "avast:free_antivirus",
+   "avast:avast_free_antivirus",
+   "avast:antivirus"
+  ],
+  "verified": false
+ },
+ {
+  "id": "axllent.mailpit",
+  "name": "Mailpit",
+  "match": {
+   "name": "^Mailpit(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "axllent:mailpit"
+  ],
+  "update": "winget upgrade --id axllent.mailpit",
+  "verified": false
+ },
+ {
+  "id": "beekeeper-studio.beekeeper-studio",
+  "name": "Beekeeper Studio",
+  "match": {
+   "name": "^Beekeeper Studio(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "beekeeperstudio:beekeeper-studio"
+  ],
+  "update": "winget upgrade --id beekeeper-studio.beekeeper-studio",
+  "verified": false
+ },
+ {
+  "id": "boostio.boostnote",
+  "name": "Boost Note",
+  "match": {
+   "name": "^Boost Note(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "boostio:boostnote"
+  ],
+  "update": "winget upgrade --id boostio.boostnote",
+  "verified": false
+ },
+ {
+  "id": "calibre.calibre",
+  "name": "calibre",
+  "match": {
+   "name": "^calibre( 64bit)?$"
+  },
+  "version": {},
+  "cpe": [
+   "calibre-ebook:calibre"
+  ],
+  "update": "winget upgrade --id calibre.calibre",
+  "verified": false
+ },
+ {
+  "id": "capnproto.capnproto",
+  "name": "Cap’n Proto",
+  "match": {
+   "name": "^Cap’n Proto(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "capnproto:capnproto"
+  ],
+  "update": "winget upgrade --id capnproto.capnproto",
+  "verified": false
+ },
+ {
+  "id": "cdburnerxp.cdburnerxp",
+  "name": "CDBurnerXP",
+  "match": {
+   "name": "^CDBurnerXP\\b"
+  },
+  "version": {},
+  "cpe": [
+   "impressum:cdburnerxp",
+   "cdburnerxp:cdburnerxp_pro"
+  ],
+  "verified": false
+ },
+ {
+  "id": "charmbracelet.soft-serve",
+  "name": "soft-serve",
+  "match": {
+   "name": "^soft-serve(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "charm:soft_serve"
+  ],
+  "update": "winget upgrade --id charmbracelet.soft-serve",
+  "verified": false
+ },
+ {
+  "id": "clsid2.mpc-hc",
+  "name": "MPC-HC",
+  "match": {
+   "name": "^MPC-HC(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "mpc-hc:mpc-hc"
+  ],
+  "update": "winget upgrade --id clsid2.mpc-hc",
+  "verified": false
+ },
+ {
+  "id": "contour-terminal.Contour",
+  "name": "Contour",
+  "match": {
+   "name": "^Contour(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "projectcontour:contour"
+  ],
+  "update": "winget upgrade --id contour-terminal.Contour",
+  "verified": false
+ },
+ {
+  "id": "cypherpunks.pidgin-otr",
+  "name": "pidgin-otr",
+  "match": {
+   "name": "^pidgin-otr(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "cypherpunks:pidgin-otr"
+  ],
+  "update": "winget upgrade --id cypherpunks.pidgin-otr",
+  "verified": false
+ },
+ {
+  "id": "dail8859.NotepadNext",
+  "name": "Notepad Next",
+  "match": {
+   "name": "^Notepad Next(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "dail8859:notepad_next"
+  ],
+  "update": "winget upgrade --id dail8859.NotepadNext",
+  "verified": false
+ },
+ {
+  "id": "danielmiessler.Fabric",
+  "name": "Fabric",
+  "match": {
+   "name": "^Fabric(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "danielmiessler:fabric"
+  ],
+  "update": "winget upgrade --id danielmiessler.Fabric",
+  "verified": false
+ },
+ {
+  "id": "dell.openmanage_server_administrator",
+  "name": "Dell OpenManage Server Administrator",
+  "match": {
+   "name": "^Dell (EMC )?OpenManage (Systems Management Software|Server Administrator)",
+   "publisher": "Dell"
+  },
+  "version": {},
+  "cpe": [
+   "dell:openmanage_server_administrator",
+   "dell:emc_openmanage_server_administrator"
+  ],
+  "verified": false
+ },
+ {
+  "id": "dell.supportassist",
+  "name": "Dell SupportAssist",
+  "match": {
+   "name": "^Dell SupportAssist$",
+   "publisher": "Dell"
+  },
+  "version": {},
+  "cpe": [
+   "dell:supportassist_for_home_pcs",
+   "dell:supportassist_client_consumer",
+   "dell:supportassist"
+  ],
+  "verified": false
+ },
+ {
+  "id": "dell.update",
+  "name": "Dell Update",
+  "match": {
+   "name": "^Dell Update\\b",
+   "publisher": "Dell"
+  },
+  "version": {},
+  "cpe": [
+   "dell:update"
+  ],
+  "verified": false
+ },
+ {
+  "id": "deskfiler.deskfiler",
+  "name": "Deskfiler",
+  "match": {
+   "name": "^Deskfiler(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "deskfiler:deskfiler"
+  ],
+  "update": "winget upgrade --id deskfiler.deskfiler",
+  "verified": false
+ },
+ {
+  "id": "dotPDN.PaintDotNet",
+  "name": "Paint.NET",
+  "match": {
+   "name": "^paint\\.net$"
+  },
+  "version": {},
+  "cpe": [
+   "dotpdn:paint.net"
+  ],
+  "update": "winget upgrade --id dotPDN.PaintDotNet",
+  "verified": false
+ },
+ {
+  "id": "eMClient.eMClient",
+  "name": "eM Client",
+  "match": {
+   "name": "^eM Client(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "emclient:em_client"
+  ],
+  "update": "winget upgrade --id eMClient.eMClient",
+  "verified": false
+ },
+ {
+  "id": "eSpeak-NG.eSpeak-NG",
+  "name": "eSpeak NG",
+  "match": {
+   "name": "^eSpeak NG(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "espeak-ng:espeak_ng"
+  ],
+  "update": "winget upgrade --id eSpeak-NG.eSpeak-NG",
+  "verified": false
+ },
+ {
+  "id": "electerm.electerm",
+  "name": "electerm",
+  "match": {
+   "name": "^electerm(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "electerm_project:electerm"
+  ],
+  "update": "winget upgrade --id electerm.electerm",
+  "verified": false
+ },
+ {
+  "id": "elves.elvish",
+  "name": "elvish",
+  "match": {
+   "name": "^elvish(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "elv:elvish"
+  ],
+  "update": "winget upgrade --id elves.elvish",
+  "verified": false
+ },
+ {
+  "id": "etcd-io.etcd",
+  "name": "etcd",
+  "match": {
+   "name": "^etcd(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "etcd:etcd"
+  ],
+  "update": "winget upgrade --id etcd-io.etcd",
+  "verified": false
+ },
+ {
+  "id": "flos-freeware.Notepad2",
+  "name": "Notepad2",
+  "match": {
+   "name": "^Notepad2(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "flos-freeware:notepad2"
+  ],
+  "update": "winget upgrade --id flos-freeware.Notepad2",
+  "verified": false
+ },
+ {
+  "id": "fwupd.fwupd",
+  "name": "fwupd",
+  "match": {
+   "name": "^fwupd(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "fwupd:fwupd"
+  ],
+  "update": "winget upgrade --id fwupd.fwupd",
+  "verified": false
+ },
+ {
+  "id": "geeksoftwareGmbH.PDF24Creator",
+  "name": "PDF24 Creator",
+  "match": {
+   "name": "^PDF24 Creator\\b"
+  },
+  "version": {},
+  "cpe": [
+   "pdf24:pdf24_creator"
+  ],
+  "update": "winget upgrade --id geeksoftwareGmbH.PDF24Creator",
+  "verified": false
+ },
+ {
+  "id": "getcomposer.composer-setup",
+  "name": "Composer-Setup",
+  "match": {
+   "name": "^Composer - PHP Dependency Manager"
+  },
+  "version": {},
+  "cpe": [
+   "getcomposer:composer-setup"
+  ],
+  "verified": false
+ },
+ {
+  "id": "ggml.llamacpp",
+  "name": "llama.cpp",
+  "match": {
+   "name": "^llama\\.cpp(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "ggml:llama.cpp"
+  ],
+  "update": "winget upgrade --id ggml.llamacpp",
+  "verified": false
+ },
+ {
+  "id": "gnome.Dia",
+  "name": "Dia",
+  "match": {
+   "name": "^Dia(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "gnome:dia"
+  ],
+  "update": "winget upgrade --id gnome.Dia",
+  "verified": false
+ },
+ {
+  "id": "gnome.Glade",
+  "name": "Glade",
+  "match": {
+   "name": "^Glade(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "gnome:glade"
+  ],
+  "update": "winget upgrade --id gnome.Glade",
+  "verified": false
+ },
+ {
+  "id": "gnome.Shotwell",
+  "name": "Shotwell",
+  "match": {
+   "name": "^Shotwell(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "gnome:shotwell"
+  ],
+  "update": "winget upgrade --id gnome.Shotwell",
+  "verified": false
+ },
+ {
+  "id": "go-shiori.shiori",
+  "name": "shiori",
+  "match": {
+   "name": "^shiori(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "go-shiori:shiori"
+  ],
+  "update": "winget upgrade --id go-shiori.shiori",
+  "verified": false
+ },
+ {
+  "id": "goreleaser.goreleaser",
+  "name": "goreleaser",
+  "match": {
+   "name": "^goreleaser(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "goreleaser:goreleaser"
+  ],
+  "update": "winget upgrade --id goreleaser.goreleaser",
+  "verified": false
+ },
+ {
+  "id": "goreleaser.nfpm",
+  "name": "nfpm",
+  "match": {
+   "name": "^nfpm(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "goreleaser:nfpm"
+  ],
+  "update": "winget upgrade --id goreleaser.nfpm",
+  "verified": false
+ },
+ {
+  "id": "gstreamerproject.gstreamer",
+  "name": "GStreamer",
+  "match": {
+   "name": "^GStreamer(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "gstreamer:gstreamer"
+  ],
+  "update": "winget upgrade --id gstreamerproject.gstreamer",
+  "verified": false
+ },
+ {
+  "id": "hoppscotch.Hoppscotch",
+  "name": "Hoppscotch",
+  "match": {
+   "name": "^Hoppscotch(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "hoppscotch:hoppscotch"
+  ],
+  "update": "winget upgrade --id hoppscotch.Hoppscotch",
+  "verified": false
+ },
+ {
+  "id": "horsicq.DIE-engine",
+  "name": "Detect It Easy",
+  "match": {
+   "name": "^Detect It Easy(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "horsicq:detect-it-easy"
+  ],
+  "update": "winget upgrade --id horsicq.DIE-engine",
+  "verified": false
+ },
+ {
+  "id": "iTop.DualSafePasswordManager",
+  "name": "DualSafe Password Manager",
+  "match": {
+   "name": "^DualSafe Password Manager(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "itopvpn:dualsafe_password_manager"
+  ],
+  "update": "winget upgrade --id iTop.DualSafePasswordManager",
+  "verified": false
+ },
+ {
+  "id": "icinga.icinga2",
+  "name": "Icinga 2",
+  "match": {
+   "name": "^Icinga ?2$"
+  },
+  "version": {},
+  "cpe": [
+   "icinga:icinga"
+  ],
+  "verified": false
+ },
+ {
+  "id": "intel.opencl_cpu_runtime",
+  "name": "Intel CPU Runtime for OpenCL Applications",
+  "match": {
+   "name": "CPU Runtime for OpenCL|^OpenCL.*Runtime for Intel",
+   "publisher": "Intel"
+  },
+  "version": {},
+  "cpe": [
+   "intel:cpu_runtime_for_opencl_applications",
+   "intel:cpu_runtime"
+  ],
+  "verified": false
+ },
+ {
+  "id": "jasperapp.jasper",
+  "name": "jasper",
+  "match": {
+   "name": "^jasper(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "jasper_project:jasper"
+  ],
+  "update": "winget upgrade --id jasperapp.jasper",
+  "verified": false
+ },
+ {
+  "id": "junegunn.fzf",
+  "name": "fzf",
+  "match": {
+   "name": "^fzf(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "junegunn:fzf"
+  ],
+  "update": "winget upgrade --id junegunn.fzf",
+  "verified": false
+ },
+ {
+  "id": "kmeleonbrowser.K-Meleon",
+  "name": "K-Meleon",
+  "match": {
+   "name": "^K-Meleon(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "k-meleon_project:k-meleon"
+  ],
+  "update": "winget upgrade --id kmeleonbrowser.K-Meleon",
+  "verified": false
+ },
+ {
+  "id": "kyverno.kyverno",
+  "name": "kyverno",
+  "match": {
+   "name": "^kyverno(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "kyverno:kyverno"
+  ],
+  "update": "winget upgrade --id kyverno.kyverno",
+  "verified": false
+ },
+ {
+  "id": "legeling.PromptHub",
+  "name": "PromptHub",
+  "match": {
+   "name": "^PromptHub(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "legeling:prompthub"
+  ],
+  "update": "winget upgrade --id legeling.PromptHub",
+  "verified": false
+ },
+ {
+  "id": "libjxl.libjxl",
+  "name": "libjxl",
+  "match": {
+   "name": "^libjxl(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "libjxl_project:libjxl"
+  ],
+  "update": "winget upgrade --id libjxl.libjxl",
+  "verified": false
+ },
+ {
+  "id": "libvips.libvips",
+  "name": "libvips",
+  "match": {
+   "name": "^libvips(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "libvips:libvips"
+  ],
+  "update": "winget upgrade --id libvips.libvips",
+  "verified": false
+ },
+ {
+  "id": "logisim-evolution.logisim-evolution",
+  "name": "Logisim-evolution",
+  "match": {
+   "name": "^Logisim-evolution(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "logisim-evolution_project:logisim-evolution"
+  ],
+  "update": "winget upgrade --id logisim-evolution.logisim-evolution",
+  "verified": false
+ },
+ {
+  "id": "mIRC.mIRC",
+  "name": "mIRC",
+  "match": {
+   "name": "^mIRC(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "mirc:mirc"
+  ],
+  "update": "winget upgrade --id mIRC.mIRC",
+  "verified": false
+ },
+ {
+  "id": "mRemoteNG.mRemoteNG",
+  "name": "mRemoteNG",
+  "match": {
+   "name": "^mRemoteNG(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "mremoteng:mremoteng"
+  ],
+  "update": "winget upgrade --id mRemoteNG.mRemoteNG",
+  "verified": false
+ },
+ {
+  "id": "mcmilk.7zip-zstd",
+  "name": "7-Zip ZS",
+  "match": {
+   "name": "^7-Zip ZS\\b"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "mcmilk:7-zip-zstd"
+  ],
+  "update": "winget upgrade --id mcmilk.7zip-zstd",
+  "verified": false
+ },
+ {
+  "id": "microsoft.dotnet.hostingbundle.6",
+  "name": "Microsoft .NET 6.0 Windows Server Hosting",
+  "match": {
+   "name": "^Microsoft \\.NET (Core )?6\\.0\\.[0-9]+ - Windows Server Hosting",
+   "publisher": "Microsoft"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "\\.NET (?:Core )?([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "microsoft:asp.net_core",
+   "microsoft:.net"
+  ],
+  "verified": false
+ },
+ {
+  "id": "microsoft.dotnet.runtime",
+  "name": "Microsoft .NET Runtime",
+  "match": {
+   "name": "^Microsoft \\.NET( Core)? Runtime - [0-9]",
+   "publisher": "Microsoft"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "Runtime - ([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "microsoft:.net",
+   "microsoft:.net_core"
+  ],
+  "verified": false
+ },
+ {
+  "id": "microsoft.silverlight",
+  "name": "Microsoft Silverlight",
+  "match": {
+   "name": "^Microsoft Silverlight$",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:silverlight"
+  ],
+  "verified": false
+ },
+ {
+  "id": "microsoft.skype",
+  "name": "Skype",
+  "match": {
+   "name": "^Skype(™)?( version)? ?[0-9.]*$",
+   "publisher": "Skype|Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:skype",
+   "skype:skype",
+   "skype_technologies:skype"
+  ],
+  "verified": false
+ },
+ {
+  "id": "microsoft.sql_server",
+  "name": "Microsoft SQL Server",
+  "match": {
+   "name": "^SQL Server 20(16|17|19|22|25) Database Engine Services$",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:sql_server_2016",
+   "microsoft:sql_server_2017",
+   "microsoft:sql_server_2019",
+   "microsoft:sql_server_2022",
+   "microsoft:sql_server_2025"
+  ],
+  "verified": false
+ },
+ {
+  "id": "microsoft.sqlserver.2019.localdb",
+  "name": "Microsoft SQL Server 2019 LocalDB",
+  "match": {
+   "name": "^Microsoft SQL Server 2019 LocalDB",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:sql_server_2019"
+  ],
+  "verified": false
+ },
+ {
+  "id": "microsoft.visualstudio.2026.buildtools",
+  "name": "Visual Studio Build Tools 2026",
+  "match": {
+   "name": "^Visual Studio Build Tools 2026\\b",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:visual_studio_2026"
+  ],
+  "verified": false
+ },
+ {
+  "id": "microsoft.web_deploy",
+  "name": "Microsoft Web Deploy 4.0",
+  "match": {
+   "name": "^Microsoft Web Deploy 4\\.0",
+   "publisher": "Microsoft"
+  },
+  "version": {},
+  "cpe": [
+   "microsoft:web_deploy_4.0"
+  ],
+  "verified": false
+ },
+ {
+  "id": "mitmproxy.mitmproxy",
+  "name": "mitmproxy",
+  "match": {
+   "name": "^mitmproxy(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "mitmproxy:mitmproxy"
+  ],
+  "update": "winget upgrade --id mitmproxy.mitmproxy",
+  "verified": false
+ },
+ {
+  "id": "nekename.OpenDeck",
+  "name": "OpenDeck",
+  "match": {
+   "name": "^OpenDeck(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "nekename:opendeck"
+  ],
+  "update": "winget upgrade --id nekename.OpenDeck",
+  "verified": false
+ },
+ {
+  "id": "nektos.act",
+  "name": "act",
+  "match": {
+   "name": "^act(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "nektos:act"
+  ],
+  "update": "winget upgrade --id nektos.act",
+  "verified": false
+ },
+ {
+  "id": "newrelic.dotnet_agent",
+  "name": "New Relic .NET Agent",
+  "match": {
+   "name": "^New Relic \\.NET Agent"
+  },
+  "version": {},
+  "cpe": [
+   "newrelic:.net_agent"
+  ],
+  "verified": false
+ },
+ {
+  "id": "notable.notable",
+  "name": "Notable",
+  "match": {
+   "name": "^Notable(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "notable:notable"
+  ],
+  "update": "winget upgrade --id notable.notable",
+  "verified": false
+ },
+ {
+  "id": "nxlog.nxlog_ce",
+  "name": "NXLog Community Edition",
+  "match": {
+   "name": "^NXLog\\b",
+   "not_name": "Enterprise|Manager|Platform"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "nxlog:nxlog"
+  ],
+  "verified": false
+ },
+ {
+  "id": "nzbget.nzbget",
+  "name": "NZBGet",
+  "match": {
+   "name": "^NZBGet(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "nzbget:nzbget"
+  ],
+  "update": "winget upgrade --id nzbget.nzbget",
+  "verified": false
+ },
+ {
+  "id": "open-policy-agent.opa",
+  "name": "Open Policy Agent",
+  "match": {
+   "name": "^Open Policy Agent(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "openpolicyagent:open_policy_agent"
+  ],
+  "update": "winget upgrade --id open-policy-agent.opa",
+  "verified": false
+ },
+ {
+  "id": "openjdk.openjdk",
+  "name": "OpenJDK",
+  "match": {
+   "name": "^OpenJDK\\b",
+   "not_name": "^Microsoft Build of OpenJDK"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "\\b((1[1-9]|2[0-9])\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "oracle:openjdk"
+  ],
+  "verified": false
+ },
+ {
+  "id": "openobserve.openobserve",
+  "name": "OpenObserve",
+  "match": {
+   "name": "^OpenObserve(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "openobserve:openobserve"
+  ],
+  "update": "winget upgrade --id openobserve.openobserve",
+  "verified": false
+ },
+ {
+  "id": "osquery.osquery",
+  "name": "osquery",
+  "match": {
+   "name": "^osquery$"
+  },
+  "version": {},
+  "cpe": [
+   "linuxfoundation:osquery"
+  ],
+  "update": "winget upgrade --id osquery.osquery",
+  "verified": false
+ },
+ {
+  "id": "ownCloud.ownCloudDesktop",
+  "name": "ownCloud Desktop Client",
+  "match": {
+   "name": "^ownCloud$",
+   "publisher": "ownCloud"
+  },
+  "version": {},
+  "cpe": [
+   "owncloud:owncloud_desktop_client"
+  ],
+  "update": "winget upgrade --id ownCloud.ownCloudDesktop",
+  "verified": false
+ },
+ {
+  "id": "pay-skill.pay",
+  "name": "pay",
+  "match": {
+   "name": "^pay(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "pay_project:pay"
+  ],
+  "update": "winget upgrade --id pay-skill.pay",
+  "verified": false
+ },
+ {
+  "id": "pkgconf.pkgconf",
+  "name": "pkgconf",
+  "match": {
+   "name": "^pkgconf(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "pkgconf:pkgconf"
+  ],
+  "update": "winget upgrade --id pkgconf.pkgconf",
+  "verified": false
+ },
+ {
+  "id": "pnpm.pnpm.preview",
+  "name": "pnpm",
+  "match": {
+   "name": "^pnpm(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "pnpm:pnpm"
+  ],
+  "update": "winget upgrade --id pnpm.pnpm.preview",
+  "verified": false
+ },
+ {
+  "id": "powertab.powertabeditor",
+  "name": "Power Tab Editor",
+  "match": {
+   "name": "^Power Tab Editor(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "power-tab:power_tab_editor"
+  ],
+  "update": "winget upgrade --id powertab.powertabeditor",
+  "verified": false
+ },
+ {
+  "id": "psf.black",
+  "name": "Black",
+  "match": {
+   "name": "^Black(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "python:black"
+  ],
+  "update": "winget upgrade --id psf.black",
+  "verified": false
+ },
+ {
+  "id": "qBittorrent.qBittorrent",
+  "name": "qBittorrent",
+  "match": {
+   "name": "^qBittorrent\\b"
+  },
+  "version": {},
+  "cpe": [
+   "qbittorrent:qbittorrent"
+  ],
+  "update": "winget upgrade --id qBittorrent.qBittorrent",
+  "verified": false
+ },
+ {
+  "id": "qutebrowser.qutebrowser",
+  "name": "qutebrowser",
+  "match": {
+   "name": "^qutebrowser(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "qutebrowser:qutebrowser"
+  ],
+  "update": "winget upgrade --id qutebrowser.qutebrowser",
+  "verified": false
+ },
+ {
+  "id": "r-project.r",
+  "name": "R for Windows",
+  "match": {
+   "name": "^R for Windows [0-9]"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "r_project:r",
+   "r_foundation:r"
+  ],
+  "verified": false
+ },
+ {
+  "id": "rabbitmq.server",
+  "name": "RabbitMQ Server",
+  "match": {
+   "name": "^RabbitMQ Server\\b"
+  },
+  "version": {},
+  "cpe": [
+   "broadcom:rabbitmq_server",
+   "vmware:rabbitmq",
+   "pivotal_software:rabbitmq"
+  ],
+  "verified": false
+ },
+ {
+  "id": "reMarkable.reMarkableCompanionApp",
+  "name": "reMarkable",
+  "match": {
+   "name": "^reMarkable(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "remarkable_project:remarkable"
+  ],
+  "update": "winget upgrade --id reMarkable.reMarkableCompanionApp",
+  "verified": false
+ },
+ {
+  "id": "rtk-ai.rtk",
+  "name": "rtk",
+  "match": {
+   "name": "^rtk(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "rtk-ai:rtk"
+  ],
+  "update": "winget upgrade --id rtk-ai.rtk",
+  "verified": false
+ },
+ {
+  "id": "samsung.magician",
+  "name": "Samsung Magician",
+  "match": {
+   "name": "^Samsung Magician\\b",
+   "publisher": "Samsung"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "samsung:magician"
+  ],
+  "verified": false
+ },
+ {
+  "id": "schollz.croc",
+  "name": "croc",
+  "match": {
+   "name": "^croc(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "schollz:croc"
+  ],
+  "update": "winget upgrade --id schollz.croc",
+  "verified": false
+ },
+ {
+  "id": "skim-rs.skim",
+  "name": "skim",
+  "match": {
+   "name": "^skim(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "skim-rs:skim"
+  ],
+  "update": "winget upgrade --id skim-rs.skim",
+  "verified": false
+ },
+ {
+  "id": "splunk.universalforwarder",
+  "name": "Splunk Universal Forwarder",
+  "match": {
+   "name": "^UniversalForwarder$|^Splunk Universal Forwarder",
+   "publisher": "Splunk"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "splunk:universal_forwarder"
+  ],
+  "verified": false
+ },
+ {
+  "id": "stunnel.stunnel",
+  "name": "stunnel",
+  "match": {
+   "name": "^stunnel\\b"
+  },
+  "version": {},
+  "cpe": [
+   "stunnel:stunnel"
+  ],
+  "verified": false
+ },
+ {
+  "id": "telerik.fiddler",
+  "name": "Fiddler Classic",
+  "match": {
+   "name": "^(Progress )?(Telerik )?Fiddler( Classic| 4)?$",
+   "not_name": "Everywhere"
+  },
+  "version": {},
+  "cpe": [
+   "telerik:fiddler",
+   "progress:fiddler"
+  ],
+  "verified": false
+ },
+ {
+  "id": "the-sz.NetChat",
+  "name": "NetChat",
+  "match": {
+   "name": "^NetChat(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "the-sz:netchat"
+  ],
+  "update": "winget upgrade --id the-sz.NetChat",
+  "verified": false
+ },
+ {
+  "id": "tildearrow.Furnace",
+  "name": "Furnace",
+  "match": {
+   "name": "^Furnace(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "tildearrow:furnace"
+  ],
+  "update": "winget upgrade --id tildearrow.Furnace",
+  "verified": false
+ },
+ {
+  "id": "uutils.coreutils",
+  "name": "coreutils",
+  "match": {
+   "name": "^coreutils(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "uutils:coreutils"
+  ],
+  "update": "winget upgrade --id uutils.coreutils",
+  "verified": false
+ },
+ {
+  "id": "uvncbvba.UltraVNC",
+  "name": "UltraVNC",
+  "match": {
+   "name": "^UltraVNC\\b",
+   "not_name": "Repeater"
+  },
+  "version": {},
+  "cpe": [
+   "uvnc:ultravnc",
+   "ultravnc:ultravnc"
+  ],
+  "update": "winget upgrade --id uvncbvba.UltraVNC",
+  "verified": false
+ },
+ {
+  "id": "v2fly.v2ray-core",
+  "name": "v2ray-core",
+  "match": {
+   "name": "^v2ray-core(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "v2fly:v2ray-core"
+  ],
+  "update": "winget upgrade --id v2fly.v2ray-core",
+  "verified": false
+ },
+ {
+  "id": "vim.vim",
+  "name": "Vim",
+  "match": {
+   "name": "^Vim [0-9]+\\.[0-9]+"
+  },
+  "version": {},
+  "cpe": [
+   "vim:vim"
+  ],
+  "update": "winget upgrade --id vim.vim",
+  "verified": false
+ },
+ {
+  "id": "vim.vim.nightly",
+  "name": "Vim",
+  "match": {
+   "name": "^Vim(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "vim_project:vim"
+  ],
+  "update": "winget upgrade --id vim.vim.nightly",
+  "verified": false
+ },
+ {
+  "id": "vmware.remoteconsole",
+  "name": "VMware Remote Console",
+  "match": {
+   "name": "^VMware Remote Console\\b",
+   "publisher": "VMware|Broadcom"
+  },
+  "version": {
+   "parts": 3
+  },
+  "cpe": [
+   "vmware:remote_console"
+  ],
+  "verified": false
+ },
+ {
+  "id": "voidtools.Everything",
+  "name": "Everything",
+  "match": {
+   "name": "^Everything [0-9]",
+   "publisher": "voidtools"
+  },
+  "version": {},
+  "cpe": [
+   "voidtools:everything"
+  ],
+  "update": "winget upgrade --id voidtools.Everything",
+  "verified": false
+ },
+ {
+  "id": "winpcap.winpcap",
+  "name": "WinPcap",
+  "match": {
+   "name": "^WinPcap\\b"
+  },
+  "version": {
+   "from": "product_name",
+   "regex": "WinPcap ([0-9]+\\.[0-9]+(?:\\.[0-9]+)?)"
+  },
+  "cpe": [
+   "winpcap:winpcap"
+  ],
+  "verified": false
+ },
+ {
+  "id": "wire.wire",
+  "name": "Wire",
+  "match": {
+   "name": "^Wire(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "wire:wire"
+  ],
+  "update": "winget upgrade --id wire.wire",
+  "verified": false
+ },
+ {
+  "id": "wkhtmltopdf.wkhtmltox",
+  "name": "wkhtmltopdf",
+  "match": {
+   "name": "^wkhtmlto(x|pdf)\\b"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "wkhtmltopdf:wkhtmltopdf"
+  ],
+  "update": "winget upgrade --id wkhtmltopdf.wkhtmltox",
+  "verified": false
+ },
+ {
+  "id": "youtube-dl.youtube-dl",
+  "name": "youtube-dl",
+  "match": {
+   "name": "^youtube-dl(\\s|$|\\()"
+  },
+  "version": {},
+  "cpe": [
+   "yt-dl:youtube-dl"
+  ],
+  "update": "winget upgrade --id youtube-dl.youtube-dl",
+  "verified": false
+ },
+ {
+  "id": "yt-dlp.yt-dlp",
+  "name": "yt-dlp",
+  "match": {
+   "name": "^yt-dlp$"
+  },
+  "version": {},
+  "cpe": [
+   "yt-dlp_project:yt-dlp"
+  ],
+  "update": "winget upgrade --id yt-dlp.yt-dlp",
+  "verified": false
+ },
+ {
+  "id": "zabbix.agent",
+  "name": "Zabbix Agent",
+  "match": {
+   "name": "^Zabbix Agent( \\((32|64)-bit\\))?$",
+   "publisher": "Zabbix"
+  },
+  "version": {
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)"
+  },
+  "cpe": [
+   "zabbix:zabbix-agent",
+   "zabbix:zabbix_agentd"
+  ],
+  "verified": false
+ },
+ {
+  "id": "zoiper.zoiper",
+  "name": "Zoiper",
+  "match": {
+   "name": "^Zoiper"
+  },
+  "version": {},
+  "cpe": [
+   "zoiper:zoiper"
+  ],
+  "verified": false
+ }
+]

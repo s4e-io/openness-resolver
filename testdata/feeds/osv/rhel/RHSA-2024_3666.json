@@ -1,0 +1,56 @@
+{
+ "schema_version": "1.7.3",
+ "id": "RHSA-2024:3666",
+ "published": "2024-06-01T00:00:00Z",
+ "modified": "2024-06-01T00:00:00Z",
+ "upstream": [
+  "CVE-2024-2398"
+ ],
+ "summary": "Important: curl security update",
+ "affected": [
+  {
+   "package": {
+    "name": "curl-minimal",
+    "ecosystem": "Red Hat:enterprise_linux:9::baseos"
+   },
+   "ranges": [
+    {
+     "type": "ECOSYSTEM",
+     "events": [
+      {
+       "introduced": "0"
+      },
+      {
+       "fixed": "7.76.1-29.el9_4"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "package": {
+    "name": "libcurl-minimal",
+    "ecosystem": "Red Hat:enterprise_linux:9::baseos"
+   },
+   "ranges": [
+    {
+     "type": "ECOSYSTEM",
+     "events": [
+      {
+       "introduced": "0"
+      },
+      {
+       "fixed": "7.76.1-29.el9_4"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "references": [
+  {
+   "type": "ADVISORY",
+   "url": "https://example.invalid/RHSA-2024:3666"
+  }
+ ]
+}

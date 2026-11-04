@@ -1,0 +1,401 @@
+{
+  "exit_code": 0,
+  "findings": [
+    {
+      "advisory_ids": [
+        "SUSE-SU-2024:2300-1"
+      ],
+      "architecture": "noarch",
+      "asset_id": "asset-leap156",
+      "binary_package": "gio-branding-upstream",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "1.0-150600.4.3.1",
+        "installed": "1.0-150600.4.3.1",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-34397",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "opensuse",
+      "evidence_ids": [
+        "ev-packages-4"
+      ],
+      "finding_id": "finding-fe0827ca7a91b70b",
+      "finding_type": "cve",
+      "fixed_version": "1.0-150600.4.3.1",
+      "installed_version": "1.0-150600.4.3.1",
+      "reasons": [
+        "installed 1.0-150600.4.3.1 >= fixed 1.0-150600.4.3.1"
+      ],
+      "release": "15.6",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "1.0-150600.4.3.1",
+        "raw_status": "fixed (openSUSE:Leap 15.6)",
+        "release": "15.6",
+        "rule_id": "opensuse:15.6:SUSE-SU-2024:2300-1:CVE-2024-34397:gio-branding-upstream",
+        "source": "opensuse",
+        "source_snapshot": "local:opensuse-all.zip",
+        "source_url": "https://example.invalid/SUSE-SU-2024:2300-1",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "opensuse:15.6:SUSE-SU-2024:2300-1:CVE-2024-34397:gio-branding-upstream"
+      ],
+      "scope": "host",
+      "source_package": "glib2",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "SUSE-SU-2024:2300-1"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-leap156",
+      "binary_package": "libglib-2_0-0",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "2.78.6-150600.4.3.1",
+        "installed": "2.78.3-150600.4.1",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-34397",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "opensuse",
+      "evidence_ids": [
+        "ev-packages-3"
+      ],
+      "finding_id": "finding-4d5e2d4570891e27",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "2.78.6-150600.4.3.1",
+      "installed_version": "2.78.3-150600.4.1",
+      "reasons": [
+        "installed 2.78.3-150600.4.1 < fixed 2.78.6-150600.4.3.1 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "15.6",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "2.78.6-150600.4.3.1",
+        "raw_status": "fixed (openSUSE:Leap 15.6)",
+        "release": "15.6",
+        "rule_id": "opensuse:15.6:SUSE-SU-2024:2300-1:CVE-2024-34397:libglib-2_0-0",
+        "source": "opensuse",
+        "source_snapshot": "local:opensuse-all.zip",
+        "source_url": "https://example.invalid/SUSE-SU-2024:2300-1",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "opensuse:15.6:SUSE-SU-2024:2300-1:CVE-2024-34397:libglib-2_0-0"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "glib2",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "SUSE-SU-2024:2066-1"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-leap156",
+      "binary_package": "libopenssl3",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "3.1.4-150600.5.15.1",
+        "installed": "3.1.4-150600.5.7.1",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-4603",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "opensuse",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-e40df5fb0df39b97",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "3.1.4-150600.5.15.1",
+      "installed_version": "3.1.4-150600.5.7.1",
+      "reasons": [
+        "installed 3.1.4-150600.5.7.1 < fixed 3.1.4-150600.5.15.1 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "15.6",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "3.1.4-150600.5.15.1",
+        "raw_status": "fixed (openSUSE:Leap 15.6)",
+        "release": "15.6",
+        "rule_id": "opensuse:15.6:SUSE-SU-2024:2066-1:CVE-2024-4603:src:openssl-3",
+        "source": "opensuse",
+        "source_snapshot": "local:opensuse-all.zip",
+        "source_url": "https://example.invalid/SUSE-SU-2024:2066-1",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "opensuse:15.6:SUSE-SU-2024:2066-1:CVE-2024-4603:src:openssl-3"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl-3",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "SUSE-SU-2024:2066-1"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-leap156",
+      "binary_package": "libopenssl3",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "3.1.4-150600.5.15.1",
+        "installed": "3.1.4-150600.5.7.1",
+        "result": true
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-4741",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "opensuse",
+      "evidence_ids": [
+        "ev-packages-0"
+      ],
+      "finding_id": "finding-3a32244f9498bce7",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "3.1.4-150600.5.15.1",
+      "installed_version": "3.1.4-150600.5.7.1",
+      "reasons": [
+        "installed 3.1.4-150600.5.7.1 < fixed 3.1.4-150600.5.15.1 (vendor status released)",
+        "package is installed but no matching process was observed running; state remains vulnerable"
+      ],
+      "release": "15.6",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "3.1.4-150600.5.15.1",
+        "raw_status": "fixed (openSUSE:Leap 15.6)",
+        "release": "15.6",
+        "rule_id": "opensuse:15.6:SUSE-SU-2024:2066-1:CVE-2024-4741:src:openssl-3",
+        "source": "opensuse",
+        "source_snapshot": "local:opensuse-all.zip",
+        "source_url": "https://example.invalid/SUSE-SU-2024:2066-1",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "opensuse:15.6:SUSE-SU-2024:2066-1:CVE-2024-4741:src:openssl-3"
+      ],
+      "runtime_state": "not_observed_running",
+      "scope": "host",
+      "source_package": "openssl-3",
+      "source_package_confidence": "direct",
+      "state": "vulnerable",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "SUSE-SU-2024:2066-1"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-leap156",
+      "binary_package": "openssl-3",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "3.1.4-150600.5.15.1",
+        "installed": "3.1.4-150600.5.15.1",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-4603",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "opensuse",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-efe78a2beec16116",
+      "finding_type": "cve",
+      "fixed_version": "3.1.4-150600.5.15.1",
+      "installed_version": "3.1.4-150600.5.15.1",
+      "reasons": [
+        "installed 3.1.4-150600.5.15.1 >= fixed 3.1.4-150600.5.15.1"
+      ],
+      "release": "15.6",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "3.1.4-150600.5.15.1",
+        "raw_status": "fixed (openSUSE:Leap 15.6)",
+        "release": "15.6",
+        "rule_id": "opensuse:15.6:SUSE-SU-2024:2066-1:CVE-2024-4603:src:openssl-3",
+        "source": "opensuse",
+        "source_snapshot": "local:opensuse-all.zip",
+        "source_url": "https://example.invalid/SUSE-SU-2024:2066-1",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "opensuse:15.6:SUSE-SU-2024:2066-1:CVE-2024-4603:src:openssl-3"
+      ],
+      "scope": "host",
+      "source_package": "openssl-3",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "vendor_status": "released"
+    },
+    {
+      "advisory_ids": [
+        "SUSE-SU-2024:2066-1"
+      ],
+      "architecture": "x86_64",
+      "asset_id": "asset-leap156",
+      "binary_package": "openssl-3",
+      "comparison": {
+        "comparator": "rpm",
+        "expression": "installed < fixed",
+        "fixed": "3.1.4-150600.5.15.1",
+        "installed": "3.1.4-150600.5.15.1",
+        "result": false
+      },
+      "confidence": "high",
+      "cve_id": "CVE-2024-4741",
+      "detection_method": "rpm_package_fixed_version",
+      "distribution": "opensuse",
+      "evidence_ids": [
+        "ev-packages-1"
+      ],
+      "finding_id": "finding-1fb274d41c8f4000",
+      "finding_type": "cve",
+      "fixed_version": "3.1.4-150600.5.15.1",
+      "installed_version": "3.1.4-150600.5.15.1",
+      "reasons": [
+        "installed 3.1.4-150600.5.15.1 >= fixed 3.1.4-150600.5.15.1"
+      ],
+      "release": "15.6",
+      "rule": {
+        "comparator": "rpm",
+        "fixed_version": "3.1.4-150600.5.15.1",
+        "raw_status": "fixed (openSUSE:Leap 15.6)",
+        "release": "15.6",
+        "rule_id": "opensuse:15.6:SUSE-SU-2024:2066-1:CVE-2024-4741:src:openssl-3",
+        "source": "opensuse",
+        "source_snapshot": "local:opensuse-all.zip",
+        "source_url": "https://example.invalid/SUSE-SU-2024:2066-1",
+        "vendor_status": "released"
+      },
+      "rule_ids": [
+        "opensuse:15.6:SUSE-SU-2024:2066-1:CVE-2024-4741:src:openssl-3"
+      ],
+      "scope": "host",
+      "source_package": "openssl-3",
+      "source_package_confidence": "direct",
+      "state": "fixed",
+      "vendor_status": "released"
+    }
+  ],
+  "notes": [],
+  "platform_support": "supported",
+  "platform_tested": true,
+  "remediation_groups": [
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [
+        "SUSE-SU-2024:2066-1"
+      ],
+      "availability": "unknown",
+      "closes": {
+        "count": 2,
+        "cve_ids": [
+          "CVE-2024-4603",
+          "CVE-2024-4741"
+        ],
+        "finding_ids": [
+          "finding-3a32244f9498bce7",
+          "finding-e40df5fb0df39b97"
+        ]
+      },
+      "command_hint": "zypper update libopenssl3",
+      "coverage_note": null,
+      "group_id": "group-f30007a82c2d04e4",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "openssl-3",
+      "targets": [
+        {
+          "architecture": "x86_64",
+          "installed_version": "3.1.4-150600.5.7.1",
+          "kind": "binary",
+          "name": "libopenssl3",
+          "target_version": "3.1.4-150600.5.15.1"
+        }
+      ]
+    },
+    {
+      "action": "upgrade_packages",
+      "advisory_ids": [
+        "SUSE-SU-2024:2300-1"
+      ],
+      "availability": "unknown",
+      "closes": {
+        "count": 1,
+        "cve_ids": [
+          "CVE-2024-34397"
+        ],
+        "finding_ids": [
+          "finding-4d5e2d4570891e27"
+        ]
+      },
+      "command_hint": "zypper update libglib-2_0-0",
+      "coverage_note": null,
+      "group_id": "group-2a96c058771a1f15",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "host",
+      "source_package": "glib2",
+      "targets": [
+        {
+          "architecture": "x86_64",
+          "installed_version": "2.78.3-150600.4.1",
+          "kind": "binary",
+          "name": "libglib-2_0-0",
+          "target_version": "2.78.6-150600.4.3.1"
+        }
+      ]
+    }
+  ],
+  "rule_coverage": {
+    "asset_release": "opensuse/15.6",
+    "loaded_releases": [
+      "opensuse/15.6"
+    ],
+    "rules_for_asset": 6,
+    "sources": [
+      {
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "osv-distro/1.0.0",
+        "release": "opensuse/15.6",
+        "sha256": "a7b56ddc7e53a360815f46f53332da7bec66bcac58e58235438ddce2b4c068f3",
+        "source": "osv-opensuse",
+        "url": "https://osv-vulnerabilities.storage.googleapis.com/openSUSE/all.zip"
+      }
+    ],
+    "state": "covered"
+  },
+  "stderr": "",
+  "support_reason": null
+}

@@ -1,0 +1,108 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  test-windows:
+    name: test-windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Test on Windows (must pass before release)
+        run: go test ./...
+
+  release:
+    name: release
+    needs: test-windows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Resolve version from tag
+        id: ver
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME}"
+          [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "tag must be vX.Y.Z, got $TAG"; exit 1; }
+          VER="${TAG#v}"
+          FILE_VER="$(tr -d '[:space:]' <VERSION)"
+          if [[ "$VER" != "$FILE_VER" ]]; then
+            echo "tag version $VER does not match VERSION file $FILE_VER"
+            exit 1
+          fi
+          CODE_VER="$(sed -n 's/^[[:space:]]*Version = "\([^"]*\)"/\1/p' internal/buildinfo/buildinfo.go | head -1)"
+          test "$VER" = "$CODE_VER"
+          echo "version=$VER" >>"$GITHUB_OUTPUT"
+          echo "tag=$TAG" >>"$GITHUB_OUTPUT"
+
+      - name: Test (must pass before release)
+        run: |
+          set -euo pipefail
+          test -s testdata/normalized/ubuntu/jammy/rules.json
+          go test ./...
+
+      - name: Build binaries (Linux, macOS, Windows)
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.ver.outputs.version }}"
+          COMMIT="${GITHUB_SHA}"
+          DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          LDFLAGS="-s -w -X github.com/s4e-io/openness-resolver/internal/buildinfo.Version=${VERSION} -X github.com/s4e-io/openness-resolver/internal/buildinfo.Commit=${COMMIT} -X github.com/s4e-io/openness-resolver/internal/buildinfo.Date=${DATE}"
+          mkdir -p dist
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags "${LDFLAGS}" -o "dist/openness-resolver_${VERSION}_linux_amd64" ./cmd/openness-resolver
+          GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags "${LDFLAGS}" -o "dist/openness-resolver_${VERSION}_linux_arm64" ./cmd/openness-resolver
+          GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags "${LDFLAGS}" -o "dist/openness-resolver_${VERSION}_darwin_arm64" ./cmd/openness-resolver
+          GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags "${LDFLAGS}" -o "dist/openness-resolver_${VERSION}_darwin_amd64" ./cmd/openness-resolver
+          GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags "${LDFLAGS}" -o "dist/openness-resolver_${VERSION}_windows_amd64.exe" ./cmd/openness-resolver
+          chmod +x dist/openness-resolver_*_linux_* dist/openness-resolver_*_darwin_*
+          ./dist/openness-resolver_${VERSION}_linux_amd64 version | tee dist/version.txt
+          grep -F "openness-resolver ${VERSION}" dist/version.txt
+
+      - name: Checksums
+        run: |
+          set -euo pipefail
+          cd dist
+          sha256sum openness-resolver_* > SHA256SUMS
+          cat SHA256SUMS
+          # Every platform the installer (s4e-io/openness install.sh / install.ps1) looks for.
+          for p in linux_amd64 linux_arm64 darwin_arm64 darwin_amd64 windows_amd64.exe; do
+            grep -q " openness-resolver_${{ steps.ver.outputs.version }}_${p}\$" SHA256SUMS || { echo "missing ${p} in SHA256SUMS"; exit 1; }
+          done
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          name: openness-resolver ${{ steps.ver.outputs.version }}
+          generate_release_notes: true
+          files: |
+            dist/openness-resolver_${{ steps.ver.outputs.version }}_linux_amd64
+            dist/openness-resolver_${{ steps.ver.outputs.version }}_linux_arm64
+            dist/openness-resolver_${{ steps.ver.outputs.version }}_darwin_arm64
+            dist/openness-resolver_${{ steps.ver.outputs.version }}_darwin_amd64
+            dist/openness-resolver_${{ steps.ver.outputs.version }}_windows_amd64.exe
+            dist/SHA256SUMS
+            dist/version.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
