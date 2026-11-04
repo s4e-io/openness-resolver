@@ -21,6 +21,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -38,6 +39,7 @@ import (
 	"github.com/s4e-io/openness-resolver/internal/feed"
 	"github.com/s4e-io/openness-resolver/internal/feed/alpine"
 	"github.com/s4e-io/openness-resolver/internal/feed/amazon"
+	"github.com/s4e-io/openness-resolver/internal/feed/appmapper"
 	"github.com/s4e-io/openness-resolver/internal/feed/debian"
 	"github.com/s4e-io/openness-resolver/internal/feed/msrc"
 	"github.com/s4e-io/openness-resolver/internal/feed/osv"
@@ -99,13 +101,13 @@ func usage() {
 	fmt.Fprint(os.Stderr, `usage: openness-resolver <command> [flags]
 
 commands:
-  feed sync --for <file.openness>|--source <id>|--vendor <v>|--all [--data-dir data] [--months N] [--pypi-only] [--osv-url <url>] [--dry-run]
+  feed sync --for <file.openness|device.json>|--source <id>|--vendor <v>|--all [--data-dir data] [--months N] [--pypi-only] [--osv-url <url>] [--mapper-url <url>] [--dry-run]
   feed list [--data-dir data]
-  feed validate [--data-dir data] [--dry-run]   download every enabled source (or the selected ones) and parse it without publishing
+  feed validate [--data-dir data] [--mapper-url <url>] [--dry-run]   download every enabled source (or the selected ones) and parse it without publishing
   rules import --source <id> --file <raw feed file> [--source-url <url>] [--fetched-at <rfc3339>] [--data-dir data]
   rules stats [--data-dir data]
   rules format                      which processed rules this build reads (JSON: format, id, parsers)
-  resolve --input <file.openness> [--output findings.json] [--data-dir data] [--states s1,s2] [--preflight] [--mapper <file>] [--app-unverified] [--app-guess=false]
+  resolve --input <file.openness>|--device <device.json> [--output findings.json] [--data-dir data] [--states s1,s2] [--preflight] [--mapper <file>] [--app-unverified] [--app-guess=false]
   explain --finding-id <id> [--findings findings.json]
   compare-version --ecosystem dpkg|apk|rpm|pep440|winbuild --installed <v> --fixed <v>
   mapper probes [--mapper <file>]   files the collector should check (collect --file-probes), as JSON
@@ -135,6 +137,7 @@ func cmdFeed(args []string) error {
 		sourceID, vendor      = new(string), new(string)
 		forEvidence, osvURL   = new(string), new(string)
 		all, pypiOnly, dryRun = new(bool), new(bool), new(bool)
+		mapperURL             = new(string)
 		months                = new(int)
 		selecting, syncing    = sub != "list", sub == "sync"
 	)
@@ -144,9 +147,10 @@ func cmdFeed(args []string) error {
 		fs.StringVar(sourceID, "source", "", "advisory source id: a registry id (feed list) or a release id such as ubuntu-oval-usn-noble, alpine-secdb-v3.20, msrc-cvrf-2026-Oct")
 		fs.StringVar(vendor, "vendor", "", "every enabled source of one vendor (ubuntu|alpine|debian|rocky|almalinux|rhel|opensuse|amazon|microsoft)")
 		fs.BoolVar(all, "all", false, "every enabled source")
-		fs.StringVar(forEvidence, "for", "", "the sources the asset in this .openness file needs (host release and container image releases)")
+		fs.StringVar(forEvidence, "for", "", "the sources the asset in this .openness file (or openness-device/1 file) needs (host release, container image releases, app-mapper)")
 		fs.IntVar(months, "months", 24, "MSRC: number of monthly CVRF documents, newest first (vendor microsoft / Windows evidence)")
 		fs.BoolVar(dryRun, "dry-run", false, "print the sources that would be downloaded (id and URL) and download nothing")
+		fs.StringVar(mapperURL, "mapper-url", "", "where the app-mapper source downloads the mapper bundle from (SHA256SUMS must sit next to it); default: the latest S4E catalog release on GitHub")
 	}
 	if syncing {
 		fs.BoolVar(pypiOnly, "pypi-only", false, "with --for: only query the PyPI packages, download no advisory source (the advisory rules come from rules import)")
@@ -169,6 +173,9 @@ func cmdFeed(args []string) error {
 		fmt.Printf("%-32s %-6s %-8s %-4s %s\n", "ID", "ECO", "VENDOR", "PRI", "ENABLED")
 		for _, s := range rules.Registry() {
 			fmt.Printf("%-32s %-6s %-8s %-4d %v\n", s.ID, s.Ecosystem, s.Vendor, s.Priority, s.Enabled)
+		}
+		if m, ok := appvuln.ReadMeta(appmapper.Path(*dataDir)); ok {
+			fmt.Printf("mapper %s version=%s downloaded_at=%s\n", appmapper.Path(*dataDir), m.Version, m.DownloadedAt.Format(time.RFC3339))
 		}
 		for _, v := range []string{"ubuntu", "alpine", "microsoft", "debian", "rocky", "almalinux", "rhel", "opensuse", "amazon"} {
 			snaps, _ := dl.Snapshots(v)
@@ -220,15 +227,28 @@ func cmdFeed(args []string) error {
 				}
 			}
 		}
+		// A 404 of the mapper (not published yet) fails the run only when it was asked
+		// for by name.
+		mapperStrict = *sourceID == appmapper.ID
+		for i := range selected {
+			if selected[i].ID == appmapper.ID && *mapperURL != "" {
+				selected[i].URL = *mapperURL
+			}
+		}
+		isDevice := *forEvidence != "" && appvuln.IsDeviceFile(*forEvidence)
 		if *dryRun {
-			return printDryRun(dedupeSources(selected), *forEvidence, validateOnly)
+			evForPyPI := *forEvidence
+			if isDevice {
+				evForPyPI = ""
+			}
+			return printDryRun(dedupeSources(selected), evForPyPI, validateOnly)
 		}
 		var syncErr error
 		if len(selected) > 0 {
 			syncErr = syncSources(dedupeSources(selected), dl, store, validateOnly)
 		}
 		pypiRan := false
-		if *forEvidence != "" && !validateOnly {
+		if *forEvidence != "" && !validateOnly && !isDevice {
 			var pypiErr error
 			pypiRan, pypiErr = syncPyPIEvidence(*dataDir, *forEvidence)
 			if pypiErr != nil {
@@ -304,6 +324,13 @@ func printDryRun(selected []rules.AdvisorySource, forEvidence string, validateOn
 // sourcesForEvidence derives the advisory sources one asset needs from its own
 // evidence: the host release plus every container image release it carries.
 func sourcesForEvidence(path string, months int) ([]rules.AdvisorySource, []string, error) {
+	mapperSrc, _ := rules.SourceByID(appmapper.ID)
+	if appvuln.IsDeviceFile(path) {
+		if _, err := appvuln.ReadDeviceFile(path); err != nil {
+			return nil, nil, err
+		}
+		return []rules.AdvisorySource{mapperSrc}, []string{"network device -> app-mapper"}, nil
+	}
 	lr, err := evidence.Load(path)
 	if err != nil {
 		return nil, nil, err
@@ -321,6 +348,8 @@ func sourcesForEvidence(path string, months int) ([]rules.AdvisorySource, []stri
 		srcs := rules.MSRCSources(months, time.Now())
 		notes = append(notes, fmt.Sprintf("host: windows %s build %s -> MSRC CVRF, last %d months", plat.Codename, plat.WindowsBuild, len(srcs)))
 		out = append(out, srcs...)
+		out = append(out, mapperSrc)
+		notes = append(notes, "host: windows applications -> app-mapper")
 	} else if srcs, err := rules.HostSources(plat.DistributionID, plat.RuleRelease()); err != nil {
 		notes = append(notes, "host: "+err.Error())
 	} else {
@@ -331,6 +360,10 @@ func sourcesForEvidence(path string, months int) ([]rules.AdvisorySource, []stri
 		}
 	}
 
+	if plat.DistributionID != "windows" && len(lr.Doc.Applications) > 0 {
+		out = append(out, mapperSrc)
+		notes = append(notes, fmt.Sprintf("host: %d applications -> app-mapper", len(lr.Doc.Applications)))
+	}
 	for _, g := range containers.BuildInventory(lr.ContainerRecords()).Groups {
 		digest := short(g.ImageDigest, 20)
 		if g.Distro == "" || g.Branch == "" {
@@ -515,10 +548,28 @@ func syncSource(src rules.AdvisorySource, dl *feed.Downloader, store *rules.Stor
 		}
 		printFeedMetrics(res.Metrics, meta)
 		fmt.Printf("    windows products: %d, skipped remediations: %v\n", len(res.Products), res.Skipped)
+	case "app-mapper":
+		meta, err := appmapper.Sync(src.URL, dl.DataDir, !validateOnly, time.Now())
+		if err != nil {
+			if errors.Is(err, appmapper.ErrNotPublished) && !mapperStrict {
+				fmt.Printf("    %v; skipped\n", err)
+				return
+			}
+			fmt.Printf("    FAILED: %v\n", err)
+			if *firstErr == nil {
+				*firstErr = err
+			}
+			return
+		}
+		fmt.Printf("    sha256=%s size=%dB parser=%s\n", short(meta.SHA256, 16), meta.SizeBytes, meta.Format)
+		fmt.Printf("    mapper version=%s\n", meta.Version)
 	default:
 		fmt.Printf("    SKIPPED: parser %q not implemented yet\n", src.Parser)
 	}
 }
+
+// mapperStrict makes a 404 of the app-mapper source a failure (feed sync --source app-mapper).
+var mapperStrict bool
 
 // wantedReleases is the set of release keys a vendor-wide feed is stored
 // for: the production supported releases of that distribution, written the
@@ -724,6 +775,21 @@ func cmdRules(args []string) error {
 			}
 			printFeedMetrics(res.Metrics, meta)
 			fmt.Printf("    month %s, windows products: %d, skipped remediations: %v\n", res.Month, len(res.Products), res.Skipped)
+		case "app-mapper":
+			d, err := appvuln.LoadFile(*file)
+			if err != nil {
+				return err
+			}
+			dst := appmapper.Path(*dataDir)
+			if err := installCopy(*file, dst); err != nil {
+				return err
+			}
+			if err := appmapper.WriteMeta(dst, appvuln.BundleMeta{Source: appmapper.ID, SourceURL: meta.SourceURL,
+				DownloadedAt: meta.DownloadedAt, SHA256: meta.SHA256, SizeBytes: meta.SizeBytes,
+				Format: appvuln.BundleFormat, Version: d.Version}); err != nil {
+				return err
+			}
+			fmt.Printf("    mapper version=%s written to %s\n", d.Version, dst)
 		default:
 			return fmt.Errorf("parser %q not implemented", src.Parser)
 		}
@@ -794,16 +860,23 @@ func setOSVEndpoint(flag string) {
 func cmdResolve(args []string) error {
 	fs := flag.NewFlagSet("openness-resolver resolve", flag.ExitOnError)
 	input := fs.String("input", "", ".openness evidence file")
+	device := fs.String("device", "", "network device file (openness-device/1, written from SNMP) to resolve instead of --input")
 	output := fs.String("output", "findings.json", "output findings JSON file")
 	dataDir := fs.String("data-dir", "data", "data directory with normalized rules")
 	statesFilter := fs.String("states", "", "comma-separated states to include in the summary listing")
 	preflight := fs.Bool("preflight", false, "enforce strict evidence preflight checks (validation mode)")
-	mapper := fs.String("mapper", "", "application mapper file (catalog + NVD data, JSON or gzip) for third-party Windows applications; default: the built-in one")
-	appUnverified := fs.Bool("app-unverified", false, "also use the application catalog entries no person reviewed")
+	mapper := fs.String("mapper", "", "application mapper file (catalog + NVD data, JSON or gzip) for third-party Windows applications and network devices; default: <data-dir>/mapper/app-mapper.json.gz when synced, else the built-in one")
+	appUnverified := fs.Bool("app-unverified", false, "also use the application and device catalog entries no person reviewed")
 	appGuess := fs.Bool("app-guess", true, "guess the NVD product of applications the catalog does not know (findings are potentially_vulnerable)")
 	fs.Parse(args)
+	if *input != "" && *device != "" {
+		return fmt.Errorf("resolve takes --input or --device, not both")
+	}
+	if *device != "" {
+		return resolveDevice(*device, *output, *dataDir, *mapper, *statesFilter, appvuln.Options{Unverified: *appUnverified})
+	}
 	if *input == "" {
-		return fmt.Errorf("resolve requires --input <file.openness>")
+		return fmt.Errorf("resolve requires --input <file.openness> or --device <device.json>")
 	}
 
 	var lr *evidence.LoadResult
@@ -835,23 +908,52 @@ func cmdResolve(args []string) error {
 	}
 
 	engine := resolver.NewEngine(rs)
-	if engine.Apps, err = loadMapper(*mapper); err != nil {
-		return err
+	// The mapper is read when it can be used (a Windows host) or was named.
+	if *mapper != "" || platform.FromOS(lr.Doc.OperatingSystem, lr.Doc.Kernel).DistributionID == "windows" {
+		if engine.Apps, engine.AppSource, err = selectMapper(*mapper, *dataDir); err != nil {
+			return err
+		}
 	}
 	engine.AppOptions = appvuln.Options{Unverified: *appUnverified, Fallback: *appGuess}
 	res, err := engine.Resolve(lr)
 	if err != nil {
 		return err
 	}
-	if err := report.WriteJSON(res, *output); err != nil {
+	if err := writeResult(res, *output, *statesFilter); err != nil {
+		return err
+	}
+	if err := res.RuleCoverage.EvaluationError(*input); err != nil {
+		return err
+	}
+	return nil
+}
+
+// resolveDevice is resolve --device: a network device against the device catalog.
+func resolveDevice(path, output, dataDir, mapperFile, statesFilter string, opt appvuln.Options) error {
+	dev, err := appvuln.ReadDeviceFile(path)
+	if err != nil {
+		return err
+	}
+	engine := resolver.NewEngine(&rules.RuleSet{})
+	if engine.Apps, engine.AppSource, err = selectMapper(mapperFile, dataDir); err != nil {
+		return err
+	}
+	engine.AppOptions = opt
+	return writeResult(engine.ResolveDevice(dev), output, statesFilter)
+}
+
+// writeResult writes the findings, prints the summary and lists the findings of the
+// requested states.
+func writeResult(res *resolver.RunResult, output, statesFilter string) error {
+	if err := report.WriteJSON(res, output); err != nil {
 		return err
 	}
 	report.Summary(res, os.Stdout)
-	fmt.Printf("\nfindings written to %s\n", *output)
+	fmt.Printf("\nfindings written to %s\n", output)
 
-	if *statesFilter != "" {
+	if statesFilter != "" {
 		want := map[string]bool{}
-		for _, s := range strings.Split(*statesFilter, ",") {
+		for _, s := range strings.Split(statesFilter, ",") {
 			want[strings.TrimSpace(s)] = true
 		}
 		fmt.Println()
@@ -861,9 +963,6 @@ func cmdResolve(args []string) error {
 					f.FindingID, f.State, f.CVEID, f.BinaryPackage, f.InstalledVersion, f.FixedVersion)
 			}
 		}
-	}
-	if err := res.RuleCoverage.EvaluationError(*input); err != nil {
-		return err
 	}
 	return nil
 }
@@ -890,6 +989,65 @@ func loadMapper(path string) (*appvuln.Data, error) {
 		return appvuln.Builtin()
 	}
 	return appvuln.LoadFile(path)
+}
+
+// selectMapper picks the mapper resolve uses: --mapper when given, else the one feed sync
+// put in the data directory, else the built-in one. The source names which, for
+// rule_coverage.sources.
+func selectMapper(flagPath, dataDir string) (*appvuln.Data, *resolver.CoverageSource, error) {
+	src := &resolver.CoverageSource{Release: "mapper", Parser: appvuln.BundleFormat}
+	path := flagPath
+	if flagPath != "" {
+		src.Source = "app-mapper-file"
+	} else if _, err := os.Stat(appmapper.Path(dataDir)); err == nil {
+		path, src.Source = appmapper.Path(dataDir), appmapper.ID
+	}
+	if path == "" {
+		d, err := appvuln.Builtin()
+		if err != nil {
+			return nil, nil, err
+		}
+		src.Source, src.Version = "app-mapper-builtin", d.Version
+		return d, src, nil
+	}
+	d, err := appvuln.LoadFile(path)
+	if err != nil {
+		return nil, nil, err
+	}
+	src.Version = d.Version
+	if m, ok := appvuln.ReadMeta(path); ok {
+		src.URL, src.SHA256 = m.SourceURL, m.SHA256
+		if !m.DownloadedAt.IsZero() {
+			t := m.DownloadedAt
+			src.DownloadedAt = &t
+		}
+	}
+	return d, src, nil
+}
+
+// installCopy copies src to dst through a temporary file next to dst.
+func installCopy(src, dst string) error {
+	if err := os.MkdirAll(filepath.Dir(dst), 0o755); err != nil {
+		return err
+	}
+	in, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+	tmp, err := os.CreateTemp(filepath.Dir(dst), ".import-*")
+	if err != nil {
+		return err
+	}
+	defer os.Remove(tmp.Name())
+	if _, err := io.Copy(tmp, in); err != nil {
+		tmp.Close()
+		return err
+	}
+	if err := tmp.Close(); err != nil {
+		return err
+	}
+	return os.Rename(tmp.Name(), dst)
 }
 
 // distributionRuleDirs are the rule store vendor directories keyed by

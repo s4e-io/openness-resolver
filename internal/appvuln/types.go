@@ -1,12 +1,14 @@
 package appvuln
 
 import (
-	"bytes"
+	"bufio"
 	"compress/gzip"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"os"
+	"time"
 )
 
 // Finding is one CVE of one installed application. The resolver turns it into a
@@ -100,40 +102,74 @@ type Bundle struct {
 	Fallback json.RawMessage `json:"fallback,omitempty"`
 }
 
-// LoadFile reads a mapper file.
+// MaxBundleSize is the largest mapper file LoadFile accepts, uncompressed. A larger file
+// is refused before it is read in full.
+var MaxBundleSize int64 = 256 << 20
+
+// errTooLarge is returned by capReader once more than MaxBundleSize bytes were read.
+var errTooLarge = errors.New("too large")
+
+// capReader fails a read once more than max bytes came through it.
+type capReader struct {
+	r        io.Reader
+	n, max   int64
+	exceeded bool
+}
+
+func (c *capReader) Read(p []byte) (int, error) {
+	n, err := c.r.Read(p)
+	c.n += int64(n)
+	if c.n > c.max {
+		c.exceeded = true
+		return n, errTooLarge
+	}
+	return n, err
+}
+
+// LoadFile reads a mapper file (JSON or gzip JSON). It streams: the file is never held in
+// memory as a whole, only the catalog and database it decodes into.
 func LoadFile(path string) (*Data, error) {
-	raw, err := os.ReadFile(path)
+	f, err := os.Open(path)
 	if err != nil {
 		return nil, fmt.Errorf("mapper: %w", err)
 	}
-	if bytes.HasPrefix(raw, []byte{0x1f, 0x8b}) {
-		zr, err := gzip.NewReader(bytes.NewReader(raw))
-		if err != nil {
-			return nil, fmt.Errorf("mapper %s: %w", path, err)
-		}
-		if raw, err = io.ReadAll(zr); err != nil {
-			return nil, fmt.Errorf("mapper %s: %w", path, err)
-		}
-	}
-	var b Bundle
-	if err := json.Unmarshal(raw, &b); err != nil {
-		return nil, fmt.Errorf("mapper %s: %w", path, err)
-	}
-	if b.Format != BundleFormat {
-		return nil, fmt.Errorf("mapper %s: format %q, want %q", path, b.Format, BundleFormat)
-	}
-	if len(b.Catalog) == 0 || len(b.Vulns) == 0 {
-		return nil, fmt.Errorf("mapper %s: catalog and vulns are required", path)
-	}
-	d, err := Load(b.Catalog, b.Vulns)
+	defer f.Close()
+	d, err := LoadReader(f)
 	if err != nil {
 		return nil, fmt.Errorf("mapper %s: %w", path, err)
 	}
-	d.Version = b.Version
-	if len(b.Fallback) > 0 {
-		if err := d.LoadFallback(b.Fallback); err != nil {
-			return nil, fmt.Errorf("mapper %s: %w", path, err)
+	return d, nil
+}
+
+// LoadReader reads a mapper bundle from r, gzip or not, refusing one larger than
+// MaxBundleSize uncompressed.
+func LoadReader(r io.Reader) (*Data, error) {
+	br := bufio.NewReaderSize(r, 64<<10)
+	var src io.Reader = br
+	if head, _ := br.Peek(2); len(head) == 2 && head[0] == 0x1f && head[1] == 0x8b {
+		zr, err := gzip.NewReader(br)
+		if err != nil {
+			return nil, err
 		}
+		defer zr.Close()
+		src = zr
+	}
+	cr := &capReader{r: src, max: MaxBundleSize}
+	d, hasCatalog, hasVulns, fb, err := decodeBundle(json.NewDecoder(cr))
+	if cr.exceeded {
+		return nil, fmt.Errorf("bundle is larger than %d MB uncompressed; refused", MaxBundleSize>>20)
+	}
+	if err != nil {
+		return nil, err
+	}
+	if !hasCatalog || !hasVulns {
+		return nil, fmt.Errorf("catalog and vulns are required")
+	}
+	if err := d.compile(); err != nil {
+		return nil, err
+	}
+	if fb != nil {
+		d.fb = newFallback(*fb)
 		return d, nil
 	}
 	bi, err := Builtin()
@@ -144,6 +180,135 @@ func LoadFile(path string) (*Data, error) {
 	return d, nil
 }
 
+// decodeBundle decodes a Bundle token by token: the catalog one entry at a time and the
+// databases one product at a time, so no part of the file is buffered whole.
+func decodeBundle(dec *json.Decoder) (d *Data, hasCatalog, hasVulns bool, fb *DB, err error) {
+	d = &Data{}
+	format := ""
+	err = decodeObject(dec, func(key string) error {
+		switch key {
+		case "format":
+			if err := dec.Decode(&format); err != nil {
+				return err
+			}
+			if format != BundleFormat {
+				return fmt.Errorf("format %q, want %q", format, BundleFormat)
+			}
+			return nil
+		case "version":
+			return dec.Decode(&d.Version)
+		case "catalog":
+			hasCatalog = true
+			return decodeArray(dec, func() error {
+				var p Product
+				if err := dec.Decode(&p); err != nil {
+					return fmt.Errorf("catalog: %w", err)
+				}
+				d.Catalog = append(d.Catalog, p)
+				return nil
+			})
+		case "vulns":
+			hasVulns = true
+			if err := decodeDB(dec, &d.DB); err != nil {
+				return fmt.Errorf("vulnerability db: %w", err)
+			}
+			return nil
+		case "fallback":
+			fb = &DB{}
+			if err := decodeDB(dec, fb); err != nil {
+				return fmt.Errorf("fallback db: %w", err)
+			}
+			return nil
+		default:
+			var skip json.RawMessage
+			return dec.Decode(&skip)
+		}
+	})
+	if err == nil && format != BundleFormat {
+		err = fmt.Errorf("format %q, want %q", format, BundleFormat)
+	}
+	return d, hasCatalog, hasVulns, fb, err
+}
+
+// decodeDB decodes a DB with its products and titles streamed one entry at a time.
+func decodeDB(dec *json.Decoder, db *DB) error {
+	return decodeObject(dec, func(key string) error {
+		switch key {
+		case "version":
+			return dec.Decode(&db.Version)
+		case "products":
+			db.Products = map[string][]Vuln{}
+			return decodeObject(dec, func(k string) error {
+				var vs []Vuln
+				if err := dec.Decode(&vs); err != nil {
+					return err
+				}
+				db.Products[k] = vs
+				return nil
+			})
+		case "titles":
+			db.Titles = map[string]string{}
+			return decodeObject(dec, func(k string) error {
+				var t string
+				if err := dec.Decode(&t); err != nil {
+					return err
+				}
+				db.Titles[k] = t
+				return nil
+			})
+		default:
+			var skip json.RawMessage
+			return dec.Decode(&skip)
+		}
+	})
+}
+
+// decodeObject reads one JSON object and calls value for each key; value must consume the
+// key's value from dec.
+func decodeObject(dec *json.Decoder, value func(key string) error) error {
+	if err := expectDelim(dec, '{'); err != nil {
+		return err
+	}
+	for dec.More() {
+		t, err := dec.Token()
+		if err != nil {
+			return err
+		}
+		key, ok := t.(string)
+		if !ok {
+			return fmt.Errorf("unexpected %v", t)
+		}
+		if err := value(key); err != nil {
+			return err
+		}
+	}
+	return expectDelim(dec, '}')
+}
+
+// decodeArray reads one JSON array and calls value for each element.
+func decodeArray(dec *json.Decoder, value func() error) error {
+	if err := expectDelim(dec, '['); err != nil {
+		return err
+	}
+	for dec.More() {
+		if err := value(); err != nil {
+			return err
+		}
+	}
+	return expectDelim(dec, ']')
+}
+
+func expectDelim(dec *json.Decoder, want json.Delim) error {
+	t, err := dec.Token()
+	if err != nil {
+		return err
+	}
+	if d, ok := t.(json.Delim); !ok || d != want {
+		return fmt.Errorf("expected %q, found %v", want, t)
+	}
+	return nil
+}
+
 // WriteBundle writes the data a mapper file needs: the inverse of LoadFile for the files
 // cmd/cpegen produces. fallback may be nil.
 func WriteBundle(w io.Writer, version string, catalog, vulns, fallback []byte) error {
@@ -152,4 +317,29 @@ func WriteBundle(w io.Writer, version string, catalog, vulns, fallback []byte) e
 		b.Fallback = fallback
 	}
 	return json.NewEncoder(w).Encode(b)
+}
+
+// BundleMeta describes a mapper file that feed sync (or rules import) put in place. It is
+// written next to the file as <file>.meta.json.
+type BundleMeta struct {
+	Source       string    `json:"source"`
+	SourceURL    string    `json:"source_url"`
+	DownloadedAt time.Time `json:"downloaded_at"`
+	SHA256       string    `json:"sha256"`
+	SizeBytes    int64     `json:"size_bytes"`
+	Format       string    `json:"format"`
+	Version      string    `json:"version"`
+}
+
+// MetaPath is where the metadata of the mapper file at path is kept.
+func MetaPath(path string) string { return path + ".meta.json" }
+
+// ReadMeta reads the metadata of the mapper file at path; ok is false when it has none.
+func ReadMeta(path string) (BundleMeta, bool) {
+	var m BundleMeta
+	raw, err := os.ReadFile(MetaPath(path))
+	if err != nil || json.Unmarshal(raw, &m) != nil {
+		return BundleMeta{}, false
+	}
+	return m, true
 }

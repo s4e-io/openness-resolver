@@ -1,23 +1,25 @@
-# openness-resolver
+# OpenNess Vulnerability Scanner: resolver
 
-`openness-resolver` turns a host snapshot into an explainable list of vulnerabilities.
-It reads an `.openness` evidence file (packages, kernel, containers, Python packages and
-Windows build of one host, produced by the [Openness collector](https://github.com/s4e-io/openness))
-and the security advisories that the distribution and software vendors publish, and it
-decides, for every installed package and CVE, whether the host is vulnerable, fixed or not
-affected, and why.
+`openness-resolver` is the resolver of the OpenNess Vulnerability Scanner. It turns a host
+snapshot into an explainable list of vulnerabilities. It reads an `.openness` evidence file
+(packages, kernel, containers, Python packages, applications and Windows build of one host,
+produced by the [OpenNess collector](https://github.com/s4e-io/openness)), or a network
+device file read over SNMP, and the security advisories that the distribution and software
+vendors publish, and it decides, for every installed package and CVE, whether the host is
+vulnerable, fixed or not affected, and why.
 
 - **Works offline and on its own.** `feed sync` downloads the advisories straight from the
   publishers (Canonical, Debian, Red Hat, Rocky, AlmaLinux, SUSE, Alpine, Amazon, Microsoft,
-  OSV). No OpenNess or S4E account, API key or service is needed. `resolve` never touches
-  the network.
+  OSV), and the application and device mapper from a public GitHub release. No OpenNess or
+  S4E account, API key or service is needed. `resolve` never touches the network.
 - **Deterministic.** Vendor rules, native version comparison (dpkg, rpm, apk, PEP 440,
   Windows builds) and explicit logic. No AI or machine learning at runtime.
 - **Explainable.** Every finding carries the vendor rule, the version comparison, the
   evidence ids and the reasons; `explain` prints them.
 - **Platforms.** Ubuntu, Debian, RHEL, Rocky Linux, AlmaLinux, openSUSE Leap, Amazon Linux,
-  Alpine (hosts and container images), Windows (OS build via MSRC, installed applications)
-  and PyPI packages.
+  Alpine (hosts and container images), Windows (OS build via MSRC, installed applications),
+  PyPI packages and network devices (Cisco, Fortinet, Juniper, MikroTik, Palo Alto, Aruba,
+  Ubiquiti; matched from SNMP data).
 
 License: [Apache License 2.0](LICENSE). Version: [`VERSION`](VERSION), changes in
 [CHANGELOG.md](CHANGELOG.md).
@@ -113,7 +115,7 @@ openness-resolver resolve --input testdata/evidence/synthetic/alpine-3.20.openne
 | `findings[].rule` | The vendor rule: source, URL, feed snapshot, raw vendor status. |
 | `findings[].reasons[]` | Why, in words. |
 | `remediation_groups[]` | Upgrade cards: packages to upgrade, target versions, the CVEs each card closes, a `command_hint` (for example `dnf upgrade openssl openssl-libs`). |
-| `rule_coverage` | Which rules were loaded for this asset (`asset_release`, `rules_for_asset`, `sources[]` with URL, SHA-256 and download time) and whether they cover it (`state`: `covered`, `missing`, `not_applicable`). |
+| `rule_coverage` | Which rules were loaded for this asset (`asset_release`, `rules_for_asset`, `sources[]` with URL, SHA-256, download time and, for the application mapper, its `version`) and whether they cover it (`state`: `covered`, `missing`, `not_applicable`; for a network device also `not_supported` and `unknown`). |
 | `unknowns[]`, `notes[]` | What was seen but not judged. An empty `findings[]` with a non-empty `unknowns[]` is not a clean host. |
 
 When rules for the asset release are missing, `resolve` still writes the findings but exits
@@ -137,19 +139,31 @@ snapshot under `<data-dir>/raw/`, parse it and publish normalized rules under
 (they combine). A source that fails is reported and the others continue; the exit code is 1
 when one failed.
 
+The `app-mapper` source is the application and device mapper (format
+`openness-app-mapper/1`: the catalog by S4E plus the NVD data of its products). It is synced
+with `--for` when the evidence is Windows, has applications or is a network device file,
+with `--source app-mapper` (only it), `--vendor openness` and `--all`. The bundle is checked
+against the release's `SHA256SUMS`, loaded once, and stored as
+`<data-dir>/mapper/app-mapper.json.gz` with its metadata in
+`<data-dir>/mapper/app-mapper.json.gz.meta.json` (`source`, `source_url`, `downloaded_at`,
+`sha256`, `size_bytes`, `format`, `version`). When the release location answers 404 the
+source prints `not published yet` and is skipped; it is a failure only with
+`--source app-mapper`. `resolve` then keeps using the mapper it has.
+
 ```bash
 openness-resolver feed sync --for host.openness --data-dir data
 openness-resolver feed sync --vendor microsoft --months 6
 openness-resolver feed sync --source ubuntu-oval-usn-noble --dry-run
+openness-resolver feed sync --source app-mapper --data-dir data
 ```
 
 #### Input
 
 | Flag | Description | Example |
 |---|---|---|
-| `--for <file>` | Sync the sources the asset in this `.openness` file needs: its host release, the release of every container image in it, and the OSV records of its PyPI packages. | `--for host.openness` |
+| `--for <file>` | Sync the sources the asset in this `.openness` file needs: its host release, the release of every container image in it, the OSV records of its PyPI packages, and `app-mapper` for Windows or applications. A network device file (`openness-device/1`) selects `app-mapper`. | `--for host.openness` |
 | `--source <id>` | Sync one source: a registry id (see `feed list`) or a release id built from the patterns in [Data sources](#data-sources). An unknown id is an error. | `--source alpine-secdb-v3.20` |
-| `--vendor <name>` | Sync every enabled source of one vendor: `almalinux`, `alpine`, `amazon`, `debian`, `microsoft`, `opensuse`, `rhel`, `rocky`, `ubuntu`. Any other value is an error. | `--vendor debian` |
+| `--vendor <name>` | Sync every enabled source of one vendor: `almalinux`, `alpine`, `amazon`, `debian`, `microsoft`, `openness` (the `app-mapper` source), `opensuse`, `rhel`, `rocky`, `ubuntu`. Any other value is an error. | `--vendor debian` |
 | `--all` | Sync every enabled registry source (all vendors, every supported release). Default `false`. | `--all` |
 
 #### Data and sync
@@ -160,6 +174,7 @@ openness-resolver feed sync --source ubuntu-oval-usn-noble --dry-run
 | `--months <n>` | MSRC: number of monthly CVRF documents, newest first, for `--vendor microsoft` and Windows evidence. Must be at least 1. Default `24`. A month not published yet (HTTP 404) is skipped. | `--months 6` |
 | `--pypi-only` | With `--for`: only query the PyPI packages of the evidence and download no advisory source (for example when the distribution rules came from `rules import`). Default `false`. | `--for host.openness --pypi-only` |
 | `--osv-url <url>` | OSV query endpoint for PyPI packages: the public API or a mirror with the same request and answer. Default: `OPENNESS_OSV_URL`, else `https://api.osv.dev/v1/query`. | `--osv-url https://osv.example.org/v1/query` |
+| `--mapper-url <url>` | Where the `app-mapper` source downloads `app-mapper.json.gz` from; `SHA256SUMS` must be in the same directory. Default: `https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz`. | `--mapper-url https://mirror.example.org/catalog/app-mapper.json.gz` |
 
 #### Debug
 
@@ -209,6 +224,7 @@ openness-resolver feed validate --dry-run
 |---|---|---|
 | `--data-dir <dir>` | Data directory for the raw snapshots. Default `data`. | `--data-dir data` |
 | `--months <n>` | MSRC months to validate with `--vendor microsoft` or Windows evidence. Must be at least 1. Default `24`. | `--months 2` |
+| `--mapper-url <url>` | Where the `app-mapper` source downloads the mapper bundle from (same as `feed sync`). The bundle is checked and discarded. | `--mapper-url https://mirror.example.org/catalog/app-mapper.json.gz` |
 
 #### Debug
 
@@ -223,7 +239,9 @@ manual download) into the rule store, exactly as `feed sync` would. Every format
 Ubuntu OVAL (`.xml` or `.xml.bz2`), Alpine secdb (`main.json`, `community.json`; a file
 whose name starts with `community` goes to the `-community` source and keeps the other
 document's rules), Debian tracker JSON, vendor OSV `all.zip` or one OSV JSON document,
-Amazon `updateinfo.xml` or `.xml.gz`, and one MSRC CVRF month JSON.
+Amazon `updateinfo.xml` or `.xml.gz`, one MSRC CVRF month JSON, and an application mapper
+bundle (`--source app-mapper`, JSON or gzip), which is checked and stored as
+`<data-dir>/mapper/app-mapper.json.gz` like `feed sync` does.
 
 ```bash
 openness-resolver rules import --source ubuntu-oval-usn-jammy --file com.ubuntu.jammy.usn.oval.xml.bz2 \
@@ -272,19 +290,38 @@ openness-resolver rules format
 
 ### resolve
 
-Evaluate one `.openness` evidence file against the rule store and write the findings.
-Offline: it reads only the evidence, the data directory and the application mapper.
+Evaluate one `.openness` evidence file, or one network device file, against the rule store
+and write the findings. Offline: it reads only the evidence, the data directory and the
+application mapper.
+
+The application mapper is picked in this order: `--mapper <file>` when given, else
+`<data-dir>/mapper/app-mapper.json.gz` when `feed sync` put one there, else the mapper built
+into the binary. `rule_coverage.sources[]` names the one used: `source` is `app-mapper`
+(synced), `app-mapper-file` (`--mapper`) or `app-mapper-builtin`, with its `version` and,
+when its metadata says so, `url`, `sha256` and `downloaded_at`.
+
+`--device` resolves a network device instead of a host. The device file (format
+`openness-device/1`) holds what SNMP tells about the device and nothing that names it:
+`{"format":"openness-device/1","sys_descr":"...","sys_object_id":".1.3.6.1.4.1.9.1.2494","model":"C9300-48P","software_rev":"17.9.4a","firmware_rev":"","hardware_rev":"","serial_hint":""}`.
+A file with any other field (a host name, an address) is refused. The device entries of the
+mapper's catalog match it; the findings have scope `network_device`, the update card action
+`update_device`, and `rule_coverage.state` is `covered`, `not_supported` (no device entry
+matched; exit 0 with a note) or `unknown` (an entry matched but the version could not be
+read; no findings, exit 0 with a note). Only the first `sys_descr` line of a matched device,
+with addresses and host names redacted, is copied into the output.
 
 ```bash
 openness-resolver resolve --input host.openness --data-dir data --output findings.json
 openness-resolver resolve --input host.openness --states vulnerable,vulnerable_runtime
+openness-resolver resolve --device switch.json --data-dir data --output switch-findings.json
 ```
 
 #### Input
 
 | Flag | Description | Example |
 |---|---|---|
-| `--input <file>` | Required. The `.openness` evidence file. | `--input host.openness` |
+| `--input <file>` | The `.openness` evidence file. Required unless `--device` is given; not both. | `--input host.openness` |
+| `--device <file>` | A network device file (`openness-device/1`, written by the desktop from SNMP) to resolve instead of `--input`. | `--device switch.json` |
 | `--preflight` | Strict evidence check before resolving: `schema_version` and `asset.asset_id` must be present. Default `false`. | `--preflight` |
 
 #### Data and sync
@@ -292,7 +329,7 @@ openness-resolver resolve --input host.openness --states vulnerable,vulnerable_r
 | Flag | Description | Example |
 |---|---|---|
 | `--data-dir <dir>` | Data directory with normalized rules. Only the rule files the asset needs are loaded. Default `data`. | `--data-dir data` |
-| `--mapper <file>` | Application mapper for third-party Windows applications (format `openness-app-mapper/1`: catalog plus NVD data, JSON or gzip). Default: the mapper built into the binary. | `--mapper mapper.json.gz` |
+| `--mapper <file>` | Application mapper for third-party Windows applications and network devices (format `openness-app-mapper/1`: catalog plus NVD data, JSON or gzip, at most 256 MB uncompressed). Default: `<data-dir>/mapper/app-mapper.json.gz` when synced, else the mapper built into the binary. | `--mapper mapper.json.gz` |
 
 #### Output
 
@@ -305,7 +342,7 @@ openness-resolver resolve --input host.openness --states vulnerable,vulnerable_r
 
 | Flag | Description | Example |
 |---|---|---|
-| `--app-unverified` | Also use application catalog entries no person has reviewed. Default `false`. | `--app-unverified` |
+| `--app-unverified` | Also use application and device catalog entries no person has reviewed (the seed device entries are unreviewed). Default `false`. | `--app-unverified` |
 | `--app-guess` | Guess the NVD product of Windows applications the catalog does not know; such findings are `potentially_vulnerable`. Default `true`. | `--app-guess=false` |
 
 ### explain
@@ -417,7 +454,9 @@ The standard `HTTPS_PROXY`, `HTTP_PROXY` and `NO_PROXY` variables apply to every
 ## Data sources
 
 The sources `feed sync` downloads and `rules import` reads. Every URL is the publisher's;
-nothing goes through an OpenNess or S4E service. `<codename>`, `<branch>` and `<YYYY-Mon>`
+nothing goes through an OpenNess or S4E service. The application mapper is published by S4E
+as a release asset of the public GitHub repository `s4e-io/openness-catalog`; downloading it
+needs no account or key. `<codename>`, `<branch>` and `<YYYY-Mon>`
 come from the asset (`--for`) or from `--source`.
 
 | Vendor | Source id | Publisher URL | Format | Releases | Publisher updates | Data license or terms |
@@ -432,7 +471,8 @@ come from the asset (`--for`) or from `--source`.
 | Amazon | `amazon-updateinfo-2`, `amazon-updateinfo-2023` | `https://cdn.amazonlinux.com/2/core/latest/x86_64/mirror.list`, `https://cdn.amazonlinux.com/al2023/core/mirrors/latest/x86_64/mirror.list`, then the repository's `updateinfo.xml.gz` | yum updateinfo XML (ALAS) | Amazon Linux 2, 2023 | With each ALAS advisory | [AWS Site Terms](https://aws.amazon.com/terms/) |
 | Microsoft | `msrc-cvrf-<YYYY-Mon>` | `https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/<YYYY-Mon>` | CVRF JSON, one document per month | Windows 10, 11, Server 2008 to 2025; the last `--months` (default 24) | Monthly (Patch Tuesday), plus revisions | [Microsoft Terms of Use](https://www.microsoft.com/en-us/legal/terms-of-use) |
 | OSV (PyPI) | `osv-pypi` | `https://api.osv.dev/v1/query` (or `--osv-url`) | OSV JSON, one query per package | PyPI packages named in the evidence | Continuously | Per record; the PyPA advisory database and GitHub advisories are CC BY 4.0 ([OSV.dev data sources](https://google.github.io/osv.dev/data/)) |
-| NVD (built in, not synced) | none | Bundled in the binary (`internal/appvuln/data`) | JSON (gzip) | Third-party Windows applications (`resolve --mapper`) | With each release of this tool | NVD data. This product uses data from the NVD API but is not endorsed or certified by the NVD. |
+| S4E catalog plus NVD (application and device mapper) | `app-mapper` | `https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz` (and `SHA256SUMS` next to it) | `openness-app-mapper/1` JSON (gzip) | Third-party Windows applications and network devices | Daily | The catalog by S4E; the vulnerability data is derived from the NVD, under the NVD's terms. This product uses data from the NVD API but is not endorsed or certified by the NVD. |
+| NVD (built in, not synced) | none | Bundled in the binary (`internal/appvuln/data`) | JSON (gzip) | Third-party Windows applications and network devices, when no `app-mapper` was synced | With each release of this tool | NVD data. This product uses data from the NVD API but is not endorsed or certified by the NVD. |
 
 The registry also lists `ubuntu-oval-usn-focal`, `ubuntu-oval-usn-noble` and
 `ubuntu-oval-cve-jammy` as disabled entries; `--for` and `--source` derive the right Ubuntu
@@ -466,12 +506,15 @@ OPENNESS_NIGHTLY=1 go test ./cmd/openness-resolver -run TestNightly -v -timeout 
   evidence (`testdata/evidence/synthetic`: Ubuntu 22.04 with a PyPI package, Debian 11, 12
   and 13, RHEL 9, Rocky 9, AlmaLinux 8, openSUSE Leap 15.6, Alpine 3.20, Windows Server 2022)
   and compare the exit code, stderr, findings, remediation groups and `rule_coverage` with
-  `cmd/openness-resolver/testdata/golden`. CI runs them on Linux and on Windows with the
-  same golden files.
+  `cmd/openness-resolver/testdata/golden`. The `device-*` cases run `resolve --device` on the
+  synthetic device files of `testdata/devices` with the built-in catalog's device entries
+  and a small vulnerability fixture. CI runs them on Linux and on Windows with the same
+  golden files.
 - **Flag tests** (`cli_flags_test.go`): every command with every flag: valid values,
   defaults and invalid values.
-- **Independence tests** (`independence_test.go`): every URL in the code is a publisher's,
-  and `OPENNESS_OSV_URL` and `OPENNESS_OSV_HEADERS` are optional.
+- **Independence tests** (`independence_test.go`): every URL in the code is a publisher's
+  (on github.com only release downloads of `s4e-io/openness-catalog`), and
+  `OPENNESS_OSV_URL` and `OPENNESS_OSV_HEADERS` are optional.
 - **Doc drift guard** (`readme_test.go`): fails when a command or flag is missing from this
   README.
 - **Nightly** (`.github/workflows/nightly.yml`, 02:00 UTC and on demand, Linux and Windows,

@@ -1,0 +1,113 @@
+{
+  "application_mapper": "test-devices-1",
+  "asset": {
+    "architecture": "",
+    "collected_at": "",
+    "collection_id": "",
+    "collection_status": "",
+    "collector_version": "",
+    "hostname": "",
+    "platform": "FortiGate-100F",
+    "privilege_level": "",
+    "schema_version": ""
+  },
+  "exit_code": 0,
+  "findings": [
+    {
+      "architecture": "",
+      "asset_id": "",
+      "binary_package": "Fortinet FortiOS",
+      "confidence": "medium",
+      "cve_id": "CVE-2099-2001",
+      "cvss_score": 9.8,
+      "detection_method": "nvd_cpe_version_range",
+      "distribution": "",
+      "evidence_ids": [],
+      "finding_id": "device:fortinet.fortios:7.2.5:CVE-2099-2001",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "7.2.7",
+      "installed_version": "7.2.5",
+      "reasons": [
+        "Fortinet FortiOS 7.2.5 is in an affected range of NVD cpe fortinet:fortios",
+        "device matched to the CPE automatically, not reviewed yet"
+      ],
+      "release": "",
+      "rule_ids": [
+        "nvd:fortinet:fortios:CVE-2099-2001"
+      ],
+      "scope": "network_device",
+      "severity": "critical",
+      "source_package": "fortinet.fortios",
+      "state": "vulnerable",
+      "vendor_status": "nvd"
+    }
+  ],
+  "notes": [],
+  "platform": {
+    "architecture": "",
+    "codename": "fortinet.fortios",
+    "codename_source": "device_catalog",
+    "distribution_id": "network_device",
+    "distribution_version": "7.2.5",
+    "kernel_version": "",
+    "raw_architecture": "",
+    "raw_distribution_id": "FortiGate-100F",
+    "raw_distribution_version": "",
+    "raw_version_id": ""
+  },
+  "platform_support": "supported",
+  "remediation_groups": [
+    {
+      "action": "update_device",
+      "advisory_ids": [],
+      "availability": "available",
+      "closes": {
+        "count": 1,
+        "cve_ids": [
+          "CVE-2099-2001"
+        ],
+        "finding_ids": [
+          "device:fortinet.fortios:7.2.5:CVE-2099-2001"
+        ]
+      },
+      "command_hint": "Upgrade FortiOS to a fixed release (see the FortiGuard PSIRT advisory).",
+      "coverage_note": null,
+      "group_id": "group-652af09c0c06a6cf",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "network_device",
+      "source_package": "fortinet.fortios",
+      "targets": [
+        {
+          "installed_version": "7.2.5",
+          "kind": "device",
+          "name": "Fortinet FortiOS",
+          "target_version": "7.2.7"
+        }
+      ]
+    }
+  ],
+  "rule_coverage": {
+    "asset_release": "device/fortinet.fortios",
+    "loaded_releases": [
+      "device/fortinet.fortios"
+    ],
+    "rules_for_asset": 2,
+    "sources": [
+      {
+        "parser": "openness-app-mapper/1",
+        "release": "mapper",
+        "sha256": "",
+        "source": "app-mapper-file",
+        "url": "",
+        "version": "test-devices-1"
+      }
+    ],
+    "state": "covered"
+  },
+  "stderr": "",
+  "support_reason": null,
+  "unknowns": []
+}

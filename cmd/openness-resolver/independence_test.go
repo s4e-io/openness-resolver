@@ -6,6 +6,7 @@ package main
 // becomes required.
 
 import (
+	"fmt"
 	"io/fs"
 	"net/url"
 	"os"
@@ -65,21 +66,61 @@ func sourceFiles(t *testing.T) []string {
 	return out
 }
 
-func checkHost(t *testing.T, where, raw string) {
-	t.Helper()
+// githubRelease is the one github.com URL shape the code may name: a release asset of the
+// public S4E catalog repository, where the S4E backend publishes the app-mapper bundle.
+// Downloading it needs no account, key or S4E service.
+var githubRelease = regexp.MustCompile(`^https://github\.com/s4e-io/openness-catalog/releases/(latest/download|download/[A-Za-z0-9._-]+)/[A-Za-z0-9._-]+$`)
+
+// hostProblem says why a URL may not appear in the code, or "" when it may.
+func hostProblem(raw string) string {
 	u, err := url.Parse(raw)
 	if err != nil || u.Host == "" {
-		t.Errorf("%s: unparsable URL %q", where, raw)
-		return
+		return fmt.Sprintf("unparsable URL %q", raw)
 	}
 	host := strings.ToLower(u.Hostname())
 	for _, f := range forbidden {
 		if strings.Contains(host, f) {
-			t.Errorf("%s: URL %s points to an OpenNess/S4E host", where, raw)
+			return fmt.Sprintf("URL %s points to an OpenNess/S4E host", raw)
 		}
 	}
+	if host == "github.com" {
+		if githubRelease.MatchString(raw) {
+			return ""
+		}
+		return fmt.Sprintf("URL %s: only release downloads of github.com/s4e-io/openness-catalog are allowed on github.com", raw)
+	}
 	if _, ok := publisherHosts[host]; !ok {
-		t.Errorf("%s: URL %s is not a known publisher host; add it to publisherHosts only if it is the data publisher", where, raw)
+		return fmt.Sprintf("URL %s is not a known publisher host; add it to publisherHosts only if it is the data publisher", raw)
+	}
+	return ""
+}
+
+func checkHost(t *testing.T, where, raw string) {
+	t.Helper()
+	if p := hostProblem(raw); p != "" {
+		t.Errorf("%s: %s", where, p)
+	}
+}
+
+// The github.com exception is exactly the catalog's release downloads; S4E and OpenNess
+// hosts stay banned.
+func TestHostRules(t *testing.T) {
+	for raw, ok := range map[string]bool{
+		"https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz": true,
+		"https://github.com/s4e-io/openness-catalog/releases/latest/download/SHA256SUMS":         true,
+		"https://github.com/s4e-io/openness-catalog/releases/download/v2026.11.05/SHA256SUMS":    true,
+		"https://github.com/s4e-io/openness-catalog/archive/main.zip":                            false,
+		"https://github.com/s4e-io/openness-backend/releases/latest/download/app-mapper.json.gz": false,
+		"https://github.com/other/openness-catalog/releases/latest/download/app-mapper.json.gz":  false,
+		"https://api.github.com/repos/s4e-io/openness-catalog/releases/latest":                   false,
+		"https://s4e.io/app-mapper.json.gz":                                                      false,
+		"https://getopenness.com/app-mapper.json.gz":                                             false,
+		"https://openness.s4e.io/api/mapper":                                                     false,
+		"https://api.osv.dev/v1/query":                                                           true,
+	} {
+		if got := hostProblem(raw) == ""; got != ok {
+			t.Errorf("%s allowed=%v, want %v (%s)", raw, got, ok, hostProblem(raw))
+		}
 	}
 }
 

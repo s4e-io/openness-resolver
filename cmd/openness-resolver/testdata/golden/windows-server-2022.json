@@ -520,6 +520,14 @@
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
+      },
+      {
+        "parser": "openness-app-mapper/1",
+        "release": "mapper",
+        "sha256": "",
+        "source": "app-mapper-builtin",
+        "url": "",
+        "version": "<builtin>"
       }
     ],
     "state": "covered"

@@ -30,15 +30,27 @@ type Product struct {
 	ID string `json:"id"`
 	// Name is how findings and update cards name it.
 	Name string `json:"name"`
+	// Kind is "application" (the default when empty) or "device", a network device matched
+	// against SNMP data (device.go). Entries of any other kind are ignored, so an older
+	// build can read a newer catalog.
+	Kind string `json:"kind,omitempty"`
 	// Match selects Add/Remove Programs entries: Name (and Publisher, when set) are
 	// case-insensitive regular expressions on the product name and the publisher; an entry
 	// matching NotName is left out (Firefox ESR is not Firefox).
 	Match struct {
-		Name      string `json:"name"`
+		Name      string `json:"name,omitempty"`
 		Publisher string `json:"publisher,omitempty"`
 		NotName   string `json:"not_name,omitempty"`
+		// A device entry matches the SNMP fields instead (case-insensitive regular
+		// expressions; every one given must match): sysObjectID, sysDescr, the model
+		// (entPhysicalModelName) and the vendor.
+		SysObjectID string `json:"sys_object_id,omitempty"`
+		SysDescr    string `json:"sys_descr,omitempty"`
+		Model       string `json:"model,omitempty"`
+		Vendor      string `json:"vendor,omitempty"`
 	} `json:"match"`
 	// Version says where the version is: "display_version" (default) or "product_name",
+	// for a device "sys_descr" (default), "software_rev" or "firmware_rev",
 	// optionally the first submatch of Regex, or Format filled from Regex's submatches
 	// ("1.$3.0.$4" makes "Java 8 Update 401" the NVD form "1.8.0.401"), cut to Parts
 	// dotted parts (0 keeps all).
@@ -68,7 +80,17 @@ type Product struct {
 	Verified bool `json:"verified"`
 
 	name, publisher, notName, version *regexp.Regexp
+	device                            []deviceMatch
 }
+
+// Catalog entry kinds.
+const (
+	KindApplication = "application"
+	KindDevice      = "device"
+)
+
+func (p *Product) isApp() bool    { return p.Kind == "" || p.Kind == KindApplication }
+func (p *Product) isDevice() bool { return p.Kind == KindDevice }
 
 // Range is one affected version range of a CPE in a CVE (NVD cpeMatch); an empty bound is
 // open. Exact is a single affected version.
@@ -175,31 +197,61 @@ func Load(catalog, db []byte) (*Data, error) {
 	if err := json.Unmarshal(db, &d.DB); err != nil {
 		return nil, fmt.Errorf("vulnerability db: %w", err)
 	}
+	if err := d.compile(); err != nil {
+		return nil, err
+	}
+	return d, nil
+}
+
+// compile checks the catalog entries and compiles their regular expressions. Entries of an
+// unknown kind are dropped.
+func (d *Data) compile() error {
+	kept := d.Catalog[:0]
 	for i := range d.Catalog {
-		p := &d.Catalog[i]
+		p := d.Catalog[i]
+		switch {
+		case p.isDevice():
+			if err := p.compileDevice(); err != nil {
+				return err
+			}
+		case p.isApp():
+			if err := p.compileApp(); err != nil {
+				return err
+			}
+		default:
+			continue
+		}
+		kept = append(kept, p)
+	}
+	d.Catalog = kept
+	return nil
+}
+
+func (p *Product) compileApp() error {
+	{
 		var err error
 		if p.name, err = regexp.Compile("(?i)" + p.Match.Name); err != nil || p.Match.Name == "" {
-			return nil, fmt.Errorf("catalog %s: name: %v", p.ID, err)
+			return fmt.Errorf("catalog %s: name: %v", p.ID, err)
 		}
 		if p.Match.Publisher != "" {
 			if p.publisher, err = regexp.Compile("(?i)" + p.Match.Publisher); err != nil {
-				return nil, fmt.Errorf("catalog %s: publisher: %v", p.ID, err)
+				return fmt.Errorf("catalog %s: publisher: %v", p.ID, err)
 			}
 		}
 		if p.Match.NotName != "" {
 			if p.notName, err = regexp.Compile("(?i)" + p.Match.NotName); err != nil {
-				return nil, fmt.Errorf("catalog %s: not_name: %v", p.ID, err)
+				return fmt.Errorf("catalog %s: not_name: %v", p.ID, err)
 			}
 		}
 		if p.Version.Regex != "" {
 			if p.version, err = regexp.Compile(p.Version.Regex); err != nil {
-				return nil, fmt.Errorf("catalog %s: version: %v", p.ID, err)
+				return fmt.Errorf("catalog %s: version: %v", p.ID, err)
 			}
 		} else if p.Version.Format != "" {
-			return nil, fmt.Errorf("catalog %s: version format without a regex", p.ID)
+			return fmt.Errorf("catalog %s: version format without a regex", p.ID)
 		}
 	}
-	return d, nil
+	return nil
 }
 
 // app is one installed application as the collector saw it.
@@ -316,7 +368,7 @@ func (d *Data) EvaluateApps(values []json.RawMessage, opt Options) Result {
 			seen[key] = true
 			res.Matched++
 			before := len(res.Findings)
-			d.vulns(p, ver, &res)
+			d.vulns(p, ver, "host", &res.Findings, &res.Remediations)
 			row.CVEs = len(res.Findings) - before
 			for i := before; i < len(res.Findings); i++ {
 				f := &res.Findings[i]
@@ -371,7 +423,7 @@ func (d *Data) match(a app, unverified bool) *Product {
 	}
 	for i := range d.Catalog {
 		p := &d.Catalog[i]
-		if !p.Verified && !unverified {
+		if !p.isApp() || !p.Verified && !unverified {
 			continue
 		}
 		if !p.name.MatchString(a.ProductName) {
@@ -427,7 +479,13 @@ func (p *Product) cut(v string) string {
 
 var sevRank = map[string]int{"critical": 4, "high": 3, "medium": 2, "low": 1}
 
-func (d *Data) vulns(p *Product, ver string, res *Result) {
+// vulns adds the findings of entry p at version ver, and its update card, for scope
+// ("host" for an application, "network_device" for a device).
+func (d *Data) vulns(p *Product, ver, scope string, out *[]Finding, cards *[]Remediation) {
+	prefix, what := "app:", "application"
+	if p.isDevice() {
+		prefix, what = "device:", "device"
+	}
 	var cves []string
 	worst, fixed := "", ""
 	seen := map[string]bool{} // a CVE filed under two of the product's CPEs is one finding
@@ -447,7 +505,7 @@ func (d *Data) vulns(p *Product, ver string, res *Result) {
 				sev = "unknown"
 			}
 			f := Finding{
-				FindingID: "app:" + p.ID + ":" + ver + ":" + v.CVE, Scope: "host", State: "vulnerable", Severity: sev,
+				FindingID: prefix + p.ID + ":" + ver + ":" + v.CVE, Scope: scope, State: "vulnerable", Severity: sev,
 				CVEID: v.CVE, AdvisoryIDs: []string{}, BinaryPackage: p.Name, SourcePackage: p.ID,
 				InstalledVersion: ver, FixedVersion: fix, CPE: cpe, Verified: p.Verified,
 				Reasons: []string{fmt.Sprintf("%s %s is in an affected range of NVD cpe %s", p.Name, ver, cpe)},
@@ -457,9 +515,9 @@ func (d *Data) vulns(p *Product, ver string, res *Result) {
 				f.CVSSScore = &score
 			}
 			if !p.Verified {
-				f.Reasons = append(f.Reasons, "application matched to the CPE automatically, not reviewed yet")
+				f.Reasons = append(f.Reasons, what+" matched to the CPE automatically, not reviewed yet")
 			}
-			res.Findings = append(res.Findings, f)
+			*out = append(*out, f)
 			cves = append(cves, v.CVE)
 			if sevRank[sev] > sevRank[worst] {
 				worst = sev
@@ -473,7 +531,7 @@ func (d *Data) vulns(p *Product, ver string, res *Result) {
 		return
 	}
 	ids := make([]string, 0, len(cves))
-	for _, f := range res.Findings[len(res.Findings)-len(cves):] {
+	for _, f := range (*out)[len(*out)-len(cves):] {
 		ids = append(ids, f.FindingID)
 	}
 	sort.Strings(ids)
@@ -482,8 +540,8 @@ func (d *Data) vulns(p *Product, ver string, res *Result) {
 	if fixed != "" {
 		action += " to " + fixed + " or later"
 	}
-	res.Remediations = append(res.Remediations, Remediation{
-		GroupID: "app:" + p.ID + ":" + ver, Action: action, Scope: "host", SourcePackage: p.ID,
+	*cards = append(*cards, Remediation{
+		GroupID: prefix + p.ID + ":" + ver, Action: action, Scope: scope, SourcePackage: p.ID,
 		TargetsSummary: p.Name + " " + ver, ClosesCount: len(cves), CVEIDs: cves, AdvisoryIDs: []string{},
 		Availability: "available", CommandHint: p.Update, MaxSeverity: worst,
 		FindingIDs: ids, ProductName: p.Name, InstalledVersion: ver, FixedVersion: fixed,

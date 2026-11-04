@@ -187,6 +187,9 @@ func TestNightlySync(t *testing.T) {
 				t.Errorf("asset release %q with %d rules, want rules loaded for %s", cov.AssetRelease, cov.RulesForAsset, tc.release)
 			}
 			for _, s := range cov.Sources {
+				if s.URL == "" {
+					continue // the built-in application mapper
+				}
 				checkHost(t, "coverage source "+s.Source, strings.Fields(s.URL)[0])
 			}
 		})

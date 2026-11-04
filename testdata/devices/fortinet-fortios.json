@@ -1,0 +1,10 @@
+{
+  "format": "openness-device/1",
+  "sys_descr": "FortiGate-100F",
+  "sys_object_id": ".1.3.6.1.4.1.12356.101.1.1041",
+  "model": "FortiGate-100F",
+  "software_rev": "FortiGate-100F v7.2.5,build1517,230606 (GA.F)",
+  "firmware_rev": "",
+  "hardware_rev": "",
+  "serial_hint": ""
+}

@@ -145,6 +145,7 @@ func runGoldenCase(t *testing.T, tc goldenCase) []byte {
 	if mirror != nil {
 		maskPyPISnapshot(golden)
 	}
+	maskBuiltinMapper(golden)
 	var buf bytes.Buffer
 	enc := json.NewEncoder(&buf)
 	enc.SetEscapeHTML(false)
@@ -171,6 +172,18 @@ func maskPyPISnapshot(golden map[string]any) {
 	for _, s := range srcs {
 		if m, ok := s.(map[string]any); ok && m["source"] == "osv-pypi" {
 			m["downloaded_at"] = "<sync-time>"
+		}
+	}
+}
+
+// maskBuiltinMapper replaces the version of the built-in application mapper in the
+// coverage sources: it changes whenever the bundled data is refreshed.
+func maskBuiltinMapper(golden map[string]any) {
+	cov, _ := golden["rule_coverage"].(map[string]any)
+	srcs, _ := cov["sources"].([]any)
+	for _, s := range srcs {
+		if m, ok := s.(map[string]any); ok && m["source"] == "app-mapper-builtin" {
+			m["version"] = "<builtin>"
 		}
 	}
 }

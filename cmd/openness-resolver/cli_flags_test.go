@@ -215,7 +215,7 @@ func TestFlagsFeed(t *testing.T) {
 				}
 			}},
 		{name: "vendor unknown", args: []string{"feed", "sync", "--vendor", "fedora"}, code: 1,
-			stderr: []string{`unknown vendor "fedora" (one of: almalinux, alpine, amazon, debian, microsoft, opensuse, rhel, rocky, ubuntu)`}},
+			stderr: []string{`unknown vendor "fedora" (one of: almalinux, alpine, amazon, debian, microsoft, openness, opensuse, rhel, rocky, ubuntu)`}},
 		{name: "months zero", args: []string{"feed", "sync", "--vendor", "microsoft", "--months", "0"}, code: 1,
 			stderr: []string{"--months must be at least 1, got 0"}},
 		{name: "months not a number", args: []string{"feed", "sync", "--months", "two"}, code: 2,

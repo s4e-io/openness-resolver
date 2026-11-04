@@ -1,0 +1,10 @@
+{
+  "format": "openness-device/1",
+  "sys_descr": "Cisco NX-OS(tm) n9000, Software (n9000-dk9), Version 9.3(8), RELEASE SOFTWARE Copyright (c) 2002-2021 by Cisco Systems, Inc. Compiled 7/14/2021 2:00:00",
+  "sys_object_id": ".1.3.6.1.4.1.9.12.3.1.3.1812",
+  "model": "N9K-C93180YC-FX",
+  "software_rev": "9.3(8)",
+  "firmware_rev": "",
+  "hardware_rev": "",
+  "serial_hint": ""
+}

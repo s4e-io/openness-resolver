@@ -80,6 +80,10 @@ const (
 	CoverageCovered       = "covered"
 	CoverageMissing       = "missing"
 	CoverageNotApplicable = "not_applicable"
+	// CoverageNotSupported: a network device no device catalog entry matched.
+	CoverageNotSupported = "not_supported"
+	// CoverageUnknown: a device entry matched, but the device version could not be read.
+	CoverageUnknown = "unknown"
 
 	// GapMissingRules means the release is evaluated by an existing path but
 	// the store has no rules for it. feed sync can fill that gap.
@@ -121,6 +125,8 @@ type CoverageSource struct {
 	DownloadedAt    *time.Time `json:"downloaded_at,omitempty"`
 	SourceUpdatedAt *time.Time `json:"source_updated_at,omitempty"`
 	Parser          string     `json:"parser"`
+	// Version is the data version, for the application mapper.
+	Version string `json:"version,omitempty"`
 }
 
 // coverageSources lists the snapshots of the loaded rule directories, in a
@@ -200,9 +206,12 @@ type AssetSummary struct {
 type Engine struct {
 	Rules *rules.RuleSet
 	Now   func() time.Time
-	// Apps is the application mapper for third-party Windows applications; nil skips them.
+	// Apps is the application mapper for third-party Windows applications and network
+	// devices; nil skips them. AppSource, when set, is listed in rule_coverage.sources of
+	// a run that used the mapper.
 	Apps       *appvuln.Data
 	AppOptions appvuln.Options
+	AppSource  *CoverageSource
 }
 
 // NewEngine creates an Engine over a loaded rule set.
