@@ -188,3 +188,49 @@ func TestReleaseFromFilename(t *testing.T) {
 		t.Errorf("release=%q", r)
 	}
 }
+
+// Notices whose CVEs are only in the CVE references or the description get
+// those CVEs; regression notices and notices that name no CVE stay
+// advisory-only.
+func TestCVEsOutsideAdvisory(t *testing.T) {
+	def := func(id, title, refs, desc string) string {
+		return `<definition id="oval:com.ubuntu.jammy:def:` + id + `" class="patch" version="1"><metadata>
+<title>` + title + `</title>` + refs + `<description>` + desc + `</description>
+<advisory from="security@ubuntu.com"><severity>Medium</severity></advisory></metadata>
+<criteria><criterion test_ref="oval:t:1" comment="pkg source package in jammy, is affected and has been fixed (note: '1.0-1ubuntu0.1')." /></criteria></definition>`
+	}
+	oval := `<?xml version="1.0" encoding="UTF-8"?><oval_definitions xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5"><definitions>` +
+		def("1", "USN-8779-1 -- Bubblewrap vulnerabilities", `<reference source="USN" ref_id="USN-8779-1" ref_url="u" />`,
+			"It was discovered that Bubblewrap mishandled mounts (CVE-2019-12439). It was also found that ... (CVE-2026-87766, CVE-2019-12439)") +
+		def("2", "USN-8000-1 -- Example vulnerability", `<reference source="USN" ref_id="USN-8000-1" ref_url="u" /><reference source="CVE" ref_id="CVE-2026-11111" ref_url="u" />`,
+			"No ids in the text.") +
+		def("3", "USN-7626-2 -- Git regression", `<reference source="USN" ref_id="USN-7626-2" ref_url="u" />`,
+			"USN-7626-1 fixed CVE-2025-27613 in Git. The update caused a regression.") +
+		def("4", "USN-8226-1 -- kmod update", `<reference source="USN" ref_id="USN-8226-1" ref_url="u" />`,
+			"This update disables loading the algif_aead module.") +
+		`</definitions>
+<tests><linux-def:dpkginfo_test xmlns:linux-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:t:1" version="1" check="at least one">
+<linux-def:object object_ref="oval:o:1" /><linux-def:state state_ref="oval:s:1" /></linux-def:dpkginfo_test></tests>
+<objects><linux-def:dpkginfo_object xmlns:linux-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:o:1" version="1"><linux-def:name>pkg</linux-def:name></linux-def:dpkginfo_object></objects>
+<states><linux-def:dpkginfo_state xmlns:linux-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:s:1" version="1"><linux-def:evr datatype="debian_evr_string" operation="less than">1.0-1ubuntu0.1</linux-def:evr></linux-def:dpkginfo_state></states>
+</oval_definitions>`
+	res, err := Parse(strings.NewReader(oval), rules.FeedSourceMetadata{RawObjectID: "s"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := map[string][]string{}
+	for _, r := range res.Rules {
+		got[r.AdvisoryIDs[0]] = append(got[r.AdvisoryIDs[0]], r.CVEID)
+	}
+	want := map[string][]string{
+		"USN-8779-1": {"CVE-2019-12439", "CVE-2026-87766"},
+		"USN-8000-1": {"CVE-2026-11111"},
+		"USN-7626-2": {""},
+		"USN-8226-1": {""},
+	}
+	for usn, w := range want {
+		if len(got[usn]) != len(w) || strings.Join(got[usn], ",") != strings.Join(w, ",") {
+			t.Errorf("%s: CVEs %q, want %q", usn, got[usn], w)
+		}
+	}
+}

@@ -40,8 +40,9 @@ type ovalDefinition struct {
 	ID       string `xml:"id,attr"`
 	Class    string `xml:"class,attr"`
 	Metadata struct {
-		Title      string `xml:"title"`
-		References []struct {
+		Title       string `xml:"title"`
+		Description string `xml:"description"`
+		References  []struct {
 			Source string `xml:"source,attr"`
 			RefID  string `xml:"ref_id,attr"`
 			RefURL string `xml:"ref_url,attr"`
@@ -274,6 +275,13 @@ func Parse(r io.Reader, meta rules.FeedSourceMetadata) (*ParseResult, error) {
 			cveIDs = append(cveIDs, id)
 			urgencyByCVE[id] = c.Priority
 		}
+		// Some notices carry their CVEs only in the CVE references or the
+		// description text, not in <cve> elements (e.g. USN-8779-1). Take them
+		// from there, so the finding names its CVEs. Regression notices repeat
+		// the CVEs of the notice they correct and stay advisory-only.
+		if len(cveIDs) == 0 && !isRegression(def.Metadata.Title) {
+			cveIDs = cvesOutsideAdvisory(def)
+		}
 		// Some USNs (e.g. non-CVE regressions) have no CVE references; keep
 		// them as advisory-only rules so nothing is dropped silently.
 		if len(cveIDs) == 0 {
@@ -501,4 +509,35 @@ func truncate(s string, n int) string {
 		return s
 	}
 	return s[:n] + "..."
+}
+
+var cveIDRe = regexp.MustCompile(`\bCVE-\d{4}-\d{4,}\b`)
+
+// cvesOutsideAdvisory returns the CVE ids a definition names in its CVE
+// references and its description, in that order, without duplicates.
+func cvesOutsideAdvisory(def ovalDefinition) []string {
+	seen := map[string]bool{}
+	var out []string
+	add := func(id string) {
+		id = strings.TrimSpace(id)
+		if id != "" && !seen[id] && cveIDRe.MatchString(id) {
+			seen[id] = true
+			out = append(out, id)
+		}
+	}
+	for _, ref := range def.Metadata.References {
+		if ref.Source == "CVE" {
+			add(ref.RefID)
+		}
+	}
+	for _, id := range cveIDRe.FindAllString(def.Metadata.Description, -1) {
+		add(id)
+	}
+	return out
+}
+
+// isRegression reports a notice that fixes a regression in an earlier one
+// ("USN-7626-2 -- Git regression").
+func isRegression(title string) bool {
+	return strings.Contains(strings.ToLower(title), "regression")
 }

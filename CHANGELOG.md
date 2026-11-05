@@ -33,6 +33,10 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - Mapper files are read as a stream and refused above 256 MB uncompressed.
 - README names the product OpenNess Vulnerability Scanner.
 
+### Fixed
+
+- Ubuntu notices whose CVEs are only in the OVAL CVE references or the description (no `<cve>` elements, e.g. USN-8779-1 Bubblewrap) now produce one rule per CVE instead of an advisory-only rule, so their findings carry `cve_id`. Regression notices and notices that name no CVE (e.g. USN-8226-1 kmod) stay advisory-only. On the 22.04 feed this changes 11 notices and nothing else.
+
 ## [0.7.0] - 2026-11-04
 
 ### Changed
