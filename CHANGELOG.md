@@ -7,6 +7,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-11-05
+
 ### Added
 
 - `osv-pypi` feed source: the OSV PyPI archive (`https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip`) downloaded and normalized into `normalized/pypi/pypi` like the other OSV sources. `feed sync --for` selects it when the evidence lists PyPI packages; `--source osv-pypi`, `--vendor pypi`, `--all` and `rules import --source osv-pypi --file all.zip` too. A damaged archive (zip CRC) publishes nothing.
