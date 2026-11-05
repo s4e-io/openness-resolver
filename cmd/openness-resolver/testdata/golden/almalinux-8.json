@@ -237,11 +237,13 @@
     "rules_for_asset": 5,
     "sources": [
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "osv-distro/1.0.0",
         "release": "almalinux/8",
         "sha256": "927743bc3f0d2699d6cbebaa6f4560396be0390c25c2dbcaeaf1d9c0f5d84e72",
         "source": "osv-almalinux",
+        "stale": false,
         "url": "https://osv-vulnerabilities.storage.googleapis.com/AlmaLinux/all.zip"
       }
     ],

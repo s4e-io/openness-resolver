@@ -80,6 +80,13 @@ const (
 	CoverageCovered       = "covered"
 	CoverageMissing       = "missing"
 	CoverageNotApplicable = "not_applicable"
+	// CoverageNotSupported: a network device no device catalog entry matched.
+	CoverageNotSupported = "not_supported"
+	// CoverageUnknown: a device entry matched, but the device version could not be read.
+	CoverageUnknown = "unknown"
+	// CoveragePartial: everything was evaluated except the PyPI packages, whose data
+	// (osv-pypi) is not synced (GapNotSynced). resolve exits 0 and says so in a note.
+	CoveragePartial = "partial"
 
 	// GapMissingRules means the release is evaluated by an existing path but
 	// the store has no rules for it. feed sync can fill that gap.
@@ -88,6 +95,10 @@ const (
 	// packages, but this build has no comparator for that host. feed sync
 	// does not fix it.
 	GapNoEvaluator = "no_evaluator"
+	// GapNotSynced means the osv-pypi data is not in the store (release "pypi"), or older
+	// per-package data does not name this package (release "pypi/<name>"). Python package
+	// findings are missing; the rest of the asset is evaluated.
+	GapNotSynced = "not_synced"
 )
 
 // CoverageGap is one release or host that was not evaluated.
@@ -108,7 +119,8 @@ type RuleCoverage struct {
 	Reason         string        `json:"reason,omitempty"`
 	// Sources names the data behind the loaded rules: for each rule directory,
 	// the publisher file it was built from, its sha256 and when it was
-	// downloaded. A stale feed is visible here even when State is covered.
+	// downloaded, how old that is and whether it counts as old (stale), so a
+	// stale feed is visible even when State is covered.
 	Sources []CoverageSource `json:"sources"`
 }
 
@@ -121,6 +133,12 @@ type CoverageSource struct {
 	DownloadedAt    *time.Time `json:"downloaded_at,omitempty"`
 	SourceUpdatedAt *time.Time `json:"source_updated_at,omitempty"`
 	Parser          string     `json:"parser"`
+	// Version is the data version, for the application mapper.
+	Version string `json:"version,omitempty"`
+	// AgeDays is how many whole days ago the data was downloaded, and Stale whether that
+	// is older than the source allows (MarkStale); both only with DownloadedAt.
+	AgeDays *int  `json:"age_days,omitempty"`
+	Stale   *bool `json:"stale,omitempty"`
 }
 
 // coverageSources lists the snapshots of the loaded rule directories, in a
@@ -200,9 +218,12 @@ type AssetSummary struct {
 type Engine struct {
 	Rules *rules.RuleSet
 	Now   func() time.Time
-	// Apps is the application mapper for third-party Windows applications; nil skips them.
+	// Apps is the application mapper for third-party Windows applications and network
+	// devices; nil skips them. AppSource, when set, is listed in rule_coverage.sources of
+	// a run that used the mapper.
 	Apps       *appvuln.Data
 	AppOptions appvuln.Options
+	AppSource  *CoverageSource
 }
 
 // NewEngine creates an Engine over a loaded rule set.
@@ -307,6 +328,12 @@ func (e *Engine) Resolve(lr *evidence.LoadResult) (*RunResult, error) {
 		e.resolveContainerGroup(res, group)
 	}
 	res.RuleCoverage = e.ruleCoverage(res.Platform, support, pkgIndex, inventory.Groups, pyInv)
+	for _, g := range res.RuleCoverage.Gaps {
+		if g.Kind == GapNotSynced {
+			res.Notes = append(res.Notes, PyPINotSyncedNote)
+			break
+		}
+	}
 
 	res.Metrics.AssetPackages = res.Metrics.HostPackages + res.Metrics.ContainerPackages
 	if lr.RecordErrors != nil {
@@ -420,13 +447,28 @@ func (e *Engine) ruleCoverage(plat platform.PlatformContext, support platform.Su
 	}
 	cov.Gaps = gaps
 	cov.State = CoverageMissing
+	if onlyNotSynced(gaps) {
+		cov.State = CoveragePartial
+	}
 	cov.Reason = coverageReason(gaps)
 	return cov
 }
 
-// pypiCoverageGaps reports PyPI distributions that were not fetched.
-// A name present in the rule file or in the snapshot's package list was fetched,
-// even when OSV returned no vulnerabilities for it. An empty pypi slot is one gap.
+func onlyNotSynced(gaps []CoverageGap) bool {
+	for _, g := range gaps {
+		if g.Kind != GapNotSynced {
+			return false
+		}
+	}
+	return len(gaps) > 0
+}
+
+// PyPINotSyncedNote is the note of a run without PyPI data.
+const PyPINotSyncedNote = "PyPI data (osv-pypi) is not synced: Python package findings are missing; run feed sync --for this evidence"
+
+// pypiCoverageGaps reports the PyPI data the asset's Python packages lack. The osv-pypi
+// archive covers every package (its snapshot names none). Older per-package data covers
+// the names in its rule file and package list. Without either, the one gap is "pypi".
 func pypiCoverageGaps(rs *rules.RuleSet, inv *python.Inventory) []CoverageGap {
 	if inv == nil {
 		return nil
@@ -437,15 +479,12 @@ func pypiCoverageGaps(rs *rules.RuleSet, inv *python.Inventory) []CoverageGap {
 	}
 	synced := map[string]bool{}
 	if rs != nil {
-		for i := range rs.Rules {
-			r := &rs.Rules[i]
-			if r.Distribution == "pypi" && r.PackageName != "" {
-				synced[r.PackageName] = true
-			}
-		}
 		for _, snap := range rs.Snapshots {
 			if snap.SourceName != "osv-pypi" {
 				continue
+			}
+			if len(snap.PackageNames) == 0 {
+				return nil // the full archive
 			}
 			for _, n := range snap.PackageNames {
 				if n != "" {
@@ -453,14 +492,20 @@ func pypiCoverageGaps(rs *rules.RuleSet, inv *python.Inventory) []CoverageGap {
 				}
 			}
 		}
+		for i := range rs.Rules {
+			r := &rs.Rules[i]
+			if r.Distribution == "pypi" && r.PackageName != "" {
+				synced[r.PackageName] = true
+			}
+		}
 	}
 	if len(synced) == 0 {
-		return []CoverageGap{{Release: "pypi", Kind: GapMissingRules}}
+		return []CoverageGap{{Release: "pypi", Kind: GapNotSynced}}
 	}
 	var gaps []CoverageGap
 	for _, n := range names {
 		if !synced[n] {
-			gaps = append(gaps, CoverageGap{Release: "pypi/" + n, Kind: GapMissingRules})
+			gaps = append(gaps, CoverageGap{Release: "pypi/" + n, Kind: GapNotSynced})
 		}
 	}
 	return gaps
@@ -470,6 +515,8 @@ func coverageReason(gaps []CoverageGap) string {
 	parts := make([]string, 0, len(gaps))
 	for _, g := range gaps {
 		switch g.Kind {
+		case GapNotSynced:
+			parts = append(parts, "PyPI data not synced for "+g.Release)
 		case GapNoEvaluator:
 			parts = append(parts, g.Release+" host has no package evaluator")
 		default:

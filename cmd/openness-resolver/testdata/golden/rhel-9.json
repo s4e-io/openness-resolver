@@ -151,11 +151,13 @@
     "rules_for_asset": 3,
     "sources": [
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "osv-distro/1.0.0",
         "release": "rhel/9",
         "sha256": "a91dd80937ed27865a1b8d22b46c86a7f2599f77303785ca056970f05575f706",
         "source": "osv-rhel",
+        "stale": false,
         "url": "https://osv-vulnerabilities.storage.googleapis.com/Red%20Hat/all.zip"
       }
     ],

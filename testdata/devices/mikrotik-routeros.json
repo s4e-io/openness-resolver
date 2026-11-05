@@ -1,0 +1,10 @@
+{
+  "format": "openness-device/1",
+  "sys_descr": "RouterOS CCR2004-16G-2S+",
+  "sys_object_id": ".1.3.6.1.4.1.14988.1",
+  "model": "CCR2004-16G-2S+",
+  "software_rev": "7.12.1",
+  "firmware_rev": "",
+  "hardware_rev": "",
+  "serial_hint": ""
+}

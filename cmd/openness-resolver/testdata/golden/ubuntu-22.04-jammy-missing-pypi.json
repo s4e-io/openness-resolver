@@ -1,5 +1,5 @@
 {
-  "exit_code": 1,
+  "exit_code": 0,
   "findings": [
     {
       "advisory_ids": [
@@ -269,7 +269,8 @@
   ],
   "notes": [
     "running kernel 5.15.0-1100-azure has no matching installed kernel package; kernel advisories cannot be evaluated deterministically",
-    "kernel advisories skipped: running kernel 5.15.0-1100-azure could not be mapped to a vendor kernel package"
+    "kernel advisories skipped: running kernel 5.15.0-1100-azure could not be mapped to a vendor kernel package",
+    "PyPI data (osv-pypi) is not synced: Python package findings are missing; run feed sync --for this evidence"
   ],
   "platform_support": "supported",
   "platform_tested": true,
@@ -386,27 +387,29 @@
     "asset_release": "ubuntu/jammy",
     "gaps": [
       {
-        "kind": "missing_rules",
+        "kind": "not_synced",
         "release": "pypi"
       }
     ],
     "loaded_releases": [
       "ubuntu/jammy"
     ],
-    "reason": "finding counts are not an all-clear: no rules loaded for pypi",
+    "reason": "finding counts are not an all-clear: PyPI data not synced for pypi",
     "rules_for_asset": 7,
     "sources": [
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "ubuntu-oval/1.1.0",
         "release": "ubuntu/jammy",
         "sha256": "13a702d2b3f884fe7276b5ef47fee4204b99df0c8e5657ca84de9d8e861f7b99",
         "source": "ubuntu-oval-usn-jammy",
+        "stale": false,
         "url": "https://security-metadata.canonical.com/oval/com.ubuntu.jammy.usn.oval.xml.bz2"
       }
     ],
-    "state": "missing"
+    "state": "partial"
   },
-  "stderr": "error: finding counts are not an all-clear: no rules loaded for pypi (run `openness-resolver feed sync --for <evidence>`)\n",
+  "stderr": "",
   "support_reason": null
 }

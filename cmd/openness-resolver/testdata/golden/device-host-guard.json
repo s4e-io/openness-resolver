@@ -1,0 +1,142 @@
+{
+  "application_mapper": "2099.01.01",
+  "asset": {
+    "architecture": "",
+    "collected_at": "",
+    "collection_id": "",
+    "collection_status": "",
+    "collector_version": "",
+    "hostname": "",
+    "platform": "Cisco IOS Software [Cupertino], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.9.4a, RELEASE SOFTWARE (fc5) [redacted] [redacted] [redacted]",
+    "privilege_level": "",
+    "schema_version": ""
+  },
+  "exit_code": 0,
+  "findings": [
+    {
+      "architecture": "",
+      "asset_id": "",
+      "binary_package": "Cisco IOS XE",
+      "confidence": "medium",
+      "cve_id": "CVE-2099-1001",
+      "cvss_score": 10,
+      "detection_method": "nvd_cpe_version_range",
+      "distribution": "",
+      "evidence_ids": [],
+      "finding_id": "device:cisco.ios-xe:17.9.4a:CVE-2099-1001",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "17.9.5",
+      "installed_version": "17.9.4a",
+      "reasons": [
+        "Cisco IOS XE 17.9.4a is in an affected range of NVD cpe cisco:ios_xe",
+        "device matched to the CPE automatically, not reviewed yet"
+      ],
+      "release": "",
+      "rule_ids": [
+        "nvd:cisco:ios_xe:CVE-2099-1001"
+      ],
+      "scope": "network_device",
+      "severity": "critical",
+      "source_package": "cisco.ios-xe",
+      "state": "vulnerable",
+      "vendor_status": "nvd"
+    },
+    {
+      "architecture": "",
+      "asset_id": "",
+      "binary_package": "Cisco IOS XE",
+      "confidence": "medium",
+      "cve_id": "CVE-2099-1003",
+      "cvss_score": 7.5,
+      "detection_method": "nvd_cpe_version_range",
+      "distribution": "",
+      "evidence_ids": [],
+      "finding_id": "device:cisco.ios-xe:17.9.4a:CVE-2099-1003",
+      "finding_type": "cve",
+      "installed_version": "17.9.4a",
+      "reasons": [
+        "Cisco IOS XE 17.9.4a is in an affected range of NVD cpe cisco:ios_xe",
+        "device matched to the CPE automatically, not reviewed yet"
+      ],
+      "release": "",
+      "rule_ids": [
+        "nvd:cisco:ios_xe:CVE-2099-1003"
+      ],
+      "scope": "network_device",
+      "severity": "high",
+      "source_package": "cisco.ios-xe",
+      "state": "vulnerable",
+      "vendor_status": "nvd"
+    }
+  ],
+  "notes": [],
+  "platform": {
+    "architecture": "",
+    "codename": "cisco.ios-xe",
+    "codename_source": "device_catalog",
+    "distribution_id": "network_device",
+    "distribution_version": "17.9.4a",
+    "kernel_version": "",
+    "raw_architecture": "",
+    "raw_distribution_id": "Cisco IOS Software [Cupertino], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.9.4a, RELEASE SOFTWARE (fc5) [redacted] [redacted] [redacted]",
+    "raw_distribution_version": "",
+    "raw_version_id": ""
+  },
+  "platform_support": "supported",
+  "remediation_groups": [
+    {
+      "action": "update_device",
+      "advisory_ids": [],
+      "availability": "available",
+      "closes": {
+        "count": 2,
+        "cve_ids": [
+          "CVE-2099-1001",
+          "CVE-2099-1003"
+        ],
+        "finding_ids": [
+          "device:cisco.ios-xe:17.9.4a:CVE-2099-1001",
+          "device:cisco.ios-xe:17.9.4a:CVE-2099-1003"
+        ]
+      },
+      "command_hint": "Upgrade IOS XE to a fixed release (see the Cisco security advisory).",
+      "coverage_note": null,
+      "group_id": "group-0247c3398c1cc103",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "network_device",
+      "source_package": "cisco.ios-xe",
+      "targets": [
+        {
+          "installed_version": "17.9.4a",
+          "kind": "device",
+          "name": "Cisco IOS XE",
+          "target_version": "17.9.5"
+        }
+      ]
+    }
+  ],
+  "rule_coverage": {
+    "asset_release": "device/cisco.ios-xe",
+    "loaded_releases": [
+      "device/cisco.ios-xe"
+    ],
+    "rules_for_asset": 3,
+    "sources": [
+      {
+        "parser": "openness-app-mapper/1",
+        "release": "mapper",
+        "sha256": "",
+        "source": "app-mapper-file",
+        "url": "",
+        "version": "2099.01.01"
+      }
+    ],
+    "state": "covered"
+  },
+  "stderr": "",
+  "support_reason": null,
+  "unknowns": []
+}

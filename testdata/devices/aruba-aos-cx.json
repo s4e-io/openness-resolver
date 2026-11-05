@@ -1,0 +1,10 @@
+{
+  "format": "openness-device/1",
+  "sys_descr": "Aruba JL658A 6300M 24SFP+ 4SFP56 Swch FL.10.10.1040",
+  "sys_object_id": ".1.3.6.1.4.1.47196.4.1.1.1.304",
+  "model": "JL658A",
+  "software_rev": "FL.10.10.1040",
+  "firmware_rev": "",
+  "hardware_rev": "",
+  "serial_hint": ""
+}

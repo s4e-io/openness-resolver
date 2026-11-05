@@ -1,0 +1,59 @@
+{
+  "application_mapper": "2099.01.01",
+  "asset": {
+    "architecture": "",
+    "collected_at": "",
+    "collection_id": "",
+    "collection_status": "",
+    "collector_version": "",
+    "hostname": "",
+    "platform": "",
+    "privilege_level": "",
+    "schema_version": ""
+  },
+  "exit_code": 0,
+  "findings": [],
+  "notes": [
+    "network device not evaluated: only the unreviewed device entry cisco.ios-xe matches this device; --app-unverified uses it"
+  ],
+  "platform": {
+    "architecture": "",
+    "codename": "",
+    "codename_source": "",
+    "distribution_id": "network_device",
+    "distribution_version": "",
+    "kernel_version": "",
+    "raw_architecture": "",
+    "raw_distribution_id": "",
+    "raw_distribution_version": "",
+    "raw_version_id": ""
+  },
+  "platform_support": "not_supported",
+  "remediation_groups": [],
+  "rule_coverage": {
+    "asset_release": "",
+    "loaded_releases": [],
+    "reason": "only the unreviewed device entry cisco.ios-xe matches this device; --app-unverified uses it",
+    "rules_for_asset": 0,
+    "sources": [
+      {
+        "parser": "openness-app-mapper/1",
+        "release": "mapper",
+        "sha256": "",
+        "source": "app-mapper-file",
+        "url": "",
+        "version": "2099.01.01"
+      }
+    ],
+    "state": "not_supported"
+  },
+  "stderr": "",
+  "support_reason": "only the unreviewed device entry cisco.ios-xe matches this device; --app-unverified uses it",
+  "unknowns": [
+    {
+      "kind": "platform",
+      "reason": "only the unreviewed device entry cisco.ios-xe matches this device; --app-unverified uses it",
+      "subject": "network_device "
+    }
+  ]
+}

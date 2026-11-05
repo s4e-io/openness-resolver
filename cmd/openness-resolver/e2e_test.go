@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
-	"regexp"
 	"sort"
 	"strings"
 	"testing"
@@ -38,17 +37,17 @@ type goldenCase struct {
 	name     string
 	evidence string
 	imports  []feedImport
-	// pypi syncs the evidence's PyPI packages from a local OSV mirror.
-	pypi bool
 }
 
 const fetchedAt = "2026-10-30T00:00:00Z"
 
 var goldenCases = []goldenCase{
-	{name: "ubuntu-22.04-jammy", evidence: "ubuntu-22.04-jammy", pypi: true, imports: []feedImport{
+	{name: "ubuntu-22.04-jammy", evidence: "ubuntu-22.04-jammy", imports: []feedImport{
 		{source: "ubuntu-oval-usn-jammy", file: "testdata/feeds/ubuntu/com.ubuntu.jammy.usn.oval.xml"},
+		{source: "osv-pypi", zipDir: "testdata/feeds/osv/pypi"},
 	}},
-	// The same host without its PyPI rules: coverage is missing, resolve exits 1.
+	// The same host without the osv-pypi data: coverage is partial (PyPI not synced),
+	// the Ubuntu findings still come out and resolve exits 0.
 	{name: "ubuntu-22.04-jammy-missing-pypi", evidence: "ubuntu-22.04-jammy", imports: []feedImport{
 		{source: "ubuntu-oval-usn-jammy", file: "testdata/feeds/ubuntu/com.ubuntu.jammy.usn.oval.xml"},
 	}},
@@ -111,16 +110,10 @@ func runGoldenCase(t *testing.T, tc goldenCase) []byte {
 		}
 	}
 	ev := evidencePath(tc.evidence)
-	var mirror *osvMirror
-	if tc.pypi {
-		mirror = newOSVMirror(t)
-		r := run(t, "feed", "sync", "--for", ev, "--pypi-only", "--osv-url", mirror.queryURL(), "--data-dir", dataDir)
-		if r.Code != 0 {
-			t.Fatalf("feed sync --pypi-only: exit %d\n%s%s", r.Code, r.Stdout, r.Stderr)
-		}
-	}
 	out := filepath.Join(tmp, "findings.json")
-	r := run(t, "resolve", "--input", ev, "--data-dir", dataDir, "--output", out)
+	// --stale-after 0: the fixtures were fetched on a fixed date, so their age grows;
+	// old-data warnings have their own tests (stale_test.go).
+	r := run(t, "resolve", "--input", ev, "--data-dir", dataDir, "--output", out, "--stale-after", "0")
 	raw, err := os.ReadFile(out)
 	if err != nil {
 		t.Fatalf("resolve wrote no findings (exit %d): %v\n%s", r.Code, err, r.Stderr)
@@ -142,9 +135,7 @@ func runGoldenCase(t *testing.T, tc goldenCase) []byte {
 		"remediation_groups": doc["remediation_groups"],
 		"notes":              doc["notes"],
 	}
-	if mirror != nil {
-		maskPyPISnapshot(golden)
-	}
+	maskBuiltinMapper(golden)
 	var buf bytes.Buffer
 	enc := json.NewEncoder(&buf)
 	enc.SetEscapeHTML(false)
@@ -153,24 +144,25 @@ func runGoldenCase(t *testing.T, tc goldenCase) []byte {
 		t.Fatal(err)
 	}
 	s := strings.TrimSuffix(buf.String(), "\n")
-	if mirror != nil {
-		s = strings.ReplaceAll(s, mirror.URL, "<osv-mirror>")
-		s = pypiSnapshot.ReplaceAllString(s, "pypi-<unix-time>")
-	}
 	return append([]byte(s), '\n')
 }
 
-// pypiSnapshot is the raw object id of an OSV PyPI sync, named by the sync time.
-var pypiSnapshot = regexp.MustCompile(`pypi-[0-9]{9,}`)
-
-// maskPyPISnapshot replaces the time of the PyPI sync (it ran now) in the
-// coverage sources.
-func maskPyPISnapshot(golden map[string]any) {
+// maskBuiltinMapper replaces the version of the built-in application mapper (it changes
+// whenever the bundled data is refreshed) and the age of every source in the coverage
+// sources.
+func maskBuiltinMapper(golden map[string]any) {
 	cov, _ := golden["rule_coverage"].(map[string]any)
 	srcs, _ := cov["sources"].([]any)
 	for _, s := range srcs {
-		if m, ok := s.(map[string]any); ok && m["source"] == "osv-pypi" {
-			m["downloaded_at"] = "<sync-time>"
+		m, ok := s.(map[string]any)
+		if !ok {
+			continue
+		}
+		if m["source"] == "app-mapper-builtin" {
+			m["version"] = "<builtin>"
+		}
+		if _, ok := m["age_days"]; ok {
+			m["age_days"] = "<age>"
 		}
 	}
 }

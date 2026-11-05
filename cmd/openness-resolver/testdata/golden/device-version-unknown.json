@@ -1,0 +1,59 @@
+{
+  "application_mapper": "2099.01.01",
+  "asset": {
+    "architecture": "",
+    "collected_at": "",
+    "collection_id": "",
+    "collection_status": "",
+    "collector_version": "",
+    "hostname": "",
+    "platform": "FortiGate-60F",
+    "privilege_level": "",
+    "schema_version": ""
+  },
+  "exit_code": 0,
+  "findings": [],
+  "notes": [
+    "network device version unknown: Fortinet FortiOS matched, but its version could not be read from software_rev; no CVE was checked"
+  ],
+  "platform": {
+    "architecture": "",
+    "codename": "fortinet.fortios",
+    "codename_source": "device_catalog",
+    "distribution_id": "network_device",
+    "distribution_version": "",
+    "kernel_version": "",
+    "raw_architecture": "",
+    "raw_distribution_id": "FortiGate-60F",
+    "raw_distribution_version": "",
+    "raw_version_id": ""
+  },
+  "platform_support": "supported",
+  "remediation_groups": [],
+  "rule_coverage": {
+    "asset_release": "device/fortinet.fortios",
+    "loaded_releases": [],
+    "reason": "Fortinet FortiOS matched, but its version could not be read from software_rev",
+    "rules_for_asset": 2,
+    "sources": [
+      {
+        "parser": "openness-app-mapper/1",
+        "release": "mapper",
+        "sha256": "",
+        "source": "app-mapper-file",
+        "url": "",
+        "version": "2099.01.01"
+      }
+    ],
+    "state": "unknown"
+  },
+  "stderr": "",
+  "support_reason": null,
+  "unknowns": [
+    {
+      "kind": "rule_coverage",
+      "reason": "version_unreadable",
+      "subject": "device/fortinet.fortios"
+    }
+  ]
+}

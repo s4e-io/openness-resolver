@@ -14,6 +14,8 @@ const (
 	ActionInstallUpdate = "install_update"
 	// ActionUpdateApplication updates a third-party application to a fixed version.
 	ActionUpdateApplication = "update_application"
+	// ActionUpdateDevice upgrades the software of a network device to a fixed release.
+	ActionUpdateDevice = "update_device"
 )
 
 // Availability is decided only from the collector's candidate version.
@@ -31,6 +33,8 @@ const (
 	TargetKindOSBuild = "os_build"
 	// TargetKindApplication targets an installed application (Add/Remove Programs entry).
 	TargetKindApplication = "application"
+	// TargetKindDevice targets the operating system of a network device.
+	TargetKindDevice = "device"
 )
 
 // RemediationTarget is one package, unit, or other object the action touches.
