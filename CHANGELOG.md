@@ -11,6 +11,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 - `app-mapper` feed source: the application and device mapper (`openness-app-mapper/1`) from the public release of `s4e-io/openness-catalog`, checked against `SHA256SUMS` and stored as `<data-dir>/mapper/app-mapper.json.gz` with its metadata. `feed sync --for` selects it for Windows, applications and network devices; `--source app-mapper`, `--vendor openness`, `--all` and `rules import --source app-mapper` too. `--mapper-url` points it at a mirror.
 - `resolve` takes the mapper from `--mapper`, else the data directory, else the built-in one, and lists it in `rule_coverage.sources[]` with its `version` and `downloaded_at`.
+- Old data: `rule_coverage.sources[]` carries `age_days` and `stale`; `resolve` warns on stderr and in `notes[]` when a source is older than its limit (2 days for distribution feeds, 35 for MSRC, 7 for the mapper, never for PyPI; `--stale-after` overrides, `0` turns it off). `feed list` shows the age of every source.
+- `feed sync` never installs a mapper older than the synced or the built-in one; `--allow-downgrade` forces it.
 - Network devices: catalog entries of `kind` `device` matched against SNMP data, `resolve --device <openness-device/1 file>`, findings with scope `network_device`, `update_device` cards, coverage states `not_supported` and `unknown`. Unreviewed seed entries for Cisco IOS XE, IOS, NX-OS, ASA, Fortinet FortiOS, Juniper Junos, MikroTik RouterOS, Palo Alto PAN-OS, Aruba AOS-CX and Ubiquiti EdgeOS.
 
 ### Changed

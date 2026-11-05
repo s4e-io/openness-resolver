@@ -33,6 +33,9 @@ const ID = "app-mapper"
 // ErrNotPublished: the release location answered 404.
 var ErrNotPublished = errors.New("not published yet")
 
+// ErrOlder: the downloaded mapper is older than the one in use; it was not installed.
+var ErrOlder = errors.New("older than the mapper in use")
+
 // Client downloads the mapper; a large bundle on a slow link needs more than the feed
 // downloader's timeout.
 var Client = &http.Client{Timeout: 15 * time.Minute}
@@ -50,8 +53,9 @@ func SumsURL(bundleURL string) string {
 
 // Sync downloads the bundle at bundleURL, verifies its sha256 against SHA256SUMS and loads
 // it. With publish it replaces <data-dir>/mapper/app-mapper.json.gz and writes the
-// metadata; without (feed validate) the download is discarded.
-func Sync(bundleURL, dataDir string, publish bool, now time.Time) (appvuln.BundleMeta, error) {
+// metadata; without (feed validate) the download is discarded. A bundle older than the
+// synced mapper or the built-in one is not installed (ErrOlder) unless allowDowngrade.
+func Sync(bundleURL, dataDir string, publish, allowDowngrade bool, now time.Time) (appvuln.BundleMeta, error) {
 	u, err := url.Parse(bundleURL)
 	if err != nil || (u.Scheme != "https" && u.Scheme != "http") || u.Host == "" {
 		return appvuln.BundleMeta{}, fmt.Errorf("%s: not an http(s) URL: %q", ID, bundleURL)
@@ -89,7 +93,27 @@ func Sync(bundleURL, dataDir string, publish bool, now time.Time) (appvuln.Bundl
 	if !publish {
 		return meta, nil
 	}
+	if !allowDowngrade {
+		if err := notOlder(d.Version, dst); err != nil {
+			return meta, err
+		}
+	}
 	return meta, Install(tmp.Name(), dst, meta)
+}
+
+// notOlder refuses version when the mapper at dst, or the built-in one, is newer.
+func notOlder(version, dst string) error {
+	if m, ok := appvuln.ReadMeta(dst); ok && appvuln.Compare(version, m.Version) < 0 {
+		return fmt.Errorf("%s: %w: the downloaded mapper %s is older than the synced one (%s); kept the current mapper (--allow-downgrade installs it anyway)", ID, ErrOlder, version, m.Version)
+	}
+	bi, err := appvuln.Builtin()
+	if err != nil {
+		return err
+	}
+	if appvuln.Compare(version, bi.Version) < 0 {
+		return fmt.Errorf("%s: %w: the downloaded mapper %s is older than the built-in one (%s); kept the current mapper (--allow-downgrade installs it anyway)", ID, ErrOlder, version, bi.Version)
+	}
+	return nil
 }
 
 // Install moves a checked bundle to dst and writes its metadata next to it.

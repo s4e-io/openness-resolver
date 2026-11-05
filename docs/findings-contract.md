@@ -23,7 +23,7 @@ Rules that hold for every version:
 | `platform` | object | Normalized distribution, version, codename, architecture |
 | `platform_support` | string | `supported` / `not_supported` / `unknown` (evidence lacks the OS identity) |
 | `support_reason` | string | Why not supported (omitted when supported) |
-| `rule_coverage` | object | `asset_release`, `rules_for_asset`, `loaded_releases[]`, `gaps[]`, `state` (`covered` / `missing` / `not_applicable`; for a network device `covered` / `not_supported` / `unknown`), `reason`, `sources[]` (per loaded rule directory: `release`, `source`, `url`, `sha256`, `downloaded_at`, `source_updated_at`, `parser`; plus one entry for the application mapper when it was used, below) |
+| `rule_coverage` | object | `asset_release`, `rules_for_asset`, `loaded_releases[]`, `gaps[]`, `state` (`covered` / `missing` / `not_applicable`; for a network device `covered` / `not_supported` / `unknown`), `reason`, `sources[]` (per loaded rule directory: `release`, `source`, `url`, `sha256`, `downloaded_at`, `source_updated_at`, `parser`, and with `downloaded_at` also `age_days` and `stale`: older than `resolve --stale-after`, default 2 days for distribution feeds, 35 for `msrc-*`, 7 for the mapper, never for PyPI; plus one entry for the application mapper when it was used, below) |
 | `findings[]` | array | One decision per (scope, package, CVE/advisory). Fields in [internals.md section 14](internals.md#14-finding-states-and-fields) |
 | `deduplicated_findings[]` | array | Python evaluations merged into canonical findings (may be omitted) |
 | `remediation_groups[]` | array | Action cards (below) |

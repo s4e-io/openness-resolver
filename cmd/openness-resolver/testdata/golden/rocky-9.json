@@ -572,11 +572,13 @@
     "rules_for_asset": 6,
     "sources": [
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "osv-distro/1.0.0",
         "release": "rocky/9",
         "sha256": "064cd583ec467ff5b7cfb969e1345494ec44837e6a7d56f571894ee8050a031e",
         "source": "osv-rocky",
+        "stale": false,
         "url": "https://osv-vulnerabilities.storage.googleapis.com/Rocky%20Linux/all.zip"
       }
     ],

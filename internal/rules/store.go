@@ -272,3 +272,35 @@ func readJSON(path string, v any) error {
 	}
 	return json.Unmarshal(data, v)
 }
+
+// Snapshots reads the metadata of every rule directory without loading the rules, in
+// vendor and release order.
+func (s *Store) Snapshots() ([]FeedSourceMetadata, error) {
+	var out []FeedSourceMetadata
+	base := filepath.Join(s.Root, "normalized")
+	vendors, err := os.ReadDir(base)
+	if os.IsNotExist(err) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	for _, vendor := range vendors {
+		if !vendor.IsDir() {
+			continue
+		}
+		releases, err := os.ReadDir(filepath.Join(base, vendor.Name()))
+		if err != nil {
+			return nil, err
+		}
+		for _, rel := range releases {
+			var meta FeedSourceMetadata
+			if !rel.IsDir() || readJSON(filepath.Join(base, vendor.Name(), rel.Name(), "metadata.json"), &meta) != nil {
+				continue
+			}
+			meta.Vendor, meta.Release = vendor.Name(), rel.Name()
+			out = append(out, meta)
+		}
+	}
+	return out, nil
+}

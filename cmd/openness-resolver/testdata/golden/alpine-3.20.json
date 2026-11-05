@@ -621,11 +621,13 @@
     "rules_for_asset": 8,
     "sources": [
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "alpine-secdb/1.0.0",
         "release": "alpine/v3.20",
         "sha256": "b08be42d96420acf8b25fbf23abc89445ff6c96add7bcb052e196b1092b533a1",
         "source": "alpine-secdb-v3.20-community",
+        "stale": false,
         "url": "https://secdb.alpinelinux.org/v3.20/community.json"
       }
     ],

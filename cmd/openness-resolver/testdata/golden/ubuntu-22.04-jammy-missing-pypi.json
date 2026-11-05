@@ -397,11 +397,13 @@
     "rules_for_asset": 7,
     "sources": [
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "ubuntu-oval/1.1.0",
         "release": "ubuntu/jammy",
         "sha256": "13a702d2b3f884fe7276b5ef47fee4204b99df0c8e5657ca84de9d8e861f7b99",
         "source": "ubuntu-oval-usn-jammy",
+        "stale": false,
         "url": "https://security-metadata.canonical.com/oval/com.ubuntu.jammy.usn.oval.xml.bz2"
       }
     ],

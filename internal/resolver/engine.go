@@ -112,7 +112,8 @@ type RuleCoverage struct {
 	Reason         string        `json:"reason,omitempty"`
 	// Sources names the data behind the loaded rules: for each rule directory,
 	// the publisher file it was built from, its sha256 and when it was
-	// downloaded. A stale feed is visible here even when State is covered.
+	// downloaded, how old that is and whether it counts as old (stale), so a
+	// stale feed is visible even when State is covered.
 	Sources []CoverageSource `json:"sources"`
 }
 
@@ -127,6 +128,10 @@ type CoverageSource struct {
 	Parser          string     `json:"parser"`
 	// Version is the data version, for the application mapper.
 	Version string `json:"version,omitempty"`
+	// AgeDays is how many whole days ago the data was downloaded, and Stale whether that
+	// is older than the source allows (MarkStale); both only with DownloadedAt.
+	AgeDays *int  `json:"age_days,omitempty"`
+	Stale   *bool `json:"stale,omitempty"`
 }
 
 // coverageSources lists the snapshots of the loaded rule directories, in a

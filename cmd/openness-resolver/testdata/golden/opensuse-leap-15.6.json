@@ -386,11 +386,13 @@
     "rules_for_asset": 6,
     "sources": [
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "osv-distro/1.0.0",
         "release": "opensuse/15.6",
         "sha256": "a7b56ddc7e53a360815f46f53332da7bec66bcac58e58235438ddce2b4c068f3",
         "source": "osv-opensuse",
+        "stale": false,
         "url": "https://osv-vulnerabilities.storage.googleapis.com/openSUSE/all.zip"
       }
     ],

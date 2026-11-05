@@ -32,7 +32,7 @@ func deviceMapper(t *testing.T, dir string) string {
 	if err != nil {
 		t.Fatal(err)
 	}
-	raw, _ := json.Marshal(map[string]any{"format": "openness-app-mapper/1", "version": "test-devices-1",
+	raw, _ := json.Marshal(map[string]any{"format": "openness-app-mapper/1", "version": "2099.01.01",
 		"catalog": json.RawMessage(cat), "vulns": json.RawMessage(vulns)})
 	p := filepath.Join(dir, "devices-mapper.json")
 	if err := os.WriteFile(p, raw, 0o644); err != nil {
@@ -195,18 +195,18 @@ func TestAppMapperSource(t *testing.T) {
 			},
 			code: 1, stderr: []string{`unknown field "sys_name"`, "no host names or addresses"}},
 		{name: "sync source", args: []string{"feed", "sync", "--source", "app-mapper", "--mapper-url", url, "--data-dir", "{tmp}"},
-			stdout: []string{"==> app-mapper ", "mapper version=test-devices-1"},
+			stdout: []string{"==> app-mapper ", "mapper version=2099.01.01"},
 			check: func(t *testing.T, tmp string, _ cliResult) {
 				var m map[string]any
 				raw, err := os.ReadFile(filepath.Join(tmp, "mapper", "app-mapper.json.gz.meta.json"))
 				if err != nil || json.Unmarshal(raw, &m) != nil {
 					t.Fatalf("metadata: %v", err)
 				}
-				if m["version"] != "test-devices-1" || m["source_url"] != url || m["downloaded_at"] == "" || len(m["sha256"].(string)) != 64 {
+				if m["version"] != "2099.01.01" || m["source_url"] != url || m["downloaded_at"] == "" || len(m["sha256"].(string)) != 64 {
 					t.Errorf("metadata %v", m)
 				}
 				r := run(t, "feed", "list", "--data-dir", tmp)
-				if !strings.Contains(r.Stdout, "version=test-devices-1 downloaded_at=") {
+				if !strings.Contains(r.Stdout, "version=2099.01.01 downloaded_at=") {
 					t.Errorf("feed list:\n%s", r.Stdout)
 				}
 			}},
@@ -215,14 +215,14 @@ func TestAppMapperSource(t *testing.T) {
 		{name: "not published is skipped otherwise", args: []string{"feed", "sync", "--vendor", "openness", "--mapper-url", gone, "--data-dir", "{tmp}"},
 			stdout: []string{"not published yet", "skipped"}},
 		{name: "validate source", args: []string{"feed", "validate", "--source", "app-mapper", "--mapper-url", url, "--data-dir", "{tmp}"},
-			stdout: []string{"mapper version=test-devices-1"},
+			stdout: []string{"mapper version=2099.01.01"},
 			check: func(t *testing.T, tmp string, _ cliResult) {
 				if _, err := os.Stat(filepath.Join(tmp, "mapper", "app-mapper.json.gz")); err == nil {
 					t.Error("validate installed the mapper")
 				}
 			}},
 		{name: "rules import", args: []string{"rules", "import", "--source", "app-mapper", "--file", mapper, "--fetched-at", "2026-11-05T06:00:00Z", "--data-dir", "{tmp}"},
-			stdout: []string{"mapper version=test-devices-1"},
+			stdout: []string{"mapper version=2099.01.01"},
 			check: func(t *testing.T, tmp string, _ cliResult) {
 				r := run(t, "resolve", "--device", devicePath("juniper-junos"), "--data-dir", tmp, "--output", filepath.Join(tmp, "o.json"), "--app-unverified")
 				d := readCoverage(t, filepath.Join(tmp, "o.json"))
@@ -236,7 +236,7 @@ func TestAppMapperSource(t *testing.T) {
 			check: func(t *testing.T, tmp string, _ cliResult) {
 				d := readCoverage(t, filepath.Join(tmp, "out.json"))
 				s := d.RuleCoverage.Sources
-				if len(s) != 1 || s[0].Source != "app-mapper" || s[0].Version != "test-devices-1" || s[0].URL != url || s[0].DownloadedAt == "" || len(s[0].SHA256) != 64 {
+				if len(s) != 1 || s[0].Source != "app-mapper" || s[0].Version != "2099.01.01" || s[0].URL != url || s[0].DownloadedAt == "" || len(s[0].SHA256) != 64 {
 					t.Errorf("sources %+v", s)
 				}
 				if len(d.Findings) != 1 || d.Findings[0].CVEID != "CVE-2099-3001" {
@@ -258,7 +258,7 @@ func TestAppMapperSource(t *testing.T) {
 		{name: "resolve windows lists the mapper", args: []string{"resolve", "--input", windows, "--data-dir", data, "--output", out},
 			code: 1, // no MSRC rules
 			check: func(t *testing.T, tmp string, _ cliResult) {
-				if s := readCoverage(t, filepath.Join(tmp, "out.json")).RuleCoverage.Sources; len(s) != 1 || s[0].Source != "app-mapper" || s[0].Version != "test-devices-1" {
+				if s := readCoverage(t, filepath.Join(tmp, "out.json")).RuleCoverage.Sources; len(s) != 1 || s[0].Source != "app-mapper" || s[0].Version != "2099.01.01" {
 					t.Errorf("sources %+v", s)
 				}
 			}},

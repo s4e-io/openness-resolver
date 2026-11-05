@@ -338,187 +338,233 @@
     "rules_for_asset": 12,
     "sources": [
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_10_1507",
         "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
         "source": "msrc-cvrf-2023-Jan",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_10_1607",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_10_1809",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_10_20h2",
         "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
         "source": "msrc-cvrf-2023-Jan",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_10_21h1",
         "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
         "source": "msrc-cvrf-2023-Jan",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_10_21h2",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_10_22h2",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_11_21h2",
         "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
         "source": "msrc-cvrf-2023-Jan",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_11_22h2",
         "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
         "source": "msrc-cvrf-2023-Jan",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_11_23h2",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_11_24h2",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_11_25h2",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_11_26h1",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_7",
         "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
         "source": "msrc-cvrf-2023-Jan",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_8.1",
         "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
         "source": "msrc-cvrf-2023-Jan",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_server_2008_r2",
         "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
         "source": "msrc-cvrf-2023-Jan",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_server_2008_sp2",
         "sha256": "21ce65395c8e6e7ae48278626f82213ffe931b12eb1ade6af9d96ddd8de38c82",
         "source": "msrc-cvrf-2023-Jan",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2023-Jan"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_server_2012",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_server_2012_r2",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_server_2016",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_server_2019",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_server_2022",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "msrc-cvrf/1.0.0",
         "release": "microsoft/windows_server_2025",
         "sha256": "480081bcfed6c53835cdeeaa25f8f54ed1fce9a8e06086e084b674f5819a6e38",
         "source": "msrc-cvrf-2026-Oct",
+        "stale": false,
         "url": "https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2026-Oct"
       },
       {

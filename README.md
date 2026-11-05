@@ -148,7 +148,10 @@ against the release's `SHA256SUMS`, loaded once, and stored as
 `<data-dir>/mapper/app-mapper.json.gz.meta.json` (`source`, `source_url`, `downloaded_at`,
 `sha256`, `size_bytes`, `format`, `version`). When the release location answers 404 the
 source prints `not published yet` and is skipped; it is a failure only with
-`--source app-mapper`. `resolve` then keeps using the mapper it has.
+`--source app-mapper`. `resolve` then keeps using the mapper it has. A downloaded mapper
+whose `version` is older than the synced one, or than the mapper built into the binary, is
+not installed: the source prints why, keeps the current mapper and exits 0.
+`--allow-downgrade` installs it anyway.
 
 ```bash
 openness-resolver feed sync --for host.openness --data-dir data
@@ -174,6 +177,7 @@ openness-resolver feed sync --source app-mapper --data-dir data
 | `--months <n>` | MSRC: number of monthly CVRF documents, newest first, for `--vendor microsoft` and Windows evidence. Must be at least 1. Default `24`. A month not published yet (HTTP 404) is skipped. | `--months 6` |
 | `--pypi-only` | With `--for`: only query the PyPI packages of the evidence and download no advisory source (for example when the distribution rules came from `rules import`). Default `false`. | `--for host.openness --pypi-only` |
 | `--osv-url <url>` | OSV query endpoint for PyPI packages: the public API or a mirror with the same request and answer. Default: `OPENNESS_OSV_URL`, else `https://api.osv.dev/v1/query`. | `--osv-url https://osv.example.org/v1/query` |
+| `--allow-downgrade` | Let the `app-mapper` source install a mapper older than the synced one or the built-in one. Default `false`. | `--source app-mapper --allow-downgrade` |
 | `--mapper-url <url>` | Where the `app-mapper` source downloads `app-mapper.json.gz` from; `SHA256SUMS` must be in the same directory. Default: `https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz`. | `--mapper-url https://mirror.example.org/catalog/app-mapper.json.gz` |
 
 #### Debug
@@ -184,8 +188,9 @@ openness-resolver feed sync --source app-mapper --data-dir data
 
 ### feed list
 
-Print the source registry (id, ecosystem, vendor, priority, enabled) and the raw snapshots
-found in the data directory. Release-derived sources (Ubuntu codenames, Alpine branches,
+Print the source registry (id, ecosystem, vendor, priority, enabled), the data in the data
+directory with its age (`data <release> <source> downloaded_at=... age_days=N stale=true|false`,
+one line per rule directory and one for the synced mapper) and the raw snapshots. Release-derived sources (Ubuntu codenames, Alpine branches,
 MSRC months) are not all listed; their id patterns are in [Data sources](#data-sources).
 
 ```bash
@@ -197,6 +202,7 @@ openness-resolver feed list --data-dir data
 | Flag | Description | Example |
 |---|---|---|
 | `--data-dir <dir>` | Data directory whose snapshots are listed. Default `data`. | `--data-dir data` |
+| `--stale-after <age>` | Age after which data counts as old, for every source: a duration (`36h`) or days (`10d`); `0` turns the check off. Default: per source, as for `resolve`. | `--stale-after 3d` |
 
 ### feed validate
 
@@ -300,6 +306,11 @@ into the binary. `rule_coverage.sources[]` names the one used: `source` is `app-
 (synced), `app-mapper-file` (`--mapper`) or `app-mapper-builtin`, with its `version` and,
 when its metadata says so, `url`, `sha256` and `downloaded_at`.
 
+Every source with a `downloaded_at` also gets `age_days` and `stale`. When a source is
+older than `--stale-after` allows, `resolve` prints one warning line to stderr
+(`` warning: old data: ubuntu-oval-usn-jammy (5 days); run `openness-resolver feed sync` ``)
+and adds the same text to `notes[]`. The exit code does not change.
+
 `--device` resolves a network device instead of a host. The device file (format
 `openness-device/1`) holds what SNMP tells about the device and nothing that names it:
 `{"format":"openness-device/1","sys_descr":"...","sys_object_id":".1.3.6.1.4.1.9.1.2494","model":"C9300-48P","software_rev":"17.9.4a","firmware_rev":"","hardware_rev":"","serial_hint":""}`.
@@ -336,6 +347,7 @@ openness-resolver resolve --device switch.json --data-dir data --output switch-f
 | Flag | Description | Example |
 |---|---|---|
 | `--output <file>` | Findings JSON file to write; missing directories are created. Default `findings.json`. | `--output out/host.json` |
+| `--stale-after <age>` | Age after which a source's data counts as old, for every source: a duration (`36h`) or days (`10d`); `0` turns the check off. Default: 2 days for distribution feeds, 35 days for `msrc-*`, 7 days for the application mapper, never for PyPI. | `--stale-after 3d` |
 | `--states <list>` | Comma-separated finding states to list after the summary (finding id, state, CVE, package, versions). A state no finding has lists nothing. Default: no listing. | `--states vulnerable,fixed` |
 
 #### Matching

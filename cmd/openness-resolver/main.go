@@ -28,6 +28,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -138,6 +139,8 @@ func cmdFeed(args []string) error {
 		forEvidence, osvURL   = new(string), new(string)
 		all, pypiOnly, dryRun = new(bool), new(bool), new(bool)
 		mapperURL             = new(string)
+		allowDowngrade        = new(bool)
+		staleAfter            = &staleFlag{}
 		months                = new(int)
 		selecting, syncing    = sub != "list", sub == "sync"
 	)
@@ -152,7 +155,11 @@ func cmdFeed(args []string) error {
 		fs.BoolVar(dryRun, "dry-run", false, "print the sources that would be downloaded (id and URL) and download nothing")
 		fs.StringVar(mapperURL, "mapper-url", "", "where the app-mapper source downloads the mapper bundle from (SHA256SUMS must sit next to it); default: the latest S4E catalog release on GitHub")
 	}
+	if sub == "list" {
+		fs.Var(staleAfter, "stale-after", staleAfterUsage)
+	}
 	if syncing {
+		fs.BoolVar(allowDowngrade, "allow-downgrade", false, "let the app-mapper source replace the mapper with an older version, or install one older than the built-in mapper")
 		fs.BoolVar(pypiOnly, "pypi-only", false, "with --for: only query the PyPI packages, download no advisory source (the advisory rules come from rules import)")
 		fs.StringVar(osvURL, "osv-url", "", "OSV query endpoint for PyPI packages, a mirror of api.osv.dev/v1/query (default: OPENNESS_OSV_URL, else api.osv.dev); OPENNESS_OSV_HEADERS adds request headers, one \"Name: value\" per line")
 	}
@@ -174,8 +181,8 @@ func cmdFeed(args []string) error {
 		for _, s := range rules.Registry() {
 			fmt.Printf("%-32s %-6s %-8s %-4d %v\n", s.ID, s.Ecosystem, s.Vendor, s.Priority, s.Enabled)
 		}
-		if m, ok := appvuln.ReadMeta(appmapper.Path(*dataDir)); ok {
-			fmt.Printf("mapper %s version=%s downloaded_at=%s\n", appmapper.Path(*dataDir), m.Version, m.DownloadedAt.Format(time.RFC3339))
+		if err := printDataAges(store, *dataDir, staleAfter.value()); err != nil {
+			return err
 		}
 		for _, v := range []string{"ubuntu", "alpine", "microsoft", "debian", "rocky", "almalinux", "rhel", "opensuse", "amazon"} {
 			snaps, _ := dl.Snapshots(v)
@@ -230,6 +237,7 @@ func cmdFeed(args []string) error {
 		// A 404 of the mapper (not published yet) fails the run only when it was asked
 		// for by name.
 		mapperStrict = *sourceID == appmapper.ID
+		mapperAllowDowngrade = *allowDowngrade
 		for i := range selected {
 			if selected[i].ID == appmapper.ID && *mapperURL != "" {
 				selected[i].URL = *mapperURL
@@ -549,10 +557,15 @@ func syncSource(src rules.AdvisorySource, dl *feed.Downloader, store *rules.Stor
 		printFeedMetrics(res.Metrics, meta)
 		fmt.Printf("    windows products: %d, skipped remediations: %v\n", len(res.Products), res.Skipped)
 	case "app-mapper":
-		meta, err := appmapper.Sync(src.URL, dl.DataDir, !validateOnly, time.Now())
+		meta, err := appmapper.Sync(src.URL, dl.DataDir, !validateOnly, mapperAllowDowngrade, time.Now())
 		if err != nil {
 			if errors.Is(err, appmapper.ErrNotPublished) && !mapperStrict {
 				fmt.Printf("    %v; skipped\n", err)
+				return
+			}
+			if errors.Is(err, appmapper.ErrOlder) {
+				// Never a silent downgrade, and never a failure: the current mapper stays.
+				fmt.Printf("    %v\n", err)
 				return
 			}
 			fmt.Printf("    FAILED: %v\n", err)
@@ -568,8 +581,84 @@ func syncSource(src rules.AdvisorySource, dl *feed.Downloader, store *rules.Stor
 	}
 }
 
-// mapperStrict makes a 404 of the app-mapper source a failure (feed sync --source app-mapper).
-var mapperStrict bool
+// mapperStrict makes a 404 of the app-mapper source a failure (feed sync --source app-mapper);
+// mapperAllowDowngrade lets it install an older mapper (feed sync --allow-downgrade).
+var mapperStrict, mapperAllowDowngrade bool
+
+const staleAfterUsage = "age after which a source's data counts as old, for every source (a duration such as 36h or 10d; 0 turns the check off); default: 2d for distribution feeds, 35d for MSRC, 7d for app-mapper, never for PyPI"
+
+// staleFlag is --stale-after: unset keeps the per-source defaults.
+type staleFlag struct {
+	set bool
+	d   time.Duration
+}
+
+func (f *staleFlag) String() string {
+	if f == nil || !f.set {
+		return ""
+	}
+	return f.d.String()
+}
+
+// Set takes a Go duration or a number of days ("10d").
+func (f *staleFlag) Set(v string) error {
+	if days, ok := strings.CutSuffix(v, "d"); ok {
+		n, err := strconv.ParseFloat(days, 64)
+		if err != nil || n < 0 {
+			return fmt.Errorf("want a duration such as 36h or 10d")
+		}
+		f.set, f.d = true, time.Duration(n*24*float64(time.Hour))
+		return nil
+	}
+	d, err := time.ParseDuration(v)
+	if err != nil || d < 0 {
+		return fmt.Errorf("want a duration such as 36h or 10d")
+	}
+	f.set, f.d = true, d
+	return nil
+}
+
+func (f *staleFlag) value() *time.Duration {
+	if !f.set {
+		return nil
+	}
+	return &f.d
+}
+
+// printDataAges lists the data in the data directory (rule directories and the synced
+// mapper) with its age and whether it counts as old.
+func printDataAges(store *rules.Store, dataDir string, override *time.Duration) error {
+	snaps, err := store.Snapshots()
+	if err != nil {
+		return err
+	}
+	cov := resolver.RuleCoverage{}
+	for _, m := range snaps {
+		c := resolver.CoverageSource{Release: m.Vendor + "/" + m.Release, Source: m.SourceName}
+		if !m.DownloadedAt.IsZero() {
+			t := m.DownloadedAt
+			c.DownloadedAt = &t
+		}
+		cov.Sources = append(cov.Sources, c)
+	}
+	if m, ok := appvuln.ReadMeta(appmapper.Path(dataDir)); ok {
+		t := m.DownloadedAt
+		cov.Sources = append(cov.Sources, resolver.CoverageSource{Release: "mapper", Source: appmapper.ID, Version: m.Version, DownloadedAt: &t})
+	}
+	resolver.MarkStale(&cov, time.Now(), override)
+	for _, c := range cov.Sources {
+		line := fmt.Sprintf("data %s %s", c.Release, c.Source)
+		if c.Version != "" {
+			line += " version=" + c.Version
+		}
+		if c.DownloadedAt == nil {
+			fmt.Println(line + " downloaded_at=unknown")
+			continue
+		}
+		fmt.Printf("%s downloaded_at=%s age_days=%d stale=%v\n", line, c.DownloadedAt.UTC().Format(time.RFC3339), *c.AgeDays, *c.Stale)
+	}
+	return nil
+}
 
 // wantedReleases is the set of release keys a vendor-wide feed is stored
 // for: the production supported releases of that distribution, written the
@@ -868,12 +957,14 @@ func cmdResolve(args []string) error {
 	mapper := fs.String("mapper", "", "application mapper file (catalog + NVD data, JSON or gzip) for third-party Windows applications and network devices; default: <data-dir>/mapper/app-mapper.json.gz when synced, else the built-in one")
 	appUnverified := fs.Bool("app-unverified", false, "also use the application and device catalog entries no person reviewed")
 	appGuess := fs.Bool("app-guess", true, "guess the NVD product of applications the catalog does not know (findings are potentially_vulnerable)")
+	staleAfter := &staleFlag{}
+	fs.Var(staleAfter, "stale-after", staleAfterUsage)
 	fs.Parse(args)
 	if *input != "" && *device != "" {
 		return fmt.Errorf("resolve takes --input or --device, not both")
 	}
 	if *device != "" {
-		return resolveDevice(*device, *output, *dataDir, *mapper, *statesFilter, appvuln.Options{Unverified: *appUnverified})
+		return resolveDevice(*device, *output, *dataDir, *mapper, *statesFilter, staleAfter.value(), appvuln.Options{Unverified: *appUnverified})
 	}
 	if *input == "" {
 		return fmt.Errorf("resolve requires --input <file.openness> or --device <device.json>")
@@ -919,7 +1010,7 @@ func cmdResolve(args []string) error {
 	if err != nil {
 		return err
 	}
-	if err := writeResult(res, *output, *statesFilter); err != nil {
+	if err := writeResult(res, *output, *statesFilter, staleAfter.value()); err != nil {
 		return err
 	}
 	if err := res.RuleCoverage.EvaluationError(*input); err != nil {
@@ -929,7 +1020,7 @@ func cmdResolve(args []string) error {
 }
 
 // resolveDevice is resolve --device: a network device against the device catalog.
-func resolveDevice(path, output, dataDir, mapperFile, statesFilter string, opt appvuln.Options) error {
+func resolveDevice(path, output, dataDir, mapperFile, statesFilter string, staleAfter *time.Duration, opt appvuln.Options) error {
 	dev, err := appvuln.ReadDeviceFile(path)
 	if err != nil {
 		return err
@@ -939,12 +1030,17 @@ func resolveDevice(path, output, dataDir, mapperFile, statesFilter string, opt a
 		return err
 	}
 	engine.AppOptions = opt
-	return writeResult(engine.ResolveDevice(dev), output, statesFilter)
+	return writeResult(engine.ResolveDevice(dev), output, statesFilter, staleAfter)
 }
 
-// writeResult writes the findings, prints the summary and lists the findings of the
-// requested states.
-func writeResult(res *resolver.RunResult, output, statesFilter string) error {
+// writeResult marks old data, writes the findings, prints the summary and lists the
+// findings of the requested states. Old data is a warning and a note, never an error.
+func writeResult(res *resolver.RunResult, output, statesFilter string, staleAfter *time.Duration) error {
+	if old := resolver.MarkStale(&res.RuleCoverage, time.Now(), staleAfter); len(old) > 0 {
+		msg := "old data: " + strings.Join(old, ", ") + "; run `openness-resolver feed sync`"
+		res.Notes = append(res.Notes, msg)
+		fmt.Fprintln(os.Stderr, "warning: "+msg)
+	}
 	if err := report.WriteJSON(res, output); err != nil {
 		return err
 	}

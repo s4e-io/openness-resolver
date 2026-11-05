@@ -1,5 +1,5 @@
 {
-  "application_mapper": "test-devices-1",
+  "application_mapper": "2099.01.01",
   "asset": {
     "architecture": "",
     "collected_at": "",
@@ -102,7 +102,7 @@
         "sha256": "",
         "source": "app-mapper-file",
         "url": "",
-        "version": "test-devices-1"
+        "version": "2099.01.01"
       }
     ],
     "state": "covered"
