@@ -60,6 +60,8 @@ func Summary(res *resolver.RunResult, w io.Writer) {
 		fmt.Fprintf(w, "rule coverage: not supported (%s)\n", res.RuleCoverage.Reason)
 	case resolver.CoverageUnknown:
 		fmt.Fprintf(w, "rule coverage: unknown (%s)\n", res.RuleCoverage.Reason)
+	case resolver.CoveragePartial:
+		fmt.Fprintf(w, "rule coverage: partial, %d rules loaded for %s; %s\n", res.RuleCoverage.RulesForAsset, res.RuleCoverage.AssetRelease, res.RuleCoverage.Reason)
 	case resolver.CoverageMissing:
 		loaded := "none"
 		if len(res.RuleCoverage.LoadedReleases) > 0 {

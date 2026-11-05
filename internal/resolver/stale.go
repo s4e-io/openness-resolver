@@ -6,9 +6,9 @@ import (
 	"time"
 )
 
-// Default ages after which data counts as old, by source. Distribution feeds change
-// several times a day, MSRC once a month, the application mapper daily. PyPI records are
-// fetched per package on demand and never count as old.
+// Default ages after which data counts as old, by source. Distribution feeds and the PyPI
+// archive (osv-pypi) change several times a day, MSRC once a month, the application
+// mapper daily.
 const (
 	StaleAfterFeed   = 2 * 24 * time.Hour
 	StaleAfterMSRC   = 35 * 24 * time.Hour
@@ -18,8 +18,6 @@ const (
 // DefaultStaleAfter is how old the data of a source may be; 0 means it never counts as old.
 func DefaultStaleAfter(source string) time.Duration {
 	switch {
-	case source == "osv-pypi":
-		return 0
 	case strings.HasPrefix(source, "msrc-"):
 		return StaleAfterMSRC
 	case strings.HasPrefix(source, "app-mapper"):

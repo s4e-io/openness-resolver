@@ -92,7 +92,8 @@ openness-resolver explain --finding-id <finding_id from findings.json> --finding
 `feed sync --for` reads the host release (and the release of every container image in the
 evidence) from the file and downloads exactly those sources: for example
 `ubuntu-oval-usn-jammy` for Ubuntu 22.04, `debian-security-tracker` for Debian, the last 24
-MSRC months for Windows, and the OSV records of the PyPI packages the file lists. Add
+MSRC months for Windows, and `osv-pypi` (the OSV PyPI archive) when the file lists PyPI
+packages. `resolve` reads only the local data: it makes no network call. Add
 `--dry-run` to see what it would download without downloading.
 
 To try it without a host, use the synthetic evidence files in this repository:
@@ -137,7 +138,10 @@ Download advisory sources from their publishers, keep each download as an immuta
 snapshot under `<data-dir>/raw/`, parse it and publish normalized rules under
 `<data-dir>/normalized/`. Select sources with `--for`, `--source`, `--vendor` or `--all`
 (they combine). A source that fails is reported and the others continue; the exit code is 1
-when one failed.
+when one failed. A download answered with HTTP 408, 429 or 5xx, or cut by a network error,
+is tried again (up to 4 tries): after `Retry-After` when the server sends it (seconds or an
+HTTP date), else after 2, 4 and 8 seconds. A server that asks to wait more than 60 seconds
+(an hourly limit) is not waited for. Other statuses, such as 404, are not retried.
 
 The `app-mapper` source is the application and device mapper (format
 `openness-app-mapper/1`: the catalog by S4E plus the NVD data of its products). It is synced
@@ -164,7 +168,7 @@ openness-resolver feed sync --source app-mapper --data-dir data
 
 | Flag | Description | Example |
 |---|---|---|
-| `--for <file>` | Sync the sources the asset in this `.openness` file needs: its host release, the release of every container image in it, the OSV records of its PyPI packages, and `app-mapper` for Windows or applications. A network device file (`openness-device/1`) selects `app-mapper`. | `--for host.openness` |
+| `--for <file>` | Sync the sources the asset in this `.openness` file needs: its host release, the release of every container image in it, `osv-pypi` when it lists PyPI packages, and `app-mapper` for Windows or applications. A network device file (`openness-device/1`) selects `app-mapper`. | `--for host.openness` |
 | `--source <id>` | Sync one source: a registry id (see `feed list`) or a release id built from the patterns in [Data sources](#data-sources). An unknown id is an error. | `--source alpine-secdb-v3.20` |
 | `--vendor <name>` | Sync every enabled source of one vendor: `almalinux`, `alpine`, `amazon`, `debian`, `microsoft`, `openness` (the `app-mapper` source), `opensuse`, `rhel`, `rocky`, `ubuntu`. Any other value is an error. | `--vendor debian` |
 | `--all` | Sync every enabled registry source (all vendors, every supported release). Default `false`. | `--all` |
@@ -175,8 +179,8 @@ openness-resolver feed sync --source app-mapper --data-dir data
 |---|---|---|
 | `--data-dir <dir>` | Data directory for raw snapshots and normalized rules. Default `data`. | `--data-dir /var/lib/openness` |
 | `--months <n>` | MSRC: number of monthly CVRF documents, newest first, for `--vendor microsoft` and Windows evidence. Must be at least 1. Default `24`. A month not published yet (HTTP 404) is skipped. | `--months 6` |
-| `--pypi-only` | With `--for`: only query the PyPI packages of the evidence and download no advisory source (for example when the distribution rules came from `rules import`). Default `false`. | `--for host.openness --pypi-only` |
-| `--osv-url <url>` | OSV query endpoint for PyPI packages: the public API or a mirror with the same request and answer. Default: `OPENNESS_OSV_URL`, else `https://api.osv.dev/v1/query`. | `--osv-url https://osv.example.org/v1/query` |
+| `--pypi-only` | Deprecated. With `--for`: sync only `osv-pypi`, when the evidence lists PyPI packages. A failed download is a warning and exit `0`. `feed sync --for` selects `osv-pypi` itself. Default `false`. | `--for host.openness --pypi-only` |
+| `--osv-url <url>` | Deprecated and ignored (a warning on stderr). PyPI data is the `osv-pypi` archive, not per-package OSV queries. | `--osv-url https://osv.example.org/v1/query` |
 | `--allow-downgrade` | Let the `app-mapper` source install a mapper older than the synced one or the built-in one. Default `false`. | `--source app-mapper --allow-downgrade` |
 | `--mapper-url <url>` | Where the `app-mapper` source downloads `app-mapper.json.gz` from; `SHA256SUMS` must be in the same directory. Default: `https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz`. | `--mapper-url https://mirror.example.org/catalog/app-mapper.json.gz` |
 
@@ -219,7 +223,7 @@ openness-resolver feed validate --dry-run
 
 | Flag | Description | Example |
 |---|---|---|
-| `--for <file>` | Validate the advisory sources this evidence file needs (PyPI is not queried). | `--for host.openness` |
+| `--for <file>` | Validate the advisory sources this evidence file needs, `osv-pypi` included when it lists PyPI packages. | `--for host.openness` |
 | `--source <id>` | Validate one source (registry or release id). | `--source osv-rhel` |
 | `--vendor <name>` | Validate every enabled source of one vendor (same values as `feed sync`). | `--vendor alpine` |
 | `--all` | Validate every enabled source. Default `false`; no selection flag means the same. | `--all` |
@@ -347,7 +351,7 @@ openness-resolver resolve --device switch.json --data-dir data --output switch-f
 | Flag | Description | Example |
 |---|---|---|
 | `--output <file>` | Findings JSON file to write; missing directories are created. Default `findings.json`. | `--output out/host.json` |
-| `--stale-after <age>` | Age after which a source's data counts as old, for every source: a duration (`36h`) or days (`10d`); `0` turns the check off. Default: 2 days for distribution feeds, 35 days for `msrc-*`, 7 days for the application mapper, never for PyPI. | `--stale-after 3d` |
+| `--stale-after <age>` | Age after which a source's data counts as old, for every source: a duration (`36h`) or days (`10d`); `0` turns the check off. Default: 2 days for distribution feeds and `osv-pypi`, 35 days for `msrc-*`, 7 days for the application mapper. | `--stale-after 3d` |
 | `--states <list>` | Comma-separated finding states to list after the summary (finding id, state, CVE, package, versions). A state no finding has lists nothing. Default: no listing. | `--states vulnerable,fixed` |
 
 #### Matching
@@ -446,20 +450,14 @@ openness-resolver version
 
 ### Environment variables
 
-Both are optional; the resolver reads no other variable of its own.
-
-| Variable | Description | Example |
-|---|---|---|
-| `OPENNESS_OSV_URL` | Default for `feed sync --osv-url`: an OSV query endpoint mirror. `--osv-url` wins. | `OPENNESS_OSV_URL=https://osv.example.org/v1/query` |
-| `OPENNESS_OSV_HEADERS` | Extra HTTP headers for the OSV queries, one `Name: value` per line, kept off the command line. Malformed lines are skipped. | `OPENNESS_OSV_HEADERS='X-Api-Key: ...'` |
-
-The standard `HTTPS_PROXY`, `HTTP_PROXY` and `NO_PROXY` variables apply to every download.
+The resolver reads no environment variable of its own (`OPENNESS_OSV_URL` and
+`OPENNESS_OSV_HEADERS` went with the per-package OSV queries). The standard `HTTPS_PROXY`, `HTTP_PROXY` and `NO_PROXY` variables apply to every download.
 
 ### Exit codes
 
 | Code | Meaning |
 |---|---|
-| `0` | Success. For `resolve`: the rules covered the asset. |
+| `0` | Success. For `resolve`: the rules covered the asset, or only the PyPI data is missing (`rule_coverage.state` `partial`, gap kind `not_synced`, and a note). |
 | `1` | An error (`error: ...` on stderr), a failed source in `feed sync`, or `resolve` without rule coverage for the asset (the findings are still written). |
 | `2` | Usage error: unknown command or flag, or a flag value that does not parse (for example `--months two`). |
 
@@ -482,7 +480,7 @@ come from the asset (`--for`) or from `--source`.
 | Alpine | `alpine-secdb-<branch>`, `alpine-secdb-<branch>-community` | `https://secdb.alpinelinux.org/<branch>/main.json`, `https://secdb.alpinelinux.org/<branch>/community.json` | secdb JSON | v3.14 to v3.22 (hosts and container images); any branch via `--for` | When packages get security fixes | No license stated by the publisher; [OSV.dev](https://google.github.io/osv.dev/data/) lists Alpine SecDB as CC BY-SA 4.0 |
 | Amazon | `amazon-updateinfo-2`, `amazon-updateinfo-2023` | `https://cdn.amazonlinux.com/2/core/latest/x86_64/mirror.list`, `https://cdn.amazonlinux.com/al2023/core/mirrors/latest/x86_64/mirror.list`, then the repository's `updateinfo.xml.gz` | yum updateinfo XML (ALAS) | Amazon Linux 2, 2023 | With each ALAS advisory | [AWS Site Terms](https://aws.amazon.com/terms/) |
 | Microsoft | `msrc-cvrf-<YYYY-Mon>` | `https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/<YYYY-Mon>` | CVRF JSON, one document per month | Windows 10, 11, Server 2008 to 2025; the last `--months` (default 24) | Monthly (Patch Tuesday), plus revisions | [Microsoft Terms of Use](https://www.microsoft.com/en-us/legal/terms-of-use) |
-| OSV (PyPI) | `osv-pypi` | `https://api.osv.dev/v1/query` (or `--osv-url`) | OSV JSON, one query per package | PyPI packages named in the evidence | Continuously | Per record; the PyPA advisory database and GitHub advisories are CC BY 4.0 ([OSV.dev data sources](https://google.github.io/osv.dev/data/)) |
+| OSV (PyPI) | `osv-pypi` | `https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip` | OSV JSON (zip), one advisory per file, about 38 MB; rules in `normalized/pypi/pypi` | Every PyPI package; selected by `--for` when the evidence lists PyPI packages | Continuously (OSV export) | Per record; the PyPA advisory database and GitHub advisories are CC BY 4.0 ([OSV.dev data sources](https://google.github.io/osv.dev/data/)) |
 | S4E catalog plus NVD (application and device mapper) | `app-mapper` | `https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz` (and `SHA256SUMS` next to it) | `openness-app-mapper/1` JSON (gzip) | Third-party Windows applications and network devices | Daily | The catalog by S4E; the vulnerability data is derived from the NVD, under the NVD's terms. This product uses data from the NVD API but is not endorsed or certified by the NVD. |
 | NVD (built in, not synced) | none | Bundled in the binary (`internal/appvuln/data`) | JSON (gzip) | Third-party Windows applications and network devices, when no `app-mapper` was synced | With each release of this tool | NVD data. This product uses data from the NVD API but is not endorsed or certified by the NVD. |
 
@@ -522,11 +520,14 @@ OPENNESS_NIGHTLY=1 go test ./cmd/openness-resolver -run TestNightly -v -timeout 
   synthetic device files of `testdata/devices` with the built-in catalog's device entries
   and a small vulnerability fixture. CI runs them on Linux and on Windows with the same
   golden files.
+- **Local PyPI tests** (`pypi_local_test.go`): `resolve` matches Python packages against an
+  imported `osv-pypi` archive behind a proxy that fails the test on any request, and without
+  the archive gives a partial result with exit 0.
 - **Flag tests** (`cli_flags_test.go`): every command with every flag: valid values,
   defaults and invalid values.
 - **Independence tests** (`independence_test.go`): every URL in the code is a publisher's
-  (on github.com only release downloads of `s4e-io/openness-catalog`), and
-  `OPENNESS_OSV_URL` and `OPENNESS_OSV_HEADERS` are optional.
+  (on github.com only release downloads of `s4e-io/openness-catalog`), and the code reads
+  no environment variable of its own.
 - **Doc drift guard** (`readme_test.go`): fails when a command or flag is missing from this
   README.
 - **Nightly** (`.github/workflows/nightly.yml`, 02:00 UTC and on demand, Linux and Windows,
