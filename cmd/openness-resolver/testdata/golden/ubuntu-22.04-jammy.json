@@ -307,8 +307,8 @@
         "release": "",
         "rule_id": "osv:pypi:psutil:CVE-2019-18874:GHSA-qfc5-mcwq-26q8",
         "source": "osv",
-        "source_snapshot": "pypi-<unix-time>",
-        "source_url": "<osv-mirror>/v1/query package=psutil",
+        "source_snapshot": "local:pypi-all.zip",
+        "source_url": "https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip",
         "vendor_status": "released"
       },
       "rule_ids": [
@@ -446,13 +446,13 @@
     "sources": [
       {
         "age_days": "<age>",
-        "downloaded_at": "<sync-time>",
-        "parser": "1.0.0",
+        "downloaded_at": "2026-10-30T00:00:00Z",
+        "parser": "osv-pypi/2.0.0",
         "release": "pypi/pypi",
-        "sha256": "",
+        "sha256": "010383ed7465835be8050e8ea38d60946514aaa36208ab53dac05e310b733baa",
         "source": "osv-pypi",
         "stale": false,
-        "url": "<osv-mirror>/v1/query package=psutil"
+        "url": "https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip"
       },
       {
         "age_days": "<age>",

@@ -20,14 +20,14 @@ func TestMarkStale(t *testing.T) {
 		{Source: "app-mapper-builtin"},
 	}}
 	old := MarkStale(&cov, now, nil)
-	if got := strings.Join(old, ", "); got != "ubuntu-oval-usn-jammy (3 days), msrc-cvrf-2026-Sep (40 days), app-mapper (8 days)" {
+	if got := strings.Join(old, ", "); got != "ubuntu-oval-usn-jammy (3 days), msrc-cvrf-2026-Sep (40 days), app-mapper (8 days), osv-pypi (400 days)" {
 		t.Errorf("old = %s", got)
 	}
 	if s := cov.Sources[0]; *s.AgeDays != 3 || !*s.Stale {
 		t.Errorf("jammy %+v", s)
 	}
-	if s := cov.Sources[6]; *s.AgeDays != 400 || *s.Stale {
-		t.Errorf("pypi must never be old: %+v", s)
+	if s := cov.Sources[6]; *s.AgeDays != 400 || !*s.Stale || DefaultStaleAfter("osv-pypi") != 2*24*time.Hour {
+		t.Errorf("osv-pypi is old after 2 days like the distribution feeds: %+v", s)
 	}
 	if s := cov.Sources[7]; s.AgeDays != nil || s.Stale != nil {
 		t.Errorf("a source without downloaded_at has no age: %+v", s)
@@ -38,6 +38,6 @@ func TestMarkStale(t *testing.T) {
 	}
 	day := 24 * time.Hour
 	if old := MarkStale(&cov, now, &day); len(old) != 6 {
-		t.Errorf("--stale-after 1d marks every source older than a day, pypi too: %v", old)
+		t.Errorf("--stale-after 1d marks every source older than a day: %v", old)
 	}
 }

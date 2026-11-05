@@ -102,7 +102,7 @@ func usage() {
 	fmt.Fprint(os.Stderr, `usage: openness-resolver <command> [flags]
 
 commands:
-  feed sync --for <file.openness|device.json>|--source <id>|--vendor <v>|--all [--data-dir data] [--months N] [--pypi-only] [--osv-url <url>] [--mapper-url <url>] [--dry-run]
+  feed sync --for <file.openness|device.json>|--source <id>|--vendor <v>|--all [--data-dir data] [--months N] [--mapper-url <url>] [--dry-run]
   feed list [--data-dir data]
   feed validate [--data-dir data] [--mapper-url <url>] [--dry-run]   download every enabled source (or the selected ones) and parse it without publishing
   rules import --source <id> --file <raw feed file> [--source-url <url>] [--fetched-at <rfc3339>] [--data-dir data]
@@ -160,11 +160,13 @@ func cmdFeed(args []string) error {
 	}
 	if syncing {
 		fs.BoolVar(allowDowngrade, "allow-downgrade", false, "let the app-mapper source replace the mapper with an older version, or install one older than the built-in mapper")
-		fs.BoolVar(pypiOnly, "pypi-only", false, "with --for: only query the PyPI packages, download no advisory source (the advisory rules come from rules import)")
-		fs.StringVar(osvURL, "osv-url", "", "OSV query endpoint for PyPI packages, a mirror of api.osv.dev/v1/query (default: OPENNESS_OSV_URL, else api.osv.dev); OPENNESS_OSV_HEADERS adds request headers, one \"Name: value\" per line")
+		fs.BoolVar(pypiOnly, "pypi-only", false, "deprecated: with --for, sync only the osv-pypi source when the evidence names PyPI packages; a failure is a warning, not an error")
+		fs.StringVar(osvURL, "osv-url", "", "deprecated and ignored: PyPI data comes from the osv-pypi archive, not from per-package OSV queries")
 	}
 	fs.Parse(rest)
-	setOSVEndpoint(*osvURL)
+	if *osvURL != "" {
+		fmt.Fprintln(os.Stderr, "warning: --osv-url is deprecated and ignored; PyPI data comes from the osv-pypi source")
+	}
 	if *months < 1 {
 		return fmt.Errorf("--months must be at least 1, got %d", *months)
 	}
@@ -217,7 +219,10 @@ func cmdFeed(args []string) error {
 		if *pypiOnly && *forEvidence == "" {
 			return fmt.Errorf("--pypi-only needs --for")
 		}
-		if *forEvidence != "" && !*pypiOnly {
+		if *pypiOnly {
+			return syncPyPIOnly(*forEvidence, dl, store, *dryRun)
+		}
+		if *forEvidence != "" {
 			srcs, notes, err := sourcesForEvidence(*forEvidence, *months)
 			if err != nil {
 				return err
@@ -243,37 +248,13 @@ func cmdFeed(args []string) error {
 				selected[i].URL = *mapperURL
 			}
 		}
-		isDevice := *forEvidence != "" && appvuln.IsDeviceFile(*forEvidence)
 		if *dryRun {
-			evForPyPI := *forEvidence
-			if isDevice {
-				evForPyPI = ""
-			}
-			return printDryRun(dedupeSources(selected), evForPyPI, validateOnly)
+			return printDryRun(dedupeSources(selected))
 		}
-		var syncErr error
-		if len(selected) > 0 {
-			syncErr = syncSources(dedupeSources(selected), dl, store, validateOnly)
-		}
-		pypiRan := false
-		if *forEvidence != "" && !validateOnly && !isDevice {
-			var pypiErr error
-			pypiRan, pypiErr = syncPyPIEvidence(*dataDir, *forEvidence)
-			if pypiErr != nil {
-				fmt.Printf("    FAILED: %v\n", pypiErr)
-				if syncErr == nil {
-					syncErr = pypiErr
-				}
-			}
-		}
-		if *pypiOnly && !pypiRan {
-			fmt.Println("no PyPI packages in the evidence")
-			return syncErr
-		}
-		if len(selected) == 0 && !pypiRan && syncErr == nil {
+		if len(selected) == 0 {
 			return fmt.Errorf("no sources selected (use --for, --source, --vendor or --all; see `feed list`)")
 		}
-		return syncErr
+		return syncSources(dedupeSources(selected), dl, store, validateOnly)
 	default:
 		return fmt.Errorf("unknown feed subcommand %q", sub)
 	}
@@ -306,27 +287,53 @@ func knownVendor(v string) bool {
 }
 
 // printDryRun lists what `feed sync` or `feed validate` would download, one
-// "<source id> <url>" line per source, and the OSV PyPI query when the evidence
-// names PyPI packages. Nothing is downloaded or written.
-func printDryRun(selected []rules.AdvisorySource, forEvidence string, validateOnly bool) error {
+// "<source id> <url>" line per source. Nothing is downloaded or written.
+func printDryRun(selected []rules.AdvisorySource) error {
 	for _, s := range selected {
 		fmt.Printf("source %s %s\n", s.ID, s.URL)
 	}
-	pypi := 0
-	if forEvidence != "" && !validateOnly {
-		lr, err := evidence.Load(forEvidence)
-		if err != nil {
-			return err
-		}
-		pypi = len(python.PyPINames(python.BuildInventory(lr.LanguageDepRecords())))
-		if pypi > 0 {
-			fmt.Printf("source osv-pypi %s (%d packages)\n", osv.Endpoint, pypi)
-		}
-	}
-	if len(selected) == 0 && pypi == 0 {
+	if len(selected) == 0 {
 		return fmt.Errorf("no sources selected (use --for, --source, --vendor or --all; see `feed list`)")
 	}
 	return nil
+}
+
+// syncPyPIOnly is the deprecated `feed sync --for <evidence> --pypi-only`: the osv-pypi
+// source alone, when the evidence names PyPI packages. A failed download is a warning and
+// exit 0; resolve then reports the PyPI data as not synced and resolves the rest.
+func syncPyPIOnly(path string, dl *feed.Downloader, store *rules.Store, dryRun bool) error {
+	if path == "" {
+		return fmt.Errorf("--pypi-only needs --for")
+	}
+	fmt.Fprintln(os.Stderr, "warning: --pypi-only is deprecated; feed sync --for selects osv-pypi itself")
+	n, err := pypiPackages(path)
+	if err != nil {
+		return err
+	}
+	if n == 0 {
+		fmt.Println("no PyPI packages in the evidence")
+		return nil
+	}
+	src, _ := rules.SourceByID(osv.SourceID)
+	if dryRun {
+		return printDryRun([]rules.AdvisorySource{src})
+	}
+	if err := syncSources([]rules.AdvisorySource{src}, dl, store, false); err != nil {
+		fmt.Printf("    WARNING: PyPI data could not be synced, Python findings will be missing: %v\n", err)
+	}
+	return nil
+}
+
+// pypiPackages counts the PyPI distributions an evidence file names (0 for a device file).
+func pypiPackages(path string) (int, error) {
+	if appvuln.IsDeviceFile(path) {
+		return 0, nil
+	}
+	lr, err := evidence.Load(path)
+	if err != nil {
+		return 0, err
+	}
+	return len(python.PyPINames(python.BuildInventory(lr.LanguageDepRecords()))), nil
 }
 
 // sourcesForEvidence derives the advisory sources one asset needs from its own
@@ -368,6 +375,11 @@ func sourcesForEvidence(path string, months int) ([]rules.AdvisorySource, []stri
 		}
 	}
 
+	if n := len(python.PyPINames(python.BuildInventory(lr.LanguageDepRecords()))); n > 0 {
+		pypiSrc, _ := rules.SourceByID(osv.SourceID)
+		out = append(out, pypiSrc)
+		notes = append(notes, fmt.Sprintf("host: %d PyPI packages -> osv-pypi", n))
+	}
 	if plat.DistributionID != "windows" && len(lr.Doc.Applications) > 0 {
 		out = append(out, mapperSrc)
 		notes = append(notes, fmt.Sprintf("host: %d applications -> app-mapper", len(lr.Doc.Applications)))
@@ -387,41 +399,6 @@ func sourcesForEvidence(path string, months int) ([]rules.AdvisorySource, []stri
 		notes = append(notes, fmt.Sprintf("image %s %s %s", digest, g.Distro, g.Branch))
 	}
 	return out, notes, nil
-}
-
-// syncPyPIEvidence downloads OSV rules for PyPI names in the evidence file
-// and merges them into the shared pypi/pypi rule file. A second asset does
-// not erase the first asset's packages. resolve never calls this.
-// The bool is true when the file named at least one PyPI distribution.
-func syncPyPIEvidence(dataDir, path string) (bool, error) {
-	lr, err := evidence.Load(path)
-	if err != nil {
-		return false, err
-	}
-	names := python.PyPINames(python.BuildInventory(lr.LanguageDepRecords()))
-	if len(names) == 0 {
-		return false, nil
-	}
-	fmt.Printf("==> pypi (%d packages named in evidence)\n", len(names))
-	meta, fresh, err := osv.SyncPackages(dataDir, names)
-	if err != nil {
-		return true, fmt.Errorf("osv pypi sync: %w", err)
-	}
-	store := rules.NewStore(dataDir)
-	existing, err := store.LoadRules("pypi", "pypi")
-	if err != nil {
-		return true, err
-	}
-	oldMeta, err := store.LoadMetadata("pypi", "pypi")
-	if err != nil {
-		return true, err
-	}
-	merged, synced := rules.MergePyPI(existing, oldMeta.PackageNames, fresh, names)
-	meta.PackageNames = synced
-	if err := store.SaveRules("pypi", "pypi", merged, meta); err != nil {
-		return true, err
-	}
-	return true, nil
 }
 
 func dedupeSources(srcs []rules.AdvisorySource) []rules.AdvisorySource {
@@ -518,6 +495,16 @@ func syncSource(src rules.AdvisorySource, dl *feed.Downloader, store *rules.Stor
 		}
 		printFeedMetrics(res.Metrics, meta)
 		fmt.Printf("    releases: %v\n", res.Releases)
+	case "osv-pypi":
+		res, meta, err := osv.Sync(src, dl, store, validateOnly)
+		if err != nil {
+			fmt.Printf("    FAILED: %v\n", err)
+			if *firstErr == nil {
+				*firstErr = err
+			}
+			return
+		}
+		printFeedMetrics(res.Metrics, meta)
 	case "osv-distro":
 		res, meta, err := osvdistro.Sync(src, dl, store, wantedReleases(src.Vendor), validateOnly)
 		if err != nil {
@@ -585,7 +572,7 @@ func syncSource(src rules.AdvisorySource, dl *feed.Downloader, store *rules.Stor
 // mapperAllowDowngrade lets it install an older mapper (feed sync --allow-downgrade).
 var mapperStrict, mapperAllowDowngrade bool
 
-const staleAfterUsage = "age after which a source's data counts as old, for every source (a duration such as 36h or 10d; 0 turns the check off); default: 2d for distribution feeds, 35d for MSRC, 7d for app-mapper, never for PyPI"
+const staleAfterUsage = "age after which a source's data counts as old, for every source (a duration such as 36h or 10d; 0 turns the check off); default: 2d for distribution feeds and osv-pypi, 35d for MSRC, 7d for app-mapper"
 
 // staleFlag is --stale-after: unset keeps the per-source defaults.
 type staleFlag struct {
@@ -819,6 +806,16 @@ func cmdRules(args []string) error {
 				return err
 			}
 			printFeedMetrics(res.Metrics, meta)
+		case "osv-pypi":
+			meta.ParserVersion = osv.ParserVersion
+			res, err := osv.ParseFile(*file, meta)
+			if err != nil {
+				return err
+			}
+			if err := osv.Publish(store, res, meta); err != nil {
+				return err
+			}
+			printFeedMetrics(res.Metrics, meta)
 		case "osv-distro":
 			d, ok := osvdistro.Distros[src.Vendor]
 			if !ok {
@@ -930,18 +927,6 @@ func importMeta(src rules.AdvisorySource, file, sourceURL, fetchedAt string) (ru
 		meta.DownloadedAt = t.UTC()
 	}
 	return meta, nil
-}
-
-// setOSVEndpoint points PyPI queries at flag, else OPENNESS_OSV_URL, else api.osv.dev, and
-// adds the OPENNESS_OSV_HEADERS headers.
-func setOSVEndpoint(flag string) {
-	if flag == "" {
-		flag = os.Getenv("OPENNESS_OSV_URL")
-	}
-	if flag != "" {
-		osv.Endpoint = flag
-	}
-	osv.Headers = osv.ParseHeaders(os.Getenv("OPENNESS_OSV_HEADERS"))
 }
 
 // --- resolve ---

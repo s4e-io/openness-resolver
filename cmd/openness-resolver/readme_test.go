@@ -87,12 +87,6 @@ func TestReadmeDocumentsEveryFlag(t *testing.T) {
 	if _, ok := sections["Data sources"]; !ok {
 		t.Error(`README lost "## Data sources" (other READMEs link to #data-sources)`)
 	}
-	env := sections["Environment variables"]
-	for _, v := range []string{"OPENNESS_OSV_URL", "OPENNESS_OSV_HEADERS"} {
-		if !strings.Contains(env, v) {
-			t.Errorf("README Environment variables section lacks %s", v)
-		}
-	}
 }
 
 // Flag help names value types only: a backtick in a usage string makes the flag

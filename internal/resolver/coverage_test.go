@@ -104,13 +104,15 @@ func TestRuleCoveragePyPIWithoutRulesIsNotClean(t *testing.T) {
 		})
 	res := resolve(t, doc, tf.UbuntuRule("CVE-C1", "jammy", "openssl", "openssl", "released", "3.0.2-0ubuntu1.15"))
 	cov := res.RuleCoverage
-	if cov.State != CoverageMissing {
+	// Without osv-pypi the result is partial: the host is evaluated, PyPI is named as not
+	// synced in a gap and a note, and resolve does not fail.
+	if cov.State != CoveragePartial {
 		t.Fatalf("state=%s", cov.State)
 	}
 	if cov.AssetRelease != "ubuntu/jammy" || cov.RulesForAsset == 0 {
 		t.Fatalf("host coverage must stay: %+v", cov)
 	}
-	if len(cov.Gaps) != 1 || cov.Gaps[0].Release != "pypi" || cov.Gaps[0].Kind != GapMissingRules {
+	if len(cov.Gaps) != 1 || cov.Gaps[0].Release != "pypi" || cov.Gaps[0].Kind != GapNotSynced {
 		t.Fatalf("gaps=%+v", cov.Gaps)
 	}
 	for _, f := range res.Findings {
@@ -118,8 +120,23 @@ func TestRuleCoveragePyPIWithoutRulesIsNotClean(t *testing.T) {
 			t.Fatalf("unevaluated pypi distribution produced a finding: %+v", f)
 		}
 	}
-	if err := cov.EvaluationError("host.openness"); err == nil || !strings.Contains(err.Error(), "feed sync --for") {
-		t.Fatalf("missing pypi rules should name feed sync: %v", err)
+	if err := cov.EvaluationError("host.openness"); err != nil {
+		t.Fatalf("missing PyPI data alone must not fail resolve: %v", err)
+	}
+	if !strings.Contains(strings.Join(res.Notes, "\n"), PyPINotSyncedNote) {
+		t.Fatalf("notes %v", res.Notes)
+	}
+}
+
+// The osv-pypi archive covers every package: its snapshot names none.
+func TestPyPIFullFeedCoversEveryPackage(t *testing.T) {
+	inv := &python.Inventory{Distributions: []python.Distribution{{
+		ResolverEcosystem: python.EcosystemPyPI,
+		NameNormalized:    "never-heard-of",
+	}}}
+	rs := &rules.RuleSet{Snapshots: []rules.FeedSourceMetadata{{SourceName: "osv-pypi", SHA256: "ab"}}}
+	if gaps := pypiCoverageGaps(rs, inv); len(gaps) != 0 {
+		t.Fatalf("full feed: %+v", gaps)
 	}
 }
 

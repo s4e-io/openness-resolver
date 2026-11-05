@@ -63,5 +63,5 @@ parsers:
   are published under CC BY-SA 4.0 (https://github.com/canonical/ubuntu-security-notices).
 - Microsoft Security Update Guide CVRF documents (internal/resolver/testdata/msrc):
   Microsoft Corporation, https://msrc.microsoft.com/update-guide , Microsoft Terms of Use.
-- OSV records (testdata/raw/osv): https://osv.dev ; GitHub Security Advisories and
+- OSV records (testdata/raw/osv, testdata/feeds/osv/pypi): https://osv.dev ; GitHub Security Advisories and
   the PyPA advisory database, CC BY 4.0.

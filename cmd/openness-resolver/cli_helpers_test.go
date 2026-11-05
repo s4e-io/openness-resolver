@@ -6,13 +6,9 @@ package main
 
 import (
 	"bytes"
-	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
-	"io"
-	"net/http"
-	"net/http/httptest"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -124,39 +120,3 @@ func fixture(rel string) string {
 func evidencePath(name string) string {
 	return fixture("testdata/evidence/synthetic/" + name + ".openness")
 }
-
-// osvMirror is a local stand-in for api.osv.dev/v1/query. It answers PyPI
-// package queries from testdata/raw/osv and records the request headers.
-type osvMirror struct {
-	*httptest.Server
-	headers []http.Header
-}
-
-func newOSVMirror(t *testing.T) *osvMirror {
-	t.Helper()
-	m := &osvMirror{}
-	m.Server = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		m.headers = append(m.headers, r.Header.Clone())
-		var q struct {
-			Package struct {
-				Ecosystem string `json:"ecosystem"`
-				Name      string `json:"name"`
-			} `json:"package"`
-		}
-		body, _ := io.ReadAll(r.Body)
-		if r.Method != http.MethodPost || json.Unmarshal(body, &q) != nil || q.Package.Ecosystem != "PyPI" {
-			http.Error(w, "bad query", http.StatusBadRequest)
-			return
-		}
-		data, err := os.ReadFile(fixture("testdata/raw/osv/pypi-1786369880/" + q.Package.Name + ".json"))
-		if err != nil {
-			data = []byte("{}")
-		}
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(data)
-	}))
-	t.Cleanup(m.Close)
-	return m
-}
-
-func (m *osvMirror) queryURL() string { return m.URL + "/v1/query" }
