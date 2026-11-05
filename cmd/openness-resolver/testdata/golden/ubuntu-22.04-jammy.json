@@ -447,7 +447,7 @@
       {
         "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
-        "parser": "osv-pypi/2.0.0",
+        "parser": "1.0.0",
         "release": "pypi/pypi",
         "sha256": "010383ed7465835be8050e8ea38d60946514aaa36208ab53dac05e310b733baa",
         "source": "osv-pypi",

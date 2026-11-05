@@ -18,8 +18,10 @@ import (
 	"github.com/s4e-io/openness-resolver/internal/version/pep440"
 )
 
-// ParserVersion is recorded in the feed metadata.
-const ParserVersion = "osv-pypi/2.0.0"
+// ParserVersion is recorded in the feed metadata. It stays 1.0.0: the rule shape is the
+// one the per-package queries produced, and `rules format` hashes the parser versions, so
+// a change would make every rules archive built for this format unusable.
+const ParserVersion = "1.0.0"
 
 // SourceID is the registry id of the PyPI feed.
 const SourceID = "osv-pypi"
