@@ -9752,5 +9752,188 @@
    "zoiper:zoiper"
   ],
   "verified": false
+ },
+ {
+  "id": "cisco.ios-xe",
+  "name": "Cisco IOS XE",
+  "kind": "device",
+  "match": {
+   "sys_object_id": "^\\.?1\\.3\\.6\\.1\\.4\\.1\\.9\\.",
+   "sys_descr": "Cisco IOS.*Version (1[6-9]|[2-9][0-9])\\.[0-9]+\\.[0-9]+"
+  },
+  "version": {
+   "from": "sys_descr",
+   "regex": "Version ([0-9]+\\.[0-9]+\\.[0-9]+[a-z]?)",
+   "parts": 3
+  },
+  "cpe": [
+   "cisco:ios_xe"
+  ],
+  "update": "Upgrade IOS XE to a fixed release (see the Cisco security advisory).",
+  "verified": false
+ },
+ {
+  "id": "cisco.ios",
+  "name": "Cisco IOS",
+  "kind": "device",
+  "match": {
+   "sys_object_id": "^\\.?1\\.3\\.6\\.1\\.4\\.1\\.9\\.",
+   "sys_descr": "Cisco IOS Software.*Version [0-9]+\\.[0-9]+\\([0-9]+"
+  },
+  "version": {
+   "from": "sys_descr",
+   "regex": "Version ([0-9]+\\.[0-9]+\\([0-9]+[a-z]?\\)[A-Za-z]*[0-9]*[a-z]?)"
+  },
+  "cpe": [
+   "cisco:ios"
+  ],
+  "update": "Upgrade IOS to a fixed release (see the Cisco security advisory).",
+  "verified": false
+ },
+ {
+  "id": "cisco.nx-os",
+  "name": "Cisco NX-OS",
+  "kind": "device",
+  "match": {
+   "sys_object_id": "^\\.?1\\.3\\.6\\.1\\.4\\.1\\.9\\.",
+   "sys_descr": "Cisco NX-OS"
+  },
+  "version": {
+   "from": "sys_descr",
+   "regex": "Version ([0-9]+\\.[0-9]+\\([0-9]+[a-z]?\\)(?:[A-Z][0-9]+\\([0-9]+[a-z]?\\))?)"
+  },
+  "cpe": [
+   "cisco:nx-os"
+  ],
+  "update": "Upgrade NX-OS to a fixed release (see the Cisco security advisory).",
+  "verified": false
+ },
+ {
+  "id": "cisco.asa",
+  "name": "Cisco ASA Software",
+  "kind": "device",
+  "match": {
+   "sys_object_id": "^\\.?1\\.3\\.6\\.1\\.4\\.1\\.9\\.",
+   "sys_descr": "Cisco Adaptive Security Appliance"
+  },
+  "version": {
+   "from": "sys_descr",
+   "regex": "Adaptive Security Appliance Version ([0-9]+\\.[0-9]+\\([0-9]+\\)[0-9]*)"
+  },
+  "cpe": [
+   "cisco:adaptive_security_appliance_software"
+  ],
+  "update": "Upgrade the ASA software to a fixed release (see the Cisco security advisory).",
+  "verified": false
+ },
+ {
+  "id": "fortinet.fortios",
+  "name": "Fortinet FortiOS",
+  "kind": "device",
+  "match": {
+   "sys_object_id": "^\\.?1\\.3\\.6\\.1\\.4\\.1\\.12356\\.101\\."
+  },
+  "version": {
+   "from": "software_rev",
+   "regex": "v([0-9]+\\.[0-9]+\\.[0-9]+)",
+   "parts": 3
+  },
+  "cpe": [
+   "fortinet:fortios"
+  ],
+  "update": "Upgrade FortiOS to a fixed release (see the FortiGuard PSIRT advisory).",
+  "verified": false
+ },
+ {
+  "id": "juniper.junos",
+  "name": "Juniper Junos OS",
+  "kind": "device",
+  "match": {
+   "sys_object_id": "^\\.?1\\.3\\.6\\.1\\.4\\.1\\.2636\\.",
+   "sys_descr": "\\bJUNOS\\b"
+  },
+  "version": {
+   "from": "sys_descr",
+   "regex": "JUNOS ([0-9]+\\.[0-9]+[A-Z][0-9]+(?:-S[0-9]+(?:\\.[0-9]+)?)?)"
+  },
+  "cpe": [
+   "juniper:junos"
+  ],
+  "update": "Upgrade Junos OS to a fixed release (see the Juniper security advisory).",
+  "verified": false
+ },
+ {
+  "id": "mikrotik.routeros",
+  "name": "MikroTik RouterOS",
+  "kind": "device",
+  "match": {
+   "sys_object_id": "^\\.?1\\.3\\.6\\.1\\.4\\.1\\.14988\\.",
+   "sys_descr": "^RouterOS\\b"
+  },
+  "version": {
+   "from": "software_rev",
+   "regex": "^([0-9]+\\.[0-9]+(?:\\.[0-9]+)?)"
+  },
+  "cpe": [
+   "mikrotik:routeros"
+  ],
+  "update": "Upgrade RouterOS (System > Packages > Check For Updates).",
+  "verified": false
+ },
+ {
+  "id": "paloaltonetworks.pan-os",
+  "name": "Palo Alto Networks PAN-OS",
+  "kind": "device",
+  "match": {
+   "sys_object_id": "^\\.?1\\.3\\.6\\.1\\.4\\.1\\.25461\\.",
+   "sys_descr": "Palo Alto Networks"
+  },
+  "version": {
+   "from": "software_rev",
+   "regex": "^([0-9]+\\.[0-9]+\\.[0-9]+(?:-h[0-9]+)?)"
+  },
+  "cpe": [
+   "paloaltonetworks:pan-os"
+  ],
+  "update": "Upgrade PAN-OS to a fixed release (see the Palo Alto Networks security advisory).",
+  "verified": false
+ },
+ {
+  "id": "aruba.aos-cx",
+  "name": "HPE Aruba Networking AOS-CX",
+  "kind": "device",
+  "match": {
+   "sys_object_id": "^\\.?1\\.3\\.6\\.1\\.4\\.1\\.47196\\.",
+   "sys_descr": "\\bAruba\\b"
+  },
+  "version": {
+   "from": "sys_descr",
+   "regex": "\\b[A-Z]{2}\\.([0-9]{2}\\.[0-9]{2}\\.[0-9]{4})\\b"
+  },
+  "cpe": [
+   "arubanetworks:arubaos-cx",
+   "hpe:arubaos-cx"
+  ],
+  "update": "Upgrade AOS-CX to a fixed release (see the HPE Aruba Networking security advisory).",
+  "verified": false
+ },
+ {
+  "id": "ubiquiti.edgeos",
+  "name": "Ubiquiti EdgeOS",
+  "kind": "device",
+  "match": {
+   "sys_object_id": "^\\.?1\\.3\\.6\\.1\\.4\\.1\\.(41112|30803)\\.",
+   "sys_descr": "\\bEdgeOS\\b"
+  },
+  "version": {
+   "from": "sys_descr",
+   "regex": "EdgeOS v([0-9]+\\.[0-9]+\\.[0-9]+)",
+   "parts": 3
+  },
+  "cpe": [
+   "ui:edgeos"
+  ],
+  "update": "Upgrade EdgeOS to a fixed firmware release.",
+  "verified": false
  }
 ]

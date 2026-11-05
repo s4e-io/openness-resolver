@@ -1,0 +1,10 @@
+{
+  "format": "openness-device/1",
+  "sys_descr": "Juniper Networks, Inc. ex4300-48p Ethernet Switch, kernel JUNOS 21.4R3-S5.4, Build date: 2023-09-14 07:41:41 UTC Copyright (c) 1996-2023 Juniper Networks, Inc.",
+  "sys_object_id": ".1.3.6.1.4.1.2636.1.1.1.2.132",
+  "model": "EX4300-48P",
+  "software_rev": "21.4R3-S5.4",
+  "firmware_rev": "",
+  "hardware_rev": "",
+  "serial_hint": ""
+}

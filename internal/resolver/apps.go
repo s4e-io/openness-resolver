@@ -36,42 +36,12 @@ func (e *Engine) resolveApplications(res *RunResult, recs []evidence.Record) {
 	if res.Applications == nil {
 		res.Applications = []appvuln.Application{}
 	}
+	if e.AppSource != nil {
+		res.RuleCoverage.Sources = append(res.RuleCoverage.Sources, *e.AppSource)
+	}
 	arch := res.Platform.Architecture
 	for _, f := range r.Findings {
-		method, confidence := MethodNVDCPERange, "high"
-		switch {
-		case f.Guess:
-			method, confidence = MethodNVDCPEGuess, "low"
-		case !f.Verified:
-			confidence = "medium"
-		}
-		out := findings.Finding{
-			FindingID:        f.FindingID,
-			AssetID:          res.AssetID,
-			Scope:            pkgs.ScopeHost,
-			FindingType:      findings.FindingTypeCVE,
-			CVEID:            f.CVEID,
-			State:            f.State,
-			Confidence:       confidence,
-			DetectionMethod:  method,
-			BinaryPackage:    f.BinaryPackage,
-			SourcePackage:    f.SourcePackage,
-			InstalledVersion: f.InstalledVersion,
-			FixedVersion:     f.FixedVersion,
-			Distribution:     "windows",
-			Architecture:     arch,
-			VendorStatus:     "nvd",
-			Severity:         f.Severity,
-			CVSSScore:        f.CVSSScore,
-			MatchStrength:    f.MatchStrength,
-			RuleIDs:          []string{"nvd:" + f.CPE + ":" + f.CVEID},
-			EvidenceIDs:      []string{},
-			Reasons:          f.Reasons,
-		}
-		if f.FixedVersion != "" {
-			out.FixAvailability = findings.FixAvailable
-		}
-		res.Findings = append(res.Findings, out)
+		res.Findings = append(res.Findings, mapperFinding(f, res.AssetID, pkgs.ScopeHost, "windows", arch))
 	}
 	for _, c := range r.Remediations {
 		n := len(c.FindingIDs)
@@ -91,4 +61,42 @@ func (e *Engine) resolveApplications(res *RunResult, recs []evidence.Record) {
 			CommandHint:            c.CommandHint,
 		})
 	}
+}
+
+// mapperFinding turns an application or device finding of the mapper into a resolver finding.
+func mapperFinding(f appvuln.Finding, assetID, scope, distribution, arch string) findings.Finding {
+	method, confidence := MethodNVDCPERange, "high"
+	switch {
+	case f.Guess:
+		method, confidence = MethodNVDCPEGuess, "low"
+	case !f.Verified:
+		confidence = "medium"
+	}
+	out := findings.Finding{
+		FindingID:        f.FindingID,
+		AssetID:          assetID,
+		Scope:            scope,
+		FindingType:      findings.FindingTypeCVE,
+		CVEID:            f.CVEID,
+		State:            f.State,
+		Confidence:       confidence,
+		DetectionMethod:  method,
+		BinaryPackage:    f.BinaryPackage,
+		SourcePackage:    f.SourcePackage,
+		InstalledVersion: f.InstalledVersion,
+		FixedVersion:     f.FixedVersion,
+		Distribution:     distribution,
+		Architecture:     arch,
+		VendorStatus:     "nvd",
+		Severity:         f.Severity,
+		CVSSScore:        f.CVSSScore,
+		MatchStrength:    f.MatchStrength,
+		RuleIDs:          []string{"nvd:" + f.CPE + ":" + f.CVEID},
+		EvidenceIDs:      []string{},
+		Reasons:          f.Reasons,
+	}
+	if f.FixedVersion != "" {
+		out.FixAvailability = findings.FixAvailable
+	}
+	return out
 }

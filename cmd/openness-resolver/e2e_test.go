@@ -120,7 +120,9 @@ func runGoldenCase(t *testing.T, tc goldenCase) []byte {
 		}
 	}
 	out := filepath.Join(tmp, "findings.json")
-	r := run(t, "resolve", "--input", ev, "--data-dir", dataDir, "--output", out)
+	// --stale-after 0: the fixtures were fetched on a fixed date, so their age grows;
+	// old-data warnings have their own tests (stale_test.go).
+	r := run(t, "resolve", "--input", ev, "--data-dir", dataDir, "--output", out, "--stale-after", "0")
 	raw, err := os.ReadFile(out)
 	if err != nil {
 		t.Fatalf("resolve wrote no findings (exit %d): %v\n%s", r.Code, err, r.Stderr)
@@ -145,6 +147,7 @@ func runGoldenCase(t *testing.T, tc goldenCase) []byte {
 	if mirror != nil {
 		maskPyPISnapshot(golden)
 	}
+	maskBuiltinMapper(golden)
 	var buf bytes.Buffer
 	enc := json.NewEncoder(&buf)
 	enc.SetEscapeHTML(false)
@@ -171,6 +174,26 @@ func maskPyPISnapshot(golden map[string]any) {
 	for _, s := range srcs {
 		if m, ok := s.(map[string]any); ok && m["source"] == "osv-pypi" {
 			m["downloaded_at"] = "<sync-time>"
+		}
+	}
+}
+
+// maskBuiltinMapper replaces the version of the built-in application mapper (it changes
+// whenever the bundled data is refreshed) and the age of every source in the coverage
+// sources.
+func maskBuiltinMapper(golden map[string]any) {
+	cov, _ := golden["rule_coverage"].(map[string]any)
+	srcs, _ := cov["sources"].([]any)
+	for _, s := range srcs {
+		m, ok := s.(map[string]any)
+		if !ok {
+			continue
+		}
+		if m["source"] == "app-mapper-builtin" {
+			m["version"] = "<builtin>"
+		}
+		if _, ok := m["age_days"]; ok {
+			m["age_days"] = "<age>"
 		}
 	}
 }

@@ -1,0 +1,113 @@
+{
+  "application_mapper": "2099.01.01",
+  "asset": {
+    "architecture": "",
+    "collected_at": "",
+    "collection_id": "",
+    "collection_status": "",
+    "collector_version": "",
+    "hostname": "",
+    "platform": "Juniper Networks, Inc. ex4300-48p Ethernet Switch, kernel JUNOS 21.4R3-S5.4, Build date: 2023-09-14 07:41:41 UTC Copyright (c) 1996-2023 Juniper Networks, Inc.",
+    "privilege_level": "",
+    "schema_version": ""
+  },
+  "exit_code": 0,
+  "findings": [
+    {
+      "architecture": "",
+      "asset_id": "",
+      "binary_package": "Juniper Junos OS",
+      "confidence": "medium",
+      "cve_id": "CVE-2099-3001",
+      "cvss_score": 7.5,
+      "detection_method": "nvd_cpe_version_range",
+      "distribution": "",
+      "evidence_ids": [],
+      "finding_id": "device:juniper.junos:21.4R3-S5.4:CVE-2099-3001",
+      "finding_type": "cve",
+      "fix_availability": "available",
+      "fixed_version": "21.4R3-S6",
+      "installed_version": "21.4R3-S5.4",
+      "reasons": [
+        "Juniper Junos OS 21.4R3-S5.4 is in an affected range of NVD cpe juniper:junos",
+        "device matched to the CPE automatically, not reviewed yet"
+      ],
+      "release": "",
+      "rule_ids": [
+        "nvd:juniper:junos:CVE-2099-3001"
+      ],
+      "scope": "network_device",
+      "severity": "high",
+      "source_package": "juniper.junos",
+      "state": "vulnerable",
+      "vendor_status": "nvd"
+    }
+  ],
+  "notes": [],
+  "platform": {
+    "architecture": "",
+    "codename": "juniper.junos",
+    "codename_source": "device_catalog",
+    "distribution_id": "network_device",
+    "distribution_version": "21.4R3-S5.4",
+    "kernel_version": "",
+    "raw_architecture": "",
+    "raw_distribution_id": "Juniper Networks, Inc. ex4300-48p Ethernet Switch, kernel JUNOS 21.4R3-S5.4, Build date: 2023-09-14 07:41:41 UTC Copyright (c) 1996-2023 Juniper Networks, Inc.",
+    "raw_distribution_version": "",
+    "raw_version_id": ""
+  },
+  "platform_support": "supported",
+  "remediation_groups": [
+    {
+      "action": "update_device",
+      "advisory_ids": [],
+      "availability": "available",
+      "closes": {
+        "count": 1,
+        "cve_ids": [
+          "CVE-2099-3001"
+        ],
+        "finding_ids": [
+          "device:juniper.junos:21.4R3-S5.4:CVE-2099-3001"
+        ]
+      },
+      "command_hint": "Upgrade Junos OS to a fixed release (see the Juniper security advisory).",
+      "coverage_note": null,
+      "group_id": "group-e0fb7b4a8a85afbf",
+      "requires_entitlement": null,
+      "requires_reboot": false,
+      "requires_service_restart": [],
+      "scope": "network_device",
+      "source_package": "juniper.junos",
+      "targets": [
+        {
+          "installed_version": "21.4R3-S5.4",
+          "kind": "device",
+          "name": "Juniper Junos OS",
+          "target_version": "21.4R3-S6"
+        }
+      ]
+    }
+  ],
+  "rule_coverage": {
+    "asset_release": "device/juniper.junos",
+    "loaded_releases": [
+      "device/juniper.junos"
+    ],
+    "rules_for_asset": 1,
+    "sources": [
+      {
+        "parser": "openness-app-mapper/1",
+        "release": "mapper",
+        "sha256": "",
+        "source": "app-mapper-file",
+        "url": "",
+        "version": "2099.01.01"
+      }
+    ],
+    "state": "covered"
+  },
+  "stderr": "",
+  "support_reason": null,
+  "unknowns": []
+}

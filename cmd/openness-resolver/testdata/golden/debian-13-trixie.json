@@ -267,11 +267,13 @@
     "rules_for_asset": 6,
     "sources": [
       {
+        "age_days": "<age>",
         "downloaded_at": "2026-10-30T00:00:00Z",
         "parser": "debian-tracker/1.0.0",
         "release": "debian/trixie",
         "sha256": "9e4f394bf46fe34e8ef4ae06823cb0686e501b03fadf0019d55ee14d6e8896ba",
         "source": "debian-security-tracker",
+        "stale": false,
         "url": "https://security-tracker.debian.org/tracker/data/json"
       }
     ],

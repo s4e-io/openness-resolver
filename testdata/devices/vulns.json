@@ -1,0 +1,75 @@
+{
+ "version": "test-devices-1",
+ "products": {
+  "cisco:ios_xe": [
+   {
+    "cve": "CVE-2099-1001",
+    "cvss": 10.0,
+    "sev": "critical",
+    "r": [
+     {
+      "si": "17.9.0",
+      "ee": "17.9.5"
+     }
+    ]
+   },
+   {
+    "cve": "CVE-2099-1002",
+    "cvss": 5.3,
+    "sev": "medium",
+    "r": [
+     {
+      "ee": "17.6.0"
+     }
+    ]
+   },
+   {
+    "cve": "CVE-2099-1003",
+    "cvss": 7.5,
+    "sev": "high",
+    "r": [
+     {
+      "v": "17.9.4a"
+     }
+    ]
+   }
+  ],
+  "fortinet:fortios": [
+   {
+    "cve": "CVE-2099-2001",
+    "cvss": 9.8,
+    "sev": "critical",
+    "r": [
+     {
+      "si": "7.2.0",
+      "ee": "7.2.7"
+     }
+    ]
+   },
+   {
+    "cve": "CVE-2099-2002",
+    "cvss": 4.3,
+    "sev": "medium",
+    "r": [
+     {
+      "si": "7.4.0",
+      "ee": "7.4.2"
+     }
+    ]
+   }
+  ],
+  "juniper:junos": [
+   {
+    "cve": "CVE-2099-3001",
+    "cvss": 7.5,
+    "sev": "high",
+    "r": [
+     {
+      "si": "21.4R1",
+      "ee": "21.4R3-S6"
+     }
+    ]
+   }
+  ]
+ }
+}

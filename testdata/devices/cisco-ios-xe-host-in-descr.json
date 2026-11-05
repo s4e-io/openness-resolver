@@ -1,0 +1,10 @@
+{
+  "format": "openness-device/1",
+  "sys_descr": "Cisco IOS Software [Cupertino], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.9.4a, RELEASE SOFTWARE (fc5) core-sw1.corp.example.com 10.20.30.40 fe80::1\r\nTechnical Support: http://www.cisco.com/techsupport",
+  "sys_object_id": ".1.3.6.1.4.1.9.1.2494",
+  "model": "C9300-48P",
+  "software_rev": "17.9.4a",
+  "firmware_rev": "",
+  "hardware_rev": "V02",
+  "serial_hint": "FOC1234X0YZ"
+}

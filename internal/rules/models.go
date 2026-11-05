@@ -138,6 +138,10 @@ type AdvisorySource struct {
 	Notes           string        `json:"notes,omitempty"`
 }
 
+// AppMapperURL is where the S4E catalog publishes the latest mapper bundle; SHA256SUMS
+// sits next to it.
+const AppMapperURL = "https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz"
+
 // Registry returns the built-in advisory source registry.
 //
 // Source precedence tiers (lower number wins; a lower-priority source can
@@ -227,6 +231,15 @@ func Registry() []AdvisorySource {
 			Ecosystem: "rpm", Vendor: "opensuse",
 			URL:    "https://osv-vulnerabilities.storage.googleapis.com/openSUSE/all.zip",
 			Format: "osv-zip", Priority: 1, Enabled: true, Parser: "osv-distro",
+			RefreshInterval: 24 * time.Hour,
+		},
+		// The application and device mapper (catalog by S4E plus NVD data), published as a
+		// release asset of a public GitHub repository; no account or key.
+		{
+			ID: "app-mapper", Name: "OpenNess application and device mapper",
+			Ecosystem: "mapper", Vendor: "openness",
+			URL:    AppMapperURL,
+			Format: "openness-app-mapper-gz", Priority: 5, Enabled: true, Parser: "app-mapper",
 			RefreshInterval: 24 * time.Hour,
 		},
 		// Generic OSV (registered, disabled; PyPI uses the OSV query API).

@@ -18,7 +18,16 @@
     "loaded_releases": null,
     "reason": "finding counts are not an all-clear: no rules loaded for windows/windows_server_2022",
     "rules_for_asset": 0,
-    "sources": [],
+    "sources": [
+      {
+        "parser": "openness-app-mapper/1",
+        "release": "mapper",
+        "sha256": "",
+        "source": "app-mapper-builtin",
+        "url": "",
+        "version": "<builtin>"
+      }
+    ],
     "state": "missing"
   },
   "stderr": "warning: rule store is empty; run `openness-resolver feed sync --for <evidence.openness>` first\nerror: finding counts are not an all-clear: no rules loaded for windows/windows_server_2022 (run `openness-resolver feed sync --for <evidence>`)\n",

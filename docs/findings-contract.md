@@ -23,14 +23,14 @@ Rules that hold for every version:
 | `platform` | object | Normalized distribution, version, codename, architecture |
 | `platform_support` | string | `supported` / `not_supported` / `unknown` (evidence lacks the OS identity) |
 | `support_reason` | string | Why not supported (omitted when supported) |
-| `rule_coverage` | object | `asset_release`, `rules_for_asset`, `loaded_releases[]`, `gaps[]`, `state` (`covered` / `missing` / `not_applicable`), `reason`, `sources[]` (per loaded rule directory: `release`, `source`, `url`, `sha256`, `downloaded_at`, `source_updated_at`, `parser`) |
+| `rule_coverage` | object | `asset_release`, `rules_for_asset`, `loaded_releases[]`, `gaps[]`, `state` (`covered` / `missing` / `not_applicable`; for a network device `covered` / `not_supported` / `unknown`), `reason`, `sources[]` (per loaded rule directory: `release`, `source`, `url`, `sha256`, `downloaded_at`, `source_updated_at`, `parser`, and with `downloaded_at` also `age_days` and `stale`: older than `resolve --stale-after`, default 2 days for distribution feeds, 35 for `msrc-*`, 7 for the mapper, never for PyPI; plus one entry for the application mapper when it was used, below) |
 | `findings[]` | array | One decision per (scope, package, CVE/advisory). Fields in [internals.md section 14](internals.md#14-finding-states-and-fields) |
 | `deduplicated_findings[]` | array | Python evaluations merged into canonical findings (may be omitted) |
 | `remediation_groups[]` | array | Action cards (below) |
 | `reconciliation` | object | Proves counts add up and each host vulnerable finding sits in one card |
 | `software_inventory[]` | array | Catalog detections (below) |
 | `applications[]` | array | Windows only: installed applications and what the application mapper made of each (below) |
-| `application_mapper` | string | Windows only: version of the application mapper data |
+| `application_mapper` | string | Windows and network devices: version of the application mapper data |
 | `unknowns[]` | array | Seen but not judged (below) |
 | `metrics` | object | Counts |
 | `notes[]` | array | Warnings |
@@ -90,9 +90,24 @@ On a Windows host the resolver also matches the collector's `applications`
 (Add/Remove Programs, AppX) against the application mapper: a catalog that ties
 an application's name and publisher to NVD CPE products and says where its
 version is, plus the NVD CVEs and affected version ranges of those products.
-The mapper is built in; `resolve --mapper <file>` replaces it with a newer one
-(JSON or gzip, format `openness-app-mapper/1`: `{"format", "version",
-"catalog", "vulns", "fallback"?}`; without `fallback` the built-in one stays).
+The mapper is a bundle (JSON or gzip, format `openness-app-mapper/1`:
+`{"format", "version", "catalog", "vulns", "fallback"?}`; without `fallback` the
+built-in one stays; at most 256 MB uncompressed, read as a stream). `resolve`
+takes `--mapper <file>` when given, else `<data-dir>/mapper/app-mapper.json.gz`
+(written by `feed sync` from the `app-mapper` source, with its metadata in
+`app-mapper.json.gz.meta.json`), else the one built into the binary. The one used
+is listed in `rule_coverage.sources[]`:
+
+| Field | Value |
+|---|---|
+| `release` | `mapper` |
+| `source` | `app-mapper` (synced into the data directory), `app-mapper-file` (`--mapper`), `app-mapper-builtin` |
+| `version` | The bundle's `version` |
+| `url`, `sha256`, `downloaded_at` | From the metadata next to the file (`<file>.meta.json`) when there is one; empty for the built-in mapper |
+| `parser` | `openness-app-mapper/1` |
+
+Metadata file (`<data-dir>/mapper/app-mapper.json.gz.meta.json`):
+`{"source":"app-mapper","source_url":"https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz","downloaded_at":"2026-11-05T06:00:00Z","sha256":"<hex>","size_bytes":123,"format":"openness-app-mapper/1","version":"<bundle version>"}`.
 
 - Findings: `detection_method` `nvd_cpe_version_range` (catalog match,
   `vulnerable`) or `nvd_cpe_name_guess` (an application the catalog does not
@@ -126,6 +141,67 @@ The mapper is built in; `resolve --mapper <file>` replaces it with a newer one
 | `product_id`, `cpe[]`, `matched_version` | The catalog entry (or guessed NVD product) and the version as it reads it |
 | `cves` | Findings it produced |
 
+## Catalog entries
+
+`catalog` is an array of entries. An application entry:
+
+```json
+{"id":"mozilla.firefox-esr","name":"Mozilla Firefox ESR","match":{"name":"^Mozilla Firefox.*\\bESR\\b","publisher":"Mozilla"},
+ "version":{"from":"display_version","regex":"","format":"","parts":0},"cpe":["mozilla:firefox_esr"],
+ "update":"winget upgrade --id Mozilla.Firefox.ESR","same_branch":true,"verified":true}
+```
+
+`kind` is `application` (the default when absent) or `device`. An entry of any other
+kind is ignored, so an older build reads a newer catalog. A device entry:
+
+```json
+{"id":"cisco.ios-xe","name":"Cisco IOS XE","kind":"device",
+ "match":{"sys_object_id":"^\\.?1\\.3\\.6\\.1\\.4\\.1\\.9\\.","sys_descr":"Cisco IOS.*Version (1[6-9]|[2-9][0-9])\\.[0-9]+\\.[0-9]+"},
+ "version":{"from":"sys_descr","regex":"Version ([0-9]+\\.[0-9]+\\.[0-9]+[a-z]?)","parts":3},
+ "cpe":["cisco:ios_xe"],"update":"Upgrade IOS XE to a fixed release (see the Cisco security advisory).","verified":false}
+```
+
+| Field | Meaning |
+|---|---|
+| `match` | Case-insensitive regular expressions; every key given must match, at least one is required. `sys_object_id` (sysObjectID, with or without the leading dot), `sys_descr` (sysDescr), `model` (entPhysicalModelName), `vendor` (matched against sysDescr: SNMP has no vendor field) |
+| `version.from` | `sys_descr` (default), `software_rev` or `firmware_rev` |
+| `version.regex` | Required, exactly one capture group: the version |
+| `version.parts` | Keep the first n dotted parts (0 keeps all) |
+| `cpe[]` | NVD products (`vendor:product`) whose CVEs in `vulns` apply, compared exactly as for applications |
+| `update` | The update card's `command_hint` |
+| `verified` | A person reviewed the entry; unreviewed entries count only with `--app-unverified` |
+
+The first device entry that matches wins.
+
+## Network devices (`resolve --device`)
+
+Input, format `openness-device/1` (written by the desktop from SNMP; a file with any
+other field, such as a host name or an address, is refused):
+
+```json
+{"format":"openness-device/1","sys_descr":"Cisco IOS Software [Cupertino], ... Version 17.9.4a, RELEASE SOFTWARE (fc5)",
+ "sys_object_id":".1.3.6.1.4.1.9.1.2494","model":"C9300-48P","software_rev":"17.9.4a",
+ "firmware_rev":"","hardware_rev":"","serial_hint":""}
+```
+
+Output, the normal findings document:
+
+- `platform`: `distribution_id` `network_device`, `codename` the matched entry id
+  (`codename_source` `device_catalog`), `distribution_version` the version read,
+  `raw_distribution_id` the first `sys_descr` line. `asset.platform` is the same line.
+  The line is copied only for a matched device, with IP addresses and dotted host names
+  replaced by `[redacted]`. Nothing else of the device file is copied.
+- `platform_support`: `supported` when an entry matched, else `not_supported` with
+  `support_reason`.
+- Findings: scope `network_device`, `finding_id` `device:<entry id>:<version>:<CVE>`,
+  `detection_method` `nvd_cpe_version_range`, `binary_package` the entry name,
+  `source_package` the entry id.
+- Cards: one `update_device` card, target kind `device`, `command_hint` from `update`.
+- `rule_coverage`: `asset_release` `device/<entry id>`, `rules_for_asset` the CVE records of
+  its products; `state` `covered`, `not_supported` (no entry matched: no findings, a
+  note, exit 0) or `unknown` (an entry matched, the version could not be read: no
+  findings, a note, an `unknowns[]` entry with reason `version_unreadable`, exit 0).
+
 ## `unknowns[]`
 
 | Field | Meaning |
@@ -143,3 +219,4 @@ The mapper is built in; `resolve --mapper <file>` replaces it with a newer one
 | 2 | `asset`, `software_inventory[]`, `unknowns[]`; lists never `null` |
 | 2 (additive) | `applications[]`, `application_mapper`, finding `severity` and `cvss_score`, action `update_application` |
 | 2 (additive) | catalog `verify`, `match_strength`, `verify_failed`, application `key`, `view`, `install_location`, `mapper probes` |
+| 2 (additive) | `resolve --device`, scope `network_device`, action `update_device`, target kind `device`, coverage states `not_supported` and `unknown`, catalog `kind`, `rule_coverage.sources[].version` and the mapper entry |
