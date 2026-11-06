@@ -126,8 +126,8 @@ writes the findings but exits with code 1: a host that was not evaluated is neve
 as clean. Skipped malformed package records (`invalid_package_records`) and a package list
 the collector cut (`packages_truncated`) make the coverage `partial`; the rest is evaluated
 and the exit code is 0. So does a container image that could not be evaluated
-(`container_not_covered`: no os-release, a distribution or release without support, or no
-rules loaded for its release).
+(`container_not_covered`: no os-release, a distribution or release without support, no
+rules loaded for its release, or a package database the collector could not read).
 
 When the evidence carries `integrity.payload_hash`, `resolve` checks it the way the
 collector computed it and stops with exit 1 on a mismatch (no findings are written).

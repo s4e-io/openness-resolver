@@ -44,6 +44,11 @@ type ContainerContext struct {
 	// OSRelease is the image's os-release identity; nil when the collector
 	// did not report one (older collector, scratch image).
 	OSRelease *evidence.ContainerOSRelease `json:"os_release,omitempty"`
+
+	// PackagesError is why the collector could not read the container's
+	// package database (rpm_timeout, ...); empty when it was read or the
+	// image has none.
+	PackagesError string `json:"packages_error,omitempty"`
 }
 
 // ImageGroup groups containers that share one image digest. Image-level
@@ -58,6 +63,10 @@ type ImageGroup struct {
 	// OSRelease is the os-release identity of the first container that
 	// reported one; same digest => same image content.
 	OSRelease *evidence.ContainerOSRelease `json:"os_release,omitempty"`
+	// PackagesError is the first container's package read error when the
+	// group has no packages: the image has a package database that was
+	// not read, so it is a coverage gap rather than a scratch image.
+	PackagesError string `json:"packages_error,omitempty"`
 }
 
 // Inventory is the container-scope view of one .openness document.
@@ -177,6 +186,15 @@ func BuildInventory(records []evidence.TypedRecord[evidence.ContainerValue]) *In
 			HasPackageDB:   len(v.Packages) > 0,
 			OSRelease:      v.OSRelease,
 		}
+		if pe := v.PackagesError; pe != nil {
+			ctx.PackagesError = pe.Code
+			if ctx.PackagesError == "" {
+				ctx.PackagesError = pe.Message
+			}
+			if ctx.PackagesError == "" {
+				ctx.PackagesError = "unknown"
+			}
+		}
 		ctx.Distro = detectDistro(v.Packages)
 		if v.OSRelease != nil && v.OSRelease.ID != "" {
 			// os-release names the distribution; the package manager mix
@@ -208,6 +226,9 @@ func BuildInventory(records []evidence.TypedRecord[evidence.ContainerValue]) *In
 			}
 		}
 		g.Containers = append(g.Containers, ctx)
+		if len(g.Packages) == 0 && g.PackagesError == "" {
+			g.PackagesError = ctx.PackagesError
+		}
 		if g.Distro == "" {
 			g.Distro = ctx.Distro
 		}

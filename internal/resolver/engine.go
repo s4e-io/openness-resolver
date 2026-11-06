@@ -317,6 +317,7 @@ func (e *Engine) Resolve(lr *evidence.LoadResult) (*RunResult, error) {
 
 	// Container inventory (Task 8).
 	ctrRecords := lr.ContainerRecords()
+	markUnreadContainerPackages(doc.Modules, ctrRecords)
 	inventory := containers.BuildInventory(ctrRecords)
 	for _, msg := range inventory.PackageErrors {
 		res.Notes = append(res.Notes, "container package rejected: "+msg)
@@ -768,6 +769,10 @@ func applyESMEntitlement(f *findings.Finding, esmActive bool) {
 func (e *Engine) resolveContainerGroup(res *RunResult, group *containers.ImageGroup) {
 	res.Metrics.ContainerPackages += len(group.Packages)
 	if len(group.Packages) == 0 {
+		if group.PackagesError != "" {
+			res.Notes = append(res.Notes, fmt.Sprintf("image %s (%s): package database could not be read (%s); packages unknown", group.ImageDigest, imageLabel(group), group.PackagesError))
+			return
+		}
 		// Distroless/scratch image or package DB unavailable: this is a
 		// visible gap, not a clean result.
 		res.Notes = append(res.Notes, fmt.Sprintf("image %s has no package database (distroless/scratch or collection gap); packages unknown", group.ImageDigest))

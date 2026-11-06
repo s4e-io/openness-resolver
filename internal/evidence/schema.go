@@ -295,6 +295,15 @@ type ContainerOSRelease struct {
 	SourceFile      string `json:"source_file,omitempty"`
 }
 
+// ContainerPackagesError says a container has a package database that the
+// collector could not read (collector containers 1.3.0+): its packages are
+// unknown, not empty. Code is rpm_timeout, rpm_unavailable or
+// package_read_failed.
+type ContainerPackagesError struct {
+	Code    string `json:"code"`
+	Message string `json:"message,omitempty"`
+}
+
 // ContainerValue is the value payload of a containers record.
 type ContainerValue struct {
 	EntityID           string `json:"entity_id"`
@@ -315,8 +324,10 @@ type ContainerValue struct {
 	// PackagesTruncated: the collector cut this container's package list.
 	PackagesTruncated bool                `json:"packages_truncated,omitempty"`
 	OSRelease         *ContainerOSRelease `json:"os_release,omitempty"`
-	Packages          []ContainerPackage  `json:"packages"`
-	Relationships     []Relationship      `json:"relationships"`
+	// PackagesError: the package database was present but not read.
+	PackagesError *ContainerPackagesError `json:"packages_error,omitempty"`
+	Packages      []ContainerPackage      `json:"packages"`
+	Relationships []Relationship          `json:"relationships"`
 }
 
 // LoadedLibrary is one shared object mapped into a process.

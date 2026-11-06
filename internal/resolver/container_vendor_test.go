@@ -215,6 +215,59 @@ func TestScratchImageIsNotAGap(t *testing.T) {
 	}
 }
 
+// A container whose package database could not be read is a gap, both from
+// packages_error (collector containers 1.3.0+) and, for older evidence,
+// from a containers module error naming the container.
+func TestUnreadPackageDatabaseIsAGap(t *testing.T) {
+	rocky := map[string]any{"id": "rocky", "version_id": "9.3"}
+	spec := tf.ContainerSpec{ID: "c00000000000aaaa", Name: "r", Digest: "sha256:rocky9", ImageRef: "rockylinux:9",
+		State: "running", OSRelease: rocky}
+	moduleErr := func(code, msg string) []any {
+		return []any{map[string]any{"module_id": "containers", "module_version": "1.2.0", "status": "partial",
+			"errors": []any{map[string]any{"code": code, "module_id": "containers", "message": msg}}}}
+	}
+	cases := []struct {
+		name    string
+		doc     *tf.Doc
+		gap     bool
+		wantMsg string
+	}{
+		{"packages_error", coveredUbuntuHost().AddContainer(func() tf.ContainerSpec {
+			s := spec
+			s.PackagesError = map[string]any{"code": "rpm_timeout", "message": "rpm --root did not finish before the module deadline"}
+			return s
+		}()), true, "package database could not be read: rpm_timeout"},
+		{"older evidence timeout", coveredUbuntuHost().AddContainer(spec).Set("modules", moduleErr("partial", "c00000000000: rpm_timeout")),
+			true, "package database could not be read: rpm_timeout"},
+		{"older evidence read failure", coveredUbuntuHost().AddContainer(spec).Set("modules", moduleErr("container_packages_unread", "c00000000000: package_read_failed: rpm --root: exit status 1")),
+			true, "package database could not be read: package_read_failed"},
+		{"no package database", coveredUbuntuHost().AddContainer(spec).Set("modules", moduleErr("partial", "c00000000000: no_package_database")),
+			false, ""},
+		{"error names another container", coveredUbuntuHost().AddContainer(spec).Set("modules", moduleErr("partial", "d00000000000: rpm_timeout")),
+			false, ""},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := resolve(t, tc.doc, hostRule)
+			cov := res.RuleCoverage
+			if !tc.gap {
+				if cov.State != CoverageCovered {
+					t.Fatalf("coverage=%+v", cov)
+				}
+				return
+			}
+			if cov.State != CoveragePartial || cov.EvaluationError("e.openness") != nil || len(cov.Gaps) != 1 {
+				t.Fatalf("coverage=%+v", cov)
+			}
+			g := cov.Gaps[0]
+			if g.Kind != GapContainerNotCovered || g.Release != "container:rockylinux:9" || g.Count != 1 ||
+				!strings.Contains(g.Detail, "sha256:rocky9") || !strings.Contains(g.Detail, tc.wantMsg) {
+				t.Errorf("gap=%+v", g)
+			}
+		})
+	}
+}
+
 // Only the evaluated image's release fills asset_release when the host
 // has no release of its own.
 func TestContainerReleaseFillsAssetRelease(t *testing.T) {

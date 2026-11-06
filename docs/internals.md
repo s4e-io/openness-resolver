@@ -447,7 +447,7 @@ For each container group (by image digest):
 
 1. Alpine images: infer the branch from anchor package versions, match the packages to Alpine secdb rules and compare with the **apk** comparator.
 2. Debian, Ubuntu and RPM-family images (rhel, rocky, almalinux, amazon, opensuse): map the image's `os_release` (collector `containers` 1.2.0+) the way the host `operating_system` is mapped (aliases, codename from `VERSION_CODENAME` or the `VERSION_ID` map, same support matrix), then match by binary and source package with the host evaluator of that distribution and release and its comparator. Kernel rules are skipped (an image has no running kernel).
-3. An image with packages that cannot be evaluated (no os-release, unsupported distribution or release, no rules loaded) is a `container_not_covered` gap: coverage `partial`, exit 0.
+3. An image with packages that cannot be evaluated (no os-release, unsupported distribution or release, no rules loaded) is a `container_not_covered` gap: coverage `partial`, exit 0. So is an image whose package database the collector could not read: the container's `packages_error` (collector `containers` 1.3.0+), or on older evidence a `containers` module error `<container id>: <reason>` whose reason names a timeout or failure (`rpm_timeout`). An image without a package database (scratch) is only a note.
 4. Scope = `container`; include `image_digest` and `container_ids[]`.
 
 Host and container findings never merge, even if package names match.

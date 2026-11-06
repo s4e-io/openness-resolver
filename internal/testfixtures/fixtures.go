@@ -217,6 +217,9 @@ type ContainerSpec struct {
 	// Sources maps a dpkg binary name to its source package and source
 	// version ("" for none).
 	Sources map[string][2]string
+	// PackagesError is the collector's packages_error object (containers
+	// 1.3.0+).
+	PackagesError map[string]any
 }
 
 // AddContainer appends a container record.
@@ -250,6 +253,9 @@ func (d *Doc) AddContainer(c ContainerSpec) *Doc {
 	}
 	if c.OSRelease != nil {
 		rec["os_release"] = c.OSRelease
+	}
+	if c.PackagesError != nil {
+		rec["packages_error"] = c.PackagesError
 	}
 	return d.appendRecord("containers", rec)
 }

@@ -2,8 +2,10 @@ package resolver
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/s4e-io/openness-resolver/internal/containers"
+	"github.com/s4e-io/openness-resolver/internal/evidence"
 	"github.com/s4e-io/openness-resolver/internal/platform"
 	"github.com/s4e-io/openness-resolver/internal/rules"
 )
@@ -120,9 +122,20 @@ func (e *Engine) resolveContainerVendor(res *RunResult, group *containers.ImageG
 
 // containerCoverage returns, for images that are not Alpine, the rule
 // release of every evaluated image and a container_not_covered gap for
-// every image with packages that was not evaluated.
+// every image with packages that was not evaluated. An image whose package
+// database could not be read is a gap too; one without a package database
+// (scratch) is not.
 func (e *Engine) containerCoverage(groups []*containers.ImageGroup, arch string) (releases []string, gaps []CoverageGap) {
 	for _, g := range groups {
+		if g != nil && len(g.Packages) == 0 && g.PackagesError != "" {
+			gaps = append(gaps, CoverageGap{
+				Release: "container:" + imageLabel(g),
+				Kind:    GapContainerNotCovered,
+				Count:   len(g.Containers),
+				Detail:  g.ImageDigest + ": package database could not be read: " + g.PackagesError,
+			})
+			continue
+		}
 		if g == nil || g.Distro == "alpine" || len(g.Packages) == 0 {
 			continue
 		}
@@ -149,4 +162,44 @@ func imageLabel(g *containers.ImageGroup) string {
 		}
 	}
 	return g.ImageDigest
+}
+
+// markUnreadContainerPackages sets PackagesError on containers whose package
+// database the collector could not read. Collector containers 1.3.0+ sets
+// packages_error itself; older evidence only has a containers module error
+// "<12-char container id>: <reason>", and a reason naming a timeout or a
+// failure (rpm_timeout, package_read_failed) counts. no_package_database and
+// similar reasons do not.
+func markUnreadContainerPackages(modules []evidence.ModuleRun, recs []evidence.TypedRecord[evidence.ContainerValue]) {
+	reasons := map[string]string{}
+	for _, m := range modules {
+		if m.ModuleID != "containers" {
+			continue
+		}
+		for _, e := range m.Errors {
+			em, _ := e.(map[string]any)
+			msg, _ := em["message"].(string)
+			id, reason, ok := strings.Cut(msg, ": ")
+			low := strings.ToLower(reason)
+			if ok && id != "" && (strings.Contains(low, "timeout") || strings.Contains(low, "fail")) {
+				if _, seen := reasons[id]; !seen {
+					reasons[id] = reason
+				}
+			}
+		}
+	}
+	for i := range recs {
+		v := &recs[i].Value
+		if v.PackagesError != nil || len(v.Packages) > 0 {
+			continue
+		}
+		id := strings.TrimPrefix(v.ContainerID, "sha256:")
+		if len(id) > 12 {
+			id = id[:12]
+		}
+		if reason, ok := reasons[id]; ok && id != "" {
+			code, _, _ := strings.Cut(reason, ": ")
+			v.PackagesError = &evidence.ContainerPackagesError{Code: code, Message: reason}
+		}
+	}
 }
