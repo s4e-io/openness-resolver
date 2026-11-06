@@ -132,7 +132,7 @@ func fakeCatalogRelease(t *testing.T, mapperJSON string, gone bool) string {
 		}
 	}))
 	t.Cleanup(srv.Close)
-	return srv.URL + "/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz"
+	return srv.URL + "/s4e-io/openness-app-mapper/releases/latest/download/app-mapper.json.gz"
 }
 
 type coverageDoc struct {

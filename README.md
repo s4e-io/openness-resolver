@@ -194,7 +194,7 @@ openness-resolver feed sync --source app-mapper --data-dir data
 | `--pypi-only` | Deprecated. With `--for`: sync only `osv-pypi`, when the evidence lists PyPI packages. A failed download is a warning and exit `0`. `feed sync --for` selects `osv-pypi` itself. Default `false`. | `--for host.openness --pypi-only` |
 | `--osv-url <url>` | Deprecated and ignored (a warning on stderr). PyPI data is the `osv-pypi` archive, not per-package OSV queries. | `--osv-url https://osv.example.org/v1/query` |
 | `--allow-downgrade` | Let the `app-mapper` source install a mapper older than the synced one or the built-in one. Default `false`. | `--source app-mapper --allow-downgrade` |
-| `--mapper-url <url>` | Where the `app-mapper` source downloads `app-mapper.json.gz` from; `SHA256SUMS` must be in the same directory. Default: `https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz`. | `--mapper-url https://mirror.example.org/catalog/app-mapper.json.gz` |
+| `--mapper-url <url>` | Where the `app-mapper` source downloads `app-mapper.json.gz` from; `SHA256SUMS` must be in the same directory. Default: `https://github.com/s4e-io/openness-app-mapper/releases/latest/download/app-mapper.json.gz`. | `--mapper-url https://mirror.example.org/catalog/app-mapper.json.gz` |
 
 #### Debug
 
@@ -477,7 +477,7 @@ The resolver reads no environment variable of its own (`OPENNESS_OSV_URL` and
 
 The sources `feed sync` downloads and `rules import` reads. Every URL is the publisher's;
 nothing goes through an OpenNess or S4E service. The application mapper is published by S4E
-as a release asset of the public GitHub repository `s4e-io/openness-catalog`; downloading it
+as a release asset of the public GitHub repository `s4e-io/openness-app-mapper`; downloading it
 needs no account or key. `<codename>`, `<branch>` and `<YYYY-Mon>`
 come from the asset (`--for`) or from `--source`.
 
@@ -493,7 +493,7 @@ come from the asset (`--for`) or from `--source`.
 | Amazon | `amazon-updateinfo-2`, `amazon-updateinfo-2023` | `https://cdn.amazonlinux.com/2/core/latest/x86_64/mirror.list`, `https://cdn.amazonlinux.com/al2023/core/mirrors/latest/x86_64/mirror.list`, then the repository's `updateinfo.xml.gz` | yum updateinfo XML (ALAS) | Amazon Linux 2, 2023 | With each ALAS advisory | [AWS Site Terms](https://aws.amazon.com/terms/) |
 | Microsoft | `msrc-cvrf-<YYYY-Mon>` | `https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/<YYYY-Mon>` | CVRF JSON, one document per month | Windows 10, 11, Server 2008 to 2025; the last `--months` (default 24) | Monthly (Patch Tuesday), plus revisions | [Microsoft Terms of Use](https://www.microsoft.com/en-us/legal/terms-of-use) |
 | OSV (PyPI) | `osv-pypi` | `https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip` | OSV JSON (zip), one advisory per file, about 38 MB; rules in `normalized/pypi/pypi` | Every PyPI package; selected by `--for` when the evidence lists PyPI packages | Continuously (OSV export) | Per record; the PyPA advisory database and GitHub advisories are CC BY 4.0 ([OSV.dev data sources](https://google.github.io/osv.dev/data/)) |
-| S4E catalog plus NVD (application and device mapper) | `app-mapper` | `https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz` (and `SHA256SUMS` next to it) | `openness-app-mapper/1` JSON (gzip) | Third-party Windows applications and network devices | Daily | The catalog by S4E; the vulnerability data is derived from the NVD, under the NVD's terms. This product uses data from the NVD API but is not endorsed or certified by the NVD. |
+| S4E catalog plus NVD (application and device mapper) | `app-mapper` | `https://github.com/s4e-io/openness-app-mapper/releases/latest/download/app-mapper.json.gz` (and `SHA256SUMS` next to it) | `openness-app-mapper/1` JSON (gzip) | Third-party Windows applications and network devices | Daily | The catalog by S4E; the vulnerability data is derived from the NVD, under the NVD's terms. This product uses data from the NVD API but is not endorsed or certified by the NVD. |
 | NVD (built in, not synced) | none | Bundled in the binary (`internal/appvuln/data`) | JSON (gzip) | Third-party Windows applications and network devices, when no `app-mapper` was synced | With each release of this tool | NVD data. This product uses data from the NVD API but is not endorsed or certified by the NVD. |
 
 The registry also lists `ubuntu-oval-usn-focal`, `ubuntu-oval-usn-noble` and
@@ -538,7 +538,7 @@ OPENNESS_NIGHTLY=1 go test ./cmd/openness-resolver -run TestNightly -v -timeout 
 - **Flag tests** (`cli_flags_test.go`): every command with every flag: valid values,
   defaults and invalid values.
 - **Independence tests** (`independence_test.go`): every URL in the code is a publisher's
-  (on github.com only release downloads of `s4e-io/openness-catalog`), and the code reads
+  (on github.com only release downloads of `s4e-io/openness-app-mapper`), and the code reads
   no environment variable of its own.
 - **Doc drift guard** (`readme_test.go`): fails when a command or flag is missing from this
   README.
