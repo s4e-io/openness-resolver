@@ -23,7 +23,7 @@ Rules that hold for every version:
 | `platform` | object | Normalized distribution, version, codename, architecture |
 | `platform_support` | string | `supported` / `not_supported` / `unknown` (evidence lacks the OS identity) |
 | `support_reason` | string | Why not supported (omitted when supported) |
-| `rule_coverage` | object | `asset_release`, `rules_for_asset`, `loaded_releases[]`, `gaps[]`, `state` (`covered` / `missing` / `not_applicable`; for a network device `covered` / `not_supported` / `unknown`), `reason`, `sources[]` (per loaded rule directory: `release`, `source`, `url`, `sha256`, `downloaded_at`, `source_updated_at`, `parser`, and with `downloaded_at` also `age_days` and `stale`: older than `resolve --stale-after`, default 2 days for distribution feeds, 35 for `msrc-*`, 7 for the mapper, never for PyPI; plus one entry for the application mapper when it was used, below) |
+| `rule_coverage` | object | `asset_release`, `rules_for_asset`, `loaded_releases[]`, `gaps[]`, `state` (`covered` / `partial` / `missing` / `not_applicable`; for a network device `covered` / `not_supported` / `unknown`), `reason`, `sources[]` (per loaded rule directory: `release`, `source`, `url`, `sha256`, `downloaded_at`, `source_updated_at`, `parser`, and with `downloaded_at` also `age_days` and `stale`: older than `resolve --stale-after`, default 2 days for distribution feeds, 35 for `msrc-*`, 7 for the mapper, never for PyPI; plus one entry for the application mapper when it was used, below) |
 | `findings[]` | array | One decision per (scope, package, CVE/advisory). Fields in [internals.md section 14](internals.md#14-finding-states-and-fields) |
 | `deduplicated_findings[]` | array | Python evaluations merged into canonical findings (may be omitted) |
 | `remediation_groups[]` | array | Action cards (below) |
@@ -45,6 +45,24 @@ Rules that hold for every version:
 | `platform`, `architecture` | GOOS / GOARCH of the collector run |
 | `collector_version`, `schema_version` | What produced the evidence |
 | `collection_id`, `collected_at`, `collection_status`, `privilege_level` | When and how it was collected; `partial` status means some module failed |
+| `evidence_integrity` | `verified` (`integrity.payload_hash` matched) or `not_present` (no hash, older collector; a note says so). A mismatch stops `resolve` with exit 1. |
+
+## `rule_coverage.gaps[]`
+
+One entry per hole: `release` (`ubuntu/jammy`, `pypi`, `unknown` without a distribution), `kind`, and for some kinds `count` and `detail`.
+
+| `kind` | Meaning | `state` | Exit |
+|---|---|---|---|
+| `missing_rules` | No rules loaded for the release; `feed sync --for` fills it | `missing` | 1 |
+| `no_evaluator` | Recognized host this build does not score | `missing` | 1 |
+| `not_synced` | PyPI data not in the store; the rest is evaluated | `partial` | 0 |
+| `no_packages` | OS present but no usable host package (empty or missing list, every record malformed, packages module `unavailable` / `empty` / failed) | `missing` | 1 |
+| `unknown_distribution` | No `distribution_id`, no `operating_system`, or a distribution the resolver does not know | `missing` | 1 |
+| `invalid_package_records` | Malformed package records skipped; `count` says how many, each is an `unknowns[]` entry of kind `package_record` | `partial` | 0 |
+| `packages_truncated` | The collector cut the package list (`package_limit_truncated`, a packages module timeout or output limit, `truncated` flag) | `partial` | 0 |
+| `container_not_covered` | A container image with packages was not evaluated: no `os_release` in the evidence, a distribution or release outside the support matrix, no rules loaded for its release, or a package database the collector could not read (`packages_error` on the container, or on older evidence a `containers` module error naming the container with a timeout or failure; `detail` then reads `package database could not be read: <reason>`). `release` is `container:<image reference>` (or digest), `count` the number of containers running it, `detail` the image digest and the reason; also an `unknowns[]` entry. An image without packages (scratch) is only a note. | `partial` | 0 |
+
+The state is `missing` when any gap is one of the `missing` kinds, else `partial`. Windows hosts are evaluated by build number and never get `no_packages`. `findings.json` is written in every case.
 
 ## `remediation_groups[]` (action cards)
 
@@ -206,7 +224,7 @@ Output, the normal findings document:
 
 | Field | Meaning |
 |---|---|
-| `kind` | `platform`, `rule_coverage`, `finding`, `software`, `comparator` |
+| `kind` | `platform`, `rule_coverage`, `finding`, `software`, `comparator`, `package_record` |
 | `subject` | Release, package + CVE, product + version, ... |
 | `reason` | Why it was not judged (state name, coverage gap kind, support reason) |
 | `finding_id`, `entity_id` | Back-references when they exist |
@@ -220,3 +238,5 @@ Output, the normal findings document:
 | 2 (additive) | `applications[]`, `application_mapper`, finding `severity` and `cvss_score`, action `update_application` |
 | 2 (additive) | catalog `verify`, `match_strength`, `verify_failed`, application `key`, `view`, `install_location`, `mapper probes` |
 | 2 (additive) | `resolve --device`, scope `network_device`, action `update_device`, target kind `device`, coverage states `not_supported` and `unknown`, catalog `kind`, `rule_coverage.sources[].version` and the mapper entry |
+| 2 (additive) | `asset.evidence_integrity`, coverage state `partial` for package gaps, gap kinds `no_packages`, `unknown_distribution`, `invalid_package_records`, `packages_truncated`, gap `count` and `detail`, unknowns kind `package_record` |
+| 2 (additive) | Debian, Ubuntu and RPM-family container findings (scope `container`), gap kind `container_not_covered` |

@@ -237,8 +237,9 @@ func (s *Store) LoadFiltered(keep func(vendor, release string) bool) (*RuleSet, 
 			}
 			dir := filepath.Join(base, vendor.Name(), rel.Name())
 			var ruleList []PackageVulnerabilityRule
-			if err := readJSON(filepath.Join(dir, "rules.json"), &ruleList); err != nil {
-				return nil, fmt.Errorf("load %s/%s: %w", vendor.Name(), rel.Name(), err)
+			rulesPath := filepath.Join(dir, "rules.json")
+			if err := readJSON(rulesPath, &ruleList); err != nil {
+				return nil, fmt.Errorf("load %s/%s: rules file %s is unreadable or corrupt (run feed sync again): %w", vendor.Name(), rel.Name(), rulesPath, err)
 			}
 			rs.Rules = append(rs.Rules, ruleList...)
 			var meta FeedSourceMetadata

@@ -32,7 +32,7 @@ It outputs one explainable decision per package and CVE.
 9. [Step E: Resolve host packages (Ubuntu)](#9-step-e-resolve-host-packages-ubuntu)
 10. [Step F: Resolve running kernel](#10-step-f-resolve-running-kernel)
 11. [Step G: Resolve Python distributions](#11-step-g-resolve-python-distributions)
-12. [Step H: Resolve containers (Alpine)](#12-step-h-resolve-containers-alpine)
+12. [Step H: Resolve containers](#12-step-h-resolve-containers)
 13. [Step I: Build output and metrics](#13-step-i-build-output-and-metrics)
 14. [Finding states and fields](#14-finding-states-and-fields)
 15. [Version comparison](#15-version-comparison)
@@ -441,13 +441,13 @@ Each distribution has:
 
 ---
 
-## 12. Step H: Resolve containers (Alpine)
+## 12. Step H: Resolve containers
 
 For each container group (by image digest):
 
-1. Infer Alpine branch from image tag or label.
-2. Match container packages to Alpine secdb rules.
-3. Compare with **apk** comparator.
+1. Alpine images: infer the branch from anchor package versions, match the packages to Alpine secdb rules and compare with the **apk** comparator.
+2. Debian, Ubuntu and RPM-family images (rhel, rocky, almalinux, amazon, opensuse): map the image's `os_release` (collector `containers` 1.2.0+) the way the host `operating_system` is mapped (aliases, codename from `VERSION_CODENAME` or the `VERSION_ID` map, same support matrix), then match by binary and source package with the host evaluator of that distribution and release and its comparator. Kernel rules are skipped (an image has no running kernel).
+3. An image with packages that cannot be evaluated (no os-release, unsupported distribution or release, no rules loaded) is a `container_not_covered` gap: coverage `partial`, exit 0. So is an image whose package database the collector could not read: the container's `packages_error` (collector `containers` 1.3.0+), or on older evidence a `containers` module error `<container id>: <reason>` whose reason names a timeout or failure (`rpm_timeout`). An image without a package database (scratch) is only a note.
 4. Scope = `container`; include `image_digest` and `container_ids[]`.
 
 Host and container findings never merge, even if package names match.
@@ -484,7 +484,7 @@ reconciliation.balanced     = true
 reconciliation.remediation_balanced = true
 ```
 
-`rule_coverage.state` is `covered`, `missing`, or `not_applicable` (a network device from `resolve --device` uses `covered`, `not_supported` or `unknown`; see [findings-contract.md](findings-contract.md#network-devices-resolve---device)). `asset_release` is only the host release. `rules_for_asset` is the number of loaded rules for that host release and stays put when some other release is missing. Each hole is a `gaps[]` entry: `missing_rules` (feed sync can fetch it) or `no_evaluator` (this build does not score that host, so feed sync will not fix it). When state is `missing`, `resolve` writes `findings.json` and then exits 1. The error names `feed sync --for` only for `missing_rules` gaps.
+`rule_coverage.state` is `covered`, `missing`, or `not_applicable` (a network device from `resolve --device` uses `covered`, `not_supported` or `unknown`; see [findings-contract.md](findings-contract.md#network-devices-resolve---device)). `asset_release` is only the host release. `rules_for_asset` is the number of loaded rules for that host release and stays put when some other release is missing. Each hole is a `gaps[]` entry: `missing_rules` (feed sync can fetch it), `no_evaluator` (this build does not score that host, so feed sync will not fix it), `no_packages` (no usable host package), `unknown_distribution`, and the partial kinds `not_synced`, `invalid_package_records`, `packages_truncated` and `container_not_covered` (see [findings-contract.md](findings-contract.md#rule_coveragegaps)). When state is `missing`, `resolve` writes `findings.json` and then exits 1. The error names `feed sync --for` only for `missing_rules` gaps.
 
 `rule_coverage.sources[]` names the data behind the loaded rules, one entry per rule directory: `release` (`ubuntu/jammy`), `source` (`ubuntu-oval-usn-jammy`), the publisher `url`, the `sha256` of the file the rules were built from, `downloaded_at` (when that file was downloaded; `rules import --fetched-at` sets it for a mirror copy), `source_updated_at` when the publisher states it, and `parser`. `covered` says rules were loaded; `downloaded_at` says how old they are. A caller that wants fresh data checks it.
 

@@ -1,11 +1,11 @@
 package evidence
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"io"
 	"os"
 )
 
@@ -26,6 +26,8 @@ type PreflightResult struct {
 	SchemaVersion    string
 	CollectionID     string
 	Fallback         bool
+	// Integrity is IntegrityVerified or IntegrityAbsent.
+	Integrity string
 }
 
 // RunPreflight verifies the evidence file path and document metadata.
@@ -36,18 +38,20 @@ func RunPreflight(path string, exp PreflightExpectations) (*Document, *Preflight
 	if exp.Filename != "" && !endsWithBase(path, exp.Filename) {
 		return nil, nil, fmt.Errorf("evidence file must be %q (got %q)", exp.Filename, path)
 	}
-	f, err := os.Open(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, nil, fmt.Errorf("open evidence: %w", err)
 	}
-	defer f.Close()
-	h := sha256.New()
-	dec := json.NewDecoder(io.TeeReader(f, h))
 	var doc Document
-	if err := dec.Decode(&doc); err != nil {
+	if err := json.NewDecoder(bytes.NewReader(data)).Decode(&doc); err != nil {
 		return nil, nil, fmt.Errorf("decode evidence: %w", err)
 	}
-	sum := hex.EncodeToString(h.Sum(nil))
+	integrity, err := VerifyPayloadHash(data)
+	if err != nil {
+		return nil, nil, fmt.Errorf("%s: %w", path, err)
+	}
+	h := sha256.Sum256(data)
+	sum := hex.EncodeToString(h[:])
 	res := &PreflightResult{
 		Path:             path,
 		SHA256:           sum,
@@ -55,6 +59,7 @@ func RunPreflight(path string, exp PreflightExpectations) (*Document, *Preflight
 		SchemaVersion:    doc.SchemaVersion,
 		CollectionID:     doc.Collection.CollectionID,
 		Fallback:         false,
+		Integrity:        integrity,
 	}
 	if exp.SHA256 != "" && sum != exp.SHA256 {
 		return nil, nil, fmt.Errorf("sha256 mismatch: expected %s got %s", exp.SHA256, sum)

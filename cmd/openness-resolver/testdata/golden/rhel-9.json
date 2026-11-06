@@ -105,7 +105,9 @@
       "vendor_status": "released"
     }
   ],
-  "notes": [],
+  "notes": [
+    "evidence has no integrity.payload_hash; the file was not integrity checked (older collector)"
+  ],
   "platform_support": "supported",
   "platform_tested": false,
   "remediation_groups": [

@@ -84,8 +84,11 @@ const (
 	CoverageNotSupported = "not_supported"
 	// CoverageUnknown: a device entry matched, but the device version could not be read.
 	CoverageUnknown = "unknown"
-	// CoveragePartial: everything was evaluated except the PyPI packages, whose data
-	// (osv-pypi) is not synced (GapNotSynced). resolve exits 0 and says so in a note.
+	// CoveragePartial: everything was evaluated except what the partial gaps name:
+	// PyPI packages whose data is not synced (GapNotSynced), malformed package
+	// records (GapInvalidPackageRecords), a cut package list
+	// (GapPackagesTruncated) or container images that were not evaluated
+	// (GapContainerNotCovered). resolve exits 0.
 	CoveragePartial = "partial"
 
 	// GapMissingRules means the release is evaluated by an existing path but
@@ -105,6 +108,10 @@ const (
 type CoverageGap struct {
 	Release string `json:"release"`
 	Kind    string `json:"kind"`
+	// Count is the number of records behind the gap (invalid_package_records).
+	Count int `json:"count,omitempty"`
+	// Detail explains the gap in words.
+	Detail string `json:"detail,omitempty"`
 }
 
 // RuleCoverage separates "nothing was found" from "nothing was evaluated".
@@ -197,6 +204,9 @@ type RunResult struct {
 	Notes             []string               `json:"notes"`
 	EvidenceErrors    []evidence.RecordError `json:"evidence_errors"`
 	GeneratedAt       time.Time              `json:"generated_at"`
+
+	// invalidPackages are the skipped package records, added to Unknowns.
+	invalidPackages []Unknown
 }
 
 // AssetSummary is the header a consumer shows: where the evidence came from.
@@ -212,6 +222,9 @@ type AssetSummary struct {
 	CollectedAt      string `json:"collected_at"`
 	CollectionStatus string `json:"collection_status"`
 	PrivilegeLevel   string `json:"privilege_level"`
+	// EvidenceIntegrity is "verified" (payload hash matched) or "not_present"
+	// (no hash in the evidence); empty when the evidence was not loaded from a file.
+	EvidenceIntegrity string `json:"evidence_integrity,omitempty"`
 }
 
 // Engine evaluates evidence against a rule set.
@@ -258,6 +271,11 @@ func (e *Engine) Resolve(lr *evidence.LoadResult) (*RunResult, error) {
 		CollectedAt:      doc.Collection.CompletedAt,
 		CollectionStatus: doc.Collection.Status,
 		PrivilegeLevel:   doc.Collection.PrivilegeLevel,
+
+		EvidenceIntegrity: lr.Integrity,
+	}
+	if lr.Integrity == evidence.IntegrityAbsent {
+		res.Notes = append(res.Notes, evidence.IntegrityAbsentNote)
 	}
 
 	// Platform applicability (Task 1).
@@ -269,10 +287,17 @@ func (e *Engine) Resolve(lr *evidence.LoadResult) (*RunResult, error) {
 
 	// Host package inventory (Tasks 2-3).
 	var hostPackages []pkgs.InstalledPackage
-	for _, rec := range lr.PackageRecords() {
+	decodeErrs := len(lr.RecordErrors)
+	pkgRecords := lr.PackageRecords()
+	var health inventoryHealth
+	for _, re := range lr.RecordErrors[decodeErrs:] {
+		health.Invalid = append(health.Invalid, Unknown{Kind: "package_record", Subject: re.EvidenceID, Reason: "invalid_package_record: " + re.Message})
+	}
+	for _, rec := range pkgRecords {
 		p, err := pkgs.FromHostRecord(rec)
 		if err != nil {
 			res.Notes = append(res.Notes, "package record rejected: "+err.Error())
+			health.Invalid = append(health.Invalid, Unknown{Kind: "package_record", Subject: rec.EvidenceID, Reason: "invalid_package_record: " + err.Error()})
 			continue
 		}
 		if !p.Installed() {
@@ -291,7 +316,9 @@ func (e *Engine) Resolve(lr *evidence.LoadResult) (*RunResult, error) {
 	res.Notes = append(res.Notes, runtimeIdx.Notes...)
 
 	// Container inventory (Task 8).
-	inventory := containers.BuildInventory(lr.ContainerRecords())
+	ctrRecords := lr.ContainerRecords()
+	markUnreadContainerPackages(doc.Modules, ctrRecords)
+	inventory := containers.BuildInventory(ctrRecords)
 	for _, msg := range inventory.PackageErrors {
 		res.Notes = append(res.Notes, "container package rejected: "+msg)
 	}
@@ -327,7 +354,11 @@ func (e *Engine) Resolve(lr *evidence.LoadResult) (*RunResult, error) {
 	for _, group := range inventory.Groups {
 		e.resolveContainerGroup(res, group)
 	}
+	health.Usable = res.Metrics.HostPackages
+	packageModuleSignals(doc, ctrRecords, &health)
+	res.invalidPackages = health.Invalid
 	res.RuleCoverage = e.ruleCoverage(res.Platform, support, pkgIndex, inventory.Groups, pyInv)
+	addCoverageGaps(&res.RuleCoverage, inventoryGaps(res.Platform, support, reason, doc.Asset.Platform, health))
 	for _, g := range res.RuleCoverage.Gaps {
 		if g.Kind == GapNotSynced {
 			res.Notes = append(res.Notes, PyPINotSyncedNote)
@@ -348,7 +379,7 @@ func (e *Engine) Resolve(lr *evidence.LoadResult) (*RunResult, error) {
 		sortRemediationGroups(res.RemediationGroups)
 	}
 	res.SoftwareInventory = buildSoftwareInventory(lr.SoftwareInventoryRecords())
-	res.Unknowns = buildUnknowns(res)
+	res.Unknowns = append(buildUnknowns(res), res.invalidPackages...)
 	reconcileOutput(res)
 	res.Metrics.ResolverDurationMS = time.Since(start).Milliseconds()
 	return res, nil
@@ -430,6 +461,14 @@ func (e *Engine) ruleCoverage(plat platform.PlatformContext, support platform.Su
 			cov.RulesForAsset = counts[release]
 		}
 	}
+	imageReleases, imageGaps := e.containerCoverage(groups, plat.RawArchitecture)
+	gaps = append(gaps, imageGaps...)
+	for _, release := range imageReleases {
+		if cov.AssetRelease == "" {
+			cov.AssetRelease = release
+			cov.RulesForAsset = counts[release]
+		}
+	}
 	if support == platform.Supported && plat.DistributionID == "ubuntu" && plat.Codename != "" {
 		gaps = append(gaps, pypiCoverageGaps(e.Rules, pyInv)...)
 	}
@@ -447,20 +486,36 @@ func (e *Engine) ruleCoverage(plat platform.PlatformContext, support platform.Su
 	}
 	cov.Gaps = gaps
 	cov.State = CoverageMissing
-	if onlyNotSynced(gaps) {
-		cov.State = CoveragePartial
-	}
-	cov.Reason = coverageReason(gaps)
+	cov.State, cov.Reason = gapState(gaps), coverageReason(gaps)
 	return cov
 }
 
-func onlyNotSynced(gaps []CoverageGap) bool {
+// addCoverageGaps merges extra gaps into cov and recomputes its state and reason.
+func addCoverageGaps(cov *RuleCoverage, extra []CoverageGap) {
+	if len(extra) == 0 {
+		return
+	}
+	cov.Gaps = append(cov.Gaps, extra...)
+	sort.SliceStable(cov.Gaps, func(i, j int) bool {
+		if cov.Gaps[i].Release != cov.Gaps[j].Release {
+			return cov.Gaps[i].Release < cov.Gaps[j].Release
+		}
+		return cov.Gaps[i].Kind < cov.Gaps[j].Kind
+	})
+	cov.State, cov.Reason = gapState(cov.Gaps), coverageReason(cov.Gaps)
+}
+
+// gapState is partial when every gap leaves the rest of the asset evaluated,
+// else missing.
+func gapState(gaps []CoverageGap) string {
 	for _, g := range gaps {
-		if g.Kind != GapNotSynced {
-			return false
+		switch g.Kind {
+		case GapNotSynced, GapInvalidPackageRecords, GapPackagesTruncated, GapContainerNotCovered:
+		default:
+			return CoverageMissing
 		}
 	}
-	return len(gaps) > 0
+	return CoveragePartial
 }
 
 // PyPINotSyncedNote is the note of a run without PyPI data.
@@ -519,6 +574,16 @@ func coverageReason(gaps []CoverageGap) string {
 			parts = append(parts, "PyPI data not synced for "+g.Release)
 		case GapNoEvaluator:
 			parts = append(parts, g.Release+" host has no package evaluator")
+		case GapNoPackages:
+			parts = append(parts, "no packages to evaluate for "+g.Release+" ("+g.Detail+")")
+		case GapUnknownDistribution:
+			parts = append(parts, "unknown distribution "+g.Release+" ("+g.Detail+")")
+		case GapInvalidPackageRecords:
+			parts = append(parts, fmt.Sprintf("%d malformed package records skipped for %s", g.Count, g.Release))
+		case GapPackagesTruncated:
+			parts = append(parts, "package list cut by the collector for "+g.Release)
+		case GapContainerNotCovered:
+			parts = append(parts, fmt.Sprintf("container image %s (%d containers) not evaluated: %s", strings.TrimPrefix(g.Release, "container:"), g.Count, g.Detail))
 		default:
 			parts = append(parts, "no rules loaded for "+g.Release)
 		}
@@ -704,14 +769,17 @@ func applyESMEntitlement(f *findings.Finding, esmActive bool) {
 func (e *Engine) resolveContainerGroup(res *RunResult, group *containers.ImageGroup) {
 	res.Metrics.ContainerPackages += len(group.Packages)
 	if len(group.Packages) == 0 {
+		if group.PackagesError != "" {
+			res.Notes = append(res.Notes, fmt.Sprintf("image %s (%s): package database could not be read (%s); packages unknown", group.ImageDigest, imageLabel(group), group.PackagesError))
+			return
+		}
 		// Distroless/scratch image or package DB unavailable: this is a
 		// visible gap, not a clean result.
 		res.Notes = append(res.Notes, fmt.Sprintf("image %s has no package database (distroless/scratch or collection gap); packages unknown", group.ImageDigest))
 		return
 	}
 	if group.Distro != "alpine" {
-		res.Notes = append(res.Notes, fmt.Sprintf("image %s distro %q not yet supported for container rules", group.ImageDigest, group.Distro))
-		res.Metrics.PackagesWithoutVendorRules += len(group.Packages)
+		e.resolveContainerVendor(res, group)
 		return
 	}
 	if group.Branch == "" {

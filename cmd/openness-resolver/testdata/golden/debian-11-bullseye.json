@@ -2,6 +2,7 @@
   "exit_code": 0,
   "findings": [],
   "notes": [
+    "evidence has no integrity.payload_hash; the file was not integrity checked (older collector)",
     "host platform not resolved: Debian 11 (bullseye) is past Debian LTS; the Debian Security Tracker no longer publishes bullseye data (ELTS is not covered)"
   ],
   "platform_support": "not_supported",

@@ -141,6 +141,8 @@ type ModuleRun struct {
 	Status        string `json:"status"`
 	Records       int    `json:"records"`
 	Errors        []any  `json:"errors"`
+	// Truncated is set by the collector when it cut the module's records.
+	Truncated bool `json:"truncated,omitempty"`
 }
 
 // Relationship links two evidence entities (e.g. process -> binary).
@@ -274,27 +276,58 @@ type ContainerPackage struct {
 	PackageManager   string `json:"package_manager"`
 	PackagesScope    string `json:"packages_scope"`
 	RawVersionString string `json:"raw_version_string"`
+	// SourcePackage / SourceVersion: the dpkg Source field (collector
+	// containers 1.2.0+); empty on older evidence and for apk/rpm.
+	SourcePackage string  `json:"source_package,omitempty"`
+	SourceVersion *string `json:"source_version,omitempty"`
+}
+
+// ContainerOSRelease is the image's os-release identity (collector
+// containers 1.2.0+). Absent on older evidence and scratch images.
+type ContainerOSRelease struct {
+	ID              string `json:"id"`
+	IDLike          string `json:"id_like,omitempty"`
+	Name            string `json:"name,omitempty"`
+	VersionID       string `json:"version_id,omitempty"`
+	VersionCodename string `json:"version_codename,omitempty"`
+	PrettyName      string `json:"pretty_name,omitempty"`
+	Source          string `json:"source,omitempty"`
+	SourceFile      string `json:"source_file,omitempty"`
+}
+
+// ContainerPackagesError says a container has a package database that the
+// collector could not read (collector containers 1.3.0+): its packages are
+// unknown, not empty. Code is rpm_timeout, rpm_unavailable or
+// package_read_failed.
+type ContainerPackagesError struct {
+	Code    string `json:"code"`
+	Message string `json:"message,omitempty"`
 }
 
 // ContainerValue is the value payload of a containers record.
 type ContainerValue struct {
-	EntityID           string             `json:"entity_id"`
-	ContainerID        string             `json:"container_id"`
-	Name               string             `json:"name"`
-	Runtime            string             `json:"runtime"`
-	State              string             `json:"state"`
-	ImageDigest        string             `json:"image_digest"`
-	ImageID            string             `json:"image_id"`
-	ImageReference     string             `json:"image_reference"`
-	IdentityPrimary    string             `json:"identity_primary"`
-	RootFSPath         string             `json:"rootfs_path"`
-	PID                *int               `json:"pid"`
-	PackageCount       int                `json:"package_count"`
-	PackageSource      string             `json:"package_source"`
-	PackagesScope      string             `json:"packages_scope"`
-	HostPackagesMerged bool               `json:"host_packages_merged"`
-	Packages           []ContainerPackage `json:"packages"`
-	Relationships      []Relationship     `json:"relationships"`
+	EntityID           string `json:"entity_id"`
+	ContainerID        string `json:"container_id"`
+	Name               string `json:"name"`
+	Runtime            string `json:"runtime"`
+	State              string `json:"state"`
+	ImageDigest        string `json:"image_digest"`
+	ImageID            string `json:"image_id"`
+	ImageReference     string `json:"image_reference"`
+	IdentityPrimary    string `json:"identity_primary"`
+	RootFSPath         string `json:"rootfs_path"`
+	PID                *int   `json:"pid"`
+	PackageCount       int    `json:"package_count"`
+	PackageSource      string `json:"package_source"`
+	PackagesScope      string `json:"packages_scope"`
+	HostPackagesMerged bool   `json:"host_packages_merged"`
+	// PackagesTruncated: the collector cut this container's package list.
+	PackagesTruncated bool                `json:"packages_truncated,omitempty"`
+	OSRelease         *ContainerOSRelease `json:"os_release,omitempty"`
+	// PackagesError: the package database was present but not read.
+	PackagesError *ContainerPackagesError `json:"packages_error,omitempty"`
+	Packages      []ContainerPackage      `json:"packages"`
+	Relationships []Relationship          `json:"relationships"`
 }
 
 // LoadedLibrary is one shared object mapped into a process.

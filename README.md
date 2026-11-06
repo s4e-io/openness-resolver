@@ -17,9 +17,10 @@ vulnerable, fixed or not affected, and why.
 - **Explainable.** Every finding carries the vendor rule, the version comparison, the
   evidence ids and the reasons; `explain` prints them.
 - **Platforms.** Ubuntu, Debian, RHEL, Rocky Linux, AlmaLinux, openSUSE Leap, Amazon Linux,
-  Alpine (hosts and container images), Windows (OS build via MSRC, installed applications),
+  Alpine, Windows (OS build via MSRC, installed applications),
   PyPI packages and network devices (Cisco, Fortinet, Juniper, MikroTik, Palo Alto, Aruba,
-  Ubiquiti; matched from SNMP data).
+  Ubiquiti; matched from SNMP data). Container images of these Linux distributions are
+  evaluated with the same rules, keyed by the image's os-release.
 
 License: [Apache License 2.0](LICENSE). Version: [`VERSION`](VERSION), changes in
 [CHANGELOG.md](CHANGELOG.md).
@@ -116,11 +117,22 @@ openness-resolver resolve --input testdata/evidence/synthetic/alpine-3.20.openne
 | `findings[].rule` | The vendor rule: source, URL, feed snapshot, raw vendor status. |
 | `findings[].reasons[]` | Why, in words. |
 | `remediation_groups[]` | Upgrade cards: packages to upgrade, target versions, the CVEs each card closes, a `command_hint` (for example `dnf upgrade openssl openssl-libs`). |
-| `rule_coverage` | Which rules were loaded for this asset (`asset_release`, `rules_for_asset`, `sources[]` with URL, SHA-256, download time and, for the application mapper, its `version`) and whether they cover it (`state`: `covered`, `missing`, `not_applicable`; for a network device also `not_supported` and `unknown`). |
+| `rule_coverage` | Which rules were loaded for this asset (`asset_release`, `rules_for_asset`, `sources[]` with URL, SHA-256, download time and, for the application mapper, its `version`) and whether they cover it (`state`: `covered`, `partial`, `missing`, `not_applicable`; for a network device also `not_supported` and `unknown`). `gaps[]` names each hole by `kind`: `missing_rules`, `no_evaluator`, `not_synced`, `no_packages`, `unknown_distribution`, `invalid_package_records` (with `count`), `packages_truncated`, `container_not_covered` (with `count` and `detail`). |
 | `unknowns[]`, `notes[]` | What was seen but not judged. An empty `findings[]` with a non-empty `unknowns[]` is not a clean host. |
 
-When rules for the asset release are missing, `resolve` still writes the findings but exits
-with code 1: missing rules are never reported as a clean host.
+When rules for the asset release are missing, the evidence has no usable package
+(`no_packages`) or the distribution is unknown (`unknown_distribution`), `resolve` still
+writes the findings but exits with code 1: a host that was not evaluated is never reported
+as clean. Skipped malformed package records (`invalid_package_records`) and a package list
+the collector cut (`packages_truncated`) make the coverage `partial`; the rest is evaluated
+and the exit code is 0. So does a container image that could not be evaluated
+(`container_not_covered`: no os-release, a distribution or release without support, no
+rules loaded for its release, or a package database the collector could not read).
+
+When the evidence carries `integrity.payload_hash`, `resolve` checks it the way the
+collector computed it and stops with exit 1 on a mismatch (no findings are written).
+Evidence without a hash is accepted with a note; `asset.evidence_integrity` says which
+(`verified` or `not_present`).
 
 ## Usage
 
@@ -337,7 +349,7 @@ openness-resolver resolve --device switch.json --data-dir data --output switch-f
 |---|---|---|
 | `--input <file>` | The `.openness` evidence file. Required unless `--device` is given; not both. | `--input host.openness` |
 | `--device <file>` | A network device file (`openness-device/1`, written by the desktop from SNMP) to resolve instead of `--input`. | `--device switch.json` |
-| `--preflight` | Strict evidence check before resolving: `schema_version` and `asset.asset_id` must be present. Default `false`. | `--preflight` |
+| `--preflight` | Strict evidence check before resolving: `schema_version` and `asset.asset_id` must be present. The payload hash and the coverage rules are the same as without it. Default `false`. | `--preflight` |
 
 #### Data and sync
 
@@ -457,8 +469,8 @@ The resolver reads no environment variable of its own (`OPENNESS_OSV_URL` and
 
 | Code | Meaning |
 |---|---|
-| `0` | Success. For `resolve`: the rules covered the asset, or only the PyPI data is missing (`rule_coverage.state` `partial`, gap kind `not_synced`, and a note). |
-| `1` | An error (`error: ...` on stderr), a failed source in `feed sync`, or `resolve` without rule coverage for the asset (the findings are still written). |
+| `0` | Success. For `resolve`: the rules covered the asset, or the coverage is `partial` (gap kinds `not_synced`, `invalid_package_records`, `packages_truncated`, `container_not_covered`; the rest is evaluated). |
+| `1` | An error (`error: ...` on stderr), a failed source in `feed sync`, or `resolve` without rule coverage for the asset (`rule_coverage.state` `missing`, including gap kinds `no_packages` and `unknown_distribution`; the findings are still written). An evidence file whose `integrity.payload_hash` does not match is an error. |
 | `2` | Usage error: unknown command or flag, or a flag value that does not parse (for example `--months two`). |
 
 ## Data sources
