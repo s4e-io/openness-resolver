@@ -41,10 +41,20 @@ func TestParseRejectsTrailingData(t *testing.T) {
 
 func TestParseRejectsOversizeEvidence(t *testing.T) {
 	base := `{"schema_version":"1.3.2"}`
-	spaces := io.LimitReader(strings.NewReader(strings.Repeat(" ", MaxEvidenceBytes)), MaxEvidenceBytes)
+	spaces := io.LimitReader(spaceReader{}, MaxEvidenceBytes)
 	if _, err := Parse(io.MultiReader(strings.NewReader(base), spaces)); err == nil {
-		t.Fatal("accepted evidence over 64 MiB")
+		t.Fatal("accepted evidence over the size limit")
 	}
+}
+
+// spaceReader yields endless spaces without holding them in memory.
+type spaceReader struct{}
+
+func (spaceReader) Read(p []byte) (int, error) {
+	for i := range p {
+		p[i] = ' '
+	}
+	return len(p), nil
 }
 
 func TestMalformedRecordIsCollectedNotFatal(t *testing.T) {

@@ -1,3 +1,3 @@
 module github.com/s4e-io/openness-resolver
 
-go 1.26.10
+go 1.25.1

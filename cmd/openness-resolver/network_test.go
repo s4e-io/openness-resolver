@@ -30,7 +30,7 @@ var nightlyCases = []struct {
 	release   string // rule_coverage.asset_release the fixture must get
 	syncExtra []string
 }{
-	{evidence: "ubuntu-22.04-jammy", release: "ubuntu/jammy"}, // also queries OSV for one PyPI package
+	{evidence: "ubuntu-22.04-jammy", release: "ubuntu/jammy"}, // also syncs osv-pypi for its PyPI package
 	{evidence: "ubuntu-24.04-noble", release: "ubuntu/noble"},
 	{evidence: "debian-12-bookworm", release: "debian/bookworm"},
 	{evidence: "rocky-9", release: "rocky/9"},
@@ -46,7 +46,7 @@ func nightlyEnv(t *testing.T) []string {
 	if os.Getenv("OPENNESS_NIGHTLY") != "1" {
 		t.Skip("set OPENNESS_NIGHTLY=1 to sync from the publishers")
 	}
-	// No OPENNESS_* variable reaches the binary: PyPI goes to the public api.osv.dev.
+	// No OPENNESS_* variable reaches the binary.
 	var env []string
 	for _, kv := range os.Environ() {
 		if !strings.HasPrefix(strings.ToUpper(kv), "OPENNESS_") {

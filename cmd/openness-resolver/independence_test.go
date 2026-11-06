@@ -16,7 +16,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/s4e-io/openness-resolver/internal/feed/osv"
 	"github.com/s4e-io/openness-resolver/internal/rules"
 )
 
@@ -176,37 +175,11 @@ func TestEverySourceURLIsAPublisher(t *testing.T) {
 	for _, s := range srcs {
 		checkHost(t, "source "+s.ID, s.URL)
 	}
-	checkHost(t, "osv.DefaultEndpoint", osv.DefaultEndpoint)
 }
 
-// OPENNESS_OSV_URL and OPENNESS_OSV_HEADERS are optional: without them PyPI
-// queries go to api.osv.dev with no extra header.
-func TestOSVEnvironmentIsOptional(t *testing.T) {
-	t.Setenv("OPENNESS_OSV_URL", "")
-	t.Setenv("OPENNESS_OSV_HEADERS", "")
-	defer func() { osv.Endpoint, osv.Headers = osv.DefaultEndpoint, map[string]string{} }()
-	setOSVEndpoint("")
-	if osv.Endpoint != "https://api.osv.dev/v1/query" {
-		t.Errorf("endpoint %s, want the public OSV API", osv.Endpoint)
-	}
-	if len(osv.Headers) != 0 {
-		t.Errorf("headers %v, want none", osv.Headers)
-	}
-	t.Setenv("OPENNESS_OSV_URL", "https://osv-mirror.example.org/v1/query")
-	t.Setenv("OPENNESS_OSV_HEADERS", "Authorization: Bearer x\nmalformed line")
-	setOSVEndpoint("")
-	if osv.Endpoint != "https://osv-mirror.example.org/v1/query" || len(osv.Headers) != 1 {
-		t.Errorf("endpoint %s headers %v", osv.Endpoint, osv.Headers)
-	}
-	setOSVEndpoint("https://flag.example.org/v1/query")
-	if osv.Endpoint != "https://flag.example.org/v1/query" {
-		t.Errorf("--osv-url must win over OPENNESS_OSV_URL, got %s", osv.Endpoint)
-	}
-}
-
-// The full offline flow (import, PyPI sync from a mirror, resolve) runs with no
-// OPENNESS_* variable set: offlineEnv strips them, and the golden tests use it.
-// This test pins that the binary reads no other OPENNESS_* variable.
+// The full offline flow (import, resolve) runs with no OPENNESS_* variable set:
+// offlineEnv strips them, and the golden tests use it. This test pins that the binary
+// reads no environment variable of its own.
 func TestOnlyDocumentedEnvironmentVariables(t *testing.T) {
 	re := regexp.MustCompile(`Getenv\("([A-Z0-9_]+)"\)|LookupEnv\("([A-Z0-9_]+)"\)`)
 	found := map[string]bool{}
@@ -217,8 +190,6 @@ func TestOnlyDocumentedEnvironmentVariables(t *testing.T) {
 		}
 	}
 	for name := range found {
-		if name != "OPENNESS_OSV_URL" && name != "OPENNESS_OSV_HEADERS" {
-			t.Errorf("code reads environment variable %s; document it in README and add it here", name)
-		}
+		t.Errorf("code reads environment variable %s; document it in README and add it here", name)
 	}
 }

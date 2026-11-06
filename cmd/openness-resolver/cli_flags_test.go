@@ -111,9 +111,9 @@ func shared(t *testing.T) sharedFixture {
 				return
 			}
 		}
-		mirror := newOSVMirror(t)
-		if r := run(t, "feed", "sync", "--for", evidencePath("ubuntu-22.04-jammy"), "--pypi-only", "--osv-url", mirror.queryURL(), "--data-dir", fx.data); r.Code != 0 {
-			sharedErr = "pypi sync: " + r.Stdout + r.Stderr
+		pypiZip := packZip(t, fixture("testdata/feeds/osv/pypi"), filepath.Join(dir, "pypi-all.zip"))
+		if r := run(t, "rules", "import", "--source", "osv-pypi", "--file", pypiZip, "--data-dir", fx.data); r.Code != 0 {
+			sharedErr = "pypi import: " + r.Stdout + r.Stderr
 			return
 		}
 		fx.ubuntuFindings = filepath.Join(dir, "ubuntu-findings.json")
@@ -166,7 +166,6 @@ func TestFlagsFeed(t *testing.T) {
 			enabled++
 		}
 	}
-	mirror := newOSVMirror(t)
 	ubuntu := evidencePath("ubuntu-22.04-jammy")
 	runFlagCases(t, []flagCase{
 		{name: "no subcommand", args: []string{"feed"}, code: 1, stderr: []string{"feed requires a subcommand: sync | list | validate"}},
@@ -215,7 +214,7 @@ func TestFlagsFeed(t *testing.T) {
 				}
 			}},
 		{name: "vendor unknown", args: []string{"feed", "sync", "--vendor", "fedora"}, code: 1,
-			stderr: []string{`unknown vendor "fedora" (one of: almalinux, alpine, amazon, debian, microsoft, openness, opensuse, rhel, rocky, ubuntu)`}},
+			stderr: []string{`unknown vendor "fedora" (one of: almalinux, alpine, amazon, debian, microsoft, openness, opensuse, pypi, rhel, rocky, ubuntu)`}},
 		{name: "months zero", args: []string{"feed", "sync", "--vendor", "microsoft", "--months", "0"}, code: 1,
 			stderr: []string{"--months must be at least 1, got 0"}},
 		{name: "months not a number", args: []string{"feed", "sync", "--months", "two"}, code: 2,
@@ -229,7 +228,7 @@ func TestFlagsFeed(t *testing.T) {
 		{name: "all not a bool", args: []string{"feed", "sync", "--all=maybe"}, code: 2,
 			stderr: []string{`invalid boolean value "maybe" for -all`}},
 		{name: "for ubuntu", args: []string{"feed", "sync", "--for", ubuntu, "--dry-run"},
-			stdout: []string{"host ubuntu 22.04 (release key jammy)", "source ubuntu-oval-usn-jammy ", "source osv-pypi https://api.osv.dev/v1/query (1 packages)"}},
+			stdout: []string{"host ubuntu 22.04 (release key jammy)", "source ubuntu-oval-usn-jammy ", "host: 1 PyPI packages -> osv-pypi", "source osv-pypi https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip"}},
 		{name: "for debian", args: []string{"feed", "sync", "--for", evidencePath("debian-12-bookworm"), "--dry-run"},
 			stdout: []string{"source debian-security-tracker "}},
 		{name: "for debian unsupported release", args: []string{"feed", "sync", "--for", evidencePath("debian-11-bullseye"), "--dry-run"},
@@ -256,33 +255,18 @@ func TestFlagsFeed(t *testing.T) {
 		{name: "for and source combined", args: []string{"feed", "sync", "--for", evidencePath("rocky-9"), "--source", "osv-rhel", "--dry-run"},
 			stdout: []string{"source osv-rocky ", "source osv-rhel "}},
 
-		// --pypi-only and --osv-url, against a local OSV mirror.
+		// --pypi-only and --osv-url are deprecated: osv-pypi alone, --osv-url ignored, and a
+		// failed download is a warning with exit 0.
 		{name: "pypi-only needs for", args: []string{"feed", "sync", "--pypi-only"}, code: 1, stderr: []string{"--pypi-only needs --for"}},
 		{name: "pypi-only without pypi packages", args: []string{"feed", "sync", "--for", evidencePath("rocky-9"), "--pypi-only", "--data-dir", "{tmp}"},
 			stdout: []string{"no PyPI packages in the evidence"}},
-		{name: "pypi-only osv-url", args: []string{"feed", "sync", "--for", ubuntu, "--pypi-only", "--osv-url", mirror.queryURL(), "--data-dir", "{tmp}"},
-			stdout: []string{"==> pypi (1 packages named in evidence)"},
-			check: func(t *testing.T, tmp string, _ cliResult) {
-				assertPyPIRules(t, tmp, "psutil")
-			}},
-		{name: "osv-url dry run", args: []string{"feed", "sync", "--for", ubuntu, "--pypi-only", "--osv-url", mirror.queryURL(), "--dry-run"},
-			stdout: []string{"source osv-pypi " + mirror.queryURL() + " (1 packages)"}},
-		{name: "OPENNESS_OSV_URL and OPENNESS_OSV_HEADERS", args: []string{"feed", "sync", "--for", ubuntu, "--pypi-only", "--data-dir", "{tmp}"},
-			env: []string{"OPENNESS_OSV_URL=" + mirror.queryURL(), "OPENNESS_OSV_HEADERS=X-Mirror-Key: k1\nX-Team: qa"},
-			check: func(t *testing.T, tmp string, _ cliResult) {
-				assertPyPIRules(t, tmp, "psutil")
-				h := mirror.headers[len(mirror.headers)-1]
-				if h.Get("X-Mirror-Key") != "k1" || h.Get("X-Team") != "qa" {
-					t.Errorf("mirror got headers %v", h)
-				}
-			}},
-		{name: "osv-url overrides OPENNESS_OSV_URL", args: []string{"feed", "sync", "--for", ubuntu, "--pypi-only", "--osv-url", mirror.queryURL(), "--data-dir", "{tmp}"},
-			env: []string{"OPENNESS_OSV_URL=http://127.0.0.1:9/v1/query"},
-			check: func(t *testing.T, tmp string, _ cliResult) {
-				assertPyPIRules(t, tmp, "psutil")
-			}},
-		{name: "osv-url unreachable", args: []string{"feed", "sync", "--for", ubuntu, "--pypi-only", "--osv-url", "http://127.0.0.1:9/v1/query", "--data-dir", "{tmp}"},
-			code: 1, stderr: []string{"osv pypi sync: fetch psutil"}},
+		{name: "pypi-only osv-url dry run", args: []string{"feed", "sync", "--for", ubuntu, "--pypi-only", "--osv-url", "http://127.0.0.1:9/v1/query", "--dry-run"},
+			stdout: []string{"source osv-pypi https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip"}, notStdout: []string{"ubuntu-oval"},
+			stderr: []string{"--osv-url is deprecated and ignored", "--pypi-only is deprecated"}},
+		{name: "pypi-only unreachable is a warning", args: []string{"feed", "sync", "--for", ubuntu, "--pypi-only", "--data-dir", "{tmp}"},
+			stdout: []string{"WARNING: PyPI data could not be synced"}},
+		{name: "vendor pypi", args: []string{"feed", "sync", "--vendor", "pypi", "--dry-run"},
+			stdout: []string{"source osv-pypi https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip"}},
 
 		// feed validate selects every enabled source by default.
 		{name: "validate default", args: []string{"feed", "validate", "--dry-run"},
@@ -378,6 +362,17 @@ func TestFlagsRules(t *testing.T) {
 		importCase("import amazon mirror id", "amazon-al2023", "testdata/feeds/amazon/updateinfo-2023.xml", "amazon", "2023"),
 		importCase("import msrc", "msrc-cvrf-2026-Oct", "internal/resolver/testdata/msrc/2026-Oct.json", "microsoft", "windows_server_2022"),
 		importCase("import msrc mirror id", "msrc-2026-Oct", "internal/resolver/testdata/msrc/2026-Oct.json", "microsoft", "windows_server_2022"),
+		{name: "import osv-pypi zip", args: []string{"rules", "import", "--source", "osv-pypi", "--file", "{tmp}/pypi-all.zip", "--fetched-at", "2026-11-05T00:00:00Z", "--data-dir", "{tmp}"},
+			setup: func(t *testing.T, tmp string) {
+				packZip(t, fixture("testdata/feeds/osv/pypi"), filepath.Join(tmp, "pypi-all.zip"))
+			},
+			check: func(t *testing.T, tmp string, _ cliResult) {
+				assertPyPIRules(t, tmp, "psutil")
+				m := readMeta(t, filepath.Join(tmp, "normalized", "pypi", "pypi", "metadata.json"))
+				if m.SourceName != "osv-pypi" || len(m.PackageNames) != 0 || m.SHA256 == "" {
+					t.Errorf("metadata %+v", m)
+				}
+			}},
 		{name: "import osv distro zip", args: []string{"rules", "import", "--source", "osv-almalinux", "--file", "{tmp}/almalinux-all.zip", "--data-dir", "{tmp}"},
 			setup: func(t *testing.T, tmp string) {
 				packZip(t, fixture("testdata/feeds/osv/almalinux"), filepath.Join(tmp, "almalinux-all.zip"))

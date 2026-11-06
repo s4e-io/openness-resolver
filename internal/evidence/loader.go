@@ -13,8 +13,8 @@ import (
 // instead of being resolved into a misleading result.
 const SupportedSchemaMajor = "1"
 
-// MaxEvidenceBytes matches the desktop's limit on evidence fetched from a host.
-const MaxEvidenceBytes = 64 << 20
+// MaxEvidenceBytes matches the collector's largest output (evidencefile.MaxOutputBytes).
+const MaxEvidenceBytes = 256 << 20
 
 // RecordError describes a single record that failed to decode. Record errors
 // never abort document loading; the resolver reports them and continues.

@@ -69,8 +69,9 @@ type FeedSourceMetadata struct {
 	ParserVersion   string     `json:"parser_version"`
 	RawObjectID     string     `json:"raw_object_id"`
 	SnapshotDir     string     `json:"snapshot_dir"`
-	// PackageNames is the set of PyPI distributions this snapshot covers,
-	// including names that had no vulnerabilities. A later sync unions into it.
+	// PackageNames is the set of PyPI distributions this snapshot covers, including names
+	// that had no vulnerabilities, for data from the per-package OSV queries of older
+	// versions. The osv-pypi archive covers every package and leaves it empty.
 	PackageNames []string `json:"package_names,omitempty"`
 	// Vendor and Release are the directory the snapshot was loaded from
 	// (normalized/<vendor>/<release>); they are not stored in metadata.json.
@@ -233,6 +234,16 @@ func Registry() []AdvisorySource {
 			Format: "osv-zip", Priority: 1, Enabled: true, Parser: "osv-distro",
 			RefreshInterval: 24 * time.Hour,
 		},
+		// PyPI advisories (PyPA advisory database and GitHub advisories, through OSV): one
+		// archive for every PyPI package, downloaded like the distribution feeds so resolve
+		// never asks OSV per package. Rules go to pypi/pypi.
+		{
+			ID: "osv-pypi", Name: "PyPI advisories (OSV)",
+			Ecosystem: "pypi", Vendor: "pypi",
+			URL:    "https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip",
+			Format: "osv-zip", Priority: 4, Enabled: true, Parser: "osv-pypi",
+			RefreshInterval: 24 * time.Hour,
+		},
 		// The application and device mapper (catalog by S4E plus NVD data), published as a
 		// release asset of a public GitHub repository; no account or key.
 		{
@@ -242,7 +253,7 @@ func Registry() []AdvisorySource {
 			Format: "openness-app-mapper-gz", Priority: 5, Enabled: true, Parser: "app-mapper",
 			RefreshInterval: 24 * time.Hour,
 		},
-		// Generic OSV (registered, disabled; PyPI uses the OSV query API).
+		// Generic OSV (registered, disabled; PyPI has its own source, osv-pypi).
 		{ID: "osv", Name: "OSV", Ecosystem: "multi", Vendor: "osv", URL: "https://osv-vulnerabilities.storage.googleapis.com", Format: "osv-json", Priority: 4, Enabled: false, Parser: "osv", RefreshInterval: 24 * time.Hour},
 	}...)
 }

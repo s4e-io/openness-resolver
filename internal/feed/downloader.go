@@ -12,6 +12,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -19,6 +20,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -31,9 +33,14 @@ type Downloader struct {
 	Client     *http.Client
 	MaxRetries int
 	Backoff    time.Duration
+	// MaxWait caps one wait between tries. A server asking for more (Retry-After on a
+	// 429 or 503, for example an hourly limit) is not waited for: the download fails.
+	MaxWait time.Duration
 	// DataDir is the root that holds raw/<vendor>/<date>/ snapshots.
 	DataDir string
 	Now     func() time.Time
+	// Sleep waits between tries (time.Sleep; tests replace it).
+	Sleep func(time.Duration)
 }
 
 // NewDownloader creates a Downloader with production defaults.
@@ -42,8 +49,10 @@ func NewDownloader(dataDir string) *Downloader {
 		Client:     &http.Client{Timeout: 120 * time.Second},
 		MaxRetries: 3,
 		Backoff:    2 * time.Second,
+		MaxWait:    60 * time.Second,
 		DataDir:    dataDir,
 		Now:        time.Now,
+		Sleep:      time.Sleep,
 	}
 }
 
@@ -80,19 +89,83 @@ func (d *Downloader) Fetch(src rules.AdvisorySource) (*SnapshotResult, error) {
 	var prev snapshotState
 	_ = readJSONFile(d.stateFile(src.ID), &prev)
 
-	var lastErr error
-	for attempt := 0; attempt <= d.MaxRetries; attempt++ {
-		if attempt > 0 {
-			time.Sleep(d.Backoff * time.Duration(1<<uint(attempt-1)))
-		}
-		res, err := d.fetchOnce(src, prev)
-		if err != nil {
-			lastErr = err
-			continue
-		}
-		return res, nil
+	sleep := d.Sleep
+	if sleep == nil {
+		sleep = time.Sleep
 	}
-	return nil, fmt.Errorf("source %s: download failed after %d attempts: %w", src.ID, d.MaxRetries+1, lastErr)
+	var lastErr error
+	attempts := 0
+	for attempt := 0; attempt <= d.MaxRetries; attempt++ {
+		attempts++
+		res, err := d.fetchOnce(src, prev)
+		if err == nil {
+			return res, nil
+		}
+		lastErr = err
+		if attempt == d.MaxRetries {
+			break
+		}
+		wait := d.Backoff * time.Duration(1<<uint(attempt))
+		var se *StatusError
+		if errors.As(err, &se) {
+			if !se.Retryable() {
+				// 404, 403, ...: asking again gives the same answer.
+				break
+			}
+			if se.RetryAfter >= 0 {
+				wait = se.RetryAfter
+			}
+		}
+		if d.MaxWait > 0 && wait > d.MaxWait {
+			if se != nil && se.RetryAfter > d.MaxWait {
+				lastErr = fmt.Errorf("%w (server asks to retry after %s)", err, se.RetryAfter)
+				break
+			}
+			wait = d.MaxWait
+		}
+		sleep(wait)
+	}
+	return nil, fmt.Errorf("source %s: download failed after %d attempts: %w", src.ID, attempts, lastErr)
+}
+
+// StatusError is a download answered with an HTTP status other than 200 or 304.
+type StatusError struct {
+	Status int
+	URL    string
+	// RetryAfter is the server's Retry-After (delay seconds or HTTP date), -1 when absent.
+	RetryAfter time.Duration
+}
+
+func (e *StatusError) Error() string { return fmt.Sprintf("http %d from %s", e.Status, e.URL) }
+
+// Retryable: 408, 429 and 5xx are worth another try; other statuses are not.
+func (e *StatusError) Retryable() bool {
+	return e.Status == http.StatusRequestTimeout || e.Status == http.StatusTooManyRequests || e.Status >= 500
+}
+
+func statusError(resp *http.Response, url string, now time.Time) *StatusError {
+	return &StatusError{Status: resp.StatusCode, URL: url, RetryAfter: ParseRetryAfter(resp.Header.Get("Retry-After"), now)}
+}
+
+// ParseRetryAfter reads a Retry-After value, delay seconds or an HTTP date; -1 when it is
+// absent or unreadable, 0 for a time already past.
+func ParseRetryAfter(v string, now time.Time) time.Duration {
+	v = strings.TrimSpace(v)
+	if v == "" {
+		return -1
+	}
+	var d time.Duration
+	if n, err := strconv.Atoi(v); err == nil {
+		d = time.Duration(n) * time.Second
+	} else if t, err := http.ParseTime(v); err == nil {
+		d = t.Sub(now)
+	} else {
+		return -1
+	}
+	if d < 0 {
+		d = 0
+	}
+	return d
 }
 
 func (d *Downloader) fetchOnce(src rules.AdvisorySource, prev snapshotState) (*SnapshotResult, error) {
@@ -126,7 +199,7 @@ func (d *Downloader) fetchOnce(src rules.AdvisorySource, prev snapshotState) (*S
 		// a full re-download.
 	}
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNotModified {
-		return nil, fmt.Errorf("http %d from %s", resp.StatusCode, src.URL)
+		return nil, statusError(resp, src.URL, d.Now())
 	}
 	if resp.StatusCode == http.StatusNotModified {
 		// No usable previous copy: re-request unconditionally.
@@ -141,7 +214,7 @@ func (d *Downloader) fetchOnce(src rules.AdvisorySource, prev snapshotState) (*S
 		}
 		defer resp2.Body.Close()
 		if resp2.StatusCode != http.StatusOK {
-			return nil, fmt.Errorf("http %d from %s", resp2.StatusCode, src.URL)
+			return nil, statusError(resp2, src.URL, d.Now())
 		}
 		resp = resp2
 	}
