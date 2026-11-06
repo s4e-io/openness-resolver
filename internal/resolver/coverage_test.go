@@ -142,6 +142,7 @@ func TestPyPIFullFeedCoversEveryPackage(t *testing.T) {
 
 func TestRuleCoveragePyPINamesOnlyTheUnfetchedPackage(t *testing.T) {
 	doc := tf.NewUbuntuJammyARM64().
+		AddPackage("bash", "5.1-6ubuntu1").
 		AddPythonDistribution(map[string]any{
 			"entity_id":          "py-dist:demo",
 			"name_normalized":    "demo-pkg",
@@ -149,7 +150,8 @@ func TestRuleCoveragePyPINamesOnlyTheUnfetchedPackage(t *testing.T) {
 			"raw_version_string": "1.0.0",
 			"resolver_ecosystem": "pypi",
 		})
-	res := resolve(t, doc, tf.PyPIRule("CVE-1", "other-pkg", "GHSA-1", "released", "2.0.0"))
+	res := resolve(t, doc, tf.PyPIRule("CVE-1", "other-pkg", "GHSA-1", "released", "2.0.0"),
+		tf.UbuntuRule("CVE-2", "jammy", "bash", "bash", "released", "5.0"))
 	if len(res.RuleCoverage.Gaps) != 1 || res.RuleCoverage.Gaps[0].Release != "pypi/demo-pkg" {
 		t.Fatalf("gaps=%+v", res.RuleCoverage.Gaps)
 	}

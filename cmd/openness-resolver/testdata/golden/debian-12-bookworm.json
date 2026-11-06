@@ -556,6 +556,7 @@
     }
   ],
   "notes": [
+    "evidence has no integrity.payload_hash; the file was not integrity checked (older collector)",
     "1 installed kernel package(s) do not match the running kernel 6.1.0-18-amd64 and were not evaluated (old kernels on disk are not the running attack surface)"
   ],
   "platform_support": "supported",

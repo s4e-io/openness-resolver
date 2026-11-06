@@ -1,6 +1,7 @@
 package evidence
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -25,16 +26,25 @@ type RecordError struct {
 type LoadResult struct {
 	Doc          *Document
 	RecordErrors []RecordError
+	// Integrity is IntegrityVerified or IntegrityAbsent after Load; empty when
+	// the document was parsed from a reader and not checked.
+	Integrity string
 }
 
-// Load reads and decodes a .openness file.
+// Load reads and decodes a .openness file and verifies its payload hash.
 func Load(path string) (*LoadResult, error) {
-	f, err := os.Open(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("open evidence file: %w", err)
 	}
-	defer f.Close()
-	return Parse(f)
+	lr, err := Parse(bytes.NewReader(data))
+	if err != nil {
+		return nil, err
+	}
+	if lr.Integrity, err = VerifyPayloadHash(data); err != nil {
+		return nil, fmt.Errorf("%s: %w", path, err)
+	}
+	return lr, nil
 }
 
 // Parse decodes a .openness document from a reader.

@@ -2,6 +2,7 @@
   "exit_code": 1,
   "findings": [],
   "notes": [
+    "evidence has no integrity.payload_hash; the file was not integrity checked (older collector)",
     "no MSRC rules for windows_server_2022 on build 20348.1000"
   ],
   "platform_support": "supported",

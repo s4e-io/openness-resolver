@@ -141,6 +141,8 @@ type ModuleRun struct {
 	Status        string `json:"status"`
 	Records       int    `json:"records"`
 	Errors        []any  `json:"errors"`
+	// Truncated is set by the collector when it cut the module's records.
+	Truncated bool `json:"truncated,omitempty"`
 }
 
 // Relationship links two evidence entities (e.g. process -> binary).
@@ -278,23 +280,25 @@ type ContainerPackage struct {
 
 // ContainerValue is the value payload of a containers record.
 type ContainerValue struct {
-	EntityID           string             `json:"entity_id"`
-	ContainerID        string             `json:"container_id"`
-	Name               string             `json:"name"`
-	Runtime            string             `json:"runtime"`
-	State              string             `json:"state"`
-	ImageDigest        string             `json:"image_digest"`
-	ImageID            string             `json:"image_id"`
-	ImageReference     string             `json:"image_reference"`
-	IdentityPrimary    string             `json:"identity_primary"`
-	RootFSPath         string             `json:"rootfs_path"`
-	PID                *int               `json:"pid"`
-	PackageCount       int                `json:"package_count"`
-	PackageSource      string             `json:"package_source"`
-	PackagesScope      string             `json:"packages_scope"`
-	HostPackagesMerged bool               `json:"host_packages_merged"`
-	Packages           []ContainerPackage `json:"packages"`
-	Relationships      []Relationship     `json:"relationships"`
+	EntityID           string `json:"entity_id"`
+	ContainerID        string `json:"container_id"`
+	Name               string `json:"name"`
+	Runtime            string `json:"runtime"`
+	State              string `json:"state"`
+	ImageDigest        string `json:"image_digest"`
+	ImageID            string `json:"image_id"`
+	ImageReference     string `json:"image_reference"`
+	IdentityPrimary    string `json:"identity_primary"`
+	RootFSPath         string `json:"rootfs_path"`
+	PID                *int   `json:"pid"`
+	PackageCount       int    `json:"package_count"`
+	PackageSource      string `json:"package_source"`
+	PackagesScope      string `json:"packages_scope"`
+	HostPackagesMerged bool   `json:"host_packages_merged"`
+	// PackagesTruncated: the collector cut this container's package list.
+	PackagesTruncated bool               `json:"packages_truncated,omitempty"`
+	Packages          []ContainerPackage `json:"packages"`
+	Relationships     []Relationship     `json:"relationships"`
 }
 
 // LoadedLibrary is one shared object mapped into a process.

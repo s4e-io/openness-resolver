@@ -20,6 +20,10 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- `resolve` no longer reports a host it could not evaluate as clean. Evidence with an OS but no usable host package (empty or missing list, only malformed records, packages module `unavailable`, `empty` or failed) gives `rule_coverage.state` `missing` with gap `no_packages`, and an unknown or missing distribution gives gap `unknown_distribution`; both exit 1 and still write `findings.json`. `--preflight` reports the same.
+- Skipped malformed package records are counted in gap `invalid_package_records` (`count`) and listed in `unknowns[]`; a package list the collector cut is gap `packages_truncated`. Both make the coverage `partial` with exit 0.
+- `resolve` verifies `integrity.payload_hash` the way the collector computes it; a mismatch is an error naming the file (exit 1). Evidence without a hash is accepted with a note and `asset.evidence_integrity` `not_present`.
+- A corrupt or truncated `rules.json` error names the file path.
 - `resolve` makes no network call for PyPI: Python packages are matched against the local `osv-pypi` data. Without it, `rule_coverage.state` is `partial` with a `not_synced` gap for `pypi` and a note, the rest of the asset is resolved and the exit code is 0 (it was 1).
 - `osv-pypi` data counts as old after 2 days, like the distribution feeds (it was never old).
 - `feed sync --pypi-only` is deprecated: it syncs only `osv-pypi`, and a failed download is a warning with exit 0. `--osv-url` is deprecated and ignored.

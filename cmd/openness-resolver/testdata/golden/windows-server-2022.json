@@ -258,6 +258,7 @@
     }
   ],
   "notes": [
+    "evidence has no integrity.payload_hash; the file was not integrity checked (older collector)",
     "windows build 20348.1000 is not a hotpatch build; 2 hotpatch rules set aside"
   ],
   "platform_support": "supported",

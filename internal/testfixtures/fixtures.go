@@ -61,7 +61,7 @@ func (d *Doc) SetOS(fields map[string]any) *Doc {
 	return d
 }
 
-func (d *Doc) appendRecord(category string, value map[string]any) *Doc {
+func (d *Doc) appendRecord(category string, value any) *Doc {
 	rec := map[string]any{
 		"evidence_id":       fmt.Sprintf("ev-%s-%d", category, d.count(category)),
 		"source":            "native",
@@ -72,6 +72,24 @@ func (d *Doc) appendRecord(category string, value map[string]any) *Doc {
 	}
 	list, _ := d.doc[category].([]any)
 	d.doc[category] = append(list, rec)
+	return d
+}
+
+// AddRawRecord appends a record whose value is used as given, for malformed
+// record tests (a string, a number, an object of the wrong shape).
+func (d *Doc) AddRawRecord(category string, value any) *Doc {
+	return d.appendRecord(category, value)
+}
+
+// Set replaces a top-level field; nil writes JSON null.
+func (d *Doc) Set(key string, value any) *Doc {
+	d.doc[key] = value
+	return d
+}
+
+// Delete removes a top-level field.
+func (d *Doc) Delete(key string) *Doc {
+	delete(d.doc, key)
 	return d
 }
 

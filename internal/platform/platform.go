@@ -58,6 +58,9 @@ var knownDistributions = map[string]bool{
 	"oracle": true, "amazon": true, "sles": true, "opensuse": true,
 }
 
+// Known reports whether id is a normalized distribution id the resolver recognizes.
+func Known(id string) bool { return knownDistributions[id] }
+
 // distroAliases maps vendor os-release ID spellings to canonical IDs.
 var distroAliases = map[string]string{
 	"ol":                       "oracle",
