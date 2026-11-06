@@ -1,13 +1,22 @@
 package python
 
-import "sort"
+import (
+	"regexp"
+	"sort"
+)
+
+// A distribution name from evidence is untrusted. Keep only valid PyPI names
+// before sending them to OSV or using them in the local raw-feed cache.
+var pypiName = regexp.MustCompile(`^[A-Za-z0-9](?:[A-Za-z0-9._-]{0,198}[A-Za-z0-9])?$`)
+
+func ValidPyPIName(name string) bool { return pypiName.MatchString(name) }
 
 // PyPINames returns distinct normalized PyPI distribution names.
 func PyPINames(inv *Inventory) []string {
 	seen := map[string]bool{}
 	var out []string
 	for _, d := range inv.Distributions {
-		if d.ResolverEcosystem != EcosystemPyPI {
+		if d.ResolverEcosystem != EcosystemPyPI || !ValidPyPIName(d.NameNormalized) {
 			continue
 		}
 		if !seen[d.NameNormalized] {

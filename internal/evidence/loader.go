@@ -13,6 +13,9 @@ import (
 // instead of being resolved into a misleading result.
 const SupportedSchemaMajor = "1"
 
+// MaxEvidenceBytes matches the collector's largest output (evidencefile.MaxOutputBytes).
+const MaxEvidenceBytes = 256 << 20
+
 // RecordError describes a single record that failed to decode. Record errors
 // never abort document loading; the resolver reports them and continues.
 type RecordError struct {
@@ -40,9 +43,20 @@ func Load(path string) (*LoadResult, error) {
 // Parse decodes a .openness document from a reader.
 func Parse(r io.Reader) (*LoadResult, error) {
 	var doc Document
-	dec := json.NewDecoder(r)
+	limited := &io.LimitedReader{R: r, N: MaxEvidenceBytes + 1}
+	dec := json.NewDecoder(limited)
 	if err := dec.Decode(&doc); err != nil {
 		return nil, fmt.Errorf("decode .openness document: %w", err)
+	}
+	var trailing json.RawMessage
+	if err := dec.Decode(&trailing); err != io.EOF {
+		if err == nil {
+			return nil, fmt.Errorf("invalid .openness document: trailing JSON value")
+		}
+		return nil, fmt.Errorf("invalid .openness document: trailing data: %w", err)
+	}
+	if limited.N == 0 {
+		return nil, fmt.Errorf(".openness document exceeds %d bytes", MaxEvidenceBytes)
 	}
 	if doc.SchemaVersion == "" {
 		return nil, fmt.Errorf("invalid .openness document: schema_version missing")

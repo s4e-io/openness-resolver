@@ -1,6 +1,7 @@
 package evidence
 
 import (
+	"io"
 	"strings"
 	"testing"
 )
@@ -24,6 +25,36 @@ func TestParseRejectsMissingSchemaVersion(t *testing.T) {
 	if _, err := Parse(strings.NewReader(`{"asset":{}}`)); err == nil {
 		t.Error("expected error for missing schema_version")
 	}
+}
+
+func TestParseRejectsTrailingData(t *testing.T) {
+	base := `{"schema_version":"1.3.2"}`
+	for _, suffix := range []string{`{"schema_version":"1.3.2"}`, "garbage"} {
+		if _, err := Parse(strings.NewReader(base + suffix)); err == nil {
+			t.Fatalf("accepted trailing %q", suffix)
+		}
+	}
+	if _, err := Parse(strings.NewReader(base + " \n\t")); err != nil {
+		t.Fatalf("rejected whitespace: %v", err)
+	}
+}
+
+func TestParseRejectsOversizeEvidence(t *testing.T) {
+	base := `{"schema_version":"1.3.2"}`
+	spaces := io.LimitReader(spaceReader{}, MaxEvidenceBytes)
+	if _, err := Parse(io.MultiReader(strings.NewReader(base), spaces)); err == nil {
+		t.Fatal("accepted evidence over the size limit")
+	}
+}
+
+// spaceReader yields endless spaces without holding them in memory.
+type spaceReader struct{}
+
+func (spaceReader) Read(p []byte) (int, error) {
+	for i := range p {
+		p[i] = ' '
+	}
+	return len(p), nil
 }
 
 func TestMalformedRecordIsCollectedNotFatal(t *testing.T) {
