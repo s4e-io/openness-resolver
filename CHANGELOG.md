@@ -7,6 +7,10 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Vulnerability reports go to support@s4e.io. CODEOWNERS is removed, so a pull request does not ask for a second approver.
+
 ### Added
 
 - `osv-pypi` feed source: the OSV PyPI archive (`https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip`) downloaded and normalized into `normalized/pypi/pypi` like the other OSV sources. `feed sync --for` selects it when the evidence lists PyPI packages; `--source osv-pypi`, `--vendor pypi`, `--all` and `rules import --source osv-pypi --file all.zip` too. A damaged archive (zip CRC) publishes nothing.
