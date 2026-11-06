@@ -16,6 +16,7 @@ import (
 
 	"github.com/s4e-io/openness-resolver/internal/evidence"
 	"github.com/s4e-io/openness-resolver/internal/pkgs"
+	"github.com/s4e-io/openness-resolver/internal/platform"
 )
 
 // ContainerContext is the canonical container model.
@@ -39,6 +40,10 @@ type ContainerContext struct {
 
 	PackageCount int  `json:"package_count"`
 	HasPackageDB bool `json:"has_package_db"`
+
+	// OSRelease is the image's os-release identity; nil when the collector
+	// did not report one (older collector, scratch image).
+	OSRelease *evidence.ContainerOSRelease `json:"os_release,omitempty"`
 }
 
 // ImageGroup groups containers that share one image digest. Image-level
@@ -50,6 +55,9 @@ type ImageGroup struct {
 	Distro           string `json:"distro"`
 	Branch           string `json:"branch"`
 	BranchConfidence string `json:"branch_confidence"`
+	// OSRelease is the os-release identity of the first container that
+	// reported one; same digest => same image content.
+	OSRelease *evidence.ContainerOSRelease `json:"os_release,omitempty"`
 }
 
 // Inventory is the container-scope view of one .openness document.
@@ -167,8 +175,14 @@ func BuildInventory(records []evidence.TypedRecord[evidence.ContainerValue]) *In
 			EvidenceID:     rec.EvidenceID,
 			PackageCount:   v.PackageCount,
 			HasPackageDB:   len(v.Packages) > 0,
+			OSRelease:      v.OSRelease,
 		}
 		ctx.Distro = detectDistro(v.Packages)
+		if v.OSRelease != nil && v.OSRelease.ID != "" {
+			// os-release names the distribution; the package manager mix
+			// only guesses the family.
+			ctx.Distro = osPlatform(v.OSRelease, "").DistributionID
+		}
 		if ctx.Distro == "alpine" {
 			ctx.Branch, ctx.BranchConfidence, ctx.BranchEvidence = inferAlpineBranch(v.Packages)
 		}
@@ -197,12 +211,38 @@ func BuildInventory(records []evidence.TypedRecord[evidence.ContainerValue]) *In
 		if g.Distro == "" {
 			g.Distro = ctx.Distro
 		}
+		if g.OSRelease == nil && ctx.OSRelease != nil && ctx.OSRelease.ID != "" {
+			g.OSRelease = ctx.OSRelease
+			g.Distro = ctx.Distro
+		}
 		if g.Branch == "" && ctx.Branch != "" {
 			g.Branch = ctx.Branch
 			g.BranchConfidence = ctx.BranchConfidence
 		}
 	}
 	return inv
+}
+
+// Platform maps the image's os-release the way the host platform is mapped
+// from the operating_system record (aliases, codename from VERSION_CODENAME
+// or the VERSION_ID map), so rules are keyed the same way. arch is the
+// asset architecture. It is the zero value when no os-release was reported.
+func (g *ImageGroup) Platform(arch string) platform.PlatformContext {
+	if g == nil || g.OSRelease == nil {
+		return platform.PlatformContext{}
+	}
+	return osPlatform(g.OSRelease, arch)
+}
+
+func osPlatform(o *evidence.ContainerOSRelease, arch string) platform.PlatformContext {
+	return platform.FromOS(evidence.OperatingSystem{
+		DistributionID:   o.ID,
+		DistributionName: o.Name,
+		VersionID:        o.VersionID,
+		VersionCodename:  o.VersionCodename,
+		PrettyName:       o.PrettyName,
+		Architecture:     arch,
+	}, evidence.Kernel{})
 }
 
 // ContainerIDs lists the container ids of a group (for finding references).

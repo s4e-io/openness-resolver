@@ -60,6 +60,7 @@ One entry per hole: `release` (`ubuntu/jammy`, `pypi`, `unknown` without a distr
 | `unknown_distribution` | No `distribution_id`, no `operating_system`, or a distribution the resolver does not know | `missing` | 1 |
 | `invalid_package_records` | Malformed package records skipped; `count` says how many, each is an `unknowns[]` entry of kind `package_record` | `partial` | 0 |
 | `packages_truncated` | The collector cut the package list (`package_limit_truncated`, a packages module timeout or output limit, `truncated` flag) | `partial` | 0 |
+| `container_not_covered` | A container image with packages was not evaluated: no `os_release` in the evidence, a distribution or release outside the support matrix, or no rules loaded for its release. `release` is `container:<image reference>` (or digest), `count` the number of containers running it, `detail` the image digest and the reason; also an `unknowns[]` entry. An image without packages (scratch) is only a note. | `partial` | 0 |
 
 The state is `missing` when any gap is one of the `missing` kinds, else `partial`. Windows hosts are evaluated by build number and never get `no_packages`. `findings.json` is written in every case.
 
@@ -238,3 +239,4 @@ Output, the normal findings document:
 | 2 (additive) | catalog `verify`, `match_strength`, `verify_failed`, application `key`, `view`, `install_location`, `mapper probes` |
 | 2 (additive) | `resolve --device`, scope `network_device`, action `update_device`, target kind `device`, coverage states `not_supported` and `unknown`, catalog `kind`, `rule_coverage.sources[].version` and the mapper entry |
 | 2 (additive) | `asset.evidence_integrity`, coverage state `partial` for package gaps, gap kinds `no_packages`, `unknown_distribution`, `invalid_package_records`, `packages_truncated`, gap `count` and `detail`, unknowns kind `package_record` |
+| 2 (additive) | Debian, Ubuntu and RPM-family container findings (scope `container`), gap kind `container_not_covered` |

@@ -212,6 +212,11 @@ type ContainerSpec struct {
 	ImageRef string
 	State    string
 	Packages [][3]string // name, version, package manager
+	// OSRelease is the collector's os_release object (containers 1.2.0+).
+	OSRelease map[string]any
+	// Sources maps a dpkg binary name to its source package and source
+	// version ("" for none).
+	Sources map[string][2]string
 }
 
 // AddContainer appends a container record.
@@ -227,15 +232,26 @@ func (d *Doc) AddContainer(c ContainerSpec) *Doc {
 			"packages_scope":     "container",
 			"architecture":       "x86_64",
 		})
+		if src, ok := c.Sources[p[0]]; ok {
+			rec := pkgList[len(pkgList)-1].(map[string]any)
+			rec["source_package"] = src[0]
+			if src[1] != "" {
+				rec["source_version"] = src[1]
+			}
+		}
 	}
-	return d.appendRecord("containers", map[string]any{
+	rec := map[string]any{
 		"entity_id": "container:" + c.ID, "entity_type": "container",
 		"container_id": c.ID, "name": c.Name, "runtime": "docker",
 		"image_digest": c.Digest, "image_id": c.Digest, "image_reference": c.ImageRef,
 		"identity_primary": "image_digest", "state": c.State,
 		"package_count": len(pkgList), "package_source": "runtime_cp",
 		"packages_scope": "container", "packages": pkgList,
-	})
+	}
+	if c.OSRelease != nil {
+		rec["os_release"] = c.OSRelease
+	}
+	return d.appendRecord("containers", rec)
 }
 
 // Load parses the synthetic document through the production evidence loader.

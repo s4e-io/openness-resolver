@@ -276,6 +276,23 @@ type ContainerPackage struct {
 	PackageManager   string `json:"package_manager"`
 	PackagesScope    string `json:"packages_scope"`
 	RawVersionString string `json:"raw_version_string"`
+	// SourcePackage / SourceVersion: the dpkg Source field (collector
+	// containers 1.2.0+); empty on older evidence and for apk/rpm.
+	SourcePackage string  `json:"source_package,omitempty"`
+	SourceVersion *string `json:"source_version,omitempty"`
+}
+
+// ContainerOSRelease is the image's os-release identity (collector
+// containers 1.2.0+). Absent on older evidence and scratch images.
+type ContainerOSRelease struct {
+	ID              string `json:"id"`
+	IDLike          string `json:"id_like,omitempty"`
+	Name            string `json:"name,omitempty"`
+	VersionID       string `json:"version_id,omitempty"`
+	VersionCodename string `json:"version_codename,omitempty"`
+	PrettyName      string `json:"pretty_name,omitempty"`
+	Source          string `json:"source,omitempty"`
+	SourceFile      string `json:"source_file,omitempty"`
 }
 
 // ContainerValue is the value payload of a containers record.
@@ -296,9 +313,10 @@ type ContainerValue struct {
 	PackagesScope      string `json:"packages_scope"`
 	HostPackagesMerged bool   `json:"host_packages_merged"`
 	// PackagesTruncated: the collector cut this container's package list.
-	PackagesTruncated bool               `json:"packages_truncated,omitempty"`
-	Packages          []ContainerPackage `json:"packages"`
-	Relationships     []Relationship     `json:"relationships"`
+	PackagesTruncated bool                `json:"packages_truncated,omitempty"`
+	OSRelease         *ContainerOSRelease `json:"os_release,omitempty"`
+	Packages          []ContainerPackage  `json:"packages"`
+	Relationships     []Relationship      `json:"relationships"`
 }
 
 // LoadedLibrary is one shared object mapped into a process.

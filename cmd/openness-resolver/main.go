@@ -386,6 +386,19 @@ func sourcesForEvidence(path string, months int) ([]rules.AdvisorySource, []stri
 	}
 	for _, g := range containers.BuildInventory(lr.ContainerRecords()).Groups {
 		digest := short(g.ImageDigest, 20)
+		if g.Distro != "alpine" && g.OSRelease != nil {
+			// Debian, Ubuntu and RPM images use the host sources of their
+			// os-release distribution and release.
+			ip := g.Platform("")
+			srcs, err := rules.HostSources(ip.DistributionID, ip.RuleRelease())
+			if err != nil {
+				notes = append(notes, fmt.Sprintf("image %s: %v", digest, err))
+				continue
+			}
+			out = append(out, srcs...)
+			notes = append(notes, fmt.Sprintf("image %s %s %s", digest, ip.DistributionID, ip.RuleRelease()))
+			continue
+		}
 		if g.Distro == "" || g.Branch == "" {
 			notes = append(notes, fmt.Sprintf("image %s: release could not be inferred; no source selected", digest))
 			continue

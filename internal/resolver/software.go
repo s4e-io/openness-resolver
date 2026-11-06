@@ -109,7 +109,11 @@ func buildUnknowns(res *RunResult) []Unknown {
 		out = append(out, Unknown{Kind: "rule_coverage", Subject: res.RuleCoverage.AssetRelease, Reason: res.RuleCoverage.Reason})
 	}
 	for _, g := range res.RuleCoverage.Gaps {
-		out = append(out, Unknown{Kind: "rule_coverage", Subject: g.Release, Reason: g.Kind})
+		reason := g.Kind
+		if g.Kind == GapContainerNotCovered {
+			reason += ": " + g.Detail
+		}
+		out = append(out, Unknown{Kind: "rule_coverage", Subject: g.Release, Reason: reason})
 	}
 	for _, f := range res.Findings {
 		switch f.State {

@@ -86,8 +86,9 @@ const (
 	CoverageUnknown = "unknown"
 	// CoveragePartial: everything was evaluated except what the partial gaps name:
 	// PyPI packages whose data is not synced (GapNotSynced), malformed package
-	// records (GapInvalidPackageRecords) or a cut package list
-	// (GapPackagesTruncated). resolve exits 0.
+	// records (GapInvalidPackageRecords), a cut package list
+	// (GapPackagesTruncated) or container images that were not evaluated
+	// (GapContainerNotCovered). resolve exits 0.
 	CoveragePartial = "partial"
 
 	// GapMissingRules means the release is evaluated by an existing path but
@@ -459,6 +460,14 @@ func (e *Engine) ruleCoverage(plat platform.PlatformContext, support platform.Su
 			cov.RulesForAsset = counts[release]
 		}
 	}
+	imageReleases, imageGaps := e.containerCoverage(groups, plat.RawArchitecture)
+	gaps = append(gaps, imageGaps...)
+	for _, release := range imageReleases {
+		if cov.AssetRelease == "" {
+			cov.AssetRelease = release
+			cov.RulesForAsset = counts[release]
+		}
+	}
 	if support == platform.Supported && plat.DistributionID == "ubuntu" && plat.Codename != "" {
 		gaps = append(gaps, pypiCoverageGaps(e.Rules, pyInv)...)
 	}
@@ -500,7 +509,7 @@ func addCoverageGaps(cov *RuleCoverage, extra []CoverageGap) {
 func gapState(gaps []CoverageGap) string {
 	for _, g := range gaps {
 		switch g.Kind {
-		case GapNotSynced, GapInvalidPackageRecords, GapPackagesTruncated:
+		case GapNotSynced, GapInvalidPackageRecords, GapPackagesTruncated, GapContainerNotCovered:
 		default:
 			return CoverageMissing
 		}
@@ -572,6 +581,8 @@ func coverageReason(gaps []CoverageGap) string {
 			parts = append(parts, fmt.Sprintf("%d malformed package records skipped for %s", g.Count, g.Release))
 		case GapPackagesTruncated:
 			parts = append(parts, "package list cut by the collector for "+g.Release)
+		case GapContainerNotCovered:
+			parts = append(parts, fmt.Sprintf("container image %s (%d containers) not evaluated: %s", strings.TrimPrefix(g.Release, "container:"), g.Count, g.Detail))
 		default:
 			parts = append(parts, "no rules loaded for "+g.Release)
 		}
@@ -763,8 +774,7 @@ func (e *Engine) resolveContainerGroup(res *RunResult, group *containers.ImageGr
 		return
 	}
 	if group.Distro != "alpine" {
-		res.Notes = append(res.Notes, fmt.Sprintf("image %s distro %q not yet supported for container rules", group.ImageDigest, group.Distro))
-		res.Metrics.PackagesWithoutVendorRules += len(group.Packages)
+		e.resolveContainerVendor(res, group)
 		return
 	}
 	if group.Branch == "" {
