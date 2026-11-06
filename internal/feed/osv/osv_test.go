@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"path/filepath"
 	"testing"
 )
 
@@ -32,5 +34,16 @@ func TestFetchPackageUsesEndpointAndHeaders(t *testing.T) {
 	}
 	if len(Headers) != 1 {
 		t.Fatalf("malformed header lines must be skipped: %v", Headers)
+	}
+}
+
+func TestSyncPackagesRejectsTraversalBeforeWriting(t *testing.T) {
+	root := t.TempDir()
+	_, _, err := SyncPackages(root, []string{"../../escape"})
+	if err == nil {
+		t.Fatal("expected invalid package name")
+	}
+	if _, err := os.Stat(filepath.Join(root, "raw")); !os.IsNotExist(err) {
+		t.Fatalf("raw cache created for invalid name: %v", err)
 	}
 }

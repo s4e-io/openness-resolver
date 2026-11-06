@@ -1,6 +1,7 @@
 package evidence
 
 import (
+	"io"
 	"strings"
 	"testing"
 )
@@ -23,6 +24,26 @@ func TestParseMinimalDocument(t *testing.T) {
 func TestParseRejectsMissingSchemaVersion(t *testing.T) {
 	if _, err := Parse(strings.NewReader(`{"asset":{}}`)); err == nil {
 		t.Error("expected error for missing schema_version")
+	}
+}
+
+func TestParseRejectsTrailingData(t *testing.T) {
+	base := `{"schema_version":"1.3.2"}`
+	for _, suffix := range []string{`{"schema_version":"1.3.2"}`, "garbage"} {
+		if _, err := Parse(strings.NewReader(base + suffix)); err == nil {
+			t.Fatalf("accepted trailing %q", suffix)
+		}
+	}
+	if _, err := Parse(strings.NewReader(base + " \n\t")); err != nil {
+		t.Fatalf("rejected whitespace: %v", err)
+	}
+}
+
+func TestParseRejectsOversizeEvidence(t *testing.T) {
+	base := `{"schema_version":"1.3.2"}`
+	spaces := io.LimitReader(strings.NewReader(strings.Repeat(" ", MaxEvidenceBytes)), MaxEvidenceBytes)
+	if _, err := Parse(io.MultiReader(strings.NewReader(base), spaces)); err == nil {
+		t.Fatal("accepted evidence over 64 MiB")
 	}
 }
 

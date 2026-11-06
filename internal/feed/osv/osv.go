@@ -11,11 +11,14 @@ import (
 	"strings"
 	"time"
 
+	"github.com/s4e-io/openness-resolver/internal/python"
 	"github.com/s4e-io/openness-resolver/internal/rules"
 	"github.com/s4e-io/openness-resolver/internal/version/pep440"
 )
 
 const ParserVersion = "1.0.0"
+
+const maxPackageResponse = 16 << 20
 
 // DefaultEndpoint is the public OSV query API.
 const DefaultEndpoint = "https://api.osv.dev/v1/query"
@@ -67,6 +70,9 @@ type vulnDoc struct {
 
 // FetchPackage downloads OSV vulnerabilities for one PyPI package via the OSV API.
 func FetchPackage(client *http.Client, pkg string) ([]byte, error) {
+	if !python.ValidPyPIName(pkg) {
+		return nil, fmt.Errorf("invalid PyPI package name")
+	}
 	if client == nil {
 		client = &http.Client{Timeout: 60 * time.Second}
 	}
@@ -92,7 +98,14 @@ func FetchPackage(client *http.Client, pkg string) ([]byte, error) {
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("osv query %s: HTTP %d", pkg, resp.StatusCode)
 	}
-	return io.ReadAll(resp.Body)
+	body, err = io.ReadAll(io.LimitReader(resp.Body, maxPackageResponse+1))
+	if err != nil {
+		return nil, err
+	}
+	if len(body) > maxPackageResponse {
+		return nil, fmt.Errorf("osv query %s: response too large", pkg)
+	}
+	return body, nil
 }
 
 // ParsePackage normalizes OSV JSON for one PyPI package into resolver rules.
@@ -203,6 +216,11 @@ func normalizePyPIName(name string) string {
 
 // SyncPackages fetches and stores normalized PyPI rules for package names.
 func SyncPackages(dataDir string, packages []string) (rules.FeedSourceMetadata, []rules.PackageVulnerabilityRule, error) {
+	for _, pkg := range packages {
+		if !python.ValidPyPIName(pkg) {
+			return rules.FeedSourceMetadata{}, nil, fmt.Errorf("invalid PyPI package name")
+		}
+	}
 	client := &http.Client{Timeout: 60 * time.Second}
 	meta := rules.FeedSourceMetadata{
 		SourceName:    "osv-pypi",
