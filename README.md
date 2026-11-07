@@ -58,6 +58,16 @@ openness-resolver version
 On Windows, download `openness-resolver_<version>_windows_amd64.exe` and rename it to
 `openness-resolver.exe`.
 
+Every release also carries the same binaries without the version in the name
+(`openness-resolver_<os>_<arch>`), so a script can always fetch the newest one; the
+release's `SHA256SUMS` lists both names:
+
+```bash
+curl -fLO https://github.com/s4e-io/openness-resolver/releases/latest/download/openness-resolver_linux_amd64
+curl -fLO https://github.com/s4e-io/openness-resolver/releases/latest/download/SHA256SUMS
+sha256sum -c --ignore-missing SHA256SUMS
+```
+
 **With Go** (1.25 or newer):
 
 ```bash
