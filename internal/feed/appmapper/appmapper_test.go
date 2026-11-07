@@ -116,7 +116,7 @@ func TestSyncRefuses(t *testing.T) {
 }
 
 func TestSumsURL(t *testing.T) {
-	if got := SumsURL("https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz"); got != "https://github.com/s4e-io/openness-catalog/releases/latest/download/SHA256SUMS" {
+	if got := SumsURL("https://github.com/s4e-io/openness-app-mapper/releases/latest/download/app-mapper.json.gz"); got != "https://github.com/s4e-io/openness-app-mapper/releases/latest/download/SHA256SUMS" {
 		t.Error(got)
 	}
 }

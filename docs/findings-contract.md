@@ -125,7 +125,7 @@ is listed in `rule_coverage.sources[]`:
 | `parser` | `openness-app-mapper/1` |
 
 Metadata file (`<data-dir>/mapper/app-mapper.json.gz.meta.json`):
-`{"source":"app-mapper","source_url":"https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz","downloaded_at":"2026-11-05T06:00:00Z","sha256":"<hex>","size_bytes":123,"format":"openness-app-mapper/1","version":"<bundle version>"}`.
+`{"source":"app-mapper","source_url":"https://github.com/s4e-io/openness-app-mapper/releases/latest/download/app-mapper.json.gz","downloaded_at":"2026-11-05T06:00:00Z","sha256":"<hex>","size_bytes":123,"format":"openness-app-mapper/1","version":"<bundle version>"}`.
 
 - Findings: `detection_method` `nvd_cpe_version_range` (catalog match,
   `vulnerable`) or `nvd_cpe_name_guess` (an application the catalog does not
