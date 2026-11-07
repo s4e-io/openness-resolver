@@ -1,6 +1,7 @@
 package resolver
 
 import (
+	"strings"
 	"testing"
 
 	tf "github.com/s4e-io/openness-resolver/internal/testfixtures"
@@ -80,6 +81,37 @@ func TestInventoryGaps(t *testing.T) {
 			state: CoverageCovered},
 		{name: "windows host without packages is not no_packages", doc: tf.NewWindowsServer2022("1000"),
 			state: CoverageMissing, gaps: []string{GapMissingRules}, wantError: true},
+		{name: "host list cut by output size (collector code)",
+			doc:   tf.NewUbuntuJammyARM64().AddPackage("bash", "5.1-6ubuntu1").Set("modules", packagesModule("partial", false, "output_size_truncated")),
+			state: CoveragePartial, gaps: []string{GapPackagesTruncated}},
+		{name: "containers module cut by output size",
+			doc: tf.NewUbuntuJammyARM64().AddPackage("bash", "5.1-6ubuntu1").Set("modules", []any{
+				map[string]any{"module_id": "containers", "status": "partial", "truncated": true,
+					"errors": []any{map[string]any{"code": "output_size_truncated", "module_id": "containers"}}}}),
+			state: CoveragePartial, gaps: []string{GapContainerNotCovered}},
+		{name: "containers module timed out",
+			doc: tf.NewUbuntuJammyARM64().AddPackage("bash", "5.1-6ubuntu1").Set("modules", []any{
+				map[string]any{"module_id": "containers", "status": "error",
+					"errors": []any{map[string]any{"code": "timeout", "module_id": "containers"}}}}),
+			state: CoveragePartial, gaps: []string{GapContainerNotCovered}},
+		{name: "containers module package cap only is packages_truncated",
+			doc: tf.NewUbuntuJammyARM64().AddPackage("bash", "5.1-6ubuntu1").Set("modules", []any{
+				map[string]any{"module_id": "containers", "status": "partial", "truncated": true,
+					"errors": []any{map[string]any{"code": "package_limit_truncated", "module_id": "containers"}}}}),
+			state: CoveragePartial, gaps: []string{GapPackagesTruncated}},
+		{name: "containers module unavailable is not a gap",
+			doc: tf.NewUbuntuJammyARM64().AddPackage("bash", "5.1-6ubuntu1").Set("modules", []any{
+				map[string]any{"module_id": "containers", "status": "unavailable"}}),
+			state: CoverageCovered},
+		{name: "windows UBR missing", doc: tf.NewWindowsServer2022(""),
+			state: CoverageMissing, gaps: []string{GapOSBuildUnknown}, wantError: true},
+		{name: "windows without operating_system", doc: tf.NewWindowsServer2022("1000").Delete("operating_system"),
+			state: CoverageMissing, gaps: []string{GapOSBuildUnknown}, wantError: true},
+		{name: "windows applications module failed",
+			doc: tf.NewWindowsServer2022("1000").Set("modules", []any{
+				map[string]any{"module_id": "applications", "status": "error",
+					"errors": []any{map[string]any{"code": "collection_error", "module_id": "applications"}}}}),
+			state: CoverageMissing, gaps: []string{GapApplicationsIncomplete, GapMissingRules}, wantError: true},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -115,7 +147,7 @@ func TestInventoryGaps(t *testing.T) {
 			for _, g := range cov.Gaps {
 				found := false
 				for _, u := range res.Unknowns {
-					if u.Kind == "rule_coverage" && u.Reason == g.Kind {
+					if u.Kind == "rule_coverage" && (u.Reason == g.Kind || strings.HasPrefix(u.Reason, g.Kind+": ")) {
 						found = true
 					}
 				}
