@@ -3,7 +3,7 @@
 `openness-resolver` is the resolver of the OpenNess Vulnerability Scanner. It turns a host
 snapshot into an explainable list of vulnerabilities. It reads an `.openness` evidence file
 (packages, kernel, containers, Python packages, applications and Windows build of one host,
-produced by the [OpenNess collector](https://github.com/s4e-io/openness)), or a network
+produced by the [OpenNess collector](https://github.com/s4e-io/openness-collector)), or a network
 device file read over SNMP, and the security advisories that the distribution and software
 vendors publish, and it decides, for every installed package and CVE, whether the host is
 vulnerable, fixed or not affected, and why.
@@ -76,7 +76,7 @@ bash scripts/build.sh            # writes bin/openness-resolver and dist/
 ## Quick start
 
 You need an `.openness` evidence file of the host, written by the collector
-(`openness collect --output host.openness` on that host). Then, on any machine:
+(`sudo openness-collector collect --output host.openness` on that host). Then, on any machine:
 
 ```bash
 # 1. Download the advisories this host needs, straight from the publishers.
