@@ -7,6 +7,12 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- A package list cut by the collector's output size limit is now a `packages_truncated` gap: the resolver looked for `output_size_limit`, the collector writes `output_size_truncated` (both are accepted).
+- A `containers` module that timed out, was cut by the output size or record limit, or failed is now a `container_not_covered` gap (release `containers`, coverage `partial`), so dropped containers no longer leave the host `covered`.
+- Windows hosts get coverage gaps: `os_build_unknown` (build or UBR unreadable, coverage `missing`, exit 1; before, `not_supported` with exit 0) and `applications_incomplete` (applications module failed, timed out or cut, coverage `partial`).
+
 ### Added
 
 - Release files without the version in the name (`openness-resolver_<os>_<arch>`), so `releases/latest/download/` links always serve the newest release. `SHA256SUMS` lists them too.

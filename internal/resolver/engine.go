@@ -510,7 +510,7 @@ func addCoverageGaps(cov *RuleCoverage, extra []CoverageGap) {
 func gapState(gaps []CoverageGap) string {
 	for _, g := range gaps {
 		switch g.Kind {
-		case GapNotSynced, GapInvalidPackageRecords, GapPackagesTruncated, GapContainerNotCovered:
+		case GapNotSynced, GapInvalidPackageRecords, GapPackagesTruncated, GapContainerNotCovered, GapApplicationsIncomplete:
 		default:
 			return CoverageMissing
 		}
@@ -583,7 +583,15 @@ func coverageReason(gaps []CoverageGap) string {
 		case GapPackagesTruncated:
 			parts = append(parts, "package list cut by the collector for "+g.Release)
 		case GapContainerNotCovered:
+			if g.Release == "containers" {
+				parts = append(parts, g.Detail)
+				break
+			}
 			parts = append(parts, fmt.Sprintf("container image %s (%d containers) not evaluated: %s", strings.TrimPrefix(g.Release, "container:"), g.Count, g.Detail))
+		case GapOSBuildUnknown:
+			parts = append(parts, "operating system build unknown for "+g.Release+" ("+g.Detail+")")
+		case GapApplicationsIncomplete:
+			parts = append(parts, "application inventory incomplete for "+g.Release)
 		default:
 			parts = append(parts, "no rules loaded for "+g.Release)
 		}

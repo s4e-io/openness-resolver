@@ -59,10 +59,13 @@ One entry per hole: `release` (`ubuntu/jammy`, `pypi`, `unknown` without a distr
 | `no_packages` | OS present but no usable host package (empty or missing list, every record malformed, packages module `unavailable` / `empty` / failed) | `missing` | 1 |
 | `unknown_distribution` | No `distribution_id`, no `operating_system`, or a distribution the resolver does not know | `missing` | 1 |
 | `invalid_package_records` | Malformed package records skipped; `count` says how many, each is an `unknowns[]` entry of kind `package_record` | `partial` | 0 |
-| `packages_truncated` | The collector cut the package list (`package_limit_truncated`, a packages module timeout or output limit, `truncated` flag) | `partial` | 0 |
+| `packages_truncated` | The collector cut the package list (`package_limit_truncated`, a packages module timeout or output size cut `output_size_truncated`, `truncated` flag) | `partial` | 0 |
 | `container_not_covered` | A container image with packages was not evaluated: no `os_release` in the evidence, a distribution or release outside the support matrix, no rules loaded for its release, or a package database the collector could not read (`packages_error` on the container, or on older evidence a `containers` module error naming the container with a timeout or failure; `detail` then reads `package database could not be read: <reason>`). `release` is `container:<image reference>` (or digest), `count` the number of containers running it, `detail` the image digest and the reason; also an `unknowns[]` entry. An image without packages (scratch) is only a note. | `partial` | 0 |
+| `container_not_covered` (release `containers`) | The collector's `containers` module did not finish: a `timeout`, `output_size_truncated` or `record_limit` error, the `truncated` flag without a package cap, or status `error`. Containers may be missing from the evaluation; `detail` names the reason. | `partial` | 0 |
+| `os_build_unknown` | Windows host whose build number or UBR could not be read (or whose `operating_system` is missing), so MSRC rules cannot be compared; `detail` is the reason | `missing` | 1 |
+| `applications_incomplete` | Windows `applications` module failed, timed out or was cut; installed applications may be missing from the application findings | `partial` | 0 |
 
-The state is `missing` when any gap is one of the `missing` kinds, else `partial`. Windows hosts are evaluated by build number and never get `no_packages`. `findings.json` is written in every case.
+The state is `missing` when any gap is one of the `missing` kinds, else `partial`. Windows hosts are evaluated by build number and installed applications: they never get `no_packages`, and get `os_build_unknown` and `applications_incomplete` instead. `findings.json` is written in every case.
 
 ## `remediation_groups[]` (action cards)
 

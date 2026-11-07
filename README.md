@@ -127,7 +127,7 @@ openness-resolver resolve --input testdata/evidence/synthetic/alpine-3.20.openne
 | `findings[].rule` | The vendor rule: source, URL, feed snapshot, raw vendor status. |
 | `findings[].reasons[]` | Why, in words. |
 | `remediation_groups[]` | Upgrade cards: packages to upgrade, target versions, the CVEs each card closes, a `command_hint` (for example `dnf upgrade openssl openssl-libs`). |
-| `rule_coverage` | Which rules were loaded for this asset (`asset_release`, `rules_for_asset`, `sources[]` with URL, SHA-256, download time and, for the application mapper, its `version`) and whether they cover it (`state`: `covered`, `partial`, `missing`, `not_applicable`; for a network device also `not_supported` and `unknown`). `gaps[]` names each hole by `kind`: `missing_rules`, `no_evaluator`, `not_synced`, `no_packages`, `unknown_distribution`, `invalid_package_records` (with `count`), `packages_truncated`, `container_not_covered` (with `count` and `detail`). |
+| `rule_coverage` | Which rules were loaded for this asset (`asset_release`, `rules_for_asset`, `sources[]` with URL, SHA-256, download time and, for the application mapper, its `version`) and whether they cover it (`state`: `covered`, `partial`, `missing`, `not_applicable`; for a network device also `not_supported` and `unknown`). `gaps[]` names each hole by `kind`: `missing_rules`, `no_evaluator`, `not_synced`, `no_packages`, `unknown_distribution`, `invalid_package_records` (with `count`), `packages_truncated`, `container_not_covered` (with `count` and `detail`), `os_build_unknown`, `applications_incomplete`. |
 | `unknowns[]`, `notes[]` | What was seen but not judged. An empty `findings[]` with a non-empty `unknowns[]` is not a clean host. |
 
 When rules for the asset release are missing, the evidence has no usable package
@@ -479,7 +479,7 @@ The resolver reads no environment variable of its own (`OPENNESS_OSV_URL` and
 
 | Code | Meaning |
 |---|---|
-| `0` | Success. For `resolve`: the rules covered the asset, or the coverage is `partial` (gap kinds `not_synced`, `invalid_package_records`, `packages_truncated`, `container_not_covered`; the rest is evaluated). |
+| `0` | Success. For `resolve`: the rules covered the asset, or the coverage is `partial` (gap kinds `not_synced`, `invalid_package_records`, `packages_truncated`, `container_not_covered`, `applications_incomplete`; the rest is evaluated). |
 | `1` | An error (`error: ...` on stderr), a failed source in `feed sync`, or `resolve` without rule coverage for the asset (`rule_coverage.state` `missing`, including gap kinds `no_packages` and `unknown_distribution`; the findings are still written). An evidence file whose `integrity.payload_hash` does not match is an error. |
 | `2` | Usage error: unknown command or flag, or a flag value that does not parse (for example `--months two`). |
 
