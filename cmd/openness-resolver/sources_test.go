@@ -49,7 +49,7 @@ func TestWantedReleases(t *testing.T) {
 		t.Errorf("debian=%v", deb)
 	}
 	rocky := wantedReleases("rocky")
-	if !rocky["8"] || !rocky["9"] || rocky["10"] {
+	if !rocky["8"] || !rocky["9"] || !rocky["10"] || rocky["7"] {
 		t.Errorf("rocky=%v", rocky)
 	}
 	if leap := wantedReleases("opensuse"); !leap["15.6"] {

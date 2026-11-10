@@ -92,7 +92,7 @@ var releaseFeeds = map[string]releaseFeed{
 // AlpineBranches are the Alpine branches synced by `feed sync --vendor
 // alpine` and `--all`. They follow the platform support matrix; a host or
 // image on another branch still syncs its own branch through --for.
-var AlpineBranches = []string{"v3.14", "v3.15", "v3.16", "v3.17", "v3.18", "v3.19", "v3.20", "v3.21", "v3.22"}
+var AlpineBranches = []string{"v3.14", "v3.15", "v3.16", "v3.17", "v3.18", "v3.19", "v3.20", "v3.21", "v3.22", "v3.23", "v3.24"}
 
 // AmazonReleases are the Amazon Linux releases with an updateinfo source.
 var AmazonReleases = []string{"2", "2023"}
