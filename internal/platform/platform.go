@@ -338,7 +338,55 @@ func (p PlatformContext) Support() (SupportState, string) {
 			return Supported, ""
 		}
 	}
+	if p.DistributionID == "ubuntu" {
+		if reason := ubuntuReleaseReason(p.DistributionVersion); reason != "" {
+			return NotSupported, reason
+		}
+	}
 	return NotSupported, fmt.Sprintf("%s %s is not in the supported release set %v", p.DistributionID, p.DistributionVersion, releases)
+}
+
+// ubuntuPublishedReleases are the Ubuntu releases Canonical publishes USN OVAL
+// for (security-metadata.canonical.com/oval, checked November 2026). Every
+// other release from 12.04 on is end of life and has no published data.
+var ubuntuPublishedReleases = map[string]bool{
+	"14.04": true, "16.04": true, "18.04": true, "20.04": true, "22.04": true, "24.04": true,
+	"24.10": true, "25.04": true, "25.10": true, "26.04": true,
+}
+
+// ubuntuReleaseReason explains an Ubuntu release outside the support matrix:
+// Canonical publishes no data for it, or publishes data this resolver does not
+// cover yet. "" for a version that is not a known Ubuntu release (YY.MM).
+func ubuntuReleaseReason(version string) string {
+	v := ubuntuYYMM(version)
+	if v == "" {
+		return ""
+	}
+	if ubuntuPublishedReleases[v] {
+		return fmt.Sprintf("Canonical publishes security data for Ubuntu %s, but this release is not covered yet", v)
+	}
+	if v < "12.04" || v > "26.04" {
+		return "" // older than any data, or newer than this table: the generic reason
+	}
+	return fmt.Sprintf("Canonical does not publish security data (OVAL) for Ubuntu %s, an end-of-life release; upgrade to a supported Ubuntu LTS release", v)
+}
+
+// ubuntuYYMM returns the YY.MM of an Ubuntu VERSION_ID ("20.10", "18.04.6"),
+// "" when it is not one.
+func ubuntuYYMM(version string) string {
+	parts := strings.Split(strings.TrimSpace(version), ".")
+	if len(parts) < 2 || len(parts[0]) != 2 || len(parts[1]) != 2 {
+		return ""
+	}
+	for _, c := range parts[0] + parts[1] {
+		if c < '0' || c > '9' {
+			return ""
+		}
+	}
+	if m := parts[1]; m != "04" && m != "10" {
+		return ""
+	}
+	return parts[0] + "." + parts[1]
 }
 
 // Tested reports whether the platform is supported AND was verified against

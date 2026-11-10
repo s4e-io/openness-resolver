@@ -172,3 +172,29 @@ func TestAmazonLinuxSupport(t *testing.T) {
 		t.Errorf("amazon 2018.03: support=%s reason=%q", s, reason)
 	}
 }
+
+// An Ubuntu release outside the matrix says why: Canonical publishes no data for
+// an end-of-life interim release, or publishes data that is not covered yet.
+func TestUbuntuReleaseReasons(t *testing.T) {
+	for v, want := range map[string]string{
+		"20.10":   "Canonical does not publish security data (OVAL) for Ubuntu 20.10, an end-of-life release",
+		"23.04":   "Canonical does not publish security data (OVAL) for Ubuntu 23.04",
+		"19.10":   "Canonical does not publish security data (OVAL) for Ubuntu 19.10",
+		"26.04":   "Canonical publishes security data for Ubuntu 26.04, but this release is not covered yet",
+		"18.04.6": "Canonical publishes security data for Ubuntu 18.04, but this release is not covered yet",
+		"25.10":   "Canonical publishes security data for Ubuntu 25.10",
+		"27.04":   "ubuntu 27.04 is not in the supported release set",
+		"11.10":   "ubuntu 11.10 is not in the supported release set",
+		"20.05":   "ubuntu 20.05 is not in the supported release set",
+	} {
+		p := FromOS(osrec("ubuntu", v, "", "amd64"), evidence.Kernel{})
+		if s, reason := p.Support(); s != NotSupported || !strings.Contains(reason, want) {
+			t.Errorf("ubuntu %s: support=%s reason=%q, want %q", v, s, reason, want)
+		}
+	}
+	for _, v := range []string{"20.04", "22.04.5", "24.04"} {
+		if s, reason := FromOS(osrec("ubuntu", v, "", "amd64"), evidence.Kernel{}).Support(); s != Supported {
+			t.Errorf("ubuntu %s: support=%s (%s)", v, s, reason)
+		}
+	}
+}
