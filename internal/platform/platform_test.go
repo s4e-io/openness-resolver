@@ -172,3 +172,38 @@ func TestAmazonLinuxSupport(t *testing.T) {
 		t.Errorf("amazon 2018.03: support=%s reason=%q", s, reason)
 	}
 }
+
+// A release outside the matrix says why, for every distribution: its vendor
+// publishes no data for it, publishes data not covered yet, or neither is known.
+func TestReleaseOutsideMatrix(t *testing.T) {
+	for _, tc := range []struct{ id, version, want string }{
+		{"ubuntu", "20.10", "Canonical does not publish security data for Ubuntu 20.10, an end-of-life release; upgrade to a supported release (covered: 20.04, 22.04, 24.04)"},
+		{"ubuntu", "19.10", "Canonical does not publish security data for Ubuntu 19.10"},
+		{"ubuntu", "26.04", "Canonical publishes security data for Ubuntu 26.04, but this release is not covered yet (covered: 20.04, 22.04, 24.04)"},
+		{"ubuntu", "18.04.6", "Canonical publishes security data for Ubuntu 18.04, but"},
+		{"ubuntu", "27.04", "Ubuntu 27.04 is not covered (covered: 20.04, 22.04, 24.04)"},
+		{"debian", "10", "Debian does not publish security data for Debian 10, an end-of-life release"},
+		{"debian", "9.13", "Debian does not publish security data for Debian 9"},
+		{"debian", "11", "Debian 11 (bullseye) is past Debian LTS"},
+		{"debian", "14", "Debian 14 is not covered (covered: 12, 13)"},
+		{"alpine", "3.23.1", "Alpine publishes security data for Alpine 3.23, but this release is not covered yet"},
+		{"alpine", "3.12.0", "Alpine publishes security data for Alpine 3.12, but"},
+		{"alpine", "3.9.6", "Alpine 3.9.6 is not covered (covered: 3.14,"},
+		{"rocky", "10.0", "Rocky Linux publishes security data for Rocky Linux 10, but this release is not covered yet (covered: 8, 9)"},
+		{"almalinux", "10.1", "AlmaLinux publishes security data for AlmaLinux 10, but"},
+		{"rhel", "7.9", "Red Hat publishes security data for RHEL 7, but"},
+		{"rhel", "10.0", "RHEL 10.0 is not covered (covered: 8, 9)"},
+		{"opensuse-leap", "15.4", "SUSE publishes security data for openSUSE Leap 15.4, but"},
+		{"amzn", "2018.03", "Amazon Linux AMI (2018.03) is end of life"},
+	} {
+		p := FromOS(osrec(tc.id, tc.version, "", "amd64"), evidence.Kernel{})
+		if s, reason := p.Support(); s != NotSupported || !strings.Contains(reason, tc.want) {
+			t.Errorf("%s %s: support=%s reason=%q, want %q", tc.id, tc.version, s, reason, tc.want)
+		}
+	}
+	for _, v := range [][2]string{{"ubuntu", "22.04.5"}, {"debian", "12"}, {"alpine", "3.20.3"}, {"rocky", "9.4"}} {
+		if s, reason := FromOS(osrec(v[0], v[1], "", "amd64"), evidence.Kernel{}).Support(); s != Supported {
+			t.Errorf("%s %s: support=%s (%s)", v[0], v[1], s, reason)
+		}
+	}
+}

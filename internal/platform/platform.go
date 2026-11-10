@@ -11,6 +11,7 @@ package platform
 import (
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/s4e-io/openness-resolver/internal/evidence"
@@ -338,7 +339,91 @@ func (p PlatformContext) Support() (SupportState, string) {
 			return Supported, ""
 		}
 	}
-	return NotSupported, fmt.Sprintf("%s %s is not in the supported release set %v", p.DistributionID, p.DistributionVersion, releases)
+	return NotSupported, releaseOutsideMatrix(p.DistributionID, p.DistributionVersion, releases)
+}
+
+// distroNames and distroVendors name a distribution and the publisher of its
+// security data in the reasons below.
+var (
+	distroNames = map[string]string{
+		"ubuntu": "Ubuntu", "debian": "Debian", "alpine": "Alpine", "rocky": "Rocky Linux",
+		"almalinux": "AlmaLinux", "rhel": "RHEL", "opensuse": "openSUSE Leap", "amazon": "Amazon Linux",
+	}
+	distroVendors = map[string]string{
+		"ubuntu": "Canonical", "debian": "Debian", "alpine": "Alpine", "rocky": "Rocky Linux",
+		"almalinux": "AlmaLinux", "rhel": "Red Hat", "opensuse": "SUSE", "amazon": "Amazon",
+	}
+)
+
+// vendorPublishedReleases are releases outside the matrix whose vendor still
+// publishes security data in the format this resolver reads for the
+// distribution (checked November 2026: Canonical USN OVAL, Alpine secdb, OSV).
+// Every Alpine 3.x branch from 3.10 on is published as well.
+var vendorPublishedReleases = map[string]map[string]bool{
+	"ubuntu":    {"14.04": true, "16.04": true, "18.04": true, "24.10": true, "25.04": true, "25.10": true, "26.04": true},
+	"rocky":     {"10": true},
+	"almalinux": {"10": true},
+	"rhel":      {"7": true},
+	"opensuse":  {"15.4": true},
+}
+
+// releaseKey is the part of a version that names a release: YY.MM for Ubuntu,
+// major.minor for Alpine and openSUSE Leap, the major version otherwise.
+func releaseKey(id, version string) string {
+	version = strings.TrimSpace(version)
+	switch id {
+	case "ubuntu", "alpine", "opensuse":
+		parts := strings.Split(version, ".")
+		if len(parts) < 2 {
+			return version
+		}
+		return parts[0] + "." + parts[1]
+	}
+	return majorVersion(version)
+}
+
+// noVendorData reports a release whose vendor publishes no security data (any
+// more): Canonical has none for end-of-life interim Ubuntu releases (12.04 to
+// 26.04 except the published ones), the Debian Security Tracker none for
+// Debian 10 and older.
+func noVendorData(id, key string) bool {
+	switch id {
+	case "ubuntu":
+		if len(key) != 5 || key[2] != '.' || key < "12.04" || key > "26.04" {
+			return false
+		}
+		return (key[3:] == "04" || key[3:] == "10") && !vendorPublishedReleases["ubuntu"][key]
+	case "debian":
+		n, err := strconv.Atoi(key)
+		return err == nil && n >= 1 && n <= 10
+	}
+	return false
+}
+
+// releaseOutsideMatrix says why a release of a supported distribution is not
+// checked: its vendor publishes no data for it, publishes data this resolver
+// does not cover yet, or neither is known; each names the covered releases.
+func releaseOutsideMatrix(id, version string, covered []string) string {
+	name, vendor := distroNames[id], distroVendors[id]
+	if name == "" {
+		name, vendor = id, id
+	}
+	key := releaseKey(id, version)
+	list := strings.Join(covered, ", ")
+	switch {
+	case noVendorData(id, key):
+		return fmt.Sprintf("%s does not publish security data for %s %s, an end-of-life release; upgrade to a supported release (covered: %s)", vendor, name, key, list)
+	case vendorPublishedReleases[id][key] || id == "alpine" && alpineFrom310(key):
+		return fmt.Sprintf("%s publishes security data for %s %s, but this release is not covered yet (covered: %s)", vendor, name, key, list)
+	}
+	return fmt.Sprintf("%s %s is not covered (covered: %s)", name, version, list)
+}
+
+// alpineFrom310 reports an Alpine 3.x branch from 3.10 on.
+func alpineFrom310(key string) bool {
+	minor, ok := strings.CutPrefix(key, "3.")
+	n, err := strconv.Atoi(minor)
+	return ok && err == nil && n >= 10
 }
 
 // Tested reports whether the platform is supported AND was verified against
