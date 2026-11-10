@@ -234,3 +234,55 @@ func TestCVEsOutsideAdvisory(t *testing.T) {
 		}
 	}
 }
+
+func TestRegressionRevertedCVEs(t *testing.T) {
+	def := func(id, title, desc string, cves ...string) string {
+		var adv string
+		for _, c := range cves {
+			adv += `<cve href="u" priority="medium">` + c + `</cve>`
+		}
+		return `<definition id="oval:com.ubuntu.jammy:def:` + id + `" class="patch" version="1"><metadata>
+<title>` + title + `</title><reference source="USN" ref_id="` + strings.Fields(title)[0] + `" ref_url="u" /><description>` + desc + `</description>
+<advisory from="security@ubuntu.com"><severity>Medium</severity>` + adv + `</advisory></metadata>
+<criteria><criterion test_ref="oval:t:1" comment="pkg source package in jammy, is affected and has been fixed (note: '1.0-1ubuntu0.1')." /></criteria></definition>`
+	}
+	oval := `<?xml version="1.0" encoding="UTF-8"?><oval_definitions xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5"><definitions>` +
+		def("1", "USN-8018-2 -- Python regression",
+			"USN-8018-1 fixed vulnerabilities in python3. That update introduced regressions.  The patches for CVE-2025-15366 and CVE-2025-15367 caused behavior regressions in  IMAP and POP3 handling, which upstream chose to avoid by not backporting them.  Additionally, the patch for CVE-2026-0865 incorrectly rejected horizontal tabs in wsgiref headers. This update fixes these problems.  Original advisory details:  A fix was reverted upstream once (CVE-2026-0865).",
+			"CVE-2025-15366", "CVE-2025-15367", "CVE-2026-0865") +
+		def("2", "USN-9000-2 -- Example regression",
+			"USN-9000-1 fixed CVE-2026-22222. The fix for CVE-2026-22222 was reverted because it broke logins.",
+			"CVE-2026-22222") +
+		def("3", "USN-9001-1 -- Example vulnerability",
+			"An earlier fix for CVE-2026-33333 was reverted; this update fixes it properly.",
+			"CVE-2026-33333") +
+		`</definitions>
+<tests><linux-def:dpkginfo_test xmlns:linux-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:t:1" version="1" check="at least one">
+<linux-def:object object_ref="oval:o:1" /><linux-def:state state_ref="oval:s:1" /></linux-def:dpkginfo_test></tests>
+<objects><linux-def:dpkginfo_object xmlns:linux-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:o:1" version="1"><linux-def:name>pkg</linux-def:name></linux-def:dpkginfo_object></objects>
+<states><linux-def:dpkginfo_state xmlns:linux-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:s:1" version="1"><linux-def:evr datatype="debian_evr_string" operation="less than">1.0-1ubuntu0.1</linux-def:evr></linux-def:dpkginfo_state></states>
+</oval_definitions>`
+	res, err := Parse(strings.NewReader(oval), rules.FeedSourceMetadata{RawObjectID: "s"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := map[string][]string{}
+	for _, r := range res.Rules {
+		got[r.AdvisoryIDs[0]] = append(got[r.AdvisoryIDs[0]], r.CVEID)
+	}
+	want := map[string][]string{
+		// The two CVEs whose patches were not backported get no fixed rule; the
+		// CVE the notice really fixes keeps one, also when the repeated original
+		// text mentions a revert.
+		"USN-8018-2": {"CVE-2026-0865"},
+		// Every CVE taken out: the notice stays as an advisory-only rule.
+		"USN-9000-2": {""},
+		// Only regression notices are read this way.
+		"USN-9001-1": {"CVE-2026-33333"},
+	}
+	for usn, w := range want {
+		if strings.Join(got[usn], ",") != strings.Join(w, ",") {
+			t.Errorf("%s: CVEs %q, want %q", usn, got[usn], w)
+		}
+	}
+}
