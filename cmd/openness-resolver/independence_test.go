@@ -68,7 +68,7 @@ func sourceFiles(t *testing.T) []string {
 // githubRelease is the one github.com URL shape the code may name: a release asset of the
 // public S4E catalog repository, where the S4E backend publishes the app-mapper bundle.
 // Downloading it needs no account, key or S4E service.
-var githubRelease = regexp.MustCompile(`^https://github\.com/s4e-io/openness-catalog/releases/(latest/download|download/[A-Za-z0-9._-]+)/[A-Za-z0-9._-]+$`)
+var githubRelease = regexp.MustCompile(`^https://github\.com/s4e-io/openness-app-mapper/releases/(latest/download|download/[A-Za-z0-9._-]+)/[A-Za-z0-9._-]+$`)
 
 // hostProblem says why a URL may not appear in the code, or "" when it may.
 func hostProblem(raw string) string {
@@ -86,7 +86,7 @@ func hostProblem(raw string) string {
 		if githubRelease.MatchString(raw) {
 			return ""
 		}
-		return fmt.Sprintf("URL %s: only release downloads of github.com/s4e-io/openness-catalog are allowed on github.com", raw)
+		return fmt.Sprintf("URL %s: only release downloads of github.com/s4e-io/openness-app-mapper are allowed on github.com", raw)
 	}
 	if _, ok := publisherHosts[host]; !ok {
 		return fmt.Sprintf("URL %s is not a known publisher host; add it to publisherHosts only if it is the data publisher", raw)
@@ -105,17 +105,17 @@ func checkHost(t *testing.T, where, raw string) {
 // hosts stay banned.
 func TestHostRules(t *testing.T) {
 	for raw, ok := range map[string]bool{
-		"https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz": true,
-		"https://github.com/s4e-io/openness-catalog/releases/latest/download/SHA256SUMS":         true,
-		"https://github.com/s4e-io/openness-catalog/releases/download/v2026.11.05/SHA256SUMS":    true,
-		"https://github.com/s4e-io/openness-catalog/archive/main.zip":                            false,
-		"https://github.com/s4e-io/openness-backend/releases/latest/download/app-mapper.json.gz": false,
-		"https://github.com/other/openness-catalog/releases/latest/download/app-mapper.json.gz":  false,
-		"https://api.github.com/repos/s4e-io/openness-catalog/releases/latest":                   false,
-		"https://s4e.io/app-mapper.json.gz":                                                      false,
-		"https://getopenness.com/app-mapper.json.gz":                                             false,
-		"https://openness.s4e.io/api/mapper":                                                     false,
-		"https://api.osv.dev/v1/query":                                                           true,
+		"https://github.com/s4e-io/openness-app-mapper/releases/latest/download/app-mapper.json.gz": true,
+		"https://github.com/s4e-io/openness-app-mapper/releases/latest/download/SHA256SUMS":         true,
+		"https://github.com/s4e-io/openness-app-mapper/releases/download/v2026.11.05/SHA256SUMS":    true,
+		"https://github.com/s4e-io/openness-app-mapper/archive/main.zip":                            false,
+		"https://github.com/s4e-io/openness-backend/releases/latest/download/app-mapper.json.gz":    false,
+		"https://github.com/other/openness-app-mapper/releases/latest/download/app-mapper.json.gz":  false,
+		"https://api.github.com/repos/s4e-io/openness-app-mapper/releases/latest":                   false,
+		"https://s4e.io/app-mapper.json.gz":                                                         false,
+		"https://getopenness.com/app-mapper.json.gz":                                                false,
+		"https://openness.s4e.io/api/mapper":                                                        false,
+		"https://api.osv.dev/v1/query":                                                              true,
 	} {
 		if got := hostProblem(raw) == ""; got != ok {
 			t.Errorf("%s allowed=%v, want %v (%s)", raw, got, ok, hostProblem(raw))

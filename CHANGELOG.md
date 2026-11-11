@@ -7,6 +7,29 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-11-11
+
+### Added
+
+- Platforms: Ubuntu 26.04 (resolute) and 26.10 (stonking), Alpine 3.23 and 3.24, Rocky Linux 10 and AlmaLinux 10. Each was checked on a real container against the vendor's update tools. `docs/releases.md` lists which releases have data and which are covered, and `scripts/check-releases.sh` reads the publishers to compare.
+- Debian, Ubuntu and RPM-family container images (RHEL, Rocky Linux, AlmaLinux, Amazon Linux, openSUSE Leap) are evaluated with the host rules.
+- Release files without the version in the name (`openness-resolver_<os>_<arch>`), so `releases/latest/download/` links always serve the newest release. `SHA256SUMS` lists them too.
+- The `app-mapper` source downloads from `s4e-io/openness-app-mapper` releases.
+
+### Changed
+
+- A release outside the support matrix says why it is not checked: the vendor publishes no security data for it (an end-of-life release), the vendor publishes data that is not covered yet, or neither is known. Each reason names the covered releases.
+- `resolve` never reports a host it could not evaluate as clean. A container whose package database could not be read, a package list cut by the collector's output size limit (`packages_truncated`, both `output_size_limit` and `output_size_truncated` are read), a failed or cut `containers` module (`container_not_covered`) and Windows holes (`os_build_unknown`, `applications_incomplete`) are coverage gaps.
+- Vulnerability reports go to support@s4e.io.
+
+### Fixed
+
+- Ubuntu: a regression notice no longer makes fixed rules for CVEs its own text says were taken out (USN-8018-2 listed CVE-2025-15366 and CVE-2025-15367 although their patches were not backported), so those CVEs are no longer shown as fixed.
+
+### Security
+
+- Evidence and PyPI cache paths are validated before use.
+
 ## [0.8.0] - 2026-11-05
 
 ### Added

@@ -418,6 +418,7 @@
     }
   ],
   "notes": [
+    "evidence has no integrity.payload_hash; the file was not integrity checked (older collector)",
     "1 installed kernel package(s) do not match the running kernel 5.14.0-427.13.1.el9_4.x86_64 and were not evaluated (old kernels on disk are not the running attack surface)"
   ],
   "platform_support": "supported",

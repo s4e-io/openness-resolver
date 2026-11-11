@@ -323,6 +323,7 @@
     }
   ],
   "notes": [
+    "evidence has no integrity.payload_hash; the file was not integrity checked (older collector)",
     "running kernel 5.15.0-1100-azure has no matching installed kernel package; kernel advisories cannot be evaluated deterministically",
     "kernel advisories skipped: running kernel 5.15.0-1100-azure could not be mapped to a vendor kernel package"
   ],

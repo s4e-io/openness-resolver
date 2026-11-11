@@ -141,7 +141,7 @@ type AdvisorySource struct {
 
 // AppMapperURL is where the S4E catalog publishes the latest mapper bundle; SHA256SUMS
 // sits next to it.
-const AppMapperURL = "https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz"
+const AppMapperURL = "https://github.com/s4e-io/openness-app-mapper/releases/latest/download/app-mapper.json.gz"
 
 // Registry returns the built-in advisory source registry.
 //

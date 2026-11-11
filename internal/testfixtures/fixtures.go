@@ -61,7 +61,7 @@ func (d *Doc) SetOS(fields map[string]any) *Doc {
 	return d
 }
 
-func (d *Doc) appendRecord(category string, value map[string]any) *Doc {
+func (d *Doc) appendRecord(category string, value any) *Doc {
 	rec := map[string]any{
 		"evidence_id":       fmt.Sprintf("ev-%s-%d", category, d.count(category)),
 		"source":            "native",
@@ -72,6 +72,24 @@ func (d *Doc) appendRecord(category string, value map[string]any) *Doc {
 	}
 	list, _ := d.doc[category].([]any)
 	d.doc[category] = append(list, rec)
+	return d
+}
+
+// AddRawRecord appends a record whose value is used as given, for malformed
+// record tests (a string, a number, an object of the wrong shape).
+func (d *Doc) AddRawRecord(category string, value any) *Doc {
+	return d.appendRecord(category, value)
+}
+
+// Set replaces a top-level field; nil writes JSON null.
+func (d *Doc) Set(key string, value any) *Doc {
+	d.doc[key] = value
+	return d
+}
+
+// Delete removes a top-level field.
+func (d *Doc) Delete(key string) *Doc {
+	delete(d.doc, key)
 	return d
 }
 
@@ -194,6 +212,14 @@ type ContainerSpec struct {
 	ImageRef string
 	State    string
 	Packages [][3]string // name, version, package manager
+	// OSRelease is the collector's os_release object (containers 1.2.0+).
+	OSRelease map[string]any
+	// Sources maps a dpkg binary name to its source package and source
+	// version ("" for none).
+	Sources map[string][2]string
+	// PackagesError is the collector's packages_error object (containers
+	// 1.3.0+).
+	PackagesError map[string]any
 }
 
 // AddContainer appends a container record.
@@ -209,15 +235,29 @@ func (d *Doc) AddContainer(c ContainerSpec) *Doc {
 			"packages_scope":     "container",
 			"architecture":       "x86_64",
 		})
+		if src, ok := c.Sources[p[0]]; ok {
+			rec := pkgList[len(pkgList)-1].(map[string]any)
+			rec["source_package"] = src[0]
+			if src[1] != "" {
+				rec["source_version"] = src[1]
+			}
+		}
 	}
-	return d.appendRecord("containers", map[string]any{
+	rec := map[string]any{
 		"entity_id": "container:" + c.ID, "entity_type": "container",
 		"container_id": c.ID, "name": c.Name, "runtime": "docker",
 		"image_digest": c.Digest, "image_id": c.Digest, "image_reference": c.ImageRef,
 		"identity_primary": "image_digest", "state": c.State,
 		"package_count": len(pkgList), "package_source": "runtime_cp",
 		"packages_scope": "container", "packages": pkgList,
-	})
+	}
+	if c.OSRelease != nil {
+		rec["os_release"] = c.OSRelease
+	}
+	if c.PackagesError != nil {
+		rec["packages_error"] = c.PackagesError
+	}
+	return d.appendRecord("containers", rec)
 }
 
 // Load parses the synthetic document through the production evidence loader.

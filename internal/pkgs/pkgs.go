@@ -148,6 +148,9 @@ func FromHostRecord(rec evidence.TypedRecord[evidence.PackageValue]) (InstalledP
 		RuntimeStale:             v.RuntimeStale,
 	}
 	p.Source = sourceRelationship(v)
+	if p.Source.EvidenceSource == "" {
+		p.Source.EvidenceSource = "binary_name_fallback"
+	}
 	p.SourcePackage = p.Source.SourcePackage
 	return p, nil
 }
@@ -225,15 +228,18 @@ func FromContainerPackage(cp evidence.ContainerPackage, imageDigest, containerEv
 		EvidenceID:   containerEvidenceID,
 		EntityID:     cp.EntityID,
 	}
-	// APK databases do not expose a separate source field in this evidence;
-	// use the binary name and mark it inferred.
-	p.Source = SourceRelationship{
-		BinaryPackage:  cp.Name,
-		SourcePackage:  cp.Name,
-		Confidence:     "inferred",
-		EvidenceSource: "binary_name_fallback",
+	// APK and RPM entries (and dpkg entries of older evidence) carry no
+	// source field; use the binary name and mark it inferred. A dpkg Source
+	// field is used as on the host.
+	p.Source = sourceRelationship(evidence.PackageValue{
+		Name:          cp.Name,
+		SourcePackage: cp.SourcePackage,
+		SourceVersion: cp.SourceVersion,
+	})
+	if p.Source.EvidenceSource == "" {
+		p.Source.EvidenceSource = "binary_name_fallback"
 	}
-	p.SourcePackage = cp.Name
+	p.SourcePackage = p.Source.SourcePackage
 	return p, nil
 }
 

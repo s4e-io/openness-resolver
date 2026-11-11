@@ -282,6 +282,21 @@ func Parse(r io.Reader, meta rules.FeedSourceMetadata) (*ParseResult, error) {
 		if len(cveIDs) == 0 && !isRegression(def.Metadata.Title) {
 			cveIDs = cvesOutsideAdvisory(def)
 		}
+		// A regression notice can list a CVE whose patch it took out again
+		// (USN-8018-2: "upstream chose to avoid by not backporting them"). Its
+		// version does not fix that CVE, so no fixed rule is made for it.
+		if isRegression(def.Metadata.Title) {
+			reverted := revertedCVEs(def.Metadata.Description)
+			kept := cveIDs[:0]
+			for _, id := range cveIDs {
+				if reverted[id] {
+					res.Metrics.Reject("regression_reverted_cve")
+					continue
+				}
+				kept = append(kept, id)
+			}
+			cveIDs = kept
+		}
 		// Some USNs (e.g. non-CVE regressions) have no CVE references; keep
 		// them as advisory-only rules so nothing is dropped silently.
 		if len(cveIDs) == 0 {
@@ -535,6 +550,28 @@ func cvesOutsideAdvisory(def ovalDefinition) []string {
 	}
 	return out
 }
+
+// revertPhraseRe matches the wording Ubuntu uses when a regression notice
+// takes a CVE patch out again.
+var revertPhraseRe = regexp.MustCompile(`(?i)not backport|\brevert(ed|s|ing)?\b|backed out|(removed|dropped|disabled) the (patch|fix)|without the (patch|fix)`)
+
+// revertedCVEs returns the CVEs a regression notice says it took out again: those
+// named in a sentence of its own text (before "Original advisory details", which
+// repeats the earlier notice) that uses revert wording.
+func revertedCVEs(description string) map[string]bool {
+	own, _, _ := strings.Cut(description, "Original advisory details")
+	out := map[string]bool{}
+	for _, sentence := range sentenceSplitRe.Split(own, -1) {
+		if revertPhraseRe.MatchString(sentence) {
+			for _, id := range cveIDRe.FindAllString(sentence, -1) {
+				out[id] = true
+			}
+		}
+	}
+	return out
+}
+
+var sentenceSplitRe = regexp.MustCompile(`\.\s+`)
 
 // isRegression reports a notice that fixes a regression in an earlier one
 // ("USN-7626-2 -- Git regression").

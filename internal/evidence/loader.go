@@ -1,6 +1,7 @@
 package evidence
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -12,6 +13,9 @@ import (
 // understands. A different major may change field meaning, so it is refused
 // instead of being resolved into a misleading result.
 const SupportedSchemaMajor = "1"
+
+// MaxEvidenceBytes matches the collector's largest output (evidencefile.MaxOutputBytes).
+const MaxEvidenceBytes = 256 << 20
 
 // RecordError describes a single record that failed to decode. Record errors
 // never abort document loading; the resolver reports them and continues.
@@ -25,24 +29,44 @@ type RecordError struct {
 type LoadResult struct {
 	Doc          *Document
 	RecordErrors []RecordError
+	// Integrity is IntegrityVerified or IntegrityAbsent after Load; empty when
+	// the document was parsed from a reader and not checked.
+	Integrity string
 }
 
-// Load reads and decodes a .openness file.
+// Load reads and decodes a .openness file and verifies its payload hash.
 func Load(path string) (*LoadResult, error) {
-	f, err := os.Open(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("open evidence file: %w", err)
 	}
-	defer f.Close()
-	return Parse(f)
+	lr, err := Parse(bytes.NewReader(data))
+	if err != nil {
+		return nil, err
+	}
+	if lr.Integrity, err = VerifyPayloadHash(data); err != nil {
+		return nil, fmt.Errorf("%s: %w", path, err)
+	}
+	return lr, nil
 }
 
 // Parse decodes a .openness document from a reader.
 func Parse(r io.Reader) (*LoadResult, error) {
 	var doc Document
-	dec := json.NewDecoder(r)
+	limited := &io.LimitedReader{R: r, N: MaxEvidenceBytes + 1}
+	dec := json.NewDecoder(limited)
 	if err := dec.Decode(&doc); err != nil {
 		return nil, fmt.Errorf("decode .openness document: %w", err)
+	}
+	var trailing json.RawMessage
+	if err := dec.Decode(&trailing); err != io.EOF {
+		if err == nil {
+			return nil, fmt.Errorf("invalid .openness document: trailing JSON value")
+		}
+		return nil, fmt.Errorf("invalid .openness document: trailing data: %w", err)
+	}
+	if limited.N == 0 {
+		return nil, fmt.Errorf(".openness document exceeds %d bytes", MaxEvidenceBytes)
 	}
 	if doc.SchemaVersion == "" {
 		return nil, fmt.Errorf("invalid .openness document: schema_version missing")

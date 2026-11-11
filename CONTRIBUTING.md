@@ -45,6 +45,8 @@ Regression tests use small fixtures under `testdata/` and `cmd/openness-resolver
 5. Update README if you add a pipeline step, CLI command, or change behavior.
 6. Do **not** commit `data/raw/`, `data/normalized/`, `build/`, or production evidence files.
 
+A pull request does not need a second approver. A maintainer reads it and merges it.
+
 ## Coding principles
 
 1. Keep decisions **deterministic**: no LLM in the decision path.

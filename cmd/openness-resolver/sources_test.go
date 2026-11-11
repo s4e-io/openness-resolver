@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -8,6 +9,7 @@ import (
 	"github.com/s4e-io/openness-resolver/internal/evidence"
 	"github.com/s4e-io/openness-resolver/internal/platform"
 	"github.com/s4e-io/openness-resolver/internal/rules"
+	tf "github.com/s4e-io/openness-resolver/internal/testfixtures"
 )
 
 // feed sync --for picks the vendor-wide source of the host distribution.
@@ -47,7 +49,7 @@ func TestWantedReleases(t *testing.T) {
 		t.Errorf("debian=%v", deb)
 	}
 	rocky := wantedReleases("rocky")
-	if !rocky["8"] || !rocky["9"] || rocky["10"] {
+	if !rocky["8"] || !rocky["9"] || !rocky["10"] || rocky["7"] {
 		t.Errorf("rocky=%v", rocky)
 	}
 	if leap := wantedReleases("opensuse"); !leap["15.6"] {
@@ -119,5 +121,38 @@ func TestRegistryCoversSupportedReleases(t *testing.T) {
 		if !ids["amazon-updateinfo-"+v] {
 			t.Errorf("amazon %s: no enabled updateinfo source", v)
 		}
+	}
+}
+
+// feed sync --for and resolve also cover Debian and RPM images named by
+// their os-release.
+func TestSourcesForEvidenceContainerOSRelease(t *testing.T) {
+	doc := tf.NewUbuntuJammyARM64().
+		AddContainer(tf.ContainerSpec{ID: "r1", Name: "r1", Digest: "sha256:r", ImageRef: "rockylinux:9", State: "running",
+			Packages: [][3]string{{"bash", "5.1.8-9.el9", "rpm"}}, OSRelease: map[string]any{"id": "rocky", "version_id": "9.3"}}).
+		AddContainer(tf.ContainerSpec{ID: "d1", Name: "d1", Digest: "sha256:d", ImageRef: "debian:12", State: "running",
+			Packages: [][3]string{{"bash", "5.2.15-2+b2", "dpkg"}}, OSRelease: map[string]any{"id": "debian", "version_id": "12"}})
+	path := filepath.Join(t.TempDir(), "e.openness")
+	if err := os.WriteFile(path, doc.JSON(), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	srcs, notes, err := sourcesForEvidence(path, 24)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ids := map[string]bool{}
+	for _, s := range srcs {
+		ids[s.ID] = true
+	}
+	if !ids["osv-rocky"] || !ids["debian-security-tracker"] {
+		t.Errorf("sources=%v notes=%v", srcs, notes)
+	}
+	lr, err := evidence.Load(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	keep := ruleFilesFor(lr)
+	if !keep("rocky", "9") || !keep("debian", "bookworm") || keep("almalinux", "9") {
+		t.Error("image distributions must be loaded, others not")
 	}
 }

@@ -3,7 +3,7 @@
 `openness-resolver` is the resolver of the OpenNess Vulnerability Scanner. It turns a host
 snapshot into an explainable list of vulnerabilities. It reads an `.openness` evidence file
 (packages, kernel, containers, Python packages, applications and Windows build of one host,
-produced by the [OpenNess collector](https://github.com/s4e-io/openness)), or a network
+produced by the [OpenNess collector](https://github.com/s4e-io/openness-collector)), or a network
 device file read over SNMP, and the security advisories that the distribution and software
 vendors publish, and it decides, for every installed package and CVE, whether the host is
 vulnerable, fixed or not affected, and why.
@@ -17,9 +17,10 @@ vulnerable, fixed or not affected, and why.
 - **Explainable.** Every finding carries the vendor rule, the version comparison, the
   evidence ids and the reasons; `explain` prints them.
 - **Platforms.** Ubuntu, Debian, RHEL, Rocky Linux, AlmaLinux, openSUSE Leap, Amazon Linux,
-  Alpine (hosts and container images), Windows (OS build via MSRC, installed applications),
+  Alpine, Windows (OS build via MSRC, installed applications),
   PyPI packages and network devices (Cisco, Fortinet, Juniper, MikroTik, Palo Alto, Aruba,
-  Ubiquiti; matched from SNMP data).
+  Ubiquiti; matched from SNMP data). Container images of these Linux distributions are
+  evaluated with the same rules, keyed by the image's os-release.
 
 License: [Apache License 2.0](LICENSE). Version: [`VERSION`](VERSION), changes in
 [CHANGELOG.md](CHANGELOG.md).
@@ -57,6 +58,16 @@ openness-resolver version
 On Windows, download `openness-resolver_<version>_windows_amd64.exe` and rename it to
 `openness-resolver.exe`.
 
+Every release also carries the same binaries without the version in the name
+(`openness-resolver_<os>_<arch>`), so a script can always fetch the newest one; the
+release's `SHA256SUMS` lists both names:
+
+```bash
+curl -fLO https://github.com/s4e-io/openness-resolver/releases/latest/download/openness-resolver_linux_amd64
+curl -fLO https://github.com/s4e-io/openness-resolver/releases/latest/download/SHA256SUMS
+sha256sum -c --ignore-missing SHA256SUMS
+```
+
 **With Go** (1.25 or newer):
 
 ```bash
@@ -75,7 +86,7 @@ bash scripts/build.sh            # writes bin/openness-resolver and dist/
 ## Quick start
 
 You need an `.openness` evidence file of the host, written by the collector
-(`openness collect --output host.openness` on that host). Then, on any machine:
+(`sudo openness-collector collect --output host.openness` on that host). Then, on any machine:
 
 ```bash
 # 1. Download the advisories this host needs, straight from the publishers.
@@ -116,11 +127,22 @@ openness-resolver resolve --input testdata/evidence/synthetic/alpine-3.20.openne
 | `findings[].rule` | The vendor rule: source, URL, feed snapshot, raw vendor status. |
 | `findings[].reasons[]` | Why, in words. |
 | `remediation_groups[]` | Upgrade cards: packages to upgrade, target versions, the CVEs each card closes, a `command_hint` (for example `dnf upgrade openssl openssl-libs`). |
-| `rule_coverage` | Which rules were loaded for this asset (`asset_release`, `rules_for_asset`, `sources[]` with URL, SHA-256, download time and, for the application mapper, its `version`) and whether they cover it (`state`: `covered`, `missing`, `not_applicable`; for a network device also `not_supported` and `unknown`). |
+| `rule_coverage` | Which rules were loaded for this asset (`asset_release`, `rules_for_asset`, `sources[]` with URL, SHA-256, download time and, for the application mapper, its `version`) and whether they cover it (`state`: `covered`, `partial`, `missing`, `not_applicable`; for a network device also `not_supported` and `unknown`). `gaps[]` names each hole by `kind`: `missing_rules`, `no_evaluator`, `not_synced`, `no_packages`, `unknown_distribution`, `invalid_package_records` (with `count`), `packages_truncated`, `container_not_covered` (with `count` and `detail`), `os_build_unknown`, `applications_incomplete`. |
 | `unknowns[]`, `notes[]` | What was seen but not judged. An empty `findings[]` with a non-empty `unknowns[]` is not a clean host. |
 
-When rules for the asset release are missing, `resolve` still writes the findings but exits
-with code 1: missing rules are never reported as a clean host.
+When rules for the asset release are missing, the evidence has no usable package
+(`no_packages`) or the distribution is unknown (`unknown_distribution`), `resolve` still
+writes the findings but exits with code 1: a host that was not evaluated is never reported
+as clean. Skipped malformed package records (`invalid_package_records`) and a package list
+the collector cut (`packages_truncated`) make the coverage `partial`; the rest is evaluated
+and the exit code is 0. So does a container image that could not be evaluated
+(`container_not_covered`: no os-release, a distribution or release without support, no
+rules loaded for its release, or a package database the collector could not read).
+
+When the evidence carries `integrity.payload_hash`, `resolve` checks it the way the
+collector computed it and stops with exit 1 on a mismatch (no findings are written).
+Evidence without a hash is accepted with a note; `asset.evidence_integrity` says which
+(`verified` or `not_present`).
 
 ## Usage
 
@@ -182,7 +204,7 @@ openness-resolver feed sync --source app-mapper --data-dir data
 | `--pypi-only` | Deprecated. With `--for`: sync only `osv-pypi`, when the evidence lists PyPI packages. A failed download is a warning and exit `0`. `feed sync --for` selects `osv-pypi` itself. Default `false`. | `--for host.openness --pypi-only` |
 | `--osv-url <url>` | Deprecated and ignored (a warning on stderr). PyPI data is the `osv-pypi` archive, not per-package OSV queries. | `--osv-url https://osv.example.org/v1/query` |
 | `--allow-downgrade` | Let the `app-mapper` source install a mapper older than the synced one or the built-in one. Default `false`. | `--source app-mapper --allow-downgrade` |
-| `--mapper-url <url>` | Where the `app-mapper` source downloads `app-mapper.json.gz` from; `SHA256SUMS` must be in the same directory. Default: `https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz`. | `--mapper-url https://mirror.example.org/catalog/app-mapper.json.gz` |
+| `--mapper-url <url>` | Where the `app-mapper` source downloads `app-mapper.json.gz` from; `SHA256SUMS` must be in the same directory. Default: `https://github.com/s4e-io/openness-app-mapper/releases/latest/download/app-mapper.json.gz`. | `--mapper-url https://mirror.example.org/catalog/app-mapper.json.gz` |
 
 #### Debug
 
@@ -337,7 +359,7 @@ openness-resolver resolve --device switch.json --data-dir data --output switch-f
 |---|---|---|
 | `--input <file>` | The `.openness` evidence file. Required unless `--device` is given; not both. | `--input host.openness` |
 | `--device <file>` | A network device file (`openness-device/1`, written by the desktop from SNMP) to resolve instead of `--input`. | `--device switch.json` |
-| `--preflight` | Strict evidence check before resolving: `schema_version` and `asset.asset_id` must be present. Default `false`. | `--preflight` |
+| `--preflight` | Strict evidence check before resolving: `schema_version` and `asset.asset_id` must be present. The payload hash and the coverage rules are the same as without it. Default `false`. | `--preflight` |
 
 #### Data and sync
 
@@ -457,31 +479,33 @@ The resolver reads no environment variable of its own (`OPENNESS_OSV_URL` and
 
 | Code | Meaning |
 |---|---|
-| `0` | Success. For `resolve`: the rules covered the asset, or only the PyPI data is missing (`rule_coverage.state` `partial`, gap kind `not_synced`, and a note). |
-| `1` | An error (`error: ...` on stderr), a failed source in `feed sync`, or `resolve` without rule coverage for the asset (the findings are still written). |
+| `0` | Success. For `resolve`: the rules covered the asset, or the coverage is `partial` (gap kinds `not_synced`, `invalid_package_records`, `packages_truncated`, `container_not_covered`, `applications_incomplete`; the rest is evaluated). |
+| `1` | An error (`error: ...` on stderr), a failed source in `feed sync`, or `resolve` without rule coverage for the asset (`rule_coverage.state` `missing`, including gap kinds `no_packages` and `unknown_distribution`; the findings are still written). An evidence file whose `integrity.payload_hash` does not match is an error. |
 | `2` | Usage error: unknown command or flag, or a flag value that does not parse (for example `--months two`). |
 
 ## Data sources
 
+Which release of each distribution has published data, which ones the resolver covers, and how to check when a new release comes out: [docs/releases.md](docs/releases.md).
+
 The sources `feed sync` downloads and `rules import` reads. Every URL is the publisher's;
 nothing goes through an OpenNess or S4E service. The application mapper is published by S4E
-as a release asset of the public GitHub repository `s4e-io/openness-catalog`; downloading it
+as a release asset of the public GitHub repository `s4e-io/openness-app-mapper`; downloading it
 needs no account or key. `<codename>`, `<branch>` and `<YYYY-Mon>`
 come from the asset (`--for`) or from `--source`.
 
 | Vendor | Source id | Publisher URL | Format | Releases | Publisher updates | Data license or terms |
 |---|---|---|---|---|---|---|
-| Canonical (Ubuntu) | `ubuntu-oval-usn-<codename>` | `https://security-metadata.canonical.com/oval/com.ubuntu.<codename>.usn.oval.xml.bz2` | OVAL XML (bz2), per USN | Supported: focal (20.04), jammy (22.04), noble (24.04); any codename the publisher serves via `--for` | Several times a day, after each USN | No license in the file; Canonical publishes the same notices under CC BY-SA 4.0 in [ubuntu-security-notices](https://github.com/canonical/ubuntu-security-notices); [Ubuntu legal](https://ubuntu.com/legal) |
+| Canonical (Ubuntu) | `ubuntu-oval-usn-<codename>` | `https://security-metadata.canonical.com/oval/com.ubuntu.<codename>.usn.oval.xml.bz2` | OVAL XML (bz2), per USN | Supported: focal (20.04), jammy (22.04), noble (24.04), resolute (26.04), stonking (26.10); any codename the publisher serves via `--for` | Several times a day, after each USN | No license in the file; Canonical publishes the same notices under CC BY-SA 4.0 in [ubuntu-security-notices](https://github.com/canonical/ubuntu-security-notices); [Ubuntu legal](https://ubuntu.com/legal) |
 | Debian | `debian-security-tracker` | `https://security-tracker.debian.org/tracker/data/json` | JSON, every release in one document | bookworm (12), trixie (13) | Continuously, many times a day | No license stated; [Debian Security Tracker](https://security-tracker.debian.org/tracker/) |
 | Red Hat | `osv-rhel` | `https://osv-vulnerabilities.storage.googleapis.com/Red%20Hat/all.zip` | OSV JSON (zip), RHSA | RHEL 8, 9 | Daily or more often (OSV export) | [CC BY 4.0](https://access.redhat.com/security/data) (Red Hat security data) |
-| Rocky Linux (RESF) | `osv-rocky` | `https://osv-vulnerabilities.storage.googleapis.com/Rocky%20Linux/all.zip` | OSV JSON (zip), RLSA | Rocky 8, 9 | Daily or more often (OSV export) | BSD, per [OSV.dev data sources](https://google.github.io/osv.dev/data/) |
-| AlmaLinux | `osv-almalinux` | `https://osv-vulnerabilities.storage.googleapis.com/AlmaLinux/all.zip` | OSV JSON (zip), ALSA | AlmaLinux 8, 9 | Daily or more often (OSV export) | MIT, [AlmaLinux osv-database](https://github.com/AlmaLinux/osv-database) |
+| Rocky Linux (RESF) | `osv-rocky` | `https://osv-vulnerabilities.storage.googleapis.com/Rocky%20Linux/all.zip` | OSV JSON (zip), RLSA | Rocky 8, 9, 10 | Daily or more often (OSV export) | BSD, per [OSV.dev data sources](https://google.github.io/osv.dev/data/) |
+| AlmaLinux | `osv-almalinux` | `https://osv-vulnerabilities.storage.googleapis.com/AlmaLinux/all.zip` | OSV JSON (zip), ALSA | AlmaLinux 8, 9, 10 | Daily or more often (OSV export) | MIT, [AlmaLinux osv-database](https://github.com/AlmaLinux/osv-database) |
 | SUSE (openSUSE) | `osv-opensuse` | `https://osv-vulnerabilities.storage.googleapis.com/openSUSE/all.zip` | OSV JSON (zip), openSUSE-SU and SUSE-SU | Leap 15.5, 15.6, 16.0 | Daily or more often (OSV export) | [CC BY 4.0](https://www.suse.com/support/security/csaf/) (SUSE security data) |
-| Alpine | `alpine-secdb-<branch>`, `alpine-secdb-<branch>-community` | `https://secdb.alpinelinux.org/<branch>/main.json`, `https://secdb.alpinelinux.org/<branch>/community.json` | secdb JSON | v3.14 to v3.22 (hosts and container images); any branch via `--for` | When packages get security fixes | No license stated by the publisher; [OSV.dev](https://google.github.io/osv.dev/data/) lists Alpine SecDB as CC BY-SA 4.0 |
+| Alpine | `alpine-secdb-<branch>`, `alpine-secdb-<branch>-community` | `https://secdb.alpinelinux.org/<branch>/main.json`, `https://secdb.alpinelinux.org/<branch>/community.json` | secdb JSON | v3.14 to v3.24 (hosts and container images); any branch via `--for` | When packages get security fixes | No license stated by the publisher; [OSV.dev](https://google.github.io/osv.dev/data/) lists Alpine SecDB as CC BY-SA 4.0 |
 | Amazon | `amazon-updateinfo-2`, `amazon-updateinfo-2023` | `https://cdn.amazonlinux.com/2/core/latest/x86_64/mirror.list`, `https://cdn.amazonlinux.com/al2023/core/mirrors/latest/x86_64/mirror.list`, then the repository's `updateinfo.xml.gz` | yum updateinfo XML (ALAS) | Amazon Linux 2, 2023 | With each ALAS advisory | [AWS Site Terms](https://aws.amazon.com/terms/) |
 | Microsoft | `msrc-cvrf-<YYYY-Mon>` | `https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/<YYYY-Mon>` | CVRF JSON, one document per month | Windows 10, 11, Server 2008 to 2025; the last `--months` (default 24) | Monthly (Patch Tuesday), plus revisions | [Microsoft Terms of Use](https://www.microsoft.com/en-us/legal/terms-of-use) |
 | OSV (PyPI) | `osv-pypi` | `https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip` | OSV JSON (zip), one advisory per file, about 38 MB; rules in `normalized/pypi/pypi` | Every PyPI package; selected by `--for` when the evidence lists PyPI packages | Continuously (OSV export) | Per record; the PyPA advisory database and GitHub advisories are CC BY 4.0 ([OSV.dev data sources](https://google.github.io/osv.dev/data/)) |
-| S4E catalog plus NVD (application and device mapper) | `app-mapper` | `https://github.com/s4e-io/openness-catalog/releases/latest/download/app-mapper.json.gz` (and `SHA256SUMS` next to it) | `openness-app-mapper/1` JSON (gzip) | Third-party Windows applications and network devices | Daily | The catalog by S4E; the vulnerability data is derived from the NVD, under the NVD's terms. This product uses data from the NVD API but is not endorsed or certified by the NVD. |
+| S4E catalog plus NVD (application and device mapper) | `app-mapper` | `https://github.com/s4e-io/openness-app-mapper/releases/latest/download/app-mapper.json.gz` (and `SHA256SUMS` next to it) | `openness-app-mapper/1` JSON (gzip) | Third-party Windows applications and network devices | Daily | The catalog by S4E; the vulnerability data is derived from the NVD, under the NVD's terms. This product uses data from the NVD API but is not endorsed or certified by the NVD. |
 | NVD (built in, not synced) | none | Bundled in the binary (`internal/appvuln/data`) | JSON (gzip) | Third-party Windows applications and network devices, when no `app-mapper` was synced | With each release of this tool | NVD data. This product uses data from the NVD API but is not endorsed or certified by the NVD. |
 
 The registry also lists `ubuntu-oval-usn-focal`, `ubuntu-oval-usn-noble` and
@@ -526,7 +550,7 @@ OPENNESS_NIGHTLY=1 go test ./cmd/openness-resolver -run TestNightly -v -timeout 
 - **Flag tests** (`cli_flags_test.go`): every command with every flag: valid values,
   defaults and invalid values.
 - **Independence tests** (`independence_test.go`): every URL in the code is a publisher's
-  (on github.com only release downloads of `s4e-io/openness-catalog`), and the code reads
+  (on github.com only release downloads of `s4e-io/openness-app-mapper`), and the code reads
   no environment variable of its own.
 - **Doc drift guard** (`readme_test.go`): fails when a command or flag is missing from this
   README.

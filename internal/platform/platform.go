@@ -11,6 +11,7 @@ package platform
 import (
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/s4e-io/openness-resolver/internal/evidence"
@@ -58,6 +59,9 @@ var knownDistributions = map[string]bool{
 	"oracle": true, "amazon": true, "sles": true, "opensuse": true,
 }
 
+// Known reports whether id is a normalized distribution id the resolver recognizes.
+func Known(id string) bool { return knownDistributions[id] }
+
 // distroAliases maps vendor os-release ID spellings to canonical IDs.
 var distroAliases = map[string]string{
 	"ol":                       "oracle",
@@ -76,6 +80,9 @@ var ubuntuCodenames = map[string]string{
 	"22.04": "jammy",
 	"24.04": "noble",
 	"25.04": "plucky",
+	"25.10": "questing",
+	"26.04": "resolute",
+	"26.10": "stonking",
 }
 
 // debianCodenames maps Debian VERSION_ID to release codename.
@@ -101,11 +108,11 @@ var debianCodenames = map[string]string{
 // Whether a release was verified against a real host is a separate
 // question, answered by testedReleases.
 var productionSupportedReleases = map[string][]string{
-	"ubuntu":    {"20.04", "22.04", "24.04"},
-	"alpine":    {"3.14", "3.15", "3.16", "3.17", "3.18", "3.19", "3.20", "3.21", "3.22"},
+	"ubuntu":    {"20.04", "22.04", "24.04", "26.04", "26.10"},
+	"alpine":    {"3.14", "3.15", "3.16", "3.17", "3.18", "3.19", "3.20", "3.21", "3.22", "3.23", "3.24"},
 	"debian":    {"12", "13"},
-	"rocky":     {"8", "9"},
-	"almalinux": {"8", "9"},
+	"rocky":     {"8", "9", "10"},
+	"almalinux": {"8", "9", "10"},
 	"rhel":      {"8", "9"},
 	"opensuse":  {"15.5", "15.6", "16.0"},
 	"amazon":    {"2", "2023"},
@@ -335,7 +342,82 @@ func (p PlatformContext) Support() (SupportState, string) {
 			return Supported, ""
 		}
 	}
-	return NotSupported, fmt.Sprintf("%s %s is not in the supported release set %v", p.DistributionID, p.DistributionVersion, releases)
+	return NotSupported, releaseOutsideMatrix(p.DistributionID, p.DistributionVersion, releases)
+}
+
+// distroNames and distroVendors name a distribution and the publisher of its
+// security data in the reasons below.
+var (
+	distroNames = map[string]string{
+		"ubuntu": "Ubuntu", "debian": "Debian", "alpine": "Alpine", "rocky": "Rocky Linux",
+		"almalinux": "AlmaLinux", "rhel": "RHEL", "opensuse": "openSUSE Leap", "amazon": "Amazon Linux",
+	}
+	distroVendors = map[string]string{
+		"ubuntu": "Canonical", "debian": "Debian", "alpine": "Alpine", "rocky": "Rocky Linux",
+		"almalinux": "AlmaLinux", "rhel": "Red Hat", "opensuse": "SUSE", "amazon": "Amazon",
+	}
+)
+
+// vendorPublishedReleases are releases outside the matrix whose vendor still
+// publishes security data in the format this resolver reads for the
+// distribution (checked November 2026: Canonical USN OVAL, Alpine secdb, OSV).
+var vendorPublishedReleases = map[string]map[string]bool{
+	"ubuntu":   {"14.04": true, "16.04": true, "18.04": true, "24.10": true, "25.04": true, "25.10": true},
+	"alpine":   {"3.10": true, "3.11": true, "3.12": true, "3.13": true},
+	"rhel":     {"7": true},
+	"opensuse": {"15.4": true},
+}
+
+// releaseKey is the part of a version that names a release: YY.MM for Ubuntu,
+// major.minor for Alpine and openSUSE Leap, the major version otherwise.
+func releaseKey(id, version string) string {
+	version = strings.TrimSpace(version)
+	switch id {
+	case "ubuntu", "alpine", "opensuse":
+		parts := strings.Split(version, ".")
+		if len(parts) < 2 {
+			return version
+		}
+		return parts[0] + "." + parts[1]
+	}
+	return majorVersion(version)
+}
+
+// noVendorData reports a release whose vendor publishes no security data (any
+// more): Canonical has none for end-of-life interim Ubuntu releases (12.04 to
+// 26.10 except the published ones), the Debian Security Tracker none for
+// Debian 10 and older.
+func noVendorData(id, key string) bool {
+	switch id {
+	case "ubuntu":
+		if len(key) != 5 || key[2] != '.' || key < "12.04" || key > "26.10" {
+			return false
+		}
+		return (key[3:] == "04" || key[3:] == "10") && !vendorPublishedReleases["ubuntu"][key]
+	case "debian":
+		n, err := strconv.Atoi(key)
+		return err == nil && n >= 1 && n <= 10
+	}
+	return false
+}
+
+// releaseOutsideMatrix says why a release of a supported distribution is not
+// checked: its vendor publishes no data for it, publishes data this resolver
+// does not cover yet, or neither is known; each names the covered releases.
+func releaseOutsideMatrix(id, version string, covered []string) string {
+	name, vendor := distroNames[id], distroVendors[id]
+	if name == "" {
+		name, vendor = id, id
+	}
+	key := releaseKey(id, version)
+	list := strings.Join(covered, ", ")
+	switch {
+	case noVendorData(id, key):
+		return fmt.Sprintf("%s does not publish security data for %s %s, an end-of-life release; upgrade to a supported release (covered: %s)", vendor, name, key, list)
+	case vendorPublishedReleases[id][key]:
+		return fmt.Sprintf("%s publishes security data for %s %s, but this release is not covered yet (covered: %s)", vendor, name, key, list)
+	}
+	return fmt.Sprintf("%s %s is not covered (covered: %s)", name, version, list)
 }
 
 // Tested reports whether the platform is supported AND was verified against
