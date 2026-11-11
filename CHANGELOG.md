@@ -7,26 +7,37 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
-### Fixed
-
-- A package list cut by the collector's output size limit is now a `packages_truncated` gap: the resolver looked for `output_size_limit`, the collector writes `output_size_truncated` (both are accepted).
-- A `containers` module that timed out, was cut by the output size or record limit, or failed is now a `container_not_covered` gap (release `containers`, coverage `partial`), so dropped containers no longer leave the host `covered`.
-- Windows hosts get coverage gaps: `os_build_unknown` (build or UBR unreadable, coverage `missing`, exit 1; before, `not_supported` with exit 0) and `applications_incomplete` (applications module failed, timed out or cut, coverage `partial`).
+## [0.9.0] - 2026-11-11
 
 ### Added
 
+- Platforms: Ubuntu 26.04 (resolute) and 26.10 (stonking), Alpine 3.23 and 3.24, Rocky Linux 10 and AlmaLinux 10. Each was checked on a real container against the vendor's update tools. `docs/releases.md` lists which releases have data and which are covered, and `scripts/check-releases.sh` reads the publishers to compare.
+- Debian, Ubuntu and RPM-family container images (RHEL, Rocky Linux, AlmaLinux, Amazon Linux, openSUSE Leap) are evaluated with the host rules.
 - Release files without the version in the name (`openness-resolver_<os>_<arch>`), so `releases/latest/download/` links always serve the newest release. `SHA256SUMS` lists them too.
+- The `app-mapper` source downloads from `s4e-io/openness-app-mapper` releases.
 
 ### Changed
 
-- Vulnerability reports go to support@s4e.io. CODEOWNERS is removed, so a pull request does not ask for a second approver.
+- A release outside the support matrix says why it is not checked: the vendor publishes no security data for it (an end-of-life release), the vendor publishes data that is not covered yet, or neither is known. Each reason names the covered releases.
+- `resolve` never reports a host it could not evaluate as clean. A container whose package database could not be read, a package list cut by the collector's output size limit (`packages_truncated`, both `output_size_limit` and `output_size_truncated` are read), a failed or cut `containers` module (`container_not_covered`) and Windows holes (`os_build_unknown`, `applications_incomplete`) are coverage gaps.
+- Vulnerability reports go to support@s4e.io.
+
+### Fixed
+
+- Ubuntu: a regression notice no longer makes fixed rules for CVEs its own text says were taken out (USN-8018-2 listed CVE-2025-15366 and CVE-2025-15367 although their patches were not backported), so those CVEs are no longer shown as fixed.
+
+### Security
+
+- Evidence and PyPI cache paths are validated before use.
+
+## [0.8.0] - 2026-11-05
 
 ### Added
 
 - `osv-pypi` feed source: the OSV PyPI archive (`https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip`) downloaded and normalized into `normalized/pypi/pypi` like the other OSV sources. `feed sync --for` selects it when the evidence lists PyPI packages; `--source osv-pypi`, `--vendor pypi`, `--all` and `rules import --source osv-pypi --file all.zip` too. A damaged archive (zip CRC) publishes nothing.
 - Downloads honour `Retry-After` on 429 and 5xx (seconds or an HTTP date, at most 60 s per wait) and no longer retry 404 and other client errors.
 
-- `app-mapper` feed source: the application and device mapper (`openness-app-mapper/1`) from the public release of `s4e-io/openness-app-mapper`, checked against `SHA256SUMS` and stored as `<data-dir>/mapper/app-mapper.json.gz` with its metadata. `feed sync --for` selects it for Windows, applications and network devices; `--source app-mapper`, `--vendor openness`, `--all` and `rules import --source app-mapper` too. `--mapper-url` points it at a mirror.
+- `app-mapper` feed source: the application and device mapper (`openness-app-mapper/1`) from the public release of `s4e-io/openness-catalog`, checked against `SHA256SUMS` and stored as `<data-dir>/mapper/app-mapper.json.gz` with its metadata. `feed sync --for` selects it for Windows, applications and network devices; `--source app-mapper`, `--vendor openness`, `--all` and `rules import --source app-mapper` too. `--mapper-url` points it at a mirror.
 - `resolve` takes the mapper from `--mapper`, else the data directory, else the built-in one, and lists it in `rule_coverage.sources[]` with its `version` and `downloaded_at`.
 - Old data: `rule_coverage.sources[]` carries `age_days` and `stale`; `resolve` warns on stderr and in `notes[]` when a source is older than its limit (2 days for distribution feeds, 35 for MSRC, 7 for the mapper, `--stale-after` overrides, `0` turns it off). `feed list` shows the age of every source.
 - `feed sync` never installs a mapper older than the synced or the built-in one; `--allow-downgrade` forces it.
@@ -34,13 +45,6 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Debian, Ubuntu and RPM-family container images (RHEL, Rocky Linux, AlmaLinux, Amazon Linux, openSUSE Leap) are evaluated with the host rules and comparators of their distribution and release, keyed by the image's `os_release` (collector `containers` 1.2.0+) and mapped like the host platform; findings have scope `container` with `image_digest` and `container_ids`. Container dpkg packages use their `source_package` and `source_version`. `feed sync --for` selects the sources of these images too.
-- A container image with packages that cannot be evaluated (no os-release, a distribution or release outside the support matrix, no rules loaded) is gap `container_not_covered` (`count`, `detail` with the image digest and reason) and an `unknowns[]` entry; coverage is `partial`, exit 0. It was a note only and the coverage stayed `covered`.
-- A container whose package database the collector could not read (`packages_error`, collector `containers` 1.3.0+; on older evidence a `containers` module error naming the container with a timeout or failure such as `rpm_timeout`) is gap `container_not_covered` with detail `package database could not be read: <reason>`, not a scratch image; coverage is `partial`, exit 0.
-- `resolve` no longer reports a host it could not evaluate as clean. Evidence with an OS but no usable host package (empty or missing list, only malformed records, packages module `unavailable`, `empty` or failed) gives `rule_coverage.state` `missing` with gap `no_packages`, and an unknown or missing distribution gives gap `unknown_distribution`; both exit 1 and still write `findings.json`. `--preflight` reports the same.
-- Skipped malformed package records are counted in gap `invalid_package_records` (`count`) and listed in `unknowns[]`; a package list the collector cut is gap `packages_truncated`. Both make the coverage `partial` with exit 0.
-- `resolve` verifies `integrity.payload_hash` the way the collector computes it; a mismatch is an error naming the file (exit 1). Evidence without a hash is accepted with a note and `asset.evidence_integrity` `not_present`.
-- A corrupt or truncated `rules.json` error names the file path.
 - `resolve` makes no network call for PyPI: Python packages are matched against the local `osv-pypi` data. Without it, `rule_coverage.state` is `partial` with a `not_synced` gap for `pypi` and a note, the rest of the asset is resolved and the exit code is 0 (it was 1).
 - `osv-pypi` data counts as old after 2 days, like the distribution feeds (it was never old).
 - `feed sync --pypi-only` is deprecated: it syncs only `osv-pypi`, and a failed download is a warning with exit 0. `--osv-url` is deprecated and ignored.
