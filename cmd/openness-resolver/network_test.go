@@ -1,7 +1,7 @@
 package main
 
 // Nightly network tests: the real thing against the publishers, with no
-// OpenNess or S4E account, key, secret or service. They run only when
+// Openness or S4E account, key, secret or service. They run only when
 // OPENNESS_NIGHTLY=1 (.github/workflows/nightly.yml, or by hand):
 //
 //	OPENNESS_NIGHTLY=1 go test ./cmd/openness-resolver -run TestNightlySync -v -timeout 30m

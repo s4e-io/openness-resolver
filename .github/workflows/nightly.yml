@@ -1,6 +1,6 @@
 name: nightly
 
-# The resolver against the real publishers, with no secrets and no OpenNess or
+# The resolver against the real publishers, with no secrets and no Openness or
 # S4E service: for one evidence fixture per supported family, `feed sync --for`
 # then `resolve`, asserting exit code 0, rule_coverage.state == covered and
 # rules loaded for the fixture's release (cmd/openness-resolver/network_test.go).
