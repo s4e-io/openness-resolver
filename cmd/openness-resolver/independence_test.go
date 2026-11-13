@@ -1,6 +1,6 @@
 package main
 
-// The resolver must work with no OpenNess or S4E service, key or account: it
+// The resolver must work with no Openness or S4E service, key or account: it
 // syncs from the vulnerability data publishers themselves. These tests fail
 // when a default URL points anywhere else, or when an OPENNESS_* variable
 // becomes required.
@@ -79,7 +79,7 @@ func hostProblem(raw string) string {
 	host := strings.ToLower(u.Hostname())
 	for _, f := range forbidden {
 		if strings.Contains(host, f) {
-			return fmt.Sprintf("URL %s points to an OpenNess/S4E host", raw)
+			return fmt.Sprintf("URL %s points to an Openness/S4E host", raw)
 		}
 	}
 	if host == "github.com" {
@@ -101,7 +101,7 @@ func checkHost(t *testing.T, where, raw string) {
 	}
 }
 
-// The github.com exception is exactly the catalog's release downloads; S4E and OpenNess
+// The github.com exception is exactly the catalog's release downloads; S4E and Openness
 // hosts stay banned.
 func TestHostRules(t *testing.T) {
 	for raw, ok := range map[string]bool{
@@ -109,13 +109,13 @@ func TestHostRules(t *testing.T) {
 		"https://github.com/s4e-io/openness-app-mapper/releases/latest/download/SHA256SUMS":         true,
 		"https://github.com/s4e-io/openness-app-mapper/releases/download/v2026.11.05/SHA256SUMS":    true,
 		"https://github.com/s4e-io/openness-app-mapper/archive/main.zip":                            false,
-		"https://github.com/s4e-io/openness-backend/releases/latest/download/app-mapper.json.gz": false,
+		"https://github.com/s4e-io/openness-backend/releases/latest/download/app-mapper.json.gz":    false,
 		"https://github.com/other/openness-app-mapper/releases/latest/download/app-mapper.json.gz":  false,
 		"https://api.github.com/repos/s4e-io/openness-app-mapper/releases/latest":                   false,
-		"https://s4e.io/app-mapper.json.gz":                                                      false,
-		"https://getopenness.com/app-mapper.json.gz":                                             false,
-		"https://openness.s4e.io/api/mapper":                                                     false,
-		"https://api.osv.dev/v1/query":                                                           true,
+		"https://s4e.io/app-mapper.json.gz":                                                         false,
+		"https://getopenness.com/app-mapper.json.gz":                                                false,
+		"https://openness.s4e.io/api/mapper":                                                        false,
+		"https://api.osv.dev/v1/query":                                                              true,
 	} {
 		if got := hostProblem(raw) == ""; got != ok {
 			t.Errorf("%s allowed=%v, want %v (%s)", raw, got, ok, hostProblem(raw))

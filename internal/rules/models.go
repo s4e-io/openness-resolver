@@ -247,7 +247,7 @@ func Registry() []AdvisorySource {
 		// The application and device mapper (catalog by S4E plus NVD data), published as a
 		// release asset of a public GitHub repository; no account or key.
 		{
-			ID: "app-mapper", Name: "OpenNess application and device mapper",
+			ID: "app-mapper", Name: "Openness application and device mapper",
 			Ecosystem: "mapper", Vendor: "openness",
 			URL:    AppMapperURL,
 			Format: "openness-app-mapper-gz", Priority: 5, Enabled: true, Parser: "app-mapper",

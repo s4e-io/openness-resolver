@@ -52,7 +52,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ### Changed (continued)
 
 - Mapper files are read as a stream and refused above 256 MB uncompressed.
-- README names the product OpenNess Vulnerability Scanner.
+- README names the product Openness Vulnerability Scanner.
 
 ### Fixed
 
@@ -119,7 +119,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- **Third-party Windows applications** (application mapper): a Windows host's installed applications are matched to NVD CPE products by a built-in catalog, and their CVEs come with the NVD severity and CVSS (`nvd_cpe_version_range`), one `update_application` card per application version, and `applications[]` listing every application with its match status (`matched`, `guessed`, `unmatched`, `no_version`, `unverified`). `resolve --mapper <file>` replaces the built-in data at run time (format `openness-app-mapper/1`); `--app-unverified` and `--app-guess` choose which matches count. Moved from OpenNess Desktop; on real Windows Server 2022 evidence the findings are identical.
+- **Third-party Windows applications** (application mapper): a Windows host's installed applications are matched to NVD CPE products by a built-in catalog, and their CVEs come with the NVD severity and CVSS (`nvd_cpe_version_range`), one `update_application` card per application version, and `applications[]` listing every application with its match status (`matched`, `guessed`, `unmatched`, `no_version`, `unverified`). `resolve --mapper <file>` replaces the built-in data at run time (format `openness-app-mapper/1`); `--app-unverified` and `--app-guess` choose which matches count. Moved from Openness Desktop; on real Windows Server 2022 evidence the findings are identical.
 
 - **Alpine hosts**: an Alpine host is evaluated against Alpine secdb with the apk comparator. The rule release is the branch derived from `VERSION_ID` (3.20.10 is `v3.20`), so `feed sync --for` no longer fails with `invalid release ""`. secdb rules name origin packages and now match every subpackage built from that origin (libcrypto3 and libssl3 from openssl), on hosts and in images.
 - **Amazon Linux 2 and 2023**: new `amazon-updateinfo-<release>` sources read the ALAS advisories from the core repository `updateinfo.xml.gz` (the document `dnf updateinfo` reads). Findings use `rpm_package_fixed_version`; remediation hints are `dnf upgrade --releasever=latest` (2023) and `yum update` (2).
