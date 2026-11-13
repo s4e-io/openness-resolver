@@ -109,13 +109,13 @@ func TestHostRules(t *testing.T) {
 		"https://github.com/s4e-io/openness-app-mapper/releases/latest/download/SHA256SUMS":         true,
 		"https://github.com/s4e-io/openness-app-mapper/releases/download/v2026.11.05/SHA256SUMS":    true,
 		"https://github.com/s4e-io/openness-app-mapper/archive/main.zip":                            false,
-		"https://github.com/s4e-io/openness-backend/releases/latest/download/app-mapper.json.gz": false,
+		"https://github.com/s4e-io/openness-backend/releases/latest/download/app-mapper.json.gz":    false,
 		"https://github.com/other/openness-app-mapper/releases/latest/download/app-mapper.json.gz":  false,
 		"https://api.github.com/repos/s4e-io/openness-app-mapper/releases/latest":                   false,
-		"https://s4e.io/app-mapper.json.gz":                                                      false,
-		"https://getopenness.com/app-mapper.json.gz":                                             false,
-		"https://openness.s4e.io/api/mapper":                                                     false,
-		"https://api.osv.dev/v1/query":                                                           true,
+		"https://s4e.io/app-mapper.json.gz":                                                         false,
+		"https://getopenness.com/app-mapper.json.gz":                                                false,
+		"https://openness.s4e.io/api/mapper":                                                        false,
+		"https://api.osv.dev/v1/query":                                                              true,
 	} {
 		if got := hostProblem(raw) == ""; got != ok {
 			t.Errorf("%s allowed=%v, want %v (%s)", raw, got, ok, hostProblem(raw))
