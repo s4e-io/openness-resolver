@@ -195,6 +195,9 @@ type RunResult struct {
 	SoftwareInventory []SoftwareInstanceResult `json:"software_inventory"`
 	// Unknowns lists what was seen but not judged. Empty list, never null.
 	Unknowns []Unknown `json:"unknowns"`
+	// PackageOrigins splits the host packages by origin and lists the
+	// third-party ones; nil when the host packages were not evaluated.
+	PackageOrigins *PackageOrigins `json:"package_origins,omitempty"`
 	// Applications lists a Windows host's installed applications with what the application
 	// mapper made of each (matched, guessed, unmatched, ...); absent on other hosts.
 	Applications []appvuln.Application `json:"applications,omitempty"`
@@ -359,6 +362,10 @@ func (e *Engine) Resolve(lr *evidence.LoadResult) (*RunResult, error) {
 	res.invalidPackages = health.Invalid
 	res.RuleCoverage = e.ruleCoverage(res.Platform, support, pkgIndex, inventory.Groups, pyInv)
 	addCoverageGaps(&res.RuleCoverage, inventoryGaps(res.Platform, support, reason, doc.Asset.Platform, health))
+	if hostPackagesEvaluated(res.RuleCoverage, res.Platform.DistributionID, support) {
+		res.PackageOrigins = buildPackageOrigins(pkgIndex, res.Platform.DistributionID)
+		addCoverageGaps(&res.RuleCoverage, thirdPartyGap(res.PackageOrigins, res.RuleCoverage.AssetRelease))
+	}
 	for _, g := range res.RuleCoverage.Gaps {
 		if g.Kind == GapNotSynced {
 			res.Notes = append(res.Notes, PyPINotSyncedNote)
@@ -378,7 +385,7 @@ func (e *Engine) Resolve(lr *evidence.LoadResult) (*RunResult, error) {
 		sortFindings(res.Findings)
 		sortRemediationGroups(res.RemediationGroups)
 	}
-	res.SoftwareInventory = buildSoftwareInventory(lr.SoftwareInventoryRecords())
+	res.SoftwareInventory = buildSoftwareInventory(lr.SoftwareInventoryRecords(), pkgIndex, res.Platform.DistributionID, res.PackageOrigins != nil)
 	res.Unknowns = append(buildUnknowns(res), res.invalidPackages...)
 	reconcileOutput(res)
 	res.Metrics.ResolverDurationMS = time.Since(start).Milliseconds()
@@ -490,6 +497,20 @@ func (e *Engine) ruleCoverage(plat platform.PlatformContext, support platform.Su
 	return cov
 }
 
+// hostPackagesEvaluated reports whether the host's own packages were compared
+// with distribution rules, which is when their origin matters: a host that
+// was not evaluated at all has a bigger gap than its third-party packages.
+func hostPackagesEvaluated(cov RuleCoverage, distributionID string, support platform.SupportState) bool {
+	if support != platform.Supported || cov.AssetRelease == "" || cov.RulesForAsset == 0 {
+		return false
+	}
+	if cov.State != CoverageCovered && cov.State != CoveragePartial {
+		return false
+	}
+	_, ok := hostEvaluators[distributionID]
+	return ok || distributionID == "ubuntu"
+}
+
 // addCoverageGaps merges extra gaps into cov and recomputes its state and reason.
 func addCoverageGaps(cov *RuleCoverage, extra []CoverageGap) {
 	if len(extra) == 0 {
@@ -510,7 +531,7 @@ func addCoverageGaps(cov *RuleCoverage, extra []CoverageGap) {
 func gapState(gaps []CoverageGap) string {
 	for _, g := range gaps {
 		switch g.Kind {
-		case GapNotSynced, GapInvalidPackageRecords, GapPackagesTruncated, GapContainerNotCovered, GapApplicationsIncomplete:
+		case GapNotSynced, GapInvalidPackageRecords, GapPackagesTruncated, GapContainerNotCovered, GapApplicationsIncomplete, GapThirdPartyPackages:
 		default:
 			return CoverageMissing
 		}
@@ -592,6 +613,12 @@ func coverageReason(gaps []CoverageGap) string {
 			parts = append(parts, "operating system build unknown for "+g.Release+" ("+g.Detail+")")
 		case GapApplicationsIncomplete:
 			parts = append(parts, "application inventory incomplete for "+g.Release)
+		case GapThirdPartyPackages:
+			noun := "packages"
+			if g.Count == 1 {
+				noun = "package"
+			}
+			parts = append(parts, fmt.Sprintf("%d %s from outside the distribution not covered by %s advisories (%s)", g.Count, noun, g.Release, g.Detail))
 		default:
 			parts = append(parts, "no rules loaded for "+g.Release)
 		}

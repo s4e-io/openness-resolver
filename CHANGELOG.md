@@ -7,6 +7,12 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `package_origins`: the host packages split by where they came from (`vendor`, `third_party`, `unknown`, `not_classified`) with the list of third-party packages. rpm hosts are classified too, from the origin facts of collector schema 1.7.0 (Vendor tag, signature); the distribution's own origin strings are data in `internal/pkgs/origins.json`.
+- Coverage gap `third_party_packages` (coverage `partial`, exit 0): packages from a vendor repository are no longer silently counted as covered by distribution advisories. Each one is an `unknowns[]` entry of kind `package`.
+- `software_inventory[]` carries the collector's `owner_package` and `owner_package_status`. An instance whose files belong to a distribution package gets the status `covered_by_package` and leaves `unknowns[]`.
+
 ### Fixed
 
 - A package list cut by the collector's output size limit is now a `packages_truncated` gap: the resolver looked for `output_size_limit`, the collector writes `output_size_truncated` (both are accepted).
