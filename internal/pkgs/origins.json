@@ -1,0 +1,23 @@
+{
+  "ubuntu": {
+    "apt_origins": ["Ubuntu", "UbuntuESM", "UbuntuESMApps"]
+  },
+  "debian": {
+    "apt_origins": ["Debian", "Debian Backports"]
+  },
+  "rocky": {
+    "rpm_vendors": ["Rocky Enterprise Software Foundation", "Rocky"]
+  },
+  "almalinux": {
+    "rpm_vendors": ["AlmaLinux"]
+  },
+  "rhel": {
+    "rpm_vendors": ["Red Hat, Inc.", "Red Hat"]
+  },
+  "opensuse": {
+    "rpm_vendors": ["SUSE LLC <https://www.suse.com/>", "openSUSE"]
+  },
+  "amazon": {
+    "rpm_vendors": ["Amazon Linux", "Amazon.com"]
+  }
+}

@@ -167,3 +167,35 @@ func TestProvenanceClassification(t *testing.T) {
 		t.Errorf("debian origin on ubuntu asset: %q", got)
 	}
 }
+
+func TestRPMProvenance(t *testing.T) {
+	origin := func(vendor, key string) *evidence.PackageOrigin {
+		return &evidence.PackageOrigin{Vendor: vendor, SigningKeyID: key}
+	}
+	cases := []struct {
+		name   string
+		distro string
+		origin *evidence.PackageOrigin
+		want   string
+	}{
+		{"distribution vendor", "rocky", origin("Rocky Enterprise Software Foundation", "702d426d350d275d"), ProvenanceVendor},
+		{"vendor compare ignores case", "almalinux", origin("almalinux", ""), ProvenanceVendor},
+		{"suse vendor string", "opensuse", origin("SUSE LLC <https://www.suse.com/>", ""), ProvenanceVendor},
+		{"another vendor", "rocky", origin("Fedora Project", "8a3872bf3228467c"), ProvenanceThirdParty},
+		{"no vendor, signed: vendor repository package", "rocky", origin("", "c52feb6b621e9f35"), ProvenanceThirdParty},
+		{"no vendor, not signed", "rocky", origin("", ""), ProvenanceUnknown},
+		{"distribution without vendor data", "fedora", origin("Fedora Project", "x"), ProvenanceUnknown},
+		{"evidence older than the origin object", "rocky", nil, ""},
+	}
+	for _, c := range cases {
+		p := InstalledPackage{Ecosystem: "rpm", Origin: c.origin}
+		if got := p.Provenance(c.distro); got != c.want {
+			t.Errorf("%s: got %q, want %q", c.name, got, c.want)
+		}
+	}
+	// apk records carry no fact that tells the two apart.
+	apk := InstalledPackage{Ecosystem: "apk", Origin: &evidence.PackageOrigin{Maintainer: "Jane <jane@example.org>"}}
+	if got := apk.Provenance("alpine"); got != "" {
+		t.Errorf("apk: got %q", got)
+	}
+}
