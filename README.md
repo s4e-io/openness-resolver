@@ -1,16 +1,16 @@
-# OpenNess Vulnerability Scanner: resolver
+# Openness Vulnerability Scanner: resolver
 
-`openness-resolver` is the resolver of the OpenNess Vulnerability Scanner. It turns a host
+`openness-resolver` is the resolver of the Openness Vulnerability Scanner. It turns a host
 snapshot into an explainable list of vulnerabilities. It reads an `.openness` evidence file
 (packages, kernel, containers, Python packages, applications and Windows build of one host,
-produced by the [OpenNess collector](https://github.com/s4e-io/openness-collector)), or a network
+produced by the [Openness collector](https://github.com/s4e-io/openness-collector)), or a network
 device file read over SNMP, and the security advisories that the distribution and software
 vendors publish, and it decides, for every installed package and CVE, whether the host is
 vulnerable, fixed or not affected, and why.
 
 - **Works offline and on its own.** `feed sync` downloads the advisories straight from the
   publishers (Canonical, Debian, Red Hat, Rocky, AlmaLinux, SUSE, Alpine, Amazon, Microsoft,
-  OSV), and the application and device mapper from a public GitHub release. No OpenNess or
+  OSV), and the application and device mapper from a public GitHub release. No Openness or
   S4E account, API key or service is needed. `resolve` never touches the network.
 - **Deterministic.** Vendor rules, native version comparison (dpkg, rpm, apk, PEP 440,
   Windows builds) and explicit logic. No AI or machine learning at runtime.
@@ -488,7 +488,7 @@ The resolver reads no environment variable of its own (`OPENNESS_OSV_URL` and
 Which release of each distribution has published data, which ones the resolver covers, and how to check when a new release comes out: [docs/releases.md](docs/releases.md).
 
 The sources `feed sync` downloads and `rules import` reads. Every URL is the publisher's;
-nothing goes through an OpenNess or S4E service. The application mapper is published by S4E
+nothing goes through an Openness or S4E service. The application mapper is published by S4E
 as a release asset of the public GitHub repository `s4e-io/openness-app-mapper`; downloading it
 needs no account or key. `<codename>`, `<branch>` and `<YYYY-Mon>`
 come from the asset (`--for`) or from `--source`.

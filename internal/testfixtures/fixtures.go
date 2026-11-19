@@ -159,6 +159,17 @@ func (d *Doc) AddPackage(name, rawVersion string, opts ...PkgOpt) *Doc {
 	return d.appendRecord("packages", v)
 }
 
+// WithOrigin sets the collector origin object (schema 1.7.0+).
+func WithOrigin(vendor, maintainer, repositoryURL, signingKeyID string) PkgOpt {
+	return func(v map[string]any) {
+		v["origin"] = map[string]any{
+			"vendor": vendor, "maintainer": maintainer,
+			"repository_url": repositoryURL, "signing_key_id": signingKeyID,
+			"basis": []any{},
+		}
+	}
+}
+
 // AddService appends a systemd service whose main PID is pid.
 func (d *Doc) AddService(pid int, unit string) *Doc {
 	name := unit

@@ -63,6 +63,7 @@ One entry per hole: `release` (`ubuntu/jammy`, `pypi`, `unknown` without a distr
 | `container_not_covered` | A container image with packages was not evaluated: no `os_release` in the evidence, a distribution or release outside the support matrix, no rules loaded for its release, or a package database the collector could not read (`packages_error` on the container, or on older evidence a `containers` module error naming the container with a timeout or failure; `detail` then reads `package database could not be read: <reason>`). `release` is `container:<image reference>` (or digest), `count` the number of containers running it, `detail` the image digest and the reason; also an `unknowns[]` entry. An image without packages (scratch) is only a note. | `partial` | 0 |
 | `container_not_covered` (release `containers`) | The collector's `containers` module did not finish: a `timeout`, `output_size_truncated` or `record_limit` error, the `truncated` flag without a package cap, or status `error`. Containers may be missing from the evaluation; `detail` names the reason. | `partial` | 0 |
 | `os_build_unknown` | Windows host whose build number or UBR could not be read (or whose `operating_system` is missing), so MSRC rules cannot be compared; `detail` is the reason | `missing` | 1 |
+| `third_party_packages` | Host packages that do not come from the distribution (a vendor repository, another distribution's archive). Distribution advisories describe the distribution's own builds, so no rule speaks for these packages. `count` is how many, `detail` names the first five; every one is in `package_origins.third_party_packages[]` and is an `unknowns[]` entry of kind `package` | `partial` | 0 |
 | `applications_incomplete` | Windows `applications` module failed, timed out or was cut; installed applications may be missing from the application findings | `partial` | 0 |
 
 The state is `missing` when any gap is one of the `missing` kinds, else `partial`. Windows hosts are evaluated by build number and installed applications: they never get `no_packages`, and get `os_build_unknown` and `applications_incomplete` instead. `findings.json` is written in every case.
@@ -86,11 +87,38 @@ install, so they are on no card and only listed in `findings[]`.
 | `coverage_note` | `hint_tokens_omitted` when a name failed the hint allowlist |
 | `command_hint` | One informational line; never executed by the resolver |
 
+## `package_origins`
+
+Where the host packages came from. Present only when the host packages were compared with distribution rules.
+
+| Field | Meaning |
+|---|---|
+| `vendor` | Packages built by the distribution itself (same value as finding `provenance`) |
+| `third_party` | Packages with an affirmative fact that they come from elsewhere |
+| `unknown` | Origin evidence exists but proves neither (for example an installed version that is no longer in the apt indexes). Never counted as third party |
+| `not_classified` | No origin evidence at all (evidence older than collector schema 1.7.0 for rpm, every apk package) |
+| `third_party_packages[]` | `name`, `ecosystem`, `architecture`, `version` (upstream part), `raw_version`, `origin`, `repository_url`, `signing_key_id`, `entity_id`, `status` |
+
+`status` is `not_evaluated`: no application rule covers the package yet. Such packages raise the `third_party_packages` coverage gap.
+
+How a package is classified:
+
+| Ecosystem | `vendor` | `third_party` | `unknown` |
+|---|---|---|---|
+| dpkg | The apt list the installed version matched has a Release Origin of the distribution | It matched a list with any other Origin | Not in the apt lists |
+| rpm | The rpm Vendor tag is the distribution's | Another Vendor, or no Vendor on a signed package | No Vendor and no signature, or a distribution whose vendor string is not on record |
+| apk | never | never | never (`not_classified`): the installed database records no origin |
+
+The distribution's origin and vendor strings are data: `internal/pkgs/origins.json`. The dpkg `Maintainer` is not used, because packages synced from Debian keep a Debian maintainer and rebuilt packages keep the distribution's.
+
 ## `software_inventory[]`
 
 Pass-through of the collector's `software_instance` records (schema 1.5.0+)
 with the resolver's stance. There is no vendor feed for these products yet,
-so no instance gets a vulnerability verdict.
+so no instance gets a vulnerability verdict of its own. An instance whose
+files belong to a distribution package is the content of that package: the
+distribution advisories already judged it, so it is `covered_by_package`
+and is not listed in `unknowns[]`.
 
 | Field | Meaning |
 |---|---|
@@ -102,7 +130,8 @@ so no instance gets a vulnerability verdict.
 | `running`, `ports[]` | Presence signals |
 | `confidence` | `direct` (version read) or `presence_only` |
 | `catalog_verified` | `false` means the collector catalog entry was never exercised on a real install; treat the reading as unproven |
-| `resolution.status` | `no_rules_for_product` or `version_unreadable` |
+| `owner_package`, `owner_package_status` | The package owning the instance's files and what the collector found: `owned`, `not_owned`, `not_checked` (collector schema 1.7.0+; omitted on older evidence) |
+| `resolution.status` | `covered_by_package`, `no_rules_for_product` or `version_unreadable` |
 | `resolution.reasons[]` | Human-readable reasons, including `catalog_entry_unverified` |
 
 ## Third-party Windows applications (application mapper)
@@ -227,7 +256,7 @@ Output, the normal findings document:
 
 | Field | Meaning |
 |---|---|
-| `kind` | `platform`, `rule_coverage`, `finding`, `software`, `comparator`, `package_record` |
+| `kind` | `platform`, `rule_coverage`, `finding`, `software`, `comparator`, `package_record`, `package` (a third-party package no rule covers) |
 | `subject` | Release, package + CVE, product + version, ... |
 | `reason` | Why it was not judged (state name, coverage gap kind, support reason) |
 | `finding_id`, `entity_id` | Back-references when they exist |
@@ -243,3 +272,4 @@ Output, the normal findings document:
 | 2 (additive) | `resolve --device`, scope `network_device`, action `update_device`, target kind `device`, coverage states `not_supported` and `unknown`, catalog `kind`, `rule_coverage.sources[].version` and the mapper entry |
 | 2 (additive) | `asset.evidence_integrity`, coverage state `partial` for package gaps, gap kinds `no_packages`, `unknown_distribution`, `invalid_package_records`, `packages_truncated`, gap `count` and `detail`, unknowns kind `package_record` |
 | 2 (additive) | Debian, Ubuntu and RPM-family container findings (scope `container`), gap kind `container_not_covered` |
+| 2 (additive) | `package_origins`, gap kind `third_party_packages`, unknowns kind `package`, software `owner_package`, `owner_package_status` and resolution status `covered_by_package` |

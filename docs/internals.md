@@ -199,7 +199,7 @@ release's normalized rules are about 150 MB, Debian about 700 MB, the RPM famili
 600 MB each. Every changed download is kept as a new snapshot under `data/raw/<vendor>/`;
 delete old snapshot directories when you no longer need them for `explain`. A prebuilt,
 ready-to-use rules source (no download from the publishers) is not public yet; the
-`rules import` mirror path below is what OpenNess Desktop uses with its licensed backend.
+`rules import` mirror path below is what Openness Desktop uses with its licensed backend.
 
 Feed sources:
 
@@ -213,7 +213,7 @@ Feed sources:
 
 PyPI rules are fetched by `feed sync --for` from the `language_deps` names in the evidence file, then saved in the rule store. `resolve` only reads that store.
 
-**From a data mirror (no upstream access).** When the raw files come from a mirror that serves them byte for byte (OpenNess Desktop uses its licensed backend; there is no public mirror yet), import each one instead of `feed sync`. `--source-url` and `--fetched-at` are only recorded in the rule metadata (for `explain`); they do not have to match anything:
+**From a data mirror (no upstream access).** When the raw files come from a mirror that serves them byte for byte (Openness Desktop uses its licensed backend; there is no public mirror yet), import each one instead of `feed sync`. `--source-url` and `--fetched-at` are only recorded in the rule metadata (for `explain`); they do not have to match anything:
 
 ```bash
 openness-resolver rules import --data-dir data --source ubuntu-oval-usn-jammy --file com.ubuntu.jammy.usn.oval.xml.bz2 \
