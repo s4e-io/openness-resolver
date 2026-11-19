@@ -44,6 +44,7 @@ func (e *Engine) resolveHostVendor(res *RunResult, pkgIndex *pkgs.Index, runtime
 				candidates[r.RuleID] = r
 			}
 		}
+		e.advisoryRules(candidates, *p, ev.ecosystem, distro, release)
 		if len(candidates) == 0 {
 			res.Metrics.PackagesWithoutVendorRules++
 			continue

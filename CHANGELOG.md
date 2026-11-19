@@ -7,6 +7,12 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Urgent advisories (`internal/advisory`): hand-checked records shipped with the resolver for a vulnerability the vendors' feeds do not describe yet. The first is Java4Shell (CVE-2026-114938, the OpenJDK Base64 decoder, x86-64 only).
+  - Ubuntu packages: the fixed version of `openjdk-17`, `-21` and `-25` per release (noble, jammy, and focal in the Ubuntu Pro pocket) joins the feed's rules for the same CVE. They merge into one finding, so when the OVAL has the USN nothing changes but the data behind it. Advisory rules never count towards `rule_coverage`.
+  - Java installs found on disk (collector `java-runtime`, any OS): vulnerable when the version is in the affected range and below the fixed one (`detection_method` `advisory_version_range`, confidence medium), with an `update_application` card when the line has a fix. An install owned by a package of the distribution defers to the distribution: nothing when a finding for the CVE exists for the package, `potentially_vulnerable` when none does. ARM64 hosts get a note and no finding.
+
 ## [0.10.0] - 2026-11-19
 
 ### Added

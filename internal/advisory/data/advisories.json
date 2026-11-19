@@ -1,0 +1,46 @@
+{
+  "version": "2026-11-19",
+  "advisories": [
+    {
+      "id": "java4shell",
+      "cve": "CVE-2026-114938",
+      "title": "Java4Shell: memory corruption in the OpenJDK Base64 decoder, remote code execution",
+      "severity": "critical",
+      "severity_note": "Red Hat rates it Critical (CVSS 3.0 9.8), Ubuntu High (CVSS 3.1 8.1); the NVD has not scored it yet.",
+      "condition": "Affects only x86-64 processors with AVX-512 VBMI; ARM64 is not affected. The collector does not report CPU features yet, so every x86-64 host with an affected build is listed; java -Xlog:os+cpu=info -version shows whether the JVM sees avx512_vbmi.",
+      "mitigation": "Update to the vendor's fixed build. Until then start the JVM with -XX:-UseBASE64Intrinsics (for example through JAVA_TOOL_OPTIONS) and restart the service; -XX:UseAVX=2 also works on x86-64 but stops an ARM64 JVM from starting. A mitigation is not a fix.",
+      "references": [
+        "https://ubuntu.com/security/CVE-2026-114938",
+        "https://access.redhat.com/security/vulnerabilities/RHSB-2026-018",
+        "https://security-tracker.debian.org/tracker/CVE-2026-114938"
+      ],
+      "architectures": ["x86_64"],
+      "instances": {
+        "product_key": "java-runtime",
+        "lines": [
+          {"major": 17, "from": "17.0.6", "fixed": "17.0.21.1"},
+          {"major": 18, "from": "18"},
+          {"major": 19, "from": "19"},
+          {"major": 20, "from": "20"},
+          {"major": 21, "from": "21", "fixed": "21.0.13.1"},
+          {"major": 22, "from": "22"},
+          {"major": 23, "from": "23"},
+          {"major": 24, "from": "24"},
+          {"major": 25, "from": "25", "fixed": "25.0.5.1"},
+          {"major": 26, "from": "26"},
+          {"major": 27, "from": "27", "fixed": "27.0.1.1"}
+        ]
+      },
+      "packages": [
+        {"ecosystem": "dpkg", "distribution": "ubuntu", "release": "noble", "source_package": "openjdk-17", "fixed": "17.0.21.1+2-1~24.04.1", "advisory": "USN-9155-1"},
+        {"ecosystem": "dpkg", "distribution": "ubuntu", "release": "noble", "source_package": "openjdk-21", "fixed": "21.0.13.1+2-1~24.04.1", "advisory": "USN-9156-1"},
+        {"ecosystem": "dpkg", "distribution": "ubuntu", "release": "noble", "source_package": "openjdk-25", "fixed": "25.0.5.1+2-1~24.04.1", "advisory": "USN-9157-1"},
+        {"ecosystem": "dpkg", "distribution": "ubuntu", "release": "jammy", "source_package": "openjdk-17", "fixed": "17.0.21.1+2-1~22.04.1", "advisory": "USN-9155-1"},
+        {"ecosystem": "dpkg", "distribution": "ubuntu", "release": "jammy", "source_package": "openjdk-21", "fixed": "21.0.13.1+2-1~22.04.1", "advisory": "USN-9156-1"},
+        {"ecosystem": "dpkg", "distribution": "ubuntu", "release": "jammy", "source_package": "openjdk-25", "fixed": "25.0.5.1+2-1~22.04.1", "advisory": "USN-9157-1"},
+        {"ecosystem": "dpkg", "distribution": "ubuntu", "release": "focal", "source_package": "openjdk-17", "fixed": "17.0.21.1+2-1~20.04.1", "advisory": "USN-9155-1", "support_tier": "esm-apps"},
+        {"ecosystem": "dpkg", "distribution": "ubuntu", "release": "focal", "source_package": "openjdk-21", "fixed": "21.0.13.1+2-1~20.04.1", "advisory": "USN-9156-1", "support_tier": "esm-apps"}
+      ]
+    }
+  ]
+}

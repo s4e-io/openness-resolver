@@ -131,7 +131,7 @@ and is not listed in `unknowns[]`.
 | `confidence` | `direct` (version read) or `presence_only` |
 | `catalog_verified` | `false` means the collector catalog entry was never exercised on a real install; treat the reading as unproven |
 | `owner_package`, `owner_package_status` | The package owning the instance's files and what the collector found: `owned`, `not_owned`, `not_checked` (collector schema 1.7.0+; omitted on older evidence) |
-| `resolution.status` | `covered_by_package`, `no_rules_for_product` or `version_unreadable` |
+| `resolution.status` | `covered_by_package`, `evaluated_by_advisory` (a shipped advisory judged the version), `no_rules_for_product` or `version_unreadable` |
 | `resolution.reasons[]` | Human-readable reasons, including `catalog_entry_unverified` |
 
 ## Third-party Windows applications (application mapper)
@@ -252,6 +252,18 @@ Output, the normal findings document:
   note, exit 0) or `unknown` (an entry matched, the version could not be read: no
   findings, a note, an `unknowns[]` entry with reason `version_unreadable`, exit 0).
 
+## Urgent advisories
+
+A vulnerability the vendors' feeds do not describe yet can be shipped with the resolver as an advisory (`internal/advisory/data/advisories.json`, reported in the finding's `advisory_ids` and `rule_ids` as `advisory:<id>`). Java4Shell (CVE-2026-114938, advisory id `java4shell`) is the first.
+
+| What | How it shows |
+|---|---|
+| A distribution package (Ubuntu `openjdk-17`, `-21`, `-25`) | A normal finding from the advisory's rule: the vendor's USN as `advisory_ids`, `fixed_version` the vendor's. It merges with the feed's rule for the same CVE, so there is one finding and the highest fixed version wins. Advisory rules are not counted in `rule_coverage` |
+| A Java install found on disk (`software_inventory` `java-runtime`) | `detection_method` `advisory_version_range`, `vendor_status` `advisory`, `confidence` `medium`, `binary_package` `Java runtime (<path>)`, `installed_version` the `release` file's `JAVA_VERSION`, an `update_application` card when the release line has a fix. State `vulnerable`, or `potentially_vulnerable` when the install belongs to a distribution package that has no finding for the CVE (a distribution backports fixes without changing the version it reports). Nothing when a finding for the CVE exists for the owning package, even a fixed one |
+| An architecture the advisory excludes (ARM64 for Java4Shell) | No install finding; a note in `notes[]` says how many installs were skipped. Packages are the distribution's call and are not filtered by architecture |
+
+The CPU feature the vulnerability needs (AVX-512 VBMI) is not collected yet, so every x86-64 host with an affected build is listed; the finding's reasons say how to check it. To correct an advisory, edit `advisories.json`: a wrong fixed version that is too high keeps a patched package open, so versions are taken from the vendor's archive.
+
 ## `unknowns[]`
 
 | Field | Meaning |
@@ -272,4 +284,5 @@ Output, the normal findings document:
 | 2 (additive) | `resolve --device`, scope `network_device`, action `update_device`, target kind `device`, coverage states `not_supported` and `unknown`, catalog `kind`, `rule_coverage.sources[].version` and the mapper entry |
 | 2 (additive) | `asset.evidence_integrity`, coverage state `partial` for package gaps, gap kinds `no_packages`, `unknown_distribution`, `invalid_package_records`, `packages_truncated`, gap `count` and `detail`, unknowns kind `package_record` |
 | 2 (additive) | Debian, Ubuntu and RPM-family container findings (scope `container`), gap kind `container_not_covered` |
+| 2 (additive) | urgent advisories: findings with `detection_method` `advisory_version_range` and `vendor_status` `advisory` |
 | 2 (additive) | `package_origins`, gap kind `third_party_packages`, unknowns kind `package`, software `owner_package`, `owner_package_status` and resolution status `covered_by_package` |

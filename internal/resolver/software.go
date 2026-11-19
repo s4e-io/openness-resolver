@@ -15,7 +15,10 @@ import (
 const (
 	// SoftwareCoveredByPackage: the instance is the content of a distribution
 	// package, and that package was evaluated. It is not an unknown.
-	SoftwareCoveredByPackage  = "covered_by_package"
+	SoftwareCoveredByPackage = "covered_by_package"
+	// SoftwareAdvisory: a shipped advisory judged the install's version (affected, fixed or
+	// not affected); a finding exists when it is affected. It is not an unknown.
+	SoftwareAdvisory          = "evaluated_by_advisory"
 	SoftwareNoRules           = "no_rules_for_product"
 	SoftwareVersionUnreadable = "version_unreadable"
 	SoftwareCatalogUnverified = "catalog_entry_unverified"
@@ -186,7 +189,7 @@ func buildUnknowns(res *RunResult) []Unknown {
 	}
 	out = append(out, thirdPartyUnknowns(res.PackageOrigins)...)
 	for _, s := range res.SoftwareInventory {
-		if s.Resolution.Status == SoftwareCoveredByPackage {
+		if s.Resolution.Status == SoftwareCoveredByPackage || s.Resolution.Status == SoftwareAdvisory {
 			continue
 		}
 		out = append(out, Unknown{Kind: "software", Subject: s.ProductKey + " " + s.Version, Reason: s.Resolution.Status, EntityID: s.EntityID})

@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/s4e-io/openness-resolver/internal/advisory"
 	"github.com/s4e-io/openness-resolver/internal/appvuln"
 	"github.com/s4e-io/openness-resolver/internal/containers"
 	"github.com/s4e-io/openness-resolver/internal/evidence"
@@ -210,6 +211,8 @@ type RunResult struct {
 
 	// invalidPackages are the skipped package records, added to Unknowns.
 	invalidPackages []Unknown
+	// advisoryJudged maps the entity id of a software instance an advisory judged to what it said.
+	advisoryJudged map[string]string
 }
 
 // AssetSummary is the header a consumer shows: where the evidence came from.
@@ -240,11 +243,14 @@ type Engine struct {
 	Apps       *appvuln.Data
 	AppOptions appvuln.Options
 	AppSource  *CoverageSource
+	// Advisories are the shipped urgent advisories (internal/advisory), evaluated next to
+	// the feeds; nil turns them off. Their rules never count towards rule coverage.
+	Advisories *advisory.Set
 }
 
 // NewEngine creates an Engine over a loaded rule set.
 func NewEngine(rs *rules.RuleSet) *Engine {
-	return &Engine{Rules: rs, Now: time.Now}
+	return &Engine{Rules: rs, Now: time.Now, Advisories: advisory.Builtin()}
 }
 
 // Resolve runs the full pipeline over one .openness document.
@@ -385,7 +391,16 @@ func (e *Engine) Resolve(lr *evidence.LoadResult) (*RunResult, error) {
 		sortFindings(res.Findings)
 		sortRemediationGroups(res.RemediationGroups)
 	}
+	// Urgent advisories for installs found on disk; after the package findings, which they defer to.
+	e.resolveAdvisoryInstances(res, lr.SoftwareInventoryRecords(), pkgIndex)
+	sortFindings(res.Findings)
+	sortRemediationGroups(res.RemediationGroups)
 	res.SoftwareInventory = buildSoftwareInventory(lr.SoftwareInventoryRecords(), pkgIndex, res.Platform.DistributionID, res.PackageOrigins != nil)
+	for i, s := range res.SoftwareInventory {
+		if note, ok := res.advisoryJudged[s.EntityID]; ok && s.Resolution.Status == SoftwareNoRules {
+			res.SoftwareInventory[i].Resolution = SoftwareResolution{Status: SoftwareAdvisory, Reasons: []string{"judged by the advisory " + note}}
+		}
+	}
 	res.Unknowns = append(buildUnknowns(res), res.invalidPackages...)
 	reconcileOutput(res)
 	res.Metrics.ResolverDurationMS = time.Since(start).Milliseconds()
@@ -681,6 +696,7 @@ func (e *Engine) resolveHostUbuntu(res *RunResult, pkgIndex *pkgs.Index, runtime
 			}
 			candidates[r.RuleID] = r
 		}
+		e.advisoryRules(candidates, *p, "dpkg", "ubuntu", codename)
 		if len(candidates) == 0 {
 			res.Metrics.PackagesWithoutVendorRules++
 			continue
