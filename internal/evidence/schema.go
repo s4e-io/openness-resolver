@@ -185,6 +185,29 @@ type PackageValue struct {
 	// still using the package after the on-disk files changed.
 	RuntimeStale  bool           `json:"runtime_stale,omitempty"`
 	Relationships []Relationship `json:"relationships"`
+	// Origin is where the package came from, in one shape for every package
+	// manager (collector schema 1.7.0+). Nil on older evidence.
+	Origin *PackageOrigin `json:"origin,omitempty"`
+}
+
+// PackageOrigin is the collector's origin observation. Every field is a
+// fact the collector read; it never says "distribution" or "third party".
+type PackageOrigin struct {
+	Vendor        string   `json:"vendor"`
+	Maintainer    string   `json:"maintainer"`
+	RepositoryURL string   `json:"repository_url"`
+	SigningKeyID  string   `json:"signing_key_id"`
+	Basis         []string `json:"basis"`
+}
+
+// OwnerPackage is the package that owns the files of a software instance.
+type OwnerPackage struct {
+	Manager      string `json:"manager"`
+	Name         string `json:"name"`
+	Version      string `json:"version"`
+	Architecture string `json:"architecture"`
+	EntityID     string `json:"entity_id"`
+	Path         string `json:"path"`
 }
 
 // ListOriginObservation is collector highest_list_origin (object, not a bare string).
@@ -411,6 +434,10 @@ type SoftwareInstanceValue struct {
 	Signals           SoftwareSignals `json:"signals"`
 	CatalogVerified   bool            `json:"catalog_verified"`
 	CatalogVersion    string          `json:"catalog_version"`
+	// OwnerPackage and OwnerPackageStatus (owned | not_owned | not_checked)
+	// come from collector schema 1.7.0+; both empty on older evidence.
+	OwnerPackage       *OwnerPackage `json:"owner_package"`
+	OwnerPackageStatus string        `json:"owner_package_status"`
 }
 
 // VersionHit is one value a collector reader found and where.

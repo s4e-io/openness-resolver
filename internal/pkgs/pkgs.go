@@ -54,6 +54,9 @@ type InstalledPackage struct {
 	HighestListVersion string                          `json:"highest_list_version,omitempty"`
 	HighestListOrigin  *evidence.ListOriginObservation `json:"highest_list_origin,omitempty"`
 	RuntimeStale       bool                            `json:"runtime_stale,omitempty"`
+	// Origin is the collector's origin observation (schema 1.7.0+), nil on
+	// older evidence.
+	Origin *evidence.PackageOrigin `json:"origin,omitempty"`
 
 	Source SourceRelationship `json:"source_relationship"`
 }
@@ -75,32 +78,6 @@ const (
 	ProvenanceThirdParty = "third_party"
 	ProvenanceUnknown    = "unknown"
 )
-
-// vendorOrigins maps a distribution ID to apt Origin values that identify
-// the distribution vendor's own archives (including Ubuntu Pro/ESM).
-var vendorOrigins = map[string][]string{
-	"ubuntu": {"Ubuntu", "UbuntuESM", "UbuntuESMApps"},
-	"debian": {"Debian", "Debian Backports"},
-}
-
-// Provenance classifies where the installed package came from, relative to
-// the asset's distribution vendor (T04: vendor and support applicability).
-// It returns "" when the collector gathered no repository evidence at all,
-// because missing evidence must not be treated as a negative signal.
-func (p InstalledPackage) Provenance(distributionID string) string {
-	if p.RepositoryMetadataStatus == "" && p.RepositoryOrigin == "" {
-		return ""
-	}
-	if p.RepositoryOrigin == "" || p.RepositoryMetadataStatus == "not_in_apt_lists" {
-		return ProvenanceUnknown
-	}
-	for _, o := range vendorOrigins[distributionID] {
-		if strings.EqualFold(p.RepositoryOrigin, o) {
-			return ProvenanceVendor
-		}
-	}
-	return ProvenanceThirdParty
-}
 
 // IdentityKey is the canonical package identity:
 // scope + ecosystem + name + architecture + exact raw version.
@@ -146,6 +123,7 @@ func FromHostRecord(rec evidence.TypedRecord[evidence.PackageValue]) (InstalledP
 		HighestListVersion:       v.HighestListVersion,
 		HighestListOrigin:        v.HighestListOrigin,
 		RuntimeStale:             v.RuntimeStale,
+		Origin:                   v.Origin,
 	}
 	p.Source = sourceRelationship(v)
 	if p.Source.EvidenceSource == "" {
