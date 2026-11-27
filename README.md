@@ -25,6 +25,8 @@ vulnerable, fixed or not affected, and why.
 License: [Apache License 2.0](LICENSE). Version: [`VERSION`](VERSION), changes in
 [CHANGELOG.md](CHANGELOG.md).
 
+Website and desktop app: [getopenness.com](https://getopenness.com).
+
 ## Contents
 
 - [Install](#install)
