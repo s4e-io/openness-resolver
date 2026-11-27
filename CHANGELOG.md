@@ -9,7 +9,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- Openness advisories: `resolve --advisories <file>` (default `<data-dir>/advisories/advisories.json`) reads the `openness-advisories/1` file of the Openness data mirror and reports the CVEs of catalog applications that the NVD has not analyzed yet, with `detection_method` `openness_advisory_range` and the advisory page in `rule.source_url`. A CVE the NVD already reports for the application is left to the NVD. Several ranges per CVE cover release lines with their own fixed versions.
+- Openness advisories: the `advisories` field of the app mapper (or `resolve --advisories <file>`, default `<data-dir>/advisories/advisories.json`) holds `openness-advisories/1` advisories, read and reports the CVEs of catalog applications that the NVD has not analyzed yet, with `detection_method` `openness_advisory_range` and the advisory page in `rule.source_url`. A CVE the NVD already reports for the application is left to the NVD. Several ranges per CVE cover release lines with their own fixed versions.
 
 ## [0.10.0] - 2026-11-19
 

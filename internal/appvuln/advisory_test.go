@@ -130,3 +130,27 @@ func TestAdvisoriesFileChecks(t *testing.T) {
 		t.Fatalf("advisories still attached: %+v", res.Findings)
 	}
 }
+
+// The mapper bundle carries the advisories under "advisories"; a bad document there leaves
+// them out and keeps the mapper.
+func TestAdvisoriesInsideTheMapper(t *testing.T) {
+	bundle := `{"format":"openness-app-mapper/1","version":"2026.11.28.1",
+	 "catalog":[{"id":"7zip.7zip","name":"7-Zip","match":{"name":"^7-Zip\\b"},"version":{"parts":2},"cpe":["7-zip:7-zip"],"verified":true}],
+	 "vulns":{"version":"x","products":{}},"fallback":{"version":"x","products":{}},"advisories":` + advFile + `}`
+	d, err := LoadReader(strings.NewReader(bundle))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if d.AdvisoriesVersion != "2026-11-28T10:00:00Z" {
+		t.Fatalf("advisories version %q", d.AdvisoriesVersion)
+	}
+	res := d.Evaluate(ev(map[string]any{"product_name": "7-Zip 24.08 (x64)", "display_version": "24.08"}), Options{})
+	if f, ok := byCVE(res.Findings)["CVE-NEW-1"]; !ok || f.Advisory == "" {
+		t.Fatalf("no advisory finding from the mapper: %+v", res.Findings)
+	}
+	bad := strings.Replace(bundle, `"openness-advisories/1"`, `"openness-advisories/9"`, 1)
+	d, err = LoadReader(strings.NewReader(bad))
+	if err != nil || d.AdvisoriesVersion != "" {
+		t.Fatalf("a bad advisories document broke the mapper or stayed: %v %q", err, d.AdvisoriesVersion)
+	}
+}

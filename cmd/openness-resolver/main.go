@@ -955,7 +955,7 @@ func cmdResolve(args []string) error {
 	mapper := fs.String("mapper", "", "application mapper file (catalog + NVD data, JSON or gzip) for third-party Windows applications and network devices; default: <data-dir>/mapper/app-mapper.json.gz when synced, else the built-in one")
 	appUnverified := fs.Bool("app-unverified", false, "also use the application and device catalog entries no person reviewed")
 	appGuess := fs.Bool("app-guess", true, "guess the NVD product of applications the catalog does not know (findings are potentially_vulnerable)")
-	advisories := fs.String("advisories", "", "Openness advisories file ("+appvuln.AdvisoriesFormat+", JSON or gzip): CVEs of catalog applications the NVD has not analyzed yet; default: <data-dir>/advisories/advisories.json when present")
+	advisories := fs.String("advisories", "", "Openness advisories file ("+appvuln.AdvisoriesFormat+", JSON or gzip): CVEs of catalog applications the NVD has not analyzed yet; replaces the advisories the mapper carries; default: <data-dir>/advisories/advisories.json when present, else the mapper's")
 	staleAfter := &staleFlag{}
 	fs.Var(staleAfter, "stale-after", staleAfterUsage)
 	fs.Parse(args)
@@ -1086,17 +1086,26 @@ func AdvisoriesPath(dataDir string) string {
 	return filepath.Join(dataDir, "advisories", "advisories.json")
 }
 
-// attachAdvisories reads the Openness advisories (the flag, else the data directory's file
-// when there is one) into the mapper data, and returns their coverage source; nil when
-// there are none. A file that cannot be read fails the run only when it was named.
+// attachAdvisories reads the Openness advisories into the mapper data: the flag, else the
+// data directory's file when there is one; without either the advisories the mapper
+// carries stay. It returns their coverage source, nil when there are none. A file that
+// cannot be read fails the run only when it was named.
 func attachAdvisories(d *appvuln.Data, flagPath, dataDir string) (*resolver.CoverageSource, error) {
 	if d == nil {
 		return nil, nil
 	}
+	// The advisories inside the mapper, when no file replaces them.
+	inMapper := func() *resolver.CoverageSource {
+		if d.AdvisoriesVersion == "" {
+			return nil
+		}
+		return &resolver.CoverageSource{Release: "advisories", Source: "openness-advisories", Parser: appvuln.AdvisoriesFormat,
+			Version: d.AdvisoriesVersion}
+	}
 	path := flagPath
 	if path == "" {
 		if _, err := os.Stat(AdvisoriesPath(dataDir)); err != nil {
-			return nil, nil
+			return inMapper(), nil
 		}
 		path = AdvisoriesPath(dataDir)
 	}
@@ -1105,8 +1114,8 @@ func attachAdvisories(d *appvuln.Data, flagPath, dataDir string) (*resolver.Cove
 		if flagPath != "" {
 			return nil, err
 		}
-		fmt.Fprintf(os.Stderr, "warning: %v; scanning without Openness advisories\n", err)
-		return nil, nil
+		fmt.Fprintf(os.Stderr, "warning: %v; using the advisories of the mapper, if any\n", err)
+		return inMapper(), nil
 	}
 	d.SetAdvisories(a)
 	src := &resolver.CoverageSource{Release: "advisories", Source: "openness-advisories", Parser: appvuln.AdvisoriesFormat, Version: a.Version}

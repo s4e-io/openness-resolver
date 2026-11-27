@@ -165,7 +165,8 @@ Metadata file (`<data-dir>/mapper/app-mapper.json.gz.meta.json`):
   `--app-guess`, on by default). `severity` and `cvss_score` carry the NVD
   rating. `binary_package` is the application name, `source_package` the
   catalog id. Entries no person reviewed count only with `--app-unverified`.
-- Openness advisories (`--advisories`, format `openness-advisories/1`): for a
+- Openness advisories (format `openness-advisories/1`, inside the mapper under
+  `advisories`, or a file given with `--advisories`): for a
   catalog application, each active advisory lists CVEs with affected ranges in the
   mapper's range form. A CVE the NVD data already reports for that application and
   version is not repeated, so the advisory steps back as soon as the NVD covers the
