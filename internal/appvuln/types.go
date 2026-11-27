@@ -2,6 +2,7 @@ package appvuln
 
 import (
 	"bufio"
+	"bytes"
 	"compress/gzip"
 	"encoding/json"
 	"errors"
@@ -33,6 +34,10 @@ type Finding struct {
 	Guess    bool
 	// MatchStrength is signature, product_code or name (a fallback guess has none).
 	MatchStrength string
+	// Advisory is the Openness advisory the finding comes from ("" for the NVD) and
+	// AdvisoryURL its page.
+	Advisory    string
+	AdvisoryURL string
 }
 
 // Remediation is the update card of one application version.
@@ -184,6 +189,12 @@ func LoadReader(r io.Reader) (*Data, error) {
 // databases one product at a time, so no part of the file is buffered whole.
 func decodeBundle(dec *json.Decoder) (d *Data, hasCatalog, hasVulns bool, fb *DB, err error) {
 	d = &Data{}
+	var pendingAdvisories *Advisories
+	defer func() {
+		if err == nil && pendingAdvisories != nil {
+			d.SetAdvisories(pendingAdvisories)
+		}
+	}()
 	format := ""
 	err = decodeObject(dec, func(key string) error {
 		switch key {
@@ -211,6 +222,19 @@ func decodeBundle(dec *json.Decoder) (d *Data, hasCatalog, hasVulns bool, fb *DB
 			hasVulns = true
 			if err := decodeDB(dec, &d.DB); err != nil {
 				return fmt.Errorf("vulnerability db: %w", err)
+			}
+			return nil
+		case "advisories":
+			// Openness advisories (K34 of the backend); a bad document leaves them out
+			// rather than the whole mapper.
+			var raw json.RawMessage
+			if err := dec.Decode(&raw); err != nil {
+				return err
+			}
+			if a, err := LoadAdvisories(bytes.NewReader(raw)); err == nil {
+				pendingAdvisories = a
+			} else {
+				fmt.Fprintf(os.Stderr, "warning: mapper advisories: %v; left out\n", err)
 			}
 			return nil
 		case "fallback":
