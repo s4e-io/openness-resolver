@@ -237,9 +237,11 @@ type Engine struct {
 	// Apps is the application mapper for third-party Windows applications and network
 	// devices; nil skips them. AppSource, when set, is listed in rule_coverage.sources of
 	// a run that used the mapper.
-	Apps       *appvuln.Data
-	AppOptions appvuln.Options
-	AppSource  *CoverageSource
+	Apps *appvuln.Data
+	// AdvisorySource names the Openness advisories attached to Apps, for rule_coverage.
+	AdvisorySource *CoverageSource
+	AppOptions     appvuln.Options
+	AppSource      *CoverageSource
 }
 
 // NewEngine creates an Engine over a loaded rule set.

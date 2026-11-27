@@ -367,6 +367,7 @@ openness-resolver resolve --device switch.json --data-dir data --output switch-f
 |---|---|---|
 | `--data-dir <dir>` | Data directory with normalized rules. Only the rule files the asset needs are loaded. Default `data`. | `--data-dir data` |
 | `--mapper <file>` | Application mapper for third-party Windows applications and network devices (format `openness-app-mapper/1`: catalog plus NVD data, JSON or gzip, at most 256 MB uncompressed). Default: `<data-dir>/mapper/app-mapper.json.gz` when synced, else the mapper built into the binary. | `--mapper mapper.json.gz` |
+| `--advisories <file>` | Openness advisories (format `openness-advisories/1`, JSON or gzip, at most 16 MB): CVEs of catalog applications that the NVD has not analyzed yet, with their affected version ranges. A CVE the NVD already reports for that application is not repeated; findings name the advisory (`detection_method` `openness_advisory_range`). Default: `<data-dir>/advisories/advisories.json` when present. Openness Desktop downloads the file from its data mirror. | `--advisories advisories.json` |
 
 #### Output
 

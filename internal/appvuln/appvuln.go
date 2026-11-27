@@ -124,7 +124,10 @@ type Data struct {
 	DB      DB
 	// Version names the data: the mapper file's version, or the database's.
 	Version string
-	fb      *fallback
+	// AdvisoriesVersion names the attached Openness advisories file, "" when none is.
+	AdvisoriesVersion string
+	fb                *fallback
+	advisories        map[string][]*Advisory
 }
 
 var (
@@ -525,6 +528,16 @@ func (d *Data) vulns(p *Product, ver, scope string, out *[]Finding, cards *[]Rem
 			if fix != "" && Compare(fix, fixed) > 0 {
 				fixed = fix
 			}
+		}
+	}
+	if p.isApp() {
+		acves, aworst, afixed := d.advisoryVulns(p, ver, scope, seen, out)
+		cves = append(cves, acves...)
+		if sevRank[aworst] > sevRank[worst] {
+			worst = aworst
+		}
+		if afixed != "" && Compare(afixed, fixed) > 0 {
+			fixed = afixed
 		}
 	}
 	if len(cves) == 0 {

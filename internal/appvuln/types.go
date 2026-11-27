@@ -33,6 +33,10 @@ type Finding struct {
 	Guess    bool
 	// MatchStrength is signature, product_code or name (a fallback guess has none).
 	MatchStrength string
+	// Advisory is the Openness advisory the finding comes from ("" for the NVD) and
+	// AdvisoryURL its page.
+	Advisory    string
+	AdvisoryURL string
 }
 
 // Remediation is the update card of one application version.

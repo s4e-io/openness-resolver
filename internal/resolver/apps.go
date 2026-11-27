@@ -17,6 +17,9 @@ const (
 	// MethodNVDCPEGuess: the application is not in the catalog; its name looked like an NVD
 	// product. The finding is potentially_vulnerable.
 	MethodNVDCPEGuess = "nvd_cpe_name_guess"
+	// MethodAdvisoryRange: the application's version is in an affected range of an Openness
+	// advisory, for a CVE the NVD has not listed for it.
+	MethodAdvisoryRange = "openness_advisory_range"
 )
 
 // resolveApplications matches the installed applications of a Windows host against the
@@ -38,6 +41,9 @@ func (e *Engine) resolveApplications(res *RunResult, recs []evidence.Record) {
 	}
 	if e.AppSource != nil {
 		res.RuleCoverage.Sources = append(res.RuleCoverage.Sources, *e.AppSource)
+	}
+	if e.AdvisorySource != nil {
+		res.RuleCoverage.Sources = append(res.RuleCoverage.Sources, *e.AdvisorySource)
 	}
 	arch := res.Platform.Architecture
 	for _, f := range r.Findings {
@@ -94,6 +100,13 @@ func mapperFinding(f appvuln.Finding, assetID, scope, distribution, arch string)
 		RuleIDs:          []string{"nvd:" + f.CPE + ":" + f.CVEID},
 		EvidenceIDs:      []string{},
 		Reasons:          f.Reasons,
+	}
+	if f.Advisory != "" {
+		out.DetectionMethod, out.VendorStatus = MethodAdvisoryRange, "openness_advisory"
+		out.AdvisoryIDs = []string{f.Advisory}
+		out.RuleIDs = []string{"openness-advisory:" + f.Advisory + ":" + f.CVEID}
+		out.Rule = &findings.RuleRef{RuleID: out.RuleIDs[0], Source: "openness-advisories", SourceURL: f.AdvisoryURL,
+			FixedVersion: f.FixedVersion, Comparator: "app-version", VendorStatus: "openness_advisory"}
 	}
 	if f.FixedVersion != "" {
 		out.FixAvailability = findings.FixAvailable

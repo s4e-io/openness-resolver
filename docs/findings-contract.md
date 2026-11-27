@@ -165,6 +165,15 @@ Metadata file (`<data-dir>/mapper/app-mapper.json.gz.meta.json`):
   `--app-guess`, on by default). `severity` and `cvss_score` carry the NVD
   rating. `binary_package` is the application name, `source_package` the
   catalog id. Entries no person reviewed count only with `--app-unverified`.
+- Openness advisories (`--advisories`, format `openness-advisories/1`): for a
+  catalog application, each active advisory lists CVEs with affected ranges in the
+  mapper's range form. A CVE the NVD data already reports for that application and
+  version is not repeated, so the advisory steps back as soon as the NVD covers the
+  version. Otherwise the finding has `detection_method` `openness_advisory_range`,
+  `vendor_status` `openness_advisory`, `advisory_ids` the advisory id, `rule_ids`
+  `openness-advisory:<id>:<cve>` and `rule.source_url` the advisory page. A
+  withdrawn advisory produces nothing. `rule_coverage.sources` lists
+  `openness-advisories` with the file's version.
 - Confirmation (`verify` on a catalog entry): the name match is only a candidate;
   it stands when the entry's uninstall key or MSI ProductCode is one of
   `verify.product_codes`, or the collector found `verify.file.path` under its base
